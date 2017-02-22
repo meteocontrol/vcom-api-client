@@ -1,0 +1,39 @@
+{
+  "name": "meteocontrol/vcom-api-client",
+  "description": "HTTP Client for meteocontrol's VCOM API - The VCOM API enables you to directly access your data on the meteocontrol platform.",
+  "license": "MIT",
+  "keywords": [
+    "meteocontrol",
+    "vcom",
+    "safersun",
+    "api",
+    "solar",
+    "monitoring",
+    "client",
+    "rest",
+    "http"
+  ],
+  "authors": [
+    {
+      "name": "meteocontrol GmbH"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^6.0.0",
+    "php": "^5.5 || ^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.8.27",
+    "squizlabs/php_codesniffer": "2.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "meteocontrol\\client\\vcomapi\\": "src"
+    }
+  },
+  "archive": {
+    "exclude": [
+      "/tests", "/phpcs", ".gitlab-ci.yml"
+    ]
+  }
+}
