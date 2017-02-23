@@ -1,0 +1,5 @@
+type,inverters,inverters,inverters,inverters,inverters,inverters,inverters,inverters,inverters,inverters
+id,Id54968.12,Id54968.12,Id54968.12,Id54968.12,Id54968.12,Id54968.1,Id54968.1,Id54968.1,Id54968.1,Id54968.1
+timestamp,E_DAY,E_INT,E_INT_N,E_TOTAL,ERROR,E_DAY,E_INT,E_INT_N,E_TOTAL,ERROR
+2016-09-01T10:00:00+02:00,4,4,0.12,91262,0,4,4,0.12,87687,0
+2016-09-01T10:15:00+02:00,3.17,1.412,0.09,42578,null,3.47,1.796,0.11,42249,0

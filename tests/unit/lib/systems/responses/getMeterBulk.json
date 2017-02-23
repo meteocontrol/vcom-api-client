@@ -1,0 +1,30 @@
+{
+  "2016-09-01 10:00:00": {
+    "13155": {
+      "E": null,
+      "E_INT": 159.75,
+      "E_TOTAL": null,
+      "ERROR": null
+    },
+    "129676": {
+      "E": null,
+      "E_INT": 2248,
+      "E_TOTAL": null,
+      "ERROR": null
+    }
+  },
+  "2016-09-01 10:15:00": {
+    "13155": {
+      "E": null,
+      "E_INT": 2428,
+      "E_TOTAL": null,
+      "ERROR": null
+    },
+    "129676": {
+      "E": null,
+      "E_INT": 167.5,
+      "E_TOTAL": null,
+      "ERROR": null
+    }
+  }
+}

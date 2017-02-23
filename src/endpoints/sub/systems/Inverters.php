@@ -7,6 +7,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\model\Inverter;
 
 class Inverters extends SubEndpoint {
+
     /**
      * @param EndpointInterface $parent
      */

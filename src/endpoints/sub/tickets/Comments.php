@@ -8,6 +8,7 @@ use meteocontrol\client\vcomapi\model\Comment;
 use meteocontrol\client\vcomapi\model\CommentDetail;
 
 class Comments extends SubEndpoint {
+
     /**
      * @param EndpointInterface $parent
      */
@@ -28,7 +29,7 @@ class Comments extends SubEndpoint {
 
     /**
      * @param CommentDetail $commentDetail
-     * @return integer commentId
+     * @return int commentId
      */
     public function create(CommentDetail $commentDetail) {
         if (!$commentDetail || !$commentDetail->isValid()) {

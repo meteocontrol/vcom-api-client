@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi\endpoints;
 use meteocontrol\client\vcomapi\ApiClient;
 
 interface EndpointInterface {
+
     /**
      * @return string
      */

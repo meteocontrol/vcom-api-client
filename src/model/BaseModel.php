@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\model;
 
 abstract class BaseModel {
+
     /**
      * @param array $data
      * @param null|string $name
@@ -33,8 +34,8 @@ abstract class BaseModel {
     }
 
     /**
-     * @param string | integer | float $value
-     * @return \DateTime | string | integer | float
+     * @param string | int | float $value
+     * @return \DateTime | string | int | float
      */
     protected static function getPhpValue($value) {
         if (self::isSimpleDateString($value)) {
@@ -49,7 +50,7 @@ abstract class BaseModel {
     }
 
     /**
-     * @param $dateString
+     * @param string $dateString
      * @return bool
      */
     private static function isSimpleDateString($dateString) {
@@ -57,16 +58,15 @@ abstract class BaseModel {
     }
 
     /**
-     * @param $dateString
+     * @param string $dateString
      * @return bool
      */
-    private static function isRFC3339DateString($dateString)
-    {
+    private static function isRFC3339DateString($dateString) {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $dateString);
     }
 
     /**
-     * @param $dateString
+     * @param string $dateString
      * @return \DateTime
      */
     private static function isISO8601WithoutOffsetDateString($dateString) {

@@ -1,0 +1,41 @@
+{
+  "data": {
+    "nominalPower": 79.24,
+    "siteArea": 549.11,
+    "moduleTypes": [
+      {
+        "name": "Suntech STP280-24/Vb",
+        "count": 283
+      }
+    ],
+    "panels": [
+      {
+        "vendor": "Suntech",
+        "model": "STP280-24/Vb",
+        "count": 283
+      }
+    ],
+    "inverterTypes": [
+      {
+        "name": "KACO new energy Powador 8000xi",
+        "count": 9
+      },
+      {
+        "name": "KACO new energy Powador 3500xi",
+        "count": 1
+      }
+    ],
+    "inverters": [
+      {
+        "vendor": "KACO new energy",
+        "model": "Powador 8000xi",
+        "count": 9
+      },
+      {
+        "vendor": "KACO new energy",
+        "model": "Powador 3500xi",
+        "count": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "data": {
+    "name": "test",
+    "address": {
+      "city": "Augsburg",
+      "country": "DE",
+      "postalCode": "86157",
+      "street": "Spicherer Straße 48"
+    },
+    "elevation": 480,
+    "commissionDate": "2016-01-28",
+    "coordinates": {
+      "latitude": 48.3670191,
+      "longitude": 10.8681
+    },
+    "timezone": {
+      "name": "Europe/Berlin",
+      "utcOffset": "+01:00"
+    }
+  }
+}

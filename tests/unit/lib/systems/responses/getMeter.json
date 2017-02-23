@@ -1,0 +1,10 @@
+{
+  "data": {
+    "name": "Meter 1",
+    "id": 773,
+    "address": "12",
+    "description": "Meter 1",
+    "model": "Meter 1",
+    "type": "DataDevice"
+  }
+}

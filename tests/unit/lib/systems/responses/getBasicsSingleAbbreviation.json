@@ -1,0 +1,9 @@
+{
+  "data": {
+    "comprehension": "SUM",
+    "aggregation": "SUM",
+    "precision": null,
+    "description": "Energie aus I-checker",
+    "unit": "kWh"
+  }
+}

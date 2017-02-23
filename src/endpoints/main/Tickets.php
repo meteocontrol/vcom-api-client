@@ -7,6 +7,7 @@ use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\model\Ticket;
 
 class Tickets extends MainEndpoint {
+
     /**
      * @param ApiClient $apiClient
      */
@@ -27,7 +28,7 @@ class Tickets extends MainEndpoint {
 
     /**
      * @param Ticket $ticket
-     * @return integer ticketId
+     * @return int ticketId
      */
     public function create(Ticket $ticket) {
         if (!$ticket || !$ticket->isValid()) {

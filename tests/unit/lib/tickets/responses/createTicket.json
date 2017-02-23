@@ -1,0 +1,9 @@
+{
+  "data":{
+    "ticketId": 123
+  },
+  "paths":{
+    "GET": "/tickets/123",
+    "DELETE": "/tickets/123"
+  }
+}

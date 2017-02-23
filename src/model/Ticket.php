@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\model;
 
 class Ticket extends BaseModel {
+
     const REPORT_TYPE_NO = 'no';
     const REPORT_TYPE_DETAIL = 'detail';
     const REPORT_TYPE_SUMMARY = 'summary';
@@ -22,32 +23,45 @@ class Ticket extends BaseModel {
     const PRIORITY_HIGH = 'high';
     const PRIORITY_URGENT = 'urgent';
 
-    /** @var integer */
+    /** @var int */
     public $id;
+
     /** @var string */
     public $systemKey;
+
     /** @var string */
     public $designation;
+
     /** @var string */
     public $summary;
+
     /** @var \DateTime */
     public $date;
+
     /** @var \DateTime */
     public $lastChange;
+
     /** @var \DateTime */
     public $rectifiedOn;
+
     /** @var string */
     public $assignee;
+
     /** @var string */
     public $status;
-    /** @var integer */
+
+    /** @var int */
     public $causeId;
+
     /** @var string */
     public $priority;
+
     /** @var string */
     public $includeInReports;
+
     /** @var bool */
     public $fieldService;
+
     /** @var string */
     public $severity;
 
@@ -72,7 +86,7 @@ class Ticket extends BaseModel {
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return \DateTime
      */
     private static function parseTimestamp($value) {
@@ -84,11 +98,10 @@ class Ticket extends BaseModel {
     }
 
     /**
-     * @param $dateString
+     * @param string $dateString
      * @return bool
      */
-    private static function isDateString($dateString)
-    {
+    private static function isDateString($dateString) {
         return \DateTime::createFromFormat('Y-m-d H:i:s', $dateString);
     }
 }

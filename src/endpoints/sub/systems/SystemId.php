@@ -6,6 +6,7 @@ use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 
 class SystemId extends SubEndpoint {
+
     /**
      * @param EndpointInterface $parent
      * @param string $id

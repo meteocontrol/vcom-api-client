@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "systemKey": "ABCDE",
+      "E_Z_EVU": [
+        {
+          "timestamp": "2016-01-01",
+          "value": "52.182"
+        }
+      ]
+    },
+    {
+      "systemKey": "VWXYZ",
+      "E_Z_EVU": [
+        {
+          "timestamp": "2016-01-01",
+          "value": "199.175"
+        }
+      ]
+    }
+  ]
+}

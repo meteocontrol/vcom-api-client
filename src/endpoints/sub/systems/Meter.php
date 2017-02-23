@@ -9,6 +9,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\device\Abbreviation as Dev
 use meteocontrol\client\vcomapi\model\MeterDetail;
 
 class Meter extends SubEndpoint {
+
     /**
      * @param EndpointInterface $parent
      */

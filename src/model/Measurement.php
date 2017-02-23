@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\model;
 
 class Measurement extends BaseModel {
+
     const RESOLUTION_INTERVAL = 'interval';
     const RESOLUTION_DAY = 'day';
     const RESOLUTION_MONTH = 'month';

@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": 126222,
+      "name": "Pyranometer SMPx (Modbus)"
+    },
+    {
+      "id": 126312,
+      "name": "Irradiation sensor M&T / mc Si-420TC-T (4 - 20mA)"
+    },
+    {
+      "id": 126313,
+      "name": "Temperature sensor PT1000 sensor with integrated converter (0 - 10V)"
+    }
+  ]
+}

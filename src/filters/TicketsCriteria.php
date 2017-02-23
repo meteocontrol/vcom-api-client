@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi\filters;
 use meteocontrol\client\vcomapi\model\Ticket;
 
 class TicketsCriteria {
+
     /** @var string[] */
     private $filters;
 
@@ -121,14 +122,16 @@ class TicketsCriteria {
     }
 
     /**
-     * @return Ticket::STATUS_OPEN | Ticket::STATUS_CLOSED | Ticket::STATUS_DELETED | Ticket::STATUS_ASSIGNED | Ticket::STAUTS_INPROGRESS
+     * @return string Ticket::STATUS_OPEN | Ticket::STATUS_CLOSED | Ticket::STATUS_DELETED | Ticket::STATUS_ASSIGNED |
+     *                Ticket::STATUS_INPROGRESS
      */
     public function getStatus() {
         return $this->filters['status'];
     }
 
     /**
-     * @param Ticket::STATUS_OPEN | Ticket::STATUS_CLOSED | Ticket::STATUS_DELETED | Ticket::STATUS_ASSIGNED | Ticket::STAUTS_INPROGRESS $status
+     * @param string $status Ticket::STATUS_OPEN | Ticket::STATUS_CLOSED | Ticket::STATUS_DELETED |
+     *                       Ticket::STATUS_ASSIGNED | Ticket::STAUTS_INPROGRESS $status
      * @return TicketsCriteria
      */
     public function withStatus($status) {
@@ -144,7 +147,7 @@ class TicketsCriteria {
     }
 
     /**
-     * @param Ticket::SEVERITY_NORMAL | Ticket::SEVERITY_HIGH | Ticket::SEVERITY_CRITICAL $severity
+     * @param string $severity Ticket::SEVERITY_NORMAL | Ticket::SEVERITY_HIGH | Ticket::SEVERITY_CRITICAL $severity
      * @return TicketsCriteria
      */
     public function withSeverity($severity) {
@@ -160,7 +163,8 @@ class TicketsCriteria {
     }
 
     /**
-     * @param Ticket::PRIORITY_LOW | Ticket::PRIORITY_NORMAL | Ticket::PRIORITY_HIGH | Ticket::PRIORITY_URGENT $priority
+     * @param string $priority Ticket::PRIORITY_LOW | Ticket::PRIORITY_NORMAL | Ticket::PRIORITY_HIGH |
+     *                         Ticket::PRIORITY_URGENT $priority
      * @return TicketsCriteria
      */
     public function withPriority($priority) {
