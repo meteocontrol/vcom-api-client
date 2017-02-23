@@ -8,6 +8,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Abbreviation as DeviceAbbreviation;
 
 class Calculations extends SubEndpoint {
+
     /**
      * @param EndpointInterface $parent
      */

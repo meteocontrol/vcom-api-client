@@ -1,0 +1,9 @@
+{
+  "data": {
+    "comprehension": "MAX",
+    "aggregation": "MAX",
+    "precision": "0",
+    "description": "Total Energy",
+    "unit": "kWh"
+  }
+}

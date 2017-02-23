@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "id": 123,
+      "systemKey": "ABCDE",
+      "designation": "Ticket #123",
+      "summary": "This is a summary.",
+      "date": "2016-01-01 12:00:00",
+      "lastChange": "2016-01-01 13:00:00",
+      "assignee": null,
+      "status": "closed",
+      "priority": "normal",
+      "severity": "normal"
+    },
+    {
+      "id": 456,
+      "systemKey": "FGHIJ",
+      "designation": "Ticket #456",
+      "summary": "This is a summary.",
+      "date": "2016-02-01 12:00:00",
+      "lastChange": "2016-02-02 13:00:00",
+      "assignee": null,
+      "status": "inProgress",
+      "priority": "high",
+      "severity": null
+    }
+  ]
+}

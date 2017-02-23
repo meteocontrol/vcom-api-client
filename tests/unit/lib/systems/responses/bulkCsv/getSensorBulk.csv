@@ -1,0 +1,15 @@
+type,sensors,sensors,sensors,sensors,sensors,sensors,sensors,sensors,sensors,sensors,sensors,sensors
+id,136863,136863,136863,136864,136864,136864,136865,136865,136865,136866,136866,136866
+timestamp,SRAD,STATE,T,SRAD,STATE,T,SRAD,STATE,T,SRAD,STATE,T
+2016-10-30T06:00:00+09:00,null,null,21.43,120.33,0.00,20.80,109.46,null,null,null,null,22.10
+2016-10-30T06:05:00+09:00,null,null,20.92,110.04,0.00,20.75,100.16,null,null,null,null,22.20
+2016-10-30T06:10:00+09:00,null,null,20.34,98.51,0.00,20.62,90.02,null,null,null,null,22.14
+2016-10-30T06:15:00+09:00,null,null,19.95,108.17,0.00,20.52,99.69,null,null,null,null,22.06
+2016-10-30T06:20:00+09:00,null,null,20.00,121.37,0.00,20.46,112.22,null,null,null,null,21.98
+2016-10-30T06:25:00+09:00,null,null,19.90,103.45,0.00,20.37,95.10,null,null,null,null,21.91
+2016-10-30T06:30:00+09:00,null,null,19.72,125.10,0.00,20.22,116.01,null,null,null,null,21.79
+2016-10-30T06:35:00+09:00,null,null,19.97,134.48,0.00,20.18,124.85,null,null,null,null,21.68
+2016-10-30T06:40:00+09:00,null,null,20.02,112.55,0.00,20.07,104.05,null,null,null,null,21.60
+2016-10-30T06:45:00+09:00,null,null,19.55,90.04,0.00,19.92,83.49,null,null,null,null,21.50
+2016-10-30T06:50:00+09:00,null,null,18.99,104.28,0.00,19.67,96.79,null,null,null,null,21.31
+2016-10-30T06:55:00+09:00,null,null,18.96,114.03,0.00,19.55,105.59,null,null,null,null,21.22

@@ -5,10 +5,13 @@ namespace meteocontrol\client\vcomapi\endpoints;
 use meteocontrol\client\vcomapi\ApiClient;
 
 abstract class Endpoint implements EndpointInterface {
+
     /** @var ApiClient */
     protected $api;
+
     /** @var string */
     protected $uri;
+
     /** @var Endpoint */
     protected $parent;
 
@@ -26,7 +29,7 @@ abstract class Endpoint implements EndpointInterface {
 
     /**
      * @param array $filters
-     * @param $source
+     * @param object $source
      * @return array
      */
     final protected function applyFilter(array $filters, $source) {
@@ -41,7 +44,7 @@ abstract class Endpoint implements EndpointInterface {
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @return string
      */
     private function getStringValue($value) {

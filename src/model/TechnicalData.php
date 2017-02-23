@@ -3,12 +3,16 @@
 namespace meteocontrol\client\vcomapi\model;
 
 class TechnicalData extends BaseModel {
+
     /** @var float */
     public $nominalPower;
+
     /** @var float */
     public $siteArea;
+
     /** @var Panel[] */
     public $panels;
+
     /** @var InverterType[] */
     public $inverters;
 

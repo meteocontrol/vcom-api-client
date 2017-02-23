@@ -8,6 +8,7 @@ use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\MeasurementValue;
 
 class Measurements extends SubEndpoint {
+
     /**
      * @param EndpointInterface $parent
      */
@@ -18,6 +19,7 @@ class Measurements extends SubEndpoint {
     }
 
     /**
+     * @param MeasurementsCriteria $criteria
      * @return MeasurementValue[]
      */
     public function get(MeasurementsCriteria $criteria) {

@@ -9,6 +9,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\device\Abbreviation as Dev
 use meteocontrol\client\vcomapi\model\InverterDetail;
 
 class Inverter extends SubEndpoint {
+
     /**
      * @param EndpointInterface $parent
      */

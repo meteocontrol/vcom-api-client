@@ -3,16 +3,22 @@
 namespace meteocontrol\client\vcomapi\model;
 
 class SystemDetail extends BaseModel {
+
     /** @var Address */
     public $address;
-    /** @var integer */
+
+    /** @var int */
     public $elevation;
+
     /** @var \DateTime */
     public $commissionDate;
+
     /** @var Coordinates */
     public $coordinates;
+
     /** @var string */
     public $name;
+
     /** @var Timezone */
     public $timezone;
 

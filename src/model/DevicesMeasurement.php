@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\model;
 
 class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
+
     const RESOLUTION_INTERVAL = 'interval';
     const RESOLUTION_DAY = 'day';
     const RESOLUTION_MONTH = 'month';
@@ -37,7 +38,7 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * @param string $offset <p>
      * An offset to check for.
      * </p>
-     * @return boolean true on success or false on failure.
+     * @return bool true on success or false on failure.
      * </p>
      * <p>
      * The return value will be casted to boolean if non-boolean was returned.
@@ -68,7 +69,7 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * @param string $offset <p>
      * The offset to assign the value to.
      * </p>
-     * @param MeasurementValue[] $value <p>
+     * @param mixed $value <p>
      * The value to set.
      * </p>
      * @return void
@@ -96,10 +97,10 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * Count elements of an object
      *
      * @link http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
+     * @return int The custom count as an int.
      * </p>
      * <p>
-     * The return value is cast to an integer.
+     * The return value is cast to an int.
      * @since 5.1.0
      */
     public function count() {

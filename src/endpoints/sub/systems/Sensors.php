@@ -7,6 +7,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\model\Sensor;
 
 class Sensors extends SubEndpoint {
+
     /**
      * @param EndpointInterface $parent
      */

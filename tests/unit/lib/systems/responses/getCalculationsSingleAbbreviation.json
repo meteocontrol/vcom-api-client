@@ -1,0 +1,9 @@
+{
+  "data": {
+    "comprehension": "AVG",
+    "aggregation": "AVG",
+    "precision": "2",
+    "description": "Performance ratio",
+    "unit": "%"
+  }
+}

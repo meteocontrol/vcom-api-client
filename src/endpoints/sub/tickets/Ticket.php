@@ -74,7 +74,7 @@ class Ticket extends SubEndpoint {
     }
 
     /**
-     * @param integer $commentId
+     * @param int $commentId
      * @return Comment
      */
     public function comment($commentId) {

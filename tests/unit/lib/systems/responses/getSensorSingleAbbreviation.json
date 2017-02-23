@@ -1,0 +1,9 @@
+{
+  "data": {
+    "comprehension": "AVG",
+    "aggregation": "AVG",
+    "precision": "3",
+    "description": "Irradiance on module plane, subsystem 3",
+    "unit": "W/m²"
+  }
+}

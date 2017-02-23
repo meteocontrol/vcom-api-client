@@ -3,8 +3,10 @@
 namespace meteocontrol\client\vcomapi;
 
 class Config {
+
     /** @var array */
     private $config = [];
+
     /** @var array */
     private $expectedKeys = [
         'API_URL',
@@ -92,7 +94,7 @@ class Config {
     }
 
     /**
-     * @param string
+     * @param string $path
      */
     private function readConfigurationFile($path) {
         if (!file_exists($path)) {
@@ -103,7 +105,7 @@ class Config {
     }
 
     /**
-     * @param $key
+     * @param string $key
      */
     private function checkForUnexpectedKeys($key) {
         if (!in_array($key, $this->expectedKeys, true)) {
@@ -114,9 +116,9 @@ class Config {
     }
 
     /**
-     * @param array
+     * @param array $config
      */
-    private function checkForMissingKeys($config) {
+    private function checkForMissingKeys(array $config) {
         foreach ($this->expectedKeys as $key) {
             if (!array_key_exists($key, $config)) {
                 throw new \InvalidArgumentException(

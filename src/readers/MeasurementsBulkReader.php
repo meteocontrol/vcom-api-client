@@ -21,7 +21,7 @@ class MeasurementsBulkReader {
     private $criteria;
 
     /**
-     * @param $raw
+     * @param string $raw
      * @param MeasurementsCriteria|null $criteria
      */
     public function __construct($raw, MeasurementsCriteria $criteria = null) {
@@ -63,7 +63,7 @@ class MeasurementsBulkReader {
     }
 
     /**
-     * @param $delimiterName
+     * @param string $delimiterName
      * @return string
      */
     private function getDelimiterSymbol($delimiterName) {

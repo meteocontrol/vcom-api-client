@@ -43,14 +43,16 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return DevicesMeasurement::RESOLUTION_INTERVAL | DevicesMeasurement::RESOLUTION_DAY | DevicesMeasurement::RESOLUTION_MONTH | DevicesMeasurement::RESOLUTION_YEAR
+     * @return string DevicesMeasurement::RESOLUTION_INTERVAL | DevicesMeasurement::RESOLUTION_DAY |
+     *         DevicesMeasurement::RESOLUTION_MONTH | DevicesMeasurement::RESOLUTION_YEAR
      */
     public function getResolution() {
         return $this->filters['resolution'];
     }
 
     /**
-     * @param DevicesMeasurement::RESOLUTION_INTERVAL | DevicesMeasurement::RESOLUTION_DAY | DevicesMeasurement::RESOLUTION_MONTH | DevicesMeasurement::RESOLUTION_YEAR
+     * @param string $resolution DevicesMeasurement::RESOLUTION_INTERVAL | DevicesMeasurement::RESOLUTION_DAY |
+     *        DevicesMeasurement::RESOLUTION_MONTH | DevicesMeasurement::RESOLUTION_YEAR
      * @return MeasurementsCriteria
      */
     public function withResolution($resolution) {
@@ -66,7 +68,7 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @param String $format
+     * @param string $format
      * @return $this
      */
     public function withFormat($format) {
@@ -82,7 +84,7 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @param String $breakSymbol
+     * @param string $breakSymbol
      * @return $this
      */
     public function withLineBreak($breakSymbol) {
@@ -98,7 +100,7 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @param String $delimiter
+     * @param string $delimiter
      * @return $this
      */
     public function withDelimiter($delimiter) {
@@ -116,7 +118,7 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @param String $decimalPoint
+     * @param string $decimalPoint
      * @return $this
      */
     public function withDecimalPoint($decimalPoint) {
@@ -134,7 +136,7 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @param String $emptyPlaceholder
+     * @param string $emptyPlaceholder
      * @return $this
      */
     public function withEmptyPlaceholder($emptyPlaceholder) {

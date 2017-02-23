@@ -5,8 +5,10 @@ namespace meteocontrol\client\vcomapi\model;
 use meteocontrol\client\vcomapi\ApiClientException;
 
 class MeasurementValue extends BaseModel {
+
     /** @var \DateTime */
     public $timestamp;
+
     /** @var string */
     public $value;
 
@@ -24,7 +26,7 @@ class MeasurementValue extends BaseModel {
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return \DateTime
      * @throws ApiClientException
      */
@@ -39,7 +41,7 @@ class MeasurementValue extends BaseModel {
     }
 
     /**
-     * @param $dateString
+     * @param string $dateString
      * @return bool
      */
     private static function isYearString($dateString) {
@@ -47,7 +49,7 @@ class MeasurementValue extends BaseModel {
     }
 
     /**
-     * @param $dateString
+     * @param string $dateString
      * @return bool
      */
     private static function isMonthString($dateString) {
