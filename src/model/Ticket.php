@@ -65,6 +65,9 @@ class Ticket extends BaseModel {
     /** @var string */
     public $severity;
 
+    /** @var string */
+    public $description;
+
     /**
      * @return bool
      */
