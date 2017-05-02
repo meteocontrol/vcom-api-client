@@ -129,7 +129,6 @@ class ApiClient {
             usleep(($resetTime->getTimestamp() - $requestTime->getTimestamp()) * 1000000);
         }
 
-        $content = $response->getBody()->getContents();
-        return $content;
+        return $response->getBody()->getContents();
     }
 }
