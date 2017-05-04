@@ -96,11 +96,13 @@ class ApiClient {
         $response = null;
         $options = [
             'query' => $queryParams ?: null,
-            'body' => $body ?: null
+            'body' => $body ?: null,
+            'headers' => [
+                'Accept-Encoding' => 'gzip, deflate',
+                'Content-Type' => 'application/json'
+            ],
         ];
-        $headers = [
-            'Content-Type' => 'application/json'
-        ];
+
         switch (strtoupper($method)) {
             case 'GET':
                 $response = $this->client->get($uri, $options);
@@ -109,10 +111,10 @@ class ApiClient {
                 $response = $this->client->delete($uri, $options);
                 break;
             case 'PATCH':
-                $response = $this->client->patch($uri, array_merge($options, ['headers' => $headers]));
+                $response = $this->client->patch($uri, $options);
                 break;
             case 'POST':
-                $response = $this->client->post($uri, array_merge($options, ['headers' => $headers]));
+                $response = $this->client->post($uri, $options);
                 break;
             default:
                 throw new ApiClientException('Unacceptable HTTP method ' . $method);
