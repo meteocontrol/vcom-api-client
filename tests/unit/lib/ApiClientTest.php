@@ -55,7 +55,11 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                 'url',
                 [
                     'query' => ['name' => 'aa', 'value' => 'bb'],
-                    'body' => null
+                    'body' => null,
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'Accept-Encoding' => 'gzip, deflate'
+                    ]
                 ]
             )
             ->willReturn($responseMock);
@@ -78,7 +82,11 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                 'url',
                 [
                     'query' => ['name' => 'aa', 'value' => 'bb'],
-                    'body' => null
+                    'body' => null,
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'Accept-Encoding' => 'gzip, deflate'
+                    ]
                 ]
             )
             ->willReturn($responseMock);
@@ -103,7 +111,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'query' => ['name' => 'aa', 'value' => 'bb'],
                     'body' => 'post body',
                     'headers' => [
-                        'Content-Type' => 'application/json'
+                        'Content-Type' => 'application/json',
+                        'Accept-Encoding' => 'gzip, deflate'
                     ]
                 ]
             )
@@ -129,7 +138,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'query' => ['name' => 'aa', 'value' => 'bb'],
                     'body' => 'patch body',
                     'headers' => [
-                        'Content-Type' => 'application/json'
+                        'Content-Type' => 'application/json',
+                        'Accept-Encoding' => 'gzip, deflate'
                     ]
                 ]
             )
