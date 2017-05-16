@@ -40,7 +40,8 @@ class Ticket extends SubEndpoint {
                 'date' => $ticket->date->format(\DateTime::RFC3339),
                 'includeInReports' => $ticket->includeInReports,
                 'status' => $ticket->status,
-                'priority' => $ticket->priority
+                'priority' => $ticket->priority,
+                'description' => $ticket->description
             ];
         } else {
             $fields = $this->applyFilter($updateFilter, $ticket);
