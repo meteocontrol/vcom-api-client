@@ -41,6 +41,7 @@ class Tickets extends MainEndpoint {
             'date' => $ticket->date->format(\DateTime::RFC3339)
         ];
         empty($ticket->summary) ?: $fields['summary'] = $ticket->summary;
+        empty($ticket->description) ?: $fields['description'] = $ticket->description;
         empty($ticket->status) ?: $fields['status'] = $ticket->status;
         empty($ticket->priority) ?: $fields['priority'] = $ticket->priority;
         empty($ticket->includeInReports) ?: $fields['includeInReports'] = $ticket->includeInReports;
