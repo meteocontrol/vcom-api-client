@@ -105,7 +105,7 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
     }
 
-    public function testGetSensorsBulkDataWithCsvFormat() {
+    public function testGetBasicsBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getBasicBulk.csv');
         $this->api->expects($this->once())
             ->method('run')
@@ -131,7 +131,7 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
      */
-    public function testGetSensorsBulkDataWithCsvFormatWithWrongParameter() {
+    public function testGetBasicsBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
