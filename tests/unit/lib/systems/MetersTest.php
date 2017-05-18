@@ -92,19 +92,19 @@ class MetersTest extends \PHPUnit_Framework_TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');
         $this->api->expects($this->exactly(2))
             ->method('run')
-            ->with(
-                $this->identicalTo(
-                    'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
-                ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B00%3A00&to=2016-01-02T23%3A59%3A59%2B00%3A00&resolution=day'
-                )
+        ->with(
+            $this->identicalTo(
+                'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
+            ),
+            $this->identicalTo(
+                'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
             )
+        )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+00:00'))
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(Measurement::RESOLUTION_DAY);
 
         /** @var DevicesMeasurement $measurements */
@@ -165,7 +165,7 @@ class MetersTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
     }
 
-    public function testGetSensorsBulkDataWithCsvFormat() {
+    public function testGetMetersBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getMeterBulk.csv');
         $this->api->expects($this->once())
             ->method('run')
@@ -191,7 +191,7 @@ class MetersTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
      */
-    public function testGetSensorsBulkDataWithCsvFormatWithWrongParameter() {
+    public function testGetMetersBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
