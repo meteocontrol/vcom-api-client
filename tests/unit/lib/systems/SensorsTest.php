@@ -101,14 +101,14 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
                 $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B00%3A00&to=2016-01-02T23%3A59%3A59%2B00%3A00&resolution=day'
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
                 )
             )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+00:00'))
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(Measurement::RESOLUTION_DAY);
 
         /** @var DevicesMeasurement $measurements */

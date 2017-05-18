@@ -66,14 +66,14 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
                 $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B00%3A00&to=2016-01-01T00%3A15%3A00%2B00%3A00&resolution=interval'
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00&resolution=interval'
                 )
             )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+00:00'))
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
             ->withResolution(Measurement::RESOLUTION_INTERVAL);
         /** @var MeasurementValue[] $measurements */
         $measurements = $this->api->system('ABCDE')->basics()->abbreviation('wr.E_INT')->measurements()->get($criteria);
