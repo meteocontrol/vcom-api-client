@@ -101,7 +101,7 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
                 $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=interval'
                 )
             )
             ->willReturn($json);
@@ -109,7 +109,7 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
-            ->withResolution(Measurement::RESOLUTION_DAY);
+            ->withResolution(Measurement::RESOLUTION_INTERVAL);
 
         /** @var DevicesMeasurement $measurements */
         $measurements = $this->api->system('ABCDE')->sensor('123')->abbreviation('T_M1,G_M3')->measurements()
