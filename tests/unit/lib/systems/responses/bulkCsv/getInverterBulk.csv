@@ -1,5 +1,5 @@
-type,inverters,inverters,inverters,inverters,inverters,inverters,inverters,inverters,inverters,inverters
-id,Id54968.12,Id54968.12,Id54968.12,Id54968.12,Id54968.12,Id54968.1,Id54968.1,Id54968.1,Id54968.1,Id54968.1
-timestamp,E_DAY,E_INT,E_INT_N,E_TOTAL,ERROR,E_DAY,E_INT,E_INT_N,E_TOTAL,ERROR
-2016-09-01T10:00:00+02:00,4,4,0.12,91262,0,4,4,0.12,87687,0
-2016-09-01T10:15:00+02:00,3.17,1.412,0.09,42578,null,3.47,1.796,0.11,42249,0
+type,inverters,inverters,inverters,inverters,inverters,inverters
+id,Id12345.1,Id12345.1,Id12345.1,Id12345.2,Id12345.2,Id12345.2
+timestamp,P_AC,E_INT,E_INT_N,P_AC,E_INT,E_INT_N
+2016-09-01T10:00:00+02:00,454.34,0.04,0.04,452.34,0.04,0.04
+2016-09-01T10:15:00+02:00,529.38,0.04,0.04,519.09,0.04,0.04
