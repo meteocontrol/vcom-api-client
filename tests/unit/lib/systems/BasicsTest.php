@@ -66,15 +66,15 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
                 $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B00%3A00&to=2016-01-02T23%3A59%3A59%2B00%3A00&resolution=day'
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00&resolution=interval'
                 )
             )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+00:00'))
-            ->withResolution(Measurement::RESOLUTION_DAY);
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
+            ->withResolution(Measurement::RESOLUTION_INTERVAL);
         /** @var MeasurementValue[] $measurements */
         $measurements = $this->api->system('ABCDE')->basics()->abbreviation('wr.E_INT')->measurements()->get($criteria);
         $this->assertEquals(2, count($measurements));
@@ -90,13 +90,13 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/basics/bulk/measurements'),
-                $this->identicalTo('from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00')
+                $this->identicalTo('from=2016-11-01T10%3A00%3A00%2B02%3A00&to=2016-11-01T10%3A15%3A00%2B02%3A00')
             )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'));
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T10:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T10:15:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->basics()->bulk()->measurements()->get($criteria);
@@ -105,7 +105,7 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
     }
 
-    public function testGetSensorsBulkDataWithCsvFormat() {
+    public function testGetBasicsBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getBasicBulk.csv');
         $this->api->expects($this->once())
             ->method('run')
@@ -131,7 +131,7 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
      */
-    public function testGetSensorsBulkDataWithCsvFormatWithWrongParameter() {
+    public function testGetBasicsBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))

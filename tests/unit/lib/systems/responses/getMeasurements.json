@@ -4,7 +4,7 @@
       "systemKey": "ABCDE",
       "E_Z_EVU": [
         {
-          "timestamp": "2016-01-01",
+          "timestamp": "2016-01-01T00:00:00+02:00",
           "value": "52.182"
         }
       ]
@@ -13,7 +13,7 @@
       "systemKey": "VWXYZ",
       "E_Z_EVU": [
         {
-          "timestamp": "2016-01-01",
+          "timestamp": "2016-01-01T00:00:00+02:00",
           "value": "199.175"
         }
       ]

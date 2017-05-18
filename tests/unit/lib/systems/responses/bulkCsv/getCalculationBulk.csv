@@ -1,4 +1,4 @@
-type,calculations,calculations,calculations,calculations,calculations,calculations,calculations
-id,,,,,,,
-timestamp,AREA,E_MESS,E_N,E_ZAEHLER,POWER,PR,VFG
-2016-10-29T07:00:00+09:00,864.00,7650.00,106.19,7650.00,72.04,1177.72,100.00
+type,calculations,calculations,calculations,calculations,calculations,calculations,calculations,calculations
+id,,,,,,,,
+timestamp,AREA,E_MEAN_DEV,E_MESS,E_N,E_ZAEHLER,POWER,PR,VFG
+2016-09-01T00:00:00+02:00,66607.58,,44579,,44579,9990.12,82.28,100
