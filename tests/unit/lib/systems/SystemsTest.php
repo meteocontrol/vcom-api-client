@@ -70,13 +70,13 @@ class SystemsTest extends \PHPUnit_Framework_TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalTo('from=2016-10-31T19%3A30%3A00%2B02%3A00&to=2016-11-01T19%3A15%3A00%2B02%3A00')
+                $this->identicalTo('from=2016-11-01T11%3A00%3A00%2B02%3A00&to=2016-11-01T11%3A05%3A00%2B02%3A00')
             )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-31T19:30:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T19:15:00+02:00'));
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:05:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
