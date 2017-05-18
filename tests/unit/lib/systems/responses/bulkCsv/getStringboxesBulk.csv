@@ -1,5 +1,5 @@
-type,stringboxes,stringboxes,stringboxes,stringboxes
-id,816639,816639,816658,816658
-timestamp,D_IN2,I1,D_IN2,I1
-2016-10-30T06:00:00+09:00,0.00,2.67,2.67,0.00
-2016-10-30T06:05:00+09:00,0.00,2.38,2.38,0.00
+type,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes,stringboxes
+id,12345,12345,12345,12345,12345,12345,12345,12345,12345,12345,12345,12345,12345,12345,12345,12345,12346,12346,12346,12346,12346,12346,12346,12346,12346,12346,12346,12346,12346,12346,12346,12346
+timestamp,I1,I1_N,I2,I2_N,I3,I3_N,I4,I4_N,I5,I5_N,I6,I6_N,I7,I7_N,I8,I8_N,I1,I1_N,I2,I2_N,I3,I3_N,I4,I4_N,I5,I5_N,I6,I6_N,I7,I7_N,I8,I8_N
+2016-09-01T10:00:00+02:00,3.449,0.43,3.436,0.43,3.405,0.42,3.428,0.43,3.383,0.42,3.589,0.45,3.569,0.45,3.554,0.44,3.384,0.42,3.337,0.42,3.287,0.41,3.326,0.41,3.342,0.42,3.307,0.41,3.292,0.41,0.014,0.01
+2016-09-01T10:15:00+02:00,3.913,0.49,3.894,0.49,3.85,0.48,3.882,0.48,3.827,0.48,4.053,0.51,4.043,0.5,4.031,0.5,3.869,0.48,3.817,0.48,3.755,0.47,3.805,0.47,3.819,0.48,3.777,0.47,3.764,0.47,0.014,0.01
