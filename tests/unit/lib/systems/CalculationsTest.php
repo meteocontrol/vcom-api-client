@@ -64,14 +64,14 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
                     'systems/ABCDE/calculations/abbreviations/berechnet.WR/measurements'
                 ),
                 $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B00%3A00&to=2016-01-02T23%3A59%3A59%2B00%3A00&resolution=day'
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
                 )
             )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+00:00'))
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(Measurement::RESOLUTION_DAY);
 
         /** @var MeasurementValue[] $measurements */
@@ -86,7 +86,7 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $measurements[0]->value);
         $this->assertEquals('2016-01-01 00:00:00', $measurements[0]->timestamp->format('Y-m-d H:i:s'));
         $this->assertEquals(0, $measurements[1]->value);
-        $this->assertEquals('2016-01-01 10:00:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-02 00:00:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
     }
 
     public function testGetCalculationBulkData() {
@@ -95,13 +95,13 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/calculations/bulk/measurements'),
-                $this->identicalTo('from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00')
+                $this->identicalTo('from=2016-09-01T00%3A00%3A00%2B02%3A00&to=2016-09-01T00%3A15%3A00%2B02%3A00')
             )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'));
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:15:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);
@@ -110,21 +110,21 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
     }
 
-    public function testGetSensorsBulkDataWithCsvFormat() {
+    public function testGetCalculationsBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getCalculationBulk.csv');
         $this->api->expects($this->once())
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/calculations/bulk/measurements'),
                 $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&format=csv'
+                    'from=2016-09-01T00%3A00%3A00%2B02%3A00&to=2016-09-01T00%3A15%3A00%2B02%3A00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV);
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);
@@ -136,7 +136,7 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
      */
-    public function testGetSensorsBulkDataWithCsvFormatWithWrongParameter() {
+    public function testGetCalculationsBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
