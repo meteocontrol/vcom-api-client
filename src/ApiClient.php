@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi;
 
 use GuzzleHttp\Client;
+use meteocontrol\client\vcomapi\endpoints\main\Session;
 use meteocontrol\client\vcomapi\endpoints\main\Systems;
 use meteocontrol\client\vcomapi\endpoints\main\Tickets;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\System;
@@ -81,6 +82,13 @@ class ApiClient {
         $ticketIdEndpoint = new TicketId($tickets, $ticketId);
         $ticketEndpoint = new \meteocontrol\client\vcomapi\endpoints\sub\tickets\Ticket($ticketIdEndpoint);
         return $ticketEndpoint;
+    }
+
+    /**
+     * @return Session
+     */
+    public function session() {
+        return new Session($this);
     }
 
     /**
