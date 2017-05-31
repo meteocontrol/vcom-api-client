@@ -57,6 +57,7 @@ class InvertersTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Danfoss', $inverter->vendor);
         $this->assertEquals('123456789', $inverter->serial);
         $this->assertEquals('Halle A - WR 1', $inverter->name);
+        $this->assertEquals(24.01, $inverter->scaleFactor);
     }
 
     public function testGetInverterAbbreviations() {
