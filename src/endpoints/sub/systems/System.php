@@ -120,7 +120,7 @@ class System extends SubEndpoint {
     }
 
     /**
-     * @return Inverters
+     * @return Users
      */
     public function users() {
         return new Users($this);

@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": 91366,
+      "username": "test",
+      "firstName": "vcom-api",
+      "lastName": "e2e test user"
+    },
+    {
+      "id": 9463,
+      "username": "mc-admin",
+      "firstName": "meteocontrol",
+      "lastName": "Administrator"
+    }
+  ]
+}
