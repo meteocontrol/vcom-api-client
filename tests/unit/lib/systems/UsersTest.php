@@ -71,7 +71,6 @@ class UsersTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('123', $userDetail->address->postalCode);
         $this->assertEquals('Europe/Berlin', $userDetail->timezone->name);
         $this->assertEquals('+02:00', $userDetail->timezone->utcOffset);
-
     }
 
     public function testGetSingleUserByName() {
