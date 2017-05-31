@@ -14,7 +14,7 @@ class Users extends SubEndpoint {
      * @param EndpointInterface $parent
      */
     public function __construct(EndpointInterface $parent) {
-        $this->uri = '';
+        $this->uri = '/users';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
@@ -28,7 +28,7 @@ class Users extends SubEndpoint {
         if (is_null($criteria)) {
             $userListJson = $this->api->run($this->getUri());
             $decodedJson = json_decode($userListJson, true);
-            return User::deserialize($decodedJson['data']);
+            return User::deserializeArray($decodedJson['data']);
         } else {
             $userDetailJson = $this->api->run($this->getUri(), $criteria);
             $decodedJson = json_decode($userDetailJson, true);
