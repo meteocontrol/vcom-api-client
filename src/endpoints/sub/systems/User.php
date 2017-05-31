@@ -26,5 +26,4 @@ class User extends SubEndpoint {
         $decodedJson = json_decode($userDetailJson, true);
         return UserDetail::deserialize($decodedJson['data']);
     }
-
 }

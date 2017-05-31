@@ -127,7 +127,7 @@ class System extends SubEndpoint {
     }
 
     /**
-     * @param string
+     * @param string $userId
      * @return User
      */
     public function user($userId) {

@@ -15,7 +15,7 @@ class UserCriteria {
     }
 
     /**
-     * @param $username
+     * @param string $username
      * @return $this
      */
     public function withUsername($username) {
