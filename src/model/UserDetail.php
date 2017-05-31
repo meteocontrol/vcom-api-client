@@ -2,7 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\model;
 
-class User extends BaseModel {
+class UserDetail extends BaseModel {
 
     /** @var int */
     public $id;
