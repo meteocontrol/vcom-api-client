@@ -4,6 +4,7 @@
     "model": "TLX 15 k",
     "vendor": "Danfoss",
     "serial": "123456789",
-    "name": "Halle A - WR 1"
+    "name": "Halle A - WR 1",
+    "scaleFactor": 24.01
   }
 }
