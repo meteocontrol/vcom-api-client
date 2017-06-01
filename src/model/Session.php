@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\model;
 
 class Session extends BaseModel {
 
-    /** @var User */
+    /** @var UserDetail */
     public $user;
 
     /**
@@ -17,7 +17,7 @@ class Session extends BaseModel {
         $classInstance = new $className();
         foreach ($data as $key => $value) {
             if (is_array($value) && $key === "user") {
-                $classInstance->user = User::deserialize($value);
+                $classInstance->user = UserDetail::deserialize($value);
             } elseif (property_exists($className, $key)) {
                 $classInstance->{$key} = self::getPhpValue($value);
             }

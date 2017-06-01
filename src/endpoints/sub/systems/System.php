@@ -118,4 +118,22 @@ class System extends SubEndpoint {
     public function bulk() {
         return new Bulk($this);
     }
+
+    /**
+     * @return Users
+     */
+    public function users() {
+        return new Users($this);
+    }
+
+    /**
+     * @param string $userId
+     * @return User
+     */
+    public function user($userId) {
+        $users = new Users($this);
+        $userIdEndpoint = new UserId($users, $userId);
+        $userEndpoint = new User($userIdEndpoint);
+        return $userEndpoint;
+    }
 }
