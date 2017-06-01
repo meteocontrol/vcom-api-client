@@ -38,10 +38,10 @@ class UsersTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('vcom-api', $users[0]->firstName);
         $this->assertEquals('e2e test user', $users[0]->lastName);
 
-        $this->assertEquals("9463", $users[1]->id);
-        $this->assertEquals('mc-admin', $users[1]->username);
-        $this->assertEquals('meteocontrol', $users[1]->firstName);
-        $this->assertEquals('Administrator', $users[1]->lastName);
+        $this->assertEquals("1234", $users[1]->id);
+        $this->assertEquals('test2', $users[1]->username);
+        $this->assertEquals('First Name', $users[1]->firstName);
+        $this->assertEquals('Last Name', $users[1]->lastName);
     }
 
     public function testGetSingleUserById() {
