@@ -57,7 +57,7 @@ class ResponsibilitiesTest extends \PHPUnit_Framework_TestCase {
         $timezone->utcOffset = '+02:00';
 
         $user = new UserDetail();
-        $user->id = 123;
+        $user->id = "123";
         $user->title = 'Mr.';
         $user->firstName = 'First Name';
         $user->lastName = 'Last Name';

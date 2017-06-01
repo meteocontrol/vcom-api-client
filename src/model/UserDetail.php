@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\model;
 
 class UserDetail extends BaseModel {
 
-    /** @var int */
+    /** @var string */
     public $id;
     /** @var string */
     public $title;
