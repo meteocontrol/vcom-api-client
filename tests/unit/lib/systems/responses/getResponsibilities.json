@@ -1,0 +1,124 @@
+{
+  "data": {
+    "alarmContact": {
+      "address": {
+        "city": "City",
+        "country": "Country",
+        "postalCode": "12345",
+        "street": "Street 123",
+        "streetAddition": "2F-1"
+      },
+      "cellphone": "0987654321",
+      "company": "Company",
+      "email": "fake@mail.intra",
+      "fax": "0234567890",
+      "firstName": "First Name",
+      "id": "123",
+      "language": "en",
+      "lastName": "Last Name",
+      "telephone": "0234567891",
+      "timezone": {
+        "name": "Europe/Berlin",
+        "utcOffset": "+02:00"
+      },
+      "title": "Mr.",
+      "username": "user.name"
+    },
+    "electrician": {
+      "address": {
+        "city": "City",
+        "country": "Country",
+        "postalCode": "12345",
+        "street": "Street 123",
+        "streetAddition": "2F-1"
+      },
+      "cellphone": "0987654321",
+      "company": "Company",
+      "email": "fake@mail.intra",
+      "fax": "0234567890",
+      "firstName": "First Name",
+      "id": "123",
+      "language": "en",
+      "lastName": "Last Name",
+      "telephone": "0234567891",
+      "timezone": {
+        "name": "Europe/Berlin",
+        "utcOffset": "+02:00"
+      },
+      "title": "Mr.",
+      "username": "user.name"
+    },
+    "invoiceRecipient": {
+      "address": {
+        "city": "City",
+        "country": "Country",
+        "postalCode": "12345",
+        "street": "Street 123",
+        "streetAddition": "2F-1"
+      },
+      "cellphone": "0987654321",
+      "company": "Company",
+      "email": "fake@mail.intra",
+      "fax": "0234567890",
+      "firstName": "First Name",
+      "id": "123",
+      "language": "en",
+      "lastName": "Last Name",
+      "telephone": "0234567891",
+      "timezone": {
+        "name": "Europe/Berlin",
+        "utcOffset": "+02:00"
+      },
+      "title": "Mr.",
+      "username": "user.name"
+    },
+    "operator": {
+      "address": {
+        "city": "City",
+        "country": "Country",
+        "postalCode": "12345",
+        "street": "Street 123",
+        "streetAddition": "2F-1"
+      },
+      "cellphone": "0987654321",
+      "company": "Company",
+      "email": "fake@mail.intra",
+      "fax": "0234567890",
+      "firstName": "First Name",
+      "id": "123",
+      "language": "en",
+      "lastName": "Last Name",
+      "telephone": "0234567891",
+      "timezone": {
+        "name": "Europe/Berlin",
+        "utcOffset": "+02:00"
+      },
+      "title": "Mr.",
+      "username": "user.name"
+    },
+    "owner": {
+      "address": {
+        "city": "City",
+        "country": "Country",
+        "postalCode": "12345",
+        "street": "Street 123",
+        "streetAddition": "2F-1"
+      },
+      "cellphone": "0987654321",
+      "company": "Company",
+      "email": "fake@mail.intra",
+      "fax": "0234567890",
+      "firstName": "First Name",
+      "id": "123",
+      "language": "en",
+      "lastName": "Last Name",
+      "telephone": "0234567891",
+      "timezone": {
+        "name": "Europe/Berlin",
+        "utcOffset": "+02:00"
+      },
+      "title": "Mr.",
+      "username": "user.name"
+    }
+  }
+}

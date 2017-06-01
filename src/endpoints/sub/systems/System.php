@@ -127,6 +127,13 @@ class System extends SubEndpoint {
     }
 
     /**
+     * @return Responsibilities
+     */
+    public function responsibilities() {
+        return new Responsibilities($this);
+    }
+
+    /**
      * @param string $userId
      * @return User
      */
