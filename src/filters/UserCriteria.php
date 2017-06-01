@@ -22,4 +22,11 @@ class UserCriteria {
         $this->filters['username'] = $username;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function generateQueryString() {
+        return http_build_query($this->filters);
+    }
 }

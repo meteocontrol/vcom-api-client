@@ -30,7 +30,7 @@ class Users extends SubEndpoint {
             $decodedJson = json_decode($userListJson, true);
             return User::deserializeArray($decodedJson['data']);
         } else {
-            $userDetailJson = $this->api->run($this->getUri(), $criteria);
+            $userDetailJson = $this->api->run($this->getUri(), $criteria->generateQueryString());
             $decodedJson = json_decode($userDetailJson, true);
             return UserDetail::deserialize($decodedJson['data']);
         }

@@ -77,7 +77,10 @@ class UsersTest extends \PHPUnit_Framework_TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getSingleUser.json');
         $this->api->expects($this->once())
             ->method('run')
-            ->with($this->identicalTo('systems/ABCDE/users'))
+            ->with(
+                $this->identicalTo('systems/ABCDE/users'),
+                $this->identicalTo('username=vcom-api-e2e-test-user')
+            )
             ->willReturn($json);
         $userCriteria = new UserCriteria();
         $userCriteria->withUsername("vcom-api-e2e-test-user");
