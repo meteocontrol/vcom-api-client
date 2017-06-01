@@ -30,7 +30,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
 
         $session = $this->api->session()->get();
 
-        $this->assertEquals(123, $session->user->id);
+        $this->assertEquals("123", $session->user->id);
         $this->assertEquals('Mr.', $session->user->title);
         $this->assertEquals('First Name', $session->user->firstName);
         $this->assertEquals('Last Name', $session->user->lastName);
