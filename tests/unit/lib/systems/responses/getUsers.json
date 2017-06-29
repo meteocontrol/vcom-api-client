@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": "123",
+      "username": "test",
+      "firstName": "vcom-api",
+      "lastName": "e2e test user"
+    },
+    {
+      "id": "1234",
+      "username": "test2",
+      "firstName": "First Name",
+      "lastName": "Last Name"
+    }
+  ]
+}
