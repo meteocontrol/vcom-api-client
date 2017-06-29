@@ -3,6 +3,8 @@
     "commentId": 661288,
     "date": "2016-02-19T12:49:20+01:00",
     "comment": "Comment text",
-    "username": "Username"
+    "username": "Username",
+    "firstName": "First",
+    "lastName": "Last"
   }
 }
