@@ -33,7 +33,7 @@ class UsersTest extends \PHPUnit_Framework_TestCase {
         /** @var User[] $users */
         $users = $this->api->system('ABCDE')->users()->get();
         $this->assertEquals(2, count($users));
-        $this->assertEquals("91366", $users[0]->id);
+        $this->assertEquals("123", $users[0]->id);
         $this->assertEquals('test', $users[0]->username);
         $this->assertEquals('vcom-api', $users[0]->firstName);
         $this->assertEquals('e2e test user', $users[0]->lastName);
@@ -53,7 +53,7 @@ class UsersTest extends \PHPUnit_Framework_TestCase {
         /** @var UserDetail $userDetail */
         $userDetail = $this->api->system('ABCDE')->user("91366")->get();
 
-        $this->assertEquals("91366", $userDetail->id);
+        $this->assertEquals("123", $userDetail->id);
         $this->assertEquals("Mr.", $userDetail->title);
         $this->assertEquals('vcom-api', $userDetail->firstName);
         $this->assertEquals('e2e test user', $userDetail->lastName);
@@ -86,7 +86,7 @@ class UsersTest extends \PHPUnit_Framework_TestCase {
         $userCriteria->withUsername("vcom-api-e2e-test-user");
         /** @var UserDetail $userDetail */
         $userDetail = $this->api->system('ABCDE')->users()->get($userCriteria);
-        $this->assertEquals("91366", $userDetail->id);
+        $this->assertEquals("123", $userDetail->id);
         $this->assertEquals("Mr.", $userDetail->title);
         $this->assertEquals('vcom-api', $userDetail->firstName);
         $this->assertEquals('e2e test user', $userDetail->lastName);
