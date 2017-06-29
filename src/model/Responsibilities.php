@@ -2,10 +2,22 @@
 
 namespace meteocontrol\client\vcomapi\model;
 
-class Session extends BaseModel {
+class Responsibilities extends BaseModel {
 
-    /** @var UserDetail */
-    public $user;
+    /** @var User */
+    public $owner;
+
+    /** @var User */
+    public $operator;
+
+    /** @var User */
+    public $electrician;
+
+    /** @var User */
+    public $invoiceRecipient;
+
+    /** @var User */
+    public $alarmContact;
 
     /**
      * @param array $data
@@ -16,11 +28,7 @@ class Session extends BaseModel {
         $className = get_called_class();
         $classInstance = new $className();
         foreach ($data as $key => $value) {
-            if (is_array($value) && $key === "user") {
-                $classInstance->user = UserDetail::deserialize($value);
-            } elseif (property_exists($className, $key)) {
-                $classInstance->{$key} = self::getPhpValue($value);
-            }
+            $classInstance->{$key} = UserDetail::deserialize($value);
         }
         return $classInstance;
     }

@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "123",
+    "title": "Mr.",
+    "firstName": "vcom-api",
+    "lastName": "e2e test user",
+    "username": "vcom-api-e2e-test-user",
+    "email": "invalid@intranet.ba",
+    "language": "de",
+    "company": "meteocontrol",
+    "fax": "123456",
+    "telephone": "123456",
+    "cellphone": "654321",
+    "address": {
+      "city": "Berlin",
+      "country": "Germany",
+      "postalCode": "123",
+      "street": "AAA",
+      "streetAddition": "BBB"
+    },
+    "timezone": {
+      "name": "Europe/Berlin",
+      "utcOffset": "+02:00"
+    }
+  }
+}

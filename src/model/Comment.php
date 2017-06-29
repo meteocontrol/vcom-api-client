@@ -15,4 +15,10 @@ class Comment extends BaseModel {
 
     /** @var string */
     public $username;
+
+    /** @var string */
+    public $firstName;
+
+    /** @var string */
+    public $lastName;
 }
