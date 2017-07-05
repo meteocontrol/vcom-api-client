@@ -4,6 +4,9 @@ namespace meteocontrol\client\vcomapi;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use meteocontrol\client\vcomapi\handlers\AuthorizationHandlerInterface;
+use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
+use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 
 class Factory {
 
@@ -21,8 +24,8 @@ class Factory {
         }
 
         return new ApiClient(
-            $config,
-            $client
+            $client,
+            self::getAuthorizationHandler($config)
         );
     }
 
@@ -30,10 +33,9 @@ class Factory {
      * @param Config $config
      * @return array
      */
-    public static function getAuthorizationHeaders(Config $config) {
+    public static function getDefaultHeaders(Config $config) {
         return [
             'X-API-KEY' => $config->getApiKey(),
-            'Authorization' => self::getBasicAuthString($config),
             'Accept' => '*/*'
         ];
     }
@@ -46,7 +48,7 @@ class Factory {
         $client = new Client(
             [
                 'base_uri' => $config->getApiUrl() . '/',
-                'headers' => self::getAuthorizationHeaders($config),
+                'headers' => self::getDefaultHeaders($config),
                 'debug' => false
             ]
         );
@@ -55,9 +57,11 @@ class Factory {
 
     /**
      * @param Config $config
-     * @return string
+     * @return AuthorizationHandlerInterface
      */
-    private static function getBasicAuthString(Config $config) {
-        return 'Basic ' . base64_encode($config->getApiUsername() . ':' . $config->getApiPassword());
+    public static function getAuthorizationHandler(Config $config) {
+        return $config->getApiAuthorizaitonMode() === 'oauth' ?
+            new OAuthAuthorizationHandler($config) :
+            new BasicAuthorizationHandler($config);
     }
 }
