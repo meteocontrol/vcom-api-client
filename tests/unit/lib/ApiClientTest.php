@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi;
 
 use GuzzleHttp\Client;
+use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 
 function usleep($us) {
     ApiClientTest::$us = $us;
@@ -38,7 +39,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->willReturn($responseMock);
 
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $apiClient = new ApiClient($config, $client);
+        $authHandler = new BasicAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url');
     }
 
@@ -58,14 +60,16 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'body' => null,
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'Accept-Encoding' => 'gzip, deflate'
+                        'Accept-Encoding' => 'gzip, deflate',
+                        'Authorization' => 'Basic dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
                     ]
                 ]
             )
             ->willReturn($responseMock);
 
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $apiClient = new ApiClient($config, $client);
+        $authHandler = new BasicAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb']);
     }
 
@@ -85,14 +89,16 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'body' => null,
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'Accept-Encoding' => 'gzip, deflate'
+                        'Accept-Encoding' => 'gzip, deflate',
+                        'Authorization' => 'Basic dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
                     ]
                 ]
             )
             ->willReturn($responseMock);
 
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $apiClient = new ApiClient($config, $client);
+        $authHandler = new BasicAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], null, 'DELETE');
     }
 
@@ -112,14 +118,16 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'body' => 'post body',
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'Accept-Encoding' => 'gzip, deflate'
+                        'Accept-Encoding' => 'gzip, deflate',
+                        'Authorization' => 'Basic dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
                     ]
                 ]
             )
             ->willReturn($responseMock);
 
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $apiClient = new ApiClient($config, $client);
+        $authHandler = new BasicAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'post body', 'POST');
     }
 
@@ -139,14 +147,16 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'body' => 'patch body',
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'Accept-Encoding' => 'gzip, deflate'
+                        'Accept-Encoding' => 'gzip, deflate',
+                        'Authorization' => 'Basic dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
                     ]
                 ]
             )
             ->willReturn($responseMock);
 
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $apiClient = new ApiClient($config, $client);
+        $authHandler = new BasicAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'PATCH');
     }
 
@@ -191,7 +201,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->willReturn($responseMock);
 
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $apiClient = new ApiClient($config, $client);
+        $authHandler = new BasicAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
 
         self::$us = 0;
         $apiClient->run('url');
