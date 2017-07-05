@@ -48,7 +48,6 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
 
     /**
      * @param Client $client
-     * @return string
      * @throws UnauthorizedException
      */
     private function doOAuthGrant(Client $client) {

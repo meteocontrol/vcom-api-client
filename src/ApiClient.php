@@ -21,6 +21,7 @@ class ApiClient {
 
     /**
      * @param Client $client
+     * @param AuthorizationHandlerInterface $authorizationHandler
      */
     public function __construct(Client $client, AuthorizationHandlerInterface $authorizationHandler) {
         $this->client = $client;
@@ -129,8 +130,8 @@ class ApiClient {
     }
 
     /**
-     * @param $queryParams
-     * @param $body
+     * @param array|string|null $queryParams
+     * @param string|null $body
      * @return array
      */
     private function getRequestOptions($queryParams, $body) {
@@ -147,13 +148,13 @@ class ApiClient {
     }
 
     /**
-     * @param $uri
-     * @param $method
-     * @param $options
+     * @param string $uri
+     * @param string $method
+     * @param array $options
      * @return ResponseInterface
      * @throws ApiClientException
      */
-    private function sendRequest($uri, $method, $options) {
+    private function sendRequest($uri, $method, array $options) {
         switch (strtoupper($method)) {
             case 'GET':
                 $response = $this->client->get($uri, $options);
@@ -168,7 +169,7 @@ class ApiClient {
                 $response = $this->client->post($uri, $options);
                 break;
             default:
-                throw new ApiClientException('Unacceptable HTTP method '.$method);
+                throw new ApiClientException('Unacceptable HTTP method ' . $method);
         }
         return $response;
     }
