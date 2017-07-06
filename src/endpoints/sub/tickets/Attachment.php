@@ -23,7 +23,6 @@ class Attachment extends SubEndpoint {
     public function get() {
         $meterJson = $this->api->run($this->getUri());
         $decodedJson = json_decode($meterJson, true);
-        $attachment = AttachmentFile::deserialize($decodedJson['data']);
-        return $attachment;
+        return AttachmentFile::deserialize($decodedJson['data']);
     }
 }
