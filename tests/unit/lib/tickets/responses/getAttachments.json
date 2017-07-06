@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "attachmentId": "1234",
+      "filename": "test.jpg"
+    },
+    {
+      "attachmentId": "5678",
+      "filename": "test2.jpg"
+    }
+  ]
+}

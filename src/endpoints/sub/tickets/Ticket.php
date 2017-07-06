@@ -81,7 +81,24 @@ class Ticket extends SubEndpoint {
     public function comment($commentId) {
         $comments = new Comments($this);
         $commentIdEndpoint = new CommentId($comments, $commentId);
-        $commentEndpoint = new \meteocontrol\client\vcomapi\endpoints\sub\tickets\Comment($commentIdEndpoint);
+        $commentEndpoint = new Comment($commentIdEndpoint);
         return $commentEndpoint;
+    }
+
+    /**
+     * @return Attachments
+     */
+    public function attachments() {
+        return new Attachments($this);
+    }
+
+    /**
+     * @param string $attachmentId
+     * @return Attachment
+     */
+    public function attachment($attachmentId) {
+        $attachments = new Attachments($this);
+        $attachmentIdEndpoint = new CommentId($attachments, $attachmentId);
+        return new Attachment($attachmentIdEndpoint);
     }
 }
