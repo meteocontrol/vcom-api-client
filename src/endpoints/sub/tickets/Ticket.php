@@ -93,12 +93,12 @@ class Ticket extends SubEndpoint {
     }
 
     /**
-     * @param string $attachmentId
+     * @param int $attachmentId
      * @return Attachment
      */
     public function attachment($attachmentId) {
         $attachments = new Attachments($this);
-        $attachmentIdEndpoint = new CommentId($attachments, $attachmentId);
+        $attachmentIdEndpoint = new AttachmentId($attachments, (string)$attachmentId);
         return new Attachment($attachmentIdEndpoint);
     }
 }

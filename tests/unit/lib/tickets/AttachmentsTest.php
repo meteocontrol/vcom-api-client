@@ -27,7 +27,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->method('run')
             ->with($this->identicalTo('tickets/123/attachments'))
             ->willReturn($json);
-        $actual = $this->api->ticket("123")->attachments()->get();
+        $actual = $this->api->ticket(123)->attachments()->get();
         $this->assertCount(2, $actual);
         $this->assertEquals("1234", $actual[0]['attachmentId']);
         $this->assertEquals("test.jpg", $actual[0]['filename']);
@@ -41,7 +41,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->method('run')
             ->with($this->identicalTo('tickets/123/attachments/1234'))
             ->willReturn($json);
-        $actual = $this->api->ticket("123")->attachment("1234")->get();
+        $actual = $this->api->ticket(123)->attachment(1234)->get();
         $this->assertEquals("test.jpg", $actual->getFilename());
         $this->assertEquals($this->getTestAttachment(), $actual->getContent());
     }
@@ -57,7 +57,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
                 'POST'
             )->willReturn($json);
         $attachment = new AttachmentFile("test.jpg", $this->getTestAttachment());
-        $actual = $this->api->ticket("123")->attachments()->create($attachment);
+        $actual = $this->api->ticket(123)->attachments()->create($attachment);
         $this->assertEquals("1234", $actual['attachmentId']);
         $this->assertEquals("test.jpg", $actual['filename']);
     }
@@ -67,11 +67,10 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage attachment is invalid!
      */
     public function testCreateAttachmentButFilenameIsInvalid() {
-        $json = file_get_contents($this->getExpectedResultOfPostAttachment());
         $this->api->expects($this->never())
             ->method('run');
         $attachment = new AttachmentFile(null, $this->getTestAttachment());
-        $this->api->ticket("123")->attachments()->create($attachment);
+        $this->api->ticket(123)->attachments()->create($attachment);
     }
 
     /**
@@ -79,11 +78,10 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage attachment is invalid!
      */
     public function testCreateAttachmentButContentIsInvalid() {
-        $json = file_get_contents($this->getExpectedResultOfPostAttachment());
         $this->api->expects($this->never())
             ->method('run');
         $attachment = new AttachmentFile("test.jpg", null);
-        $this->api->ticket("123")->attachments()->create($attachment);
+        $this->api->ticket(123)->attachments()->create($attachment);
     }
 
     /**
