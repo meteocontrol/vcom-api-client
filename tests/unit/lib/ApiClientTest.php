@@ -259,8 +259,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                         'grant_type' => 'password',
                         'username' => 'test-api-username',
                         'password' => 'test-api-password',
-                        'client_id' => 'mc-php-client',
-                        'client_secret' => 'jtL1FR9xg]NX4Mq<mzre}F-TypZ_k,ib'
+                        'client_id' => 'vcom-api',
+                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
                     ]
                 ]
             ], [
@@ -269,8 +269,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'form_params' => [
                         'grant_type' => 'refresh_token',
                         'refresh_token' => 'refreshToken',
-                        'client_id' => 'mc-php-client',
-                        'client_secret' => 'jtL1FR9xg]NX4Mq<mzre}F-TypZ_k,ib'
+                        'client_id' => 'vcom-api',
+                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
                     ]
                 ]
             ])
@@ -319,8 +319,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                         'grant_type' => 'password',
                         'username' => 'test-api-username',
                         'password' => 'test-api-password',
-                        'client_id' => 'mc-php-client',
-                        'client_secret' => 'jtL1FR9xg]NX4Mq<mzre}F-TypZ_k,ib'
+                        'client_id' => 'vcom-api',
+                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
                     ]
                 ]
             ], [
@@ -329,8 +329,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'form_params' => [
                         'grant_type' => 'refresh_token',
                         'refresh_token' => 'refreshToken',
-                        'client_id' => 'mc-php-client',
-                        'client_secret' => 'jtL1FR9xg]NX4Mq<mzre}F-TypZ_k,ib'
+                        'client_id' => 'vcom-api',
+                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
                     ]
                 ]
             ])
