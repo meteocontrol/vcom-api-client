@@ -109,7 +109,7 @@ class ApiClient {
             $response = $this->sendRequest($uri, $method, $options);
         } catch (ClientException $ex) {
             if ($ex->getResponse()->getStatusCode() === 401) {
-                $this->authorizationHandler->handleUnauthorizedException($this->client);
+                $this->authorizationHandler->handleUnauthorizedException($ex, $this->client);
                 $options = $this->getRequestOptions($queryParams, $body);
                 $response = $this->sendRequest($uri, $method, $options);
             } else {

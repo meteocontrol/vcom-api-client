@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\handlers;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\UnauthorizedException;
 
@@ -18,11 +19,15 @@ class BasicAuthorizationHandler implements AuthorizationHandlerInterface {
     }
 
     /**
+     * @param ClientException $ex
      * @param Client $client
      * @throws UnauthorizedException
      */
-    public function handleUnauthorizedException(Client $client) {
-        throw new UnauthorizedException('Unauthorized. Please check your username and password!');
+    public function handleUnauthorizedException(ClientException $ex, Client $client) {
+        throw new UnauthorizedException(
+            $ex->getResponse()->getBody()->getContents(),
+            $ex->getResponse()->getStatusCode()
+        );
     }
 
     /**
