@@ -7,6 +7,7 @@ use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Users;
 use meteocontrol\client\vcomapi\filters\UserCriteria;
+use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\User;
 use meteocontrol\client\vcomapi\model\UserDetail;
 
@@ -18,8 +19,9 @@ class UsersTest extends \PHPUnit_Framework_TestCase {
     public function setup() {
         $config = new Config();
         $client = new Client();
+        $authHandler = new BasicAuthorizationHandler($config);
         $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$config, $client])
+            ->setConstructorArgs([$client, $authHandler])
             ->setMethods(['run'])
             ->getMock();
     }
