@@ -87,14 +87,14 @@ class Config {
     /**
      * @return string
      */
-    public function getApiAuthorizaitonMode() {
+    public function getApiAuthorizationMode() {
         return $this->config['API_AUTH_MODE'];
     }
 
     /**
      * @param string $authorizationMode
      */
-    public function setApiAuthorizaitonMode($authorizationMode) {
+    public function setApiAuthorizationMode($authorizationMode) {
         $this->config['API_AUTH_MODE'] = $authorizationMode;
     }
 
