@@ -21,7 +21,7 @@ class BasicAuthorizationHandler implements AuthorizationHandlerInterface {
      * @param Client $client
      * @throws UnauthorizedException
      */
-    public function handleUnauthorziedException(Client $client) {
+    public function handleUnauthorizedException(Client $client) {
         throw new UnauthorizedException('Unauthorized. Please check your username and password!');
     }
 

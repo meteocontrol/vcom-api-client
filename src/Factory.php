@@ -60,7 +60,7 @@ class Factory {
      * @return AuthorizationHandlerInterface
      */
     public static function getAuthorizationHandler(Config $config) {
-        return $config->getApiAuthorizaitonMode() === 'oauth' ?
+        return $config->getApiAuthorizationMode() === 'oauth' ?
             new OAuthAuthorizationHandler($config) :
             new BasicAuthorizationHandler($config);
     }
