@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi\tests\unit\systems;
 use GuzzleHttp\Client;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\Config;
+use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\ExtendedAddress;
 use meteocontrol\client\vcomapi\model\Responsibilities;
 use meteocontrol\client\vcomapi\model\Timezone;
@@ -18,8 +19,9 @@ class ResponsibilitiesTest extends \PHPUnit_Framework_TestCase {
     public function setup() {
         $config = new Config();
         $client = new Client();
+        $authHandler = new BasicAuthorizationHandler($config);
         $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$config, $client])
+            ->setConstructorArgs([$client, $authHandler])
             ->setMethods(['run'])
             ->getMock();
     }
