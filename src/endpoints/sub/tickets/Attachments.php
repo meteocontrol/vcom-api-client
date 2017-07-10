@@ -32,7 +32,7 @@ class Attachments extends SubEndpoint {
      */
     public function create(AttachmentFile $attachmentFile) {
         if (!$attachmentFile->filename || !$attachmentFile->content) {
-            throw new \InvalidArgumentException('attachment is invalid!');
+            throw new \InvalidArgumentException('Invalid attachment - empty file name and/or content.');
         }
         $responseBody = $this->api->run(
             $this->getUri(),

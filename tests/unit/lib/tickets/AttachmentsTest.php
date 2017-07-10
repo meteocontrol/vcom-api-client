@@ -64,7 +64,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage attachment is invalid!
+     * @expectedExceptionMessage Invalid attachment - empty file name and/or content.
      */
     public function testCreateAttachmentButFilenameIsInvalid() {
         $this->api->expects($this->never())
@@ -75,7 +75,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage attachment is invalid!
+     * @expectedExceptionMessage Invalid attachment - empty file name and/or content.
      */
     public function testCreateAttachmentButContentIsInvalid() {
         $this->api->expects($this->never())
