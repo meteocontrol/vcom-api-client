@@ -24,10 +24,11 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
     }
 
     /**
+     * @param ClientException $ex
      * @param Client $client
      * @throws UnauthorizedException
      */
-    public function handleUnauthorizedException(Client $client) {
+    public function handleUnauthorizedException(ClientException $ex, Client $client) {
         $this->doOAuthRefresh($client);
     }
 
@@ -71,7 +72,10 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
             if (!in_array($ex->getResponse()->getStatusCode(), [400, 401, 403])) {
                 throw $ex;
             }
-            throw new UnauthorizedException($ex->getResponse()->getBody()->getContents());
+            throw new UnauthorizedException(
+                $ex->getResponse()->getBody()->getContents(),
+                $ex->getResponse()->getStatusCode()
+            );
         }
     }
 
@@ -99,7 +103,10 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
             if (!in_array($ex->getResponse()->getStatusCode(), [400, 401, 403])) {
                 throw $ex;
             }
-            throw new UnauthorizedException($ex->getResponse()->getBody()->getContents());
+            throw new UnauthorizedException(
+                $ex->getResponse()->getBody()->getContents(),
+                $ex->getResponse()->getStatusCode()
+            );
         }
     }
 }
