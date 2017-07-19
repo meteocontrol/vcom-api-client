@@ -21,8 +21,8 @@ class Batteries extends SubEndpoint {
      * @return Battery[]
      */
     public function get() {
-        $invertersJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($invertersJson, true);
+        $json = $this->api->run($this->getUri());
+        $decodedJson = json_decode($json, true);
         return Battery::deserializeArray($decodedJson['data']);
     }
 
