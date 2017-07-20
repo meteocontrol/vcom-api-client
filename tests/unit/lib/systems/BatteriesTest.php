@@ -55,7 +55,7 @@ class BatteriesTest extends \PHPUnit_Framework_TestCase {
         /** @var BatteryDetail $battery */
         $battery = $this->api->system('ABCDE')->battery('145103')->get();
 
-        $this->assertEquals(145103, $battery->id);
+        $this->assertEquals('145103', $battery->id);
         $this->assertEquals('', $battery->name);
         $this->assertEquals('bat1', $battery->address);
     }
