@@ -269,9 +269,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'form_params' => [
                         'grant_type' => 'password',
                         'username' => 'test-api-username',
-                        'password' => 'test-api-password',
-                        'client_id' => 'vcom-api',
-                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
+                        'password' => 'test-api-password'
                     ]
                 ]
             ], [
@@ -279,9 +277,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',
-                        'refresh_token' => 'refreshToken',
-                        'client_id' => 'vcom-api',
-                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
+                        'refresh_token' => 'refreshToken'
                     ]
                 ]
             ])
@@ -329,9 +325,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                     'form_params' => [
                         'grant_type' => 'password',
                         'username' => 'test-api-username',
-                        'password' => 'test-api-password',
-                        'client_id' => 'vcom-api',
-                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
+                        'password' => 'test-api-password'
                     ]
                 ]
             ], [
@@ -339,9 +333,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',
-                        'refresh_token' => 'refreshToken',
-                        'client_id' => 'vcom-api',
-                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
+                        'refresh_token' => 'refreshToken'
                     ]
                 ]
             ])
