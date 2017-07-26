@@ -59,9 +59,7 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
                     'form_params' => [
                         'grant_type' => 'password',
                         'username' => $this->config->getApiUsername(),
-                        'password' => $this->config->getApiPassword(),
-                        'client_id' => 'vcom-api',
-                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
+                        'password' => $this->config->getApiPassword()
                     ]
                 ]
             );
@@ -90,9 +88,7 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',
-                        'refresh_token' => $this->refreshToken,
-                        'client_id' => 'vcom-api',
-                        'client_secret' => 'AYB=~9_f-BvNoLt8+x=3maCq)>/?@Nom'
+                        'refresh_token' => $this->refreshToken
                     ]
                 ]
             );
