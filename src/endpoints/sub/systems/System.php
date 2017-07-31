@@ -124,6 +124,13 @@ class System extends SubEndpoint {
     }
 
     /**
+     * @return Stringbox
+     */
+    public function stringbox() {
+        return new StringBox($this);
+    }
+
+    /**
      * @return TechnicalData
      */
     public function technicalData() {
