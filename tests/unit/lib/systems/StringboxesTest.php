@@ -7,6 +7,8 @@ use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
+use meteocontrol\client\vcomapi\model\Stringbox;
+use meteocontrol\client\vcomapi\model\StringboxDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 
@@ -23,6 +25,32 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
             ->setConstructorArgs([$client, $authHandler])
             ->setMethods(['run'])
             ->getMock();
+    }
+
+    public function testGetStringboxDevices() {
+        $json = file_get_contents(__DIR__ . '/responses/getStringboxes.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/stringboxes')
+            )
+            ->willReturn($json);
+        $expectedDevices = $this->getExpectedStringBoxDevices();
+        $actualDevices = $this->api->system('ABCDE')->stringboxes()->get();
+        $this->assertEquals($expectedDevices, $actualDevices);
+    }
+
+    public function testGetSingleStringboxDevice() {
+        $json = file_get_contents(__DIR__ . '/responses/getStringbox.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/stringboxes/919859')
+            )
+            ->willReturn($json);
+        $expectedDevice = $this->getExpectedStringBoxDevice();
+        $actualDevice = $this->api->system('ABCDE')->stringbox("919859")->get();
+        $this->assertEquals($expectedDevice, $actualDevice);
     }
 
     public function testGetStringboxesBulkData() {
@@ -80,5 +108,31 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
             ->withDelimiter(CsvFormat::DELIMITER_COLON)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COLON);
         $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
+    }
+
+    /**
+     * @return Stringbox[]
+     */
+    private function getExpectedStringBoxDevices() {
+        $device1 = new Stringbox();
+        $device1->id = "919859";
+        $device1->name = "GAK 11 - 1";
+        $device1->serial = "11G1";
+        $device2 = new Stringbox();
+        $device2->id = "919860";
+        $device2->name = "GAK 11 - 2";
+        $device2->serial = "11G2";
+        return [$device1, $device2];
+    }
+
+    /**
+     * @return StringboxDetail
+     */
+    private function getExpectedStringBoxDevice() {
+        $device = new StringboxDetail();
+        $device->id = "919859";
+        $device->name = "GAK 11 - 1";
+        $device->serial = "11G1";
+        return $device;
     }
 }

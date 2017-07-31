@@ -6,7 +6,7 @@ use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\model\Stringbox;
 
-class StringBoxes extends SubEndpoint {
+class Stringboxes extends SubEndpoint {
 
     /**
      * @param EndpointInterface $parent
