@@ -12,7 +12,7 @@ class Stringbox extends SubEndpoint {
      * @param EndpointInterface $parent
      */
     public function __construct(EndpointInterface $parent) {
-        $this->uri = '/stringbox';
+        $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
