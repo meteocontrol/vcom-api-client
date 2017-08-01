@@ -9,7 +9,4 @@ class Stringbox extends BaseModel {
 
     /** @var string */
     public $name;
-
-    /** @var string */
-    public $serial;
 }
