@@ -123,7 +123,7 @@ class ApiClient {
                 'D, d M Y H:i:s \G\M\T',
                 $response->getHeaderLine('X-RateLimit-Reset-Minute')
             );
-            usleep(($resetTime->getTimestamp() - $requestTime->getTimestamp()) * 1000000);
+            usleep(($resetTime->getTimestamp() - $requestTime->getTimestamp() + 2) * 1000000);
         }
 
         return $response->getBody()->getContents();
