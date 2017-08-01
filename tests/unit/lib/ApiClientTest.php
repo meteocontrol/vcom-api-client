@@ -401,7 +401,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
 
         self::$us = 0;
         $apiClient->run('url');
-        $this->assertEquals(2000000, self::$us);
+        $this->assertEquals(4000000, self::$us);
     }
 
     private function getResponseMock() {
