@@ -4,8 +4,9 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\model\Stringbox;
 
-class StringBoxes extends SubEndpoint {
+class Stringboxes extends SubEndpoint {
 
     /**
      * @param EndpointInterface $parent
@@ -14,6 +15,15 @@ class StringBoxes extends SubEndpoint {
         $this->uri = '/stringboxes';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
+    }
+
+    /**
+     * Stringbox[]
+     */
+    public function get() {
+        $invertersJson = $this->api->run($this->getUri());
+        $decodedJson = json_decode($invertersJson, true);
+        return Stringbox::deserializeArray($decodedJson['data']);
     }
 
     /**
