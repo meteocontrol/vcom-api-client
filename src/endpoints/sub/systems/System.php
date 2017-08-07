@@ -117,10 +117,21 @@ class System extends SubEndpoint {
     }
 
     /**
-     * @return StringBoxes
+     * @return Stringboxes
      */
     public function stringboxes() {
-        return new StringBoxes($this);
+        return new Stringboxes($this);
+    }
+
+    /**
+     * @param string|array $deviceId
+     * @return StringBox
+     */
+    public function stringbox($deviceId) {
+        $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
+        $stringboxes = new Stringboxes($this);
+        $stringboxIdEndpoint = new DeviceId($stringboxes, $deviceId);
+        return new \meteocontrol\client\vcomapi\endpoints\sub\systems\Stringbox($stringboxIdEndpoint);
     }
 
     /**
