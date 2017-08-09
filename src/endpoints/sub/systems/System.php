@@ -99,10 +99,39 @@ class System extends SubEndpoint {
     }
 
     /**
-     * @return StringBoxes
+     * @return Batteries
+     */
+    public function batteries() {
+        return new Batteries($this);
+    }
+
+    /**
+     * @param string|array $deviceId
+     * @return Battery
+     */
+    public function battery($deviceId) {
+        $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
+        $batteries = new Batteries($this);
+        $batteryIdEndpoint = new DeviceId($batteries, $deviceId);
+        return new \meteocontrol\client\vcomapi\endpoints\sub\systems\Battery($batteryIdEndpoint);
+    }
+
+    /**
+     * @return Stringboxes
      */
     public function stringboxes() {
-        return new StringBoxes($this);
+        return new Stringboxes($this);
+    }
+
+    /**
+     * @param string|array $deviceId
+     * @return StringBox
+     */
+    public function stringbox($deviceId) {
+        $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
+        $stringboxes = new Stringboxes($this);
+        $stringboxIdEndpoint = new DeviceId($stringboxes, $deviceId);
+        return new \meteocontrol\client\vcomapi\endpoints\sub\systems\Stringbox($stringboxIdEndpoint);
     }
 
     /**
