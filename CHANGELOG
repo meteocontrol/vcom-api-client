@@ -6,3 +6,4 @@
 2017-05-26: Add support for session resource
 2017-05-31: Add scale factor for interver endpoint
 2017-06-29: Support Users and Responsiblities endpoint
+2017-08-09: Add battery, stringboxes, ticket attachemnt and support OAuth2
