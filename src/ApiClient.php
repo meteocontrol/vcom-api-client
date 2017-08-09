@@ -3,28 +3,29 @@
 namespace meteocontrol\client\vcomapi;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use meteocontrol\client\vcomapi\endpoints\main\Session;
 use meteocontrol\client\vcomapi\endpoints\main\Systems;
 use meteocontrol\client\vcomapi\endpoints\main\Tickets;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\System;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\SystemId;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\TicketId;
+use meteocontrol\client\vcomapi\handlers\AuthorizationHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ApiClient {
-
-    /** @var Config */
-    private $config;
     /** @var Client */
     private $client;
+    /** @var AuthorizationHandlerInterface */
+    private $authorizationHandler;
 
     /**
-     * @param Config $config
      * @param Client $client
+     * @param AuthorizationHandlerInterface $authorizationHandler
      */
-    public function __construct(Config $config, Client $client) {
-        $this->config = $config;
+    public function __construct(Client $client, AuthorizationHandlerInterface $authorizationHandler) {
         $this->client = $client;
+        $this->authorizationHandler = $authorizationHandler;
     }
 
     /**
@@ -42,8 +43,8 @@ class ApiClient {
         $client = Factory::getHttpClient($config);
 
         return new ApiClient(
-            $config,
-            $client
+            $client,
+            Factory::getAuthorizationHandler($config)
         );
     }
 
@@ -102,6 +103,38 @@ class ApiClient {
     public function run($uri, $queryParams = null, $body = null, $method = 'GET') {
         /** @var $response ResponseInterface */
         $response = null;
+        $options = $this->getRequestOptions($queryParams, $body);
+
+        try {
+            $response = $this->sendRequest($uri, $method, $options);
+        } catch (ClientException $ex) {
+            if ($ex->getResponse()->getStatusCode() === 401) {
+                $this->authorizationHandler->handleUnauthorizedException($ex, $this->client);
+                $options = $this->getRequestOptions($queryParams, $body);
+                $response = $this->sendRequest($uri, $method, $options);
+            } else {
+                throw $ex;
+            }
+        }
+
+        if ($response->getHeaderLine('X-RateLimit-Remaining-Minute') == '1') {
+            $requestTime = date_create_from_format('D, d M Y H:i:s \G\M\T', $response->getHeaderLine('Date'));
+            $resetTime = date_create_from_format(
+                'D, d M Y H:i:s \G\M\T',
+                $response->getHeaderLine('X-RateLimit-Reset-Minute')
+            );
+            usleep(($resetTime->getTimestamp() - $requestTime->getTimestamp() + 2) * 1000000);
+        }
+
+        return $response->getBody()->getContents();
+    }
+
+    /**
+     * @param array|string|null $queryParams
+     * @param string|null $body
+     * @return array
+     */
+    private function getRequestOptions($queryParams, $body) {
         $options = [
             'query' => $queryParams ?: null,
             'body' => $body ?: null,
@@ -111,6 +144,17 @@ class ApiClient {
             ],
         ];
 
+        return $this->authorizationHandler->appendAuthorizationHeader($this->client, $options);
+    }
+
+    /**
+     * @param string $uri
+     * @param string $method
+     * @param array $options
+     * @return ResponseInterface
+     * @throws ApiClientException
+     */
+    private function sendRequest($uri, $method, array $options) {
         switch (strtoupper($method)) {
             case 'GET':
                 $response = $this->client->get($uri, $options);
@@ -127,16 +171,6 @@ class ApiClient {
             default:
                 throw new ApiClientException('Unacceptable HTTP method ' . $method);
         }
-
-        if ($response->getHeaderLine('X-RateLimit-Remaining-Minute') == '1') {
-            $requestTime = date_create_from_format('D, d M Y H:i:s \G\M\T', $response->getHeaderLine('Date'));
-            $resetTime = date_create_from_format(
-                'D, d M Y H:i:s \G\M\T',
-                $response->getHeaderLine('X-RateLimit-Reset-Minute')
-            );
-            usleep(($resetTime->getTimestamp() - $requestTime->getTimestamp()) * 1000000);
-        }
-
-        return $response->getBody()->getContents();
+        return $response;
     }
 }

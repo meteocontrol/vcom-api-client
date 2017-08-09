@@ -1,0 +1,8 @@
+{
+  "data": {
+    "aggregation": "AVG",
+    "precision": null,
+    "description": "Current DC",
+    "unit": "A"
+  }
+}
