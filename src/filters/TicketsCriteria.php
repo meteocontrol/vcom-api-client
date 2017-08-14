@@ -147,7 +147,8 @@ class TicketsCriteria {
     }
 
     /**
-     * @param array | string $severity Ticket::SEVERITY_NORMAL | Ticket::SEVERITY_HIGH | Ticket::SEVERITY_CRITICAL $severity
+     * @param array | string $severity Ticket::SEVERITY_NORMAL | Ticket::SEVERITY_HIGH |
+     *                       Ticket::SEVERITY_CRITICAL $severity
      * @return TicketsCriteria
      */
     public function withSeverity($severity) {
