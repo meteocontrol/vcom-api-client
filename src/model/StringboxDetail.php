@@ -12,4 +12,7 @@ class StringboxDetail extends BaseModel {
 
     /** @var string */
     public $serial;
+
+    /** @var float */
+    public $scaleFactor;
 }

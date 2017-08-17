@@ -223,6 +223,7 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
         $device->id = "816639";
         $device->name = "E18.S01 A";
         $device->serial = "12933";
+        $device->scaleFactor = 2.0;
         return $device;
     }
 }
