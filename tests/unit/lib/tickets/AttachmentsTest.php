@@ -44,6 +44,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->with($this->identicalTo('tickets/123/attachments/1234'))
             ->willReturn($json);
         $actual = $this->api->ticket(123)->attachment(1234)->get();
+        $this->assertEquals(1234, $actual->getId());
         $this->assertEquals("test.jpg", $actual->getFilename());
         $this->assertEquals($this->getTestAttachment(), $actual->getContent());
     }
