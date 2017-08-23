@@ -4,6 +4,9 @@ namespace meteocontrol\client\vcomapi\model;
 
 class AttachmentFile extends BaseModel {
 
+    /** @var int */
+    public $attachmentId;
+
     /** @var string */
     public $filename;
 
@@ -33,6 +36,20 @@ class AttachmentFile extends BaseModel {
             }
         }
         return $classInstance;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id) {
+        $this->attachmentId = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId() {
+        return $this->attachmentId;
     }
 
     /**
