@@ -41,7 +41,8 @@ class Ticket extends SubEndpoint {
                 'includeInReports' => $ticket->includeInReports,
                 'status' => $ticket->status,
                 'priority' => $ticket->priority,
-                'description' => $ticket->description
+                'description' => $ticket->description,
+                'assignee' => $ticket->assignee
             ];
         } else {
             $fields = $this->applyFilter($updateFilter, $ticket);
