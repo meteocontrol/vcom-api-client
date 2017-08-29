@@ -40,7 +40,8 @@ class Attachments extends SubEndpoint {
             json_encode(
                 [
                     'filename' => basename($attachmentFile->filename),
-                    'content' => $attachmentFile->content
+                    'content' => $attachmentFile->content,
+                    'description' => $attachmentFile->description
                 ],
                 79
             ),

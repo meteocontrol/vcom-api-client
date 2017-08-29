@@ -44,9 +44,13 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->with($this->identicalTo('tickets/123/attachments/1234'))
             ->willReturn($json);
         $actual = $this->api->ticket(123)->attachment(1234)->get();
+        $expectedCreatedDatetime = new \DateTime("2017-08-29T03:22:23", new \DateTimeZone("UTC"));
         $this->assertEquals(1234, $actual->getId());
         $this->assertEquals("test.jpg", $actual->getFilename());
         $this->assertEquals($this->getTestAttachment(), $actual->getContent());
+        $this->assertEquals(12345, $actual->getCreatorId());
+        $this->assertEquals("test attachment", $actual->getDescription());
+        $this->assertEquals($expectedCreatedDatetime, $actual->getCreated());
     }
 
     public function testCreateAttachment() {
@@ -59,7 +63,10 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
                 $this->getPostAttachmentRequestBody(),
                 'POST'
             )->willReturn($json);
-        $attachment = new AttachmentFile("test.jpg", $this->getTestAttachment());
+        $attachment = new AttachmentFile();
+        $attachment->setDescription("test attachment");
+        $attachment->setFilename("test.jpg");
+        $attachment->setContent($this->getTestAttachment());
         $actual = $this->api->ticket(123)->attachments()->create($attachment);
         $this->assertEquals("1234", $actual['attachmentId']);
         $this->assertEquals("test.jpg", $actual['filename']);
@@ -72,7 +79,8 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
     public function testCreateAttachmentButFilenameIsInvalid() {
         $this->api->expects($this->never())
             ->method('run');
-        $attachment = new AttachmentFile(null, $this->getTestAttachment());
+        $attachment = new AttachmentFile();
+        $attachment->setContent($this->getTestAttachment());
         $this->api->ticket(123)->attachments()->create($attachment);
     }
 
@@ -83,7 +91,8 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
     public function testCreateAttachmentButContentIsInvalid() {
         $this->api->expects($this->never())
             ->method('run');
-        $attachment = new AttachmentFile("test.jpg", null);
+        $attachment = new AttachmentFile();
+        $attachment->setFilename("test.jpg");
         $this->api->ticket(123)->attachments()->create($attachment);
     }
 
@@ -121,7 +130,8 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
     private function getPostAttachmentRequestBody() {
         $data = [
             "filename" => "test.jpg",
-            "content" => $this->encodeContent($this->getTestAttachment())
+            "content" => $this->encodeContent($this->getTestAttachment()),
+            "description" => "test attachment"
         ];
         return json_encode($data, 79);
     }
