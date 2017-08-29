@@ -13,29 +13,24 @@ class AttachmentFile extends BaseModel {
     /** @var string */
     public $content;
 
-    /**
-     * @param string $filename
-     * @param string $content
-     */
-    public function __construct($filename, $content) {
-        $this->content = $this->encodeContent($content);
-        $this->filename = basename($filename);
-    }
+    /** @var string */
+    public $description;
+
+    /** @var int */
+    public $creatorId;
+
+    /** @var \DateTime */
+    public $created;
 
     /**
-     * @param array $data
-     * @param null|string $name
-     * @return $this
+     * @param string | null $filename
+     * @param string | null $content
+     * @param string | null $description
      */
-    public static function deserialize(array $data, $name = null) {
-        $className = get_called_class();
-        $classInstance = new $className(null, null);
-        foreach ($data as $key => $value) {
-            if (property_exists($className, $key)) {
-                $classInstance->{$key} = self::getPhpValue($value);
-            }
-        }
-        return $classInstance;
+    public function __construct($filename = null, $content = null, $description = null) {
+        $this->content = $this->encodeContent($content);
+        $this->filename = $filename ? basename($filename) : null;
+        $this->description = $description;
     }
 
     /**
@@ -78,6 +73,41 @@ class AttachmentFile extends BaseModel {
      */
     public function getFilename() {
         return $this->filename;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description) {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription() {
+        return $this->description;
+    }
+
+    /**
+     * @param int $creatorId
+     */
+    public function setCreatorId($creatorId) {
+        $this->creatorId = $creatorId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCreatorId() {
+        return $this->creatorId;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated() {
+        return $this->created;
     }
 
     /**
