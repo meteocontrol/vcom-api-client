@@ -179,7 +179,8 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
                             'includeInReports' => 'detail',
                             'status' => 'closed',
                             'priority' => 'urgent',
-                            'description' => 'description'
+                            'description' => 'description',
+                            'assignee' => 9823
                         ]
                     ),
                     'PATCH'
@@ -288,6 +289,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $ticket->status = Ticket::STATUS_CLOSED;
         $ticket->priority = Ticket::PRIORITY_URGENT;
         $ticket->description = 'description';
+        $ticket->assignee = 9823;
         return $ticket;
     }
 }
