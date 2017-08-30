@@ -45,6 +45,7 @@ class Tickets extends MainEndpoint {
         empty($ticket->status) ?: $fields['status'] = $ticket->status;
         empty($ticket->priority) ?: $fields['priority'] = $ticket->priority;
         empty($ticket->includeInReports) ?: $fields['includeInReports'] = $ticket->includeInReports;
+        empty($ticket->assignee) ?: $fields['assignee'] = $ticket->assignee;
 
         $responseBody = $this->api->run(
             $this->uri,
