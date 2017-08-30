@@ -179,9 +179,10 @@ class AttachmentFile extends BaseModel {
      * @return string
      */
     private static function getSetterMethodName($key) {
-        if ($key === "content") {
-            $key = "EncodedContent";
+        $param = $key;
+        if ($param === "content") {
+            $param = "EncodedContent";
         }
-        return "set" . ucfirst($key);
+        return "set" . ucfirst($param);
     }
 }
