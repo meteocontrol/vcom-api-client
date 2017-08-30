@@ -55,14 +55,14 @@ class AttachmentFile extends BaseModel {
     /**
      * @param int $id
      */
-    public function setAttachmentId($id) {
+    public function setId($id) {
         $this->attachmentId = $id;
     }
 
     /**
      * @return int
      */
-    public function getAttachmentId() {
+    public function getId() {
         return $this->attachmentId;
     }
 
@@ -180,8 +180,13 @@ class AttachmentFile extends BaseModel {
      */
     private static function getSetterMethodName($key) {
         $param = $key;
-        if ($param === "content") {
-            $param = "EncodedContent";
+        switch ($key) {
+            case "content":
+                $param = "encodedContent";
+                break;
+            case "attachmentId":
+                $param = "id";
+                break;
         }
         return "set" . ucfirst($param);
     }
