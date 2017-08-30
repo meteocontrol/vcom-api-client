@@ -11,6 +11,9 @@ class AttachmentFile extends BaseModel {
     private $filename;
 
     /** @var string */
+    private $content;
+
+    /** @var string */
     private $encodedContent;
 
     /** @var string */
@@ -28,14 +31,14 @@ class AttachmentFile extends BaseModel {
      * @param string | null $description
      */
     public function __construct($filename = null, $content = null, $description = null) {
-        $this->encodedContent = $this->encodeContent($content);
-        $this->filename = $filename ? basename($filename) : null;
-        $this->description = $description;
+        $this->setContent($content);
+        $this->setFilename($filename);
+        $this->setDescription($description);
     }
 
     /**
      * @param array $data
-     * @param null|string $name
+     * @param string | null $name
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
@@ -44,8 +47,6 @@ class AttachmentFile extends BaseModel {
         foreach ($data as $key => $value) {
             if (property_exists($className, $key)) {
                 $classInstance->{self::getSetterMethodName($key)}(self::getPhpValue($value));
-            } elseif ($key == "content") {
-                $classInstance->{"setEncodedContent"}(self::getPhpValue($value));
             }
         }
         return $classInstance;
@@ -66,23 +67,25 @@ class AttachmentFile extends BaseModel {
     }
 
     /**
-     * @param string $encodedContent
+     * @param string $content
      */
-    public function setContent($encodedContent) {
-        $this->encodedContent = $this->encodeContent($encodedContent);
+    public function setContent($content) {
+        $this->content = $content;
+        $this->encodedContent = $this->base64Encode($content);
     }
 
     /**
      * @return string
      */
     public function getContent() {
-        return $this->decodeContent($this->encodedContent);
+        return $this->content;
     }
 
     /**
      * @param string $encodedContent
      */
     public function setEncodedContent($encodedContent) {
+        $this->content = $this->base64Decode($encodedContent);
         $this->encodedContent = $encodedContent;
     }
 
@@ -97,7 +100,7 @@ class AttachmentFile extends BaseModel {
      * @param string $filename
      */
     public function setFilename($filename) {
-        $this->filename = basename($filename);
+        $this->filename = $filename ? basename($filename) : null;
     }
 
     /**
@@ -151,20 +154,21 @@ class AttachmentFile extends BaseModel {
 
     /**
      * @param string $content
+     * @param string $type
      * @return string | null
      */
-    private function encodeContent($content) {
+    private function base64Encode($content, $type = "image/jpeg") {
         if (!$content) {
             return null;
         }
-        return 'data:' . "image/jpeg" . ';base64,' . base64_encode($content);
+        return 'data:' . $type . ';base64,' . base64_encode($content);
     }
 
     /**
      * @param string $encodedContent
      * @return string
      */
-    private function decodeContent($encodedContent) {
+    private function base64Decode($encodedContent) {
         list(, $data) = explode(';', $encodedContent);
         list(, $data) = explode(',', $data);
         return base64_decode($data);
@@ -175,6 +179,9 @@ class AttachmentFile extends BaseModel {
      * @return string
      */
     private static function getSetterMethodName($key) {
+        if ($key === "content") {
+            $key = "EncodedContent";
+        }
         return "set" . ucfirst($key);
     }
 }
