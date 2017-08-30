@@ -11,7 +11,7 @@ class AttachmentFile extends BaseModel {
     private $filename;
 
     /** @var string */
-    private $content;
+    private $encodedContent;
 
     /** @var string */
     private $description;
@@ -28,7 +28,7 @@ class AttachmentFile extends BaseModel {
      * @param string | null $description
      */
     public function __construct($filename = null, $content = null, $description = null) {
-        $this->content = $this->encodeContent($content);
+        $this->encodedContent = $this->encodeContent($content);
         $this->filename = $filename ? basename($filename) : null;
         $this->description = $description;
     }
@@ -44,6 +44,8 @@ class AttachmentFile extends BaseModel {
         foreach ($data as $key => $value) {
             if (property_exists($className, $key)) {
                 $classInstance->{self::getSetterMethodName($key)}(self::getPhpValue($value));
+            } elseif ($key == "content") {
+                $classInstance->{"setEncodedContent"}(self::getPhpValue($value));
             }
         }
         return $classInstance;
@@ -64,31 +66,31 @@ class AttachmentFile extends BaseModel {
     }
 
     /**
-     * @param string $content
+     * @param string $encodedContent
      */
-    public function setContent($content) {
-        $this->content = $this->encodeContent($content);
+    public function setContent($encodedContent) {
+        $this->encodedContent = $this->encodeContent($encodedContent);
     }
 
     /**
      * @return string
      */
     public function getContent() {
-        return $this->decodeContent($this->content);
+        return $this->decodeContent($this->encodedContent);
     }
 
     /**
      * @param string $encodedContent
      */
     public function setEncodedContent($encodedContent) {
-        $this->content = $encodedContent;
+        $this->encodedContent = $encodedContent;
     }
 
     /**
      * @return string
      */
     public function getEncodedContent() {
-        return $this->content;
+        return $this->encodedContent;
     }
 
     /**
@@ -173,10 +175,6 @@ class AttachmentFile extends BaseModel {
      * @return string
      */
     private static function getSetterMethodName($key) {
-        if ($key == "content") {
-            return "setEncodedContent";
-        } else {
-            return "set" . ucfirst($key);
-        }
+        return "set" . ucfirst($key);
     }
 }
