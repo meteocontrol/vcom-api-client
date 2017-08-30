@@ -45,7 +45,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->willReturn($json);
         $actual = $this->api->ticket(123)->attachment(1234)->get();
         $expectedCreatedDatetime = new \DateTime("2017-08-29T03:22:23", new \DateTimeZone("UTC"));
-        $this->assertEquals(1234, $actual->getId());
+        $this->assertEquals(1234, $actual->getAttachmentId());
         $this->assertEquals("test.jpg", $actual->getFilename());
         $this->assertEquals($this->getTestAttachment(), $actual->getContent());
         $this->assertEquals(12345, $actual->getCreatorId());

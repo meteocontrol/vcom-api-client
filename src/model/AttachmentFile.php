@@ -5,22 +5,22 @@ namespace meteocontrol\client\vcomapi\model;
 class AttachmentFile extends BaseModel {
 
     /** @var int */
-    public $attachmentId;
+    private $attachmentId;
 
     /** @var string */
-    public $filename;
+    private $filename;
 
     /** @var string */
-    public $content;
+    private $content;
 
     /** @var string */
-    public $description;
+    private $description;
 
     /** @var int */
-    public $creatorId;
+    private $creatorId;
 
     /** @var \DateTime */
-    public $created;
+    private $created;
 
     /**
      * @param string | null $filename
@@ -34,16 +34,32 @@ class AttachmentFile extends BaseModel {
     }
 
     /**
+     * @param array $data
+     * @param null|string $name
+     * @return $this
+     */
+    public static function deserialize(array $data, $name = null) {
+        $className = get_called_class();
+        $classInstance = new $className();
+        foreach ($data as $key => $value) {
+            if (property_exists($className, $key)) {
+                $classInstance->{self::getSetterMethodName($key)}(self::getPhpValue($value));
+            }
+        }
+        return $classInstance;
+    }
+
+    /**
      * @param int $id
      */
-    public function setId($id) {
+    public function setAttachmentId($id) {
         $this->attachmentId = $id;
     }
 
     /**
      * @return int
      */
-    public function getId() {
+    public function getAttachmentId() {
         return $this->attachmentId;
     }
 
@@ -59,6 +75,20 @@ class AttachmentFile extends BaseModel {
      */
     public function getContent() {
         return $this->decodeContent($this->content);
+    }
+
+    /**
+     * @param string $encodedContent
+     */
+    public function setEncodedContent($encodedContent) {
+        $this->content = $encodedContent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncodedContent() {
+        return $this->content;
     }
 
     /**
@@ -111,6 +141,13 @@ class AttachmentFile extends BaseModel {
     }
 
     /**
+     * @param \DateTime $created
+     */
+    public function setCreated(\DateTime $created) {
+        $this->created = $created;
+    }
+
+    /**
      * @param string $content
      * @return string | null
      */
@@ -129,5 +166,17 @@ class AttachmentFile extends BaseModel {
         list(, $data) = explode(';', $encodedContent);
         list(, $data) = explode(',', $data);
         return base64_decode($data);
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    private static function getSetterMethodName($key) {
+        if ($key == "content") {
+            return "setEncodedContent";
+        } else {
+            return "set" . ucfirst($key);
+        }
     }
 }

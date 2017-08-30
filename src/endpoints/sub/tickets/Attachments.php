@@ -31,7 +31,7 @@ class Attachments extends SubEndpoint {
      * @return array
      */
     public function create(AttachmentFile $attachmentFile) {
-        if (!$attachmentFile->filename || !$attachmentFile->content) {
+        if (!$attachmentFile->getFilename() || !$attachmentFile->getEncodedContent()) {
             throw new \InvalidArgumentException('Invalid attachment - empty file name and/or content.');
         }
         $responseBody = $this->api->run(
@@ -39,9 +39,9 @@ class Attachments extends SubEndpoint {
             null,
             json_encode(
                 [
-                    'filename' => basename($attachmentFile->filename),
-                    'content' => $attachmentFile->content,
-                    'description' => $attachmentFile->description
+                    'filename' => basename($attachmentFile->getFilename()),
+                    'content' => $attachmentFile->getEncodedContent(),
+                    'description' => $attachmentFile->getDescription()
                 ],
                 79
             ),
