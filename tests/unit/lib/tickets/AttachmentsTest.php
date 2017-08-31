@@ -47,7 +47,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
         $expectedCreatedDatetime = new \DateTime("2017-08-29T03:22:23", new \DateTimeZone("UTC"));
         $this->assertEquals(1234, $actual->attachmentId);
         $this->assertEquals("test.jpg", $actual->filename);
-        $this->assertEquals($this->getTestAttachment(), $actual->content);
+        $this->assertEquals($this->getEncodedTestAttachment(), $actual->content);
         $this->assertEquals(12345, $actual->creatorId);
         $this->assertEquals("test attachment", $actual->description);
         $this->assertEquals($expectedCreatedDatetime, $actual->created);
@@ -66,7 +66,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
         $attachment = new AttachmentFile();
         $attachment->description = "test attachment";
         $attachment->filename = "test.jpg";
-        $attachment->content = $this->getTestAttachment();
+        $attachment->content = $this->getEncodedTestAttachment();
         $actual = $this->api->ticket(123)->attachments()->create($attachment);
         $this->assertEquals("1234", $actual['attachmentId']);
         $this->assertEquals("test.jpg", $actual['filename']);
@@ -80,7 +80,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
         $this->api->expects($this->never())
             ->method('run');
         $attachment = new AttachmentFile();
-        $attachment->content = $this->getTestAttachment();
+        $attachment->content = $this->getEncodedTestAttachment();
         $this->api->ticket(123)->attachments()->create($attachment);
     }
 
@@ -113,8 +113,8 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
     /**
      * @return string
      */
-    private function getTestAttachment() {
-        return file_get_contents(__DIR__ . "/responses/test.jpg");
+    private function getEncodedTestAttachment() {
+        return $this->encodeContent(file_get_contents(__DIR__ . "/responses/test.jpg"));
     }
 
     /**
@@ -130,7 +130,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
     private function getPostAttachmentRequestBody() {
         $data = [
             "filename" => "test.jpg",
-            "content" => $this->encodeContent($this->getTestAttachment()),
+            "content" => $this->getEncodedTestAttachment(),
             "description" => "test attachment"
         ];
         return json_encode($data, 79);
