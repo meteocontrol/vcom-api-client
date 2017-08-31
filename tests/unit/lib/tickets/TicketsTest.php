@@ -275,6 +275,50 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->api->ticket(123)->delete();
     }
 
+    public function testGetTicketHistories() {
+        $json = file_get_contents(__DIR__ . '/responses/getTicketHistores.json');
+
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo('tickets/123/histories'))
+            ->willReturn($json);
+
+        /** @var \meteocontrol\client\vcomapi\model\TicketHistory[] $histories */
+        $histories = $this->api->ticket(123)->histories()->get();
+
+        $this->assertCount(3, $histories);
+
+        $history = $histories[0];
+        $this->assertEquals(
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T01:42:03+00:00'),
+            $history->timestamp
+        );
+        $this->assertSame('statusChanged', $history->action);
+        $this->assertSame(91366, $history->personInCharge);
+        $this->assertSame('open', $history->from);
+        $this->assertSame('inProgress', $history->to);
+
+        $history = $histories[1];
+        $this->assertEquals(
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:18:51+00:00'),
+            $history->timestamp
+        );
+        $this->assertSame('assigneeChanged', $history->action);
+        $this->assertSame(91366, $history->personInCharge);
+        $this->assertSame(null, $history->from);
+        $this->assertSame(111, $history->to);
+
+        $history = $histories[2];
+        $this->assertEquals(
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:19:41+00:00'),
+            $history->timestamp
+        );
+        $this->assertSame('assigneeChanged', $history->action);
+        $this->assertSame(91366, $history->personInCharge);
+        $this->assertSame(111, $history->from);
+        $this->assertSame(91366, $history->to);
+    }
+
     /**
      * @return Ticket
      */
