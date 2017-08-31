@@ -43,7 +43,7 @@ class Attachments extends SubEndpoint {
             json_encode(
                 [
                     'filename' => basename($attachmentFile->filename),
-                    'content' => $this->encodeContent($attachmentFile->content),
+                    'content' => $attachmentFile->content,
                     'description' => $attachmentFile->description
                 ],
                 79
@@ -52,13 +52,5 @@ class Attachments extends SubEndpoint {
         );
         $decodedJson = json_decode($responseBody, true);
         return $decodedJson['data'];
-    }
-
-    /**
-     * @param string $content
-     * @return string
-     */
-    private function encodeContent($content) {
-        return 'data:' . "image/jpeg" . ';base64,' . base64_encode($content);
     }
 }
