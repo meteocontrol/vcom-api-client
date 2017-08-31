@@ -294,7 +294,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertSame('statusChanged', $history->action);
-        $this->assertSame(91366, $history->personInCharge);
+        $this->assertSame('userB', $history->personInCharge);
         $this->assertSame('open', $history->from);
         $this->assertSame('inProgress', $history->to);
 
@@ -304,9 +304,9 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertSame('assigneeChanged', $history->action);
-        $this->assertSame(91366, $history->personInCharge);
+        $this->assertSame('userB', $history->personInCharge);
         $this->assertSame(null, $history->from);
-        $this->assertSame(111, $history->to);
+        $this->assertSame('userA', $history->to);
 
         $history = $histories[2];
         $this->assertEquals(
@@ -314,9 +314,9 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertSame('assigneeChanged', $history->action);
-        $this->assertSame(91366, $history->personInCharge);
-        $this->assertSame(111, $history->from);
-        $this->assertSame(91366, $history->to);
+        $this->assertSame('userB', $history->personInCharge);
+        $this->assertSame('userA', $history->from);
+        $this->assertSame('userB', $history->to);
     }
 
     /**

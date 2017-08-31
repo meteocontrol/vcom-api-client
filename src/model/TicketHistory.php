@@ -7,7 +7,7 @@ class TicketHistory extends BaseModel {
     public $timestamp;
     /** @var string */
     public $action;
-    /** @var int */
+    /** @var string */
     public $personInCharge;
     /** @var null|int|string */
     public $from;
