@@ -56,12 +56,9 @@ class Attachments extends SubEndpoint {
 
     /**
      * @param string $content
-     * @return string | null
+     * @return string
      */
     private function encodeContent($content) {
-        if (!$content) {
-            return null;
-        }
         return 'data:' . "image/jpeg" . ';base64,' . base64_encode($content);
     }
 }
