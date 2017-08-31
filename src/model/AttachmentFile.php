@@ -33,7 +33,7 @@ class AttachmentFile extends BaseModel {
         foreach ($data as $key => $value) {
             if (property_exists($className, $key)) {
                 if ($key == "content") {
-                    $classInstance->{$key} = self::getEncodedContent($value);
+                    $classInstance->{$key} = self::decode($value);
                 } else {
                     $classInstance->{$key} = self::getPhpValue($value);
                 }
@@ -46,7 +46,7 @@ class AttachmentFile extends BaseModel {
      * @param string $encodedContent
      * @return bool|string
      */
-    private static function getEncodedContent($encodedContent) {
+    private static function decode($encodedContent) {
         list(, $data) = explode(';', $encodedContent);
         list(, $data) = explode(',', $data);
         return base64_decode($data);
