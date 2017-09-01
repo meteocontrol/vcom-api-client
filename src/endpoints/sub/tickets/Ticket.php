@@ -102,4 +102,11 @@ class Ticket extends SubEndpoint {
         $attachmentIdEndpoint = new AttachmentId($attachments, (string)$attachmentId);
         return new Attachment($attachmentIdEndpoint);
     }
+
+    /**
+     * @return Histories
+     */
+    public function histories() {
+        return new Histories($this);
+    }
 }
