@@ -276,14 +276,13 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetTicketHistories() {
-        $json = file_get_contents(__DIR__ . '/responses/getTicketHistores.json');
+        $json = file_get_contents(__DIR__ . '/responses/getTicketHistories.json');
 
         $this->api->expects($this->once())
             ->method('run')
             ->with($this->identicalTo('tickets/123/histories'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\TicketHistory[] $histories */
         $histories = $this->api->ticket(123)->histories()->get();
 
         $this->assertCount(3, $histories);
