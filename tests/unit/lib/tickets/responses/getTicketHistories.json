@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "timestamp": "2017-08-31T01:42:03+00:00",
+      "action": "statusChanged",
+      "personInCharge": "userB",
+      "from": "open",
+      "to": "inProgress"
+    },
+    {
+      "timestamp": "2017-08-31T02:18:51+00:00",
+      "action": "assigneeChanged",
+      "personInCharge": "userB",
+      "from": null,
+      "to": "userA"
+    },
+    {
+      "timestamp": "2017-08-31T02:19:41+00:00",
+      "action": "assigneeChanged",
+      "personInCharge": "userB",
+      "from": "userA",
+      "to": "userB"
+    }
+  ]
+}
