@@ -32,11 +32,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             ->withLastChangeFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
             ->withLastChangeTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
             ->withRectifiedOnFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
-            ->withRectifiedOnTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'))
-            ->withStatus(Ticket::STATUS_OPEN)
-            ->withPriority(Ticket::PRIORITY_NORMAL)
-            ->withSeverity(Ticket::SEVERITY_CRITICAL)
-            ->withSystemKey('ABC123');
+            ->withRectifiedOnTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'));
 
         $this->api->expects($this->once())
             ->method('run')
@@ -47,11 +43,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
                 '&lastChange%5Bfrom%5D=2016-01-01T12%3A00%3A00%2B00%3A00' .
                 '&lastChange%5Bto%5D=2016-02-21T12%3A00%3A00%2B00%3A00' .
                 '&rectifiedOn%5Bfrom%5D=2016-01-01T14%3A00%3A00%2B00%3A00' .
-                '&rectifiedOn%5Bto%5D=2016-02-20T14%3A00%3A00%2B00%3A00' .
-                '&status=open' .
-                '&priority=normal' .
-                '&severity=critical' .
-                '&systemKey=ABC123'
+                '&rectifiedOn%5Bto%5D=2016-02-20T14%3A00%3A00%2B00%3A00'
             )
             ->willReturn($json);
 
@@ -82,6 +74,66 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
         $this->assertEquals(null, $tickets[1]->severity);
     }
+
+    public function testGetTicketsWithMultipleParametersInFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getTickets2.json');
+        $criteria = new TicketsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
+            ->withLastChangeFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
+            ->withLastChangeTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
+            ->withRectifiedOnFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
+            ->withRectifiedOnTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'))
+            ->withStatus([Ticket::STATUS_CLOSED, Ticket::STATUS_INPROGRESS])
+            ->withPriority([Ticket::PRIORITY_NORMAL, Ticket::PRIORITY_HIGH])
+            ->withSeverity([Ticket::PRIORITY_NORMAL, Ticket::PRIORITY_HIGH])
+            ->withSystemKey(['ABCDE', 'FGHIJ']);
+
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('tickets'),
+                'date%5Bfrom%5D=2016-01-01T00%3A00%3A00%2B00%3A00' .
+                '&date%5Bto%5D=2016-03-01T01%3A00%3A00%2B00%3A00' .
+                '&lastChange%5Bfrom%5D=2016-01-01T12%3A00%3A00%2B00%3A00' .
+                '&lastChange%5Bto%5D=2016-02-21T12%3A00%3A00%2B00%3A00' .
+                '&rectifiedOn%5Bfrom%5D=2016-01-01T14%3A00%3A00%2B00%3A00' .
+                '&rectifiedOn%5Bto%5D=2016-02-20T14%3A00%3A00%2B00%3A00' .
+                '&status=closed%2CinProgress' .
+                '&priority=normal%2Chigh' .
+                '&severity=normal%2Chigh' .
+                '&systemKey=ABCDE%2CFGHIJ'
+            )
+            ->willReturn($json);
+
+        /** @var \meteocontrol\client\vcomapi\model\Ticket[] $tickets */
+        $tickets = $this->api->tickets()->find($criteria);
+
+        $this->assertEquals(2, count($tickets));
+
+        $this->assertEquals(123, $tickets[0]->id);
+        $this->assertEquals('ABCDE', $tickets[0]->systemKey);
+        $this->assertEquals('Ticket #123', $tickets[0]->designation);
+        $this->assertEquals('This is a summary.', $tickets[0]->summary);
+        $this->assertEquals('2016-01-01T12:00:00', $tickets[0]->date->format('Y-m-d\TH:i:s'));
+        $this->assertEquals('2016-01-01T13:00:00', $tickets[0]->lastChange->format('Y-m-d\TH:i:s'));
+        $this->assertEquals(null, $tickets[0]->assignee);
+        $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
+        $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
+        $this->assertEquals(Ticket::SEVERITY_NORMAL, $tickets[0]->severity);
+
+        $this->assertEquals(456, $tickets[1]->id);
+        $this->assertEquals('FGHIJ', $tickets[1]->systemKey);
+        $this->assertEquals('Ticket #456', $tickets[1]->designation);
+        $this->assertEquals('This is a summary.', $tickets[1]->summary);
+        $this->assertEquals('2016-02-01T12:00:00', $tickets[1]->date->format('Y-m-d\TH:i:s'));
+        $this->assertEquals('2016-02-02T13:00:00', $tickets[1]->lastChange->format('Y-m-d\TH:i:s'));
+        $this->assertEquals(null, $tickets[1]->assignee);
+        $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
+        $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
+        $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->severity);
+    }
+
 
     public function testGetSingleTicket() {
         $json = file_get_contents(__DIR__ . '/responses/getTicket.json');
@@ -127,7 +179,8 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
                             'includeInReports' => 'detail',
                             'status' => 'closed',
                             'priority' => 'urgent',
-                            'description' => 'description'
+                            'description' => 'description',
+                            'assignee' => 9823
                         ]
                     ),
                     'PATCH'
@@ -222,6 +275,49 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->api->ticket(123)->delete();
     }
 
+    public function testGetTicketHistories() {
+        $json = file_get_contents(__DIR__ . '/responses/getTicketHistories.json');
+
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo('tickets/123/histories'))
+            ->willReturn($json);
+
+        $histories = $this->api->ticket(123)->histories()->get();
+
+        $this->assertCount(3, $histories);
+
+        $history = $histories[0];
+        $this->assertEquals(
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T01:42:03+00:00'),
+            $history->timestamp
+        );
+        $this->assertSame('statusChanged', $history->action);
+        $this->assertSame('userB', $history->personInCharge);
+        $this->assertSame('open', $history->from);
+        $this->assertSame('inProgress', $history->to);
+
+        $history = $histories[1];
+        $this->assertEquals(
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:18:51+00:00'),
+            $history->timestamp
+        );
+        $this->assertSame('assigneeChanged', $history->action);
+        $this->assertSame('userB', $history->personInCharge);
+        $this->assertSame(null, $history->from);
+        $this->assertSame('userA', $history->to);
+
+        $history = $histories[2];
+        $this->assertEquals(
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:19:41+00:00'),
+            $history->timestamp
+        );
+        $this->assertSame('assigneeChanged', $history->action);
+        $this->assertSame('userB', $history->personInCharge);
+        $this->assertSame('userA', $history->from);
+        $this->assertSame('userB', $history->to);
+    }
+
     /**
      * @return Ticket
      */
@@ -236,6 +332,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $ticket->status = Ticket::STATUS_CLOSED;
         $ticket->priority = Ticket::PRIORITY_URGENT;
         $ticket->description = 'description';
+        $ticket->assignee = 9823;
         return $ticket;
     }
 }

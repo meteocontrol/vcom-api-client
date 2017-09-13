@@ -113,11 +113,11 @@ class TicketsCriteria {
     }
 
     /**
-     * @param Ticket::REPORT_TYPE_NO | Ticket::REPORT_TYPE_DETAIL | Ticket::REPORT_TYPE_SUMMARY $type
+     * @param array | Ticket::REPORT_TYPE_NO | Ticket::REPORT_TYPE_DETAIL | Ticket::REPORT_TYPE_SUMMARY $type
      * @return TicketsCriteria
      */
     public function withIncludeInReports($type) {
-        $this->filters['includeInReports'] = $type;
+        $this->filters['includeInReports'] = is_array($type) ? implode(",", $type) : $type;
         return $this;
     }
 
@@ -130,12 +130,12 @@ class TicketsCriteria {
     }
 
     /**
-     * @param string $status Ticket::STATUS_OPEN | Ticket::STATUS_CLOSED | Ticket::STATUS_DELETED |
+     * @param array | string $status Ticket::STATUS_OPEN | Ticket::STATUS_CLOSED | Ticket::STATUS_DELETED |
      *                       Ticket::STATUS_ASSIGNED | Ticket::STAUTS_INPROGRESS $status
      * @return TicketsCriteria
      */
     public function withStatus($status) {
-        $this->filters['status'] = $status;
+        $this->filters['status'] = is_array($status) ? implode(",", $status) : $status;
         return $this;
     }
 
@@ -147,11 +147,12 @@ class TicketsCriteria {
     }
 
     /**
-     * @param string $severity Ticket::SEVERITY_NORMAL | Ticket::SEVERITY_HIGH | Ticket::SEVERITY_CRITICAL $severity
+     * @param array | string $severity Ticket::SEVERITY_NORMAL | Ticket::SEVERITY_HIGH |
+     *                       Ticket::SEVERITY_CRITICAL $severity
      * @return TicketsCriteria
      */
     public function withSeverity($severity) {
-        $this->filters['severity'] = $severity;
+        $this->filters['severity'] = is_array($severity) ? implode(",", $severity) : $severity;
         return $this;
     }
 
@@ -163,12 +164,12 @@ class TicketsCriteria {
     }
 
     /**
-     * @param string $priority Ticket::PRIORITY_LOW | Ticket::PRIORITY_NORMAL | Ticket::PRIORITY_HIGH |
+     * @param array | string $priority Ticket::PRIORITY_LOW | Ticket::PRIORITY_NORMAL | Ticket::PRIORITY_HIGH |
      *                         Ticket::PRIORITY_URGENT $priority
      * @return TicketsCriteria
      */
     public function withPriority($priority) {
-        $this->filters['priority'] = $priority;
+        $this->filters['priority'] = is_array($priority) ? implode(",", $priority) : $priority;
         return $this;
     }
 
@@ -180,11 +181,11 @@ class TicketsCriteria {
     }
 
     /**
-     * @param string $assignee
+     * @param array | string $assignee
      * @return TicketsCriteria
      */
     public function withAssignee($assignee) {
-        $this->filters['assignee'] = $assignee;
+        $this->filters['assignee'] = is_array($assignee) ? implode(",", $assignee) : $assignee;
         return $this;
     }
 
@@ -196,11 +197,11 @@ class TicketsCriteria {
     }
 
     /**
-     * @param string $systemKey
+     * @param array | string $systemKey
      * @return TicketsCriteria
      */
     public function withSystemKey($systemKey) {
-        $this->filters['systemKey'] = $systemKey;
+        $this->filters['systemKey'] = is_array($systemKey) ? implode(",", $systemKey) : $systemKey;
         return $this;
     }
 
