@@ -2,6 +2,7 @@
   "data": {
     "id": "816639",
     "name": "E18.S01 A",
-    "serial": "12933"
+    "serial": "12933",
+    "scaleFactor": 2.0
   }
 }
