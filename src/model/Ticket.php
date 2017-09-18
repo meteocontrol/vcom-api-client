@@ -35,14 +35,32 @@ class Ticket extends BaseModel {
     /** @var string */
     public $summary;
 
-    /** @var \DateTime */
+    /**
+     * @var \DateTime
+     * @deprecated
+     */
     public $date;
 
     /** @var \DateTime */
+    public $createdAt;
+
+    /**
+     * @var \DateTime
+     * @deprecated
+     */
     public $lastChange;
 
     /** @var \DateTime */
+    public $lastChangeAt;
+
+    /**
+     * @var \DateTime
+     * @deprecated
+     */
     public $rectifiedOn;
+
+    /** @var \DateTime */
+    public $rectifiedAt;
 
     /** @var string */
     public $assignee;
