@@ -186,7 +186,6 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
                         [
                             'designation' => 'abc',
                             'summary' => 'summary',
-                            'date' => '2016-01-01T00:00:00+00:00',
                             'includeInReports' => 'detail',
                             'status' => 'closed',
                             'priority' => 'urgent',
@@ -245,7 +244,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
                     [
                         'systemKey' => 'ABCDE',
                         'designation' => 'designation',
-                        'date' => '2016-07-01T02:02:10+00:00',
+                        'createdAt' => '2016-07-01T02:02:10+00:00',
                         'status' => 'open',
                         'priority' => 'high',
                         'includeInReports' => 'summary'
