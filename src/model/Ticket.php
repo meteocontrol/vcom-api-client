@@ -90,7 +90,9 @@ class Ticket extends BaseModel {
      * @return bool
      */
     public function isValid() {
-        return !empty($this->systemKey) && !empty($this->designation) && !empty($this->date);
+        return !empty($this->systemKey)
+            && !empty($this->designation)
+            && (!empty($this->date) | !empty($this->createdAt));
     }
 
     public static function deserialize(array $data, $name = null) {
