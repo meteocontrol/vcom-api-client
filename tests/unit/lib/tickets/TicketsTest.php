@@ -303,7 +303,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T01:42:03+02:00'),
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T03:42:03+02:00'),
             $history->createdAt
         );
         $this->assertSame('statusChanged', $history->action);
@@ -317,7 +317,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:18:51+02:00'),
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T04:18:51+02:00'),
             $history->createdAt
         );
         $this->assertSame('assigneeChanged', $history->action);
@@ -331,7 +331,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:19:41+02:00'),
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T04:19:41+02:00'),
             $history->createdAt
         );
         $this->assertSame('assigneeChanged', $history->action);
