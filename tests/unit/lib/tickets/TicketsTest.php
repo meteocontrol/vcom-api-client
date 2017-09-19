@@ -57,9 +57,9 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Ticket #123', $tickets[0]->designation);
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
         $this->assertEquals('2016-01-01T12:00:00', $tickets[0]->date->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-01-01T14:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-01-01T13:00:00', $tickets[0]->lastChange->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-01-01T15:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $tickets[0]->assignee);
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
         $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
@@ -70,9 +70,9 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Ticket #456', $tickets[1]->designation);
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
         $this->assertEquals('2016-02-01T12:00:00', $tickets[1]->date->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-02-01T16:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-02-02T13:00:00', $tickets[1]->lastChange->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-02-02T17:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $tickets[1]->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
@@ -120,9 +120,9 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Ticket #123', $tickets[0]->designation);
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
         $this->assertEquals('2016-01-01T12:00:00', $tickets[0]->date->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-01-01T14:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-01-01T13:00:00', $tickets[0]->lastChange->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-01-01T15:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $tickets[0]->assignee);
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
         $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
@@ -133,9 +133,9 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Ticket #456', $tickets[1]->designation);
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
         $this->assertEquals('2016-02-01T12:00:00', $tickets[1]->date->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-02-01T16:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-02-02T13:00:00', $tickets[1]->lastChange->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-02-02T17:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $tickets[1]->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
@@ -159,11 +159,11 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
         $this->assertEquals('2016-01-01T12:00:00', $ticket->date->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->createdAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $ticket->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-01-01T13:00:00', $ticket->lastChange->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-01-01T15:00:00+02:00', $ticket->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T13:00:00+02:00', $ticket->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-01-01T14:00:00', $ticket->rectifiedOn->format('Y-m-d\TH:i:s'));
-        $this->assertEquals('2016-01-01T16:00:00+02:00', $ticket->rectifiedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->rectifiedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $ticket->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $ticket->status);
         $this->assertEquals(10, $ticket->causeId);
@@ -303,7 +303,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T03:42:03+02:00'),
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T01:42:03+02:00'),
             $history->createdAt
         );
         $this->assertSame('statusChanged', $history->action);
@@ -317,7 +317,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T04:18:51+02:00'),
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:18:51+02:00'),
             $history->createdAt
         );
         $this->assertSame('assigneeChanged', $history->action);
@@ -331,7 +331,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             $history->timestamp
         );
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T04:19:41+02:00'),
+            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:19:41+02:00'),
             $history->createdAt
         );
         $this->assertSame('assigneeChanged', $history->action);
