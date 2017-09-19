@@ -51,7 +51,7 @@ class Ticket extends BaseModel {
     public $lastChange;
 
     /** @var \DateTime */
-    public $lastChangeAt;
+    public $lastChangedAt;
 
     /**
      * @var \DateTime
