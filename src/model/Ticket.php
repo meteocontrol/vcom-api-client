@@ -35,14 +35,32 @@ class Ticket extends BaseModel {
     /** @var string */
     public $summary;
 
-    /** @var \DateTime */
+    /**
+     * @var \DateTime
+     * @deprecated
+     */
     public $date;
 
     /** @var \DateTime */
+    public $createdAt;
+
+    /**
+     * @var \DateTime
+     * @deprecated
+     */
     public $lastChange;
 
     /** @var \DateTime */
+    public $lastChangedAt;
+
+    /**
+     * @var \DateTime
+     * @deprecated
+     */
     public $rectifiedOn;
+
+    /** @var \DateTime */
+    public $rectifiedAt;
 
     /** @var string */
     public $assignee;
@@ -72,7 +90,9 @@ class Ticket extends BaseModel {
      * @return bool
      */
     public function isValid() {
-        return !empty($this->systemKey) && !empty($this->designation) && !empty($this->date);
+        return !empty($this->systemKey)
+            && !empty($this->designation)
+            && (!empty($this->date) || !empty($this->createdAt));
     }
 
     public static function deserialize(array $data, $name = null) {
