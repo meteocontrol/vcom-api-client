@@ -49,6 +49,10 @@ class Ticket extends SubEndpoint {
                     $ticket->rectifiedOn->format(\DateTime::RFC3339);
             }
         } else {
+            if (isset($updateFilter['rectifiedOn'])) {
+                $updateFilter['rectifiedAt'] = $updateFilter['rectifiedOn'];
+                unset($updateFilter['rectifiedOn']);
+            }
             $fields = $this->applyFilter($updateFilter, $ticket);
         }
 
