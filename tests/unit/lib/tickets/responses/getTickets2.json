@@ -8,7 +8,7 @@
       "date": "2016-01-01 12:00:00",
       "createdAt": "2016-01-01T14:00:00+02:00",
       "lastChange": "2016-01-01 13:00:00",
-      "lastChangeAt": "2016-01-01T15:00:00+02:00",
+      "lastChangedAt": "2016-01-01T15:00:00+02:00",
       "status": "closed",
       "priority": "normal",
       "severity": "normal"
@@ -21,7 +21,7 @@
       "date": "2016-02-01 12:00:00",
       "createdAt": "2016-02-01T16:00:00+04:00",
       "lastChange": "2016-02-02 13:00:00",
-      "lastChangeAt": "2016-02-02T17:00:00+04:00",
+      "lastChangedAt": "2016-02-02T17:00:00+04:00",
       "status": "inProgress",
       "priority": "high",
       "severity": "high"
