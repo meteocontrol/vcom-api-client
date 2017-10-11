@@ -107,10 +107,7 @@ class CommentsTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 $this->identicalTo('tickets/123/comments'),
                 null,
-                json_encode([
-                    'comment' => 'New Comment',
-                    'createdAt' => 'now',
-                ]),
+                json_encode(['comment' => 'New Comment']),
                 'POST'
             )
             ->willReturn(
