@@ -128,7 +128,7 @@ class CommentsTest extends \PHPUnit_Framework_TestCase {
                 $this->identicalTo('tickets/123/comments'),
                 null,
                 json_encode([
-                    'comment' => 'New Comment',
+                    'comment' => 'New Comment 2',
                     'createdAt' => '2017-10-01T00:00:00+00:00',
                 ]),
                 'POST'
@@ -180,7 +180,7 @@ class CommentsTest extends \PHPUnit_Framework_TestCase {
     private function getCommentDetail2() {
         $commentDetail = new CommentDetail();
         $commentDetail->createdAt = \DateTime::createFromFormat(\DateTime::RFC3339, '2017-10-01T00:00:00+00:00');
-        $commentDetail->comment = 'New Comment';
+        $commentDetail->comment = 'New Comment 2';
         $commentDetail->username = 'test.username';
         return $commentDetail;
     }
