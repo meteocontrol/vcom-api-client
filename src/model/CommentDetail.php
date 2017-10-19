@@ -7,14 +7,8 @@ class CommentDetail extends BaseModel {
     /** @var int */
     public $commentId;
 
-    /**
-     * @var \DateTime
-     * @deprecated
-     */
-    public $date;
-
     /** @var \DateTime */
-    public $createdAt;
+    public $date;
 
     /** @var string */
     public $comment;

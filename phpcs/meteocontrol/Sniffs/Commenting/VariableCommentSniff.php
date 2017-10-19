@@ -87,7 +87,6 @@ class Meteocontrol_Sniffs_Commenting_VariableCommentSniff extends PHP_CodeSniffe
                     $error = 'Content missing for @see tag in member variable comment';
                     $phpcsFile->addError($error, $tag, 'EmptySees');
                 }
-            } else if ($tokens[$tag]['content'] === '@deprecated') {
             } else {
                 $error = '%s tag is not allowed in member variable comment';
                 $data  = array($tokens[$tag]['content']);
