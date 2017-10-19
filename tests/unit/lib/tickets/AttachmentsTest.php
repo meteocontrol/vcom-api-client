@@ -51,6 +51,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(12345, $actual->creatorId);
         $this->assertEquals("test attachment", $actual->description);
         $this->assertEquals($expectedCreatedDatetime, $actual->created);
+        $this->assertEquals(new \DateTime("2017-08-29T04:22:23+01:00"), $actual->createdAt);
     }
 
     public function testCreateAttachment() {
