@@ -3,13 +3,8 @@
 namespace meteocontrol\client\vcomapi\model;
 
 class TicketHistory extends BaseModel {
-    /**
-     * @var \DateTime
-     * @deprecated
-     */
-    public $timestamp;
     /** @var \DateTime */
-    public $createdAt;
+    public $timestamp;
     /** @var string */
     public $action;
     /** @var string */
