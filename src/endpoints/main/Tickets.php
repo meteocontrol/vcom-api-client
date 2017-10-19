@@ -38,9 +38,7 @@ class Tickets extends MainEndpoint {
         $fields = [
             'systemKey' => $ticket->systemKey,
             'designation' => $ticket->designation,
-            'createdAt' => $ticket->createdAt ?
-                $ticket->createdAt->format(\DateTime::RFC3339) :
-                $ticket->date->format(\DateTime::RFC3339)
+            'date' => $ticket->date->format(\DateTime::RFC3339)
         ];
         empty($ticket->summary) ?: $fields['summary'] = $ticket->summary;
         empty($ticket->description) ?: $fields['description'] = $ticket->description;
