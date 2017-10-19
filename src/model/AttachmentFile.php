@@ -19,6 +19,12 @@ class AttachmentFile extends BaseModel {
     /** @var int */
     public $creatorId;
 
-    /** @var \DateTime */
+    /**
+     * @var \DateTime
+     * @deprecated
+     */
     public $created;
+
+    /** @var \DateTime */
+    public $createdAt;
 }
