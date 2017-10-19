@@ -35,10 +35,17 @@ class Comments extends SubEndpoint {
         if (!$commentDetail || !$commentDetail->isValid()) {
             throw new \InvalidArgumentException('Comment is invalid!');
         }
+        $createdAt = $commentDetail->createdAt;
+        $body = ['comment' => $commentDetail->comment];
+
+        if ($createdAt !== null) {
+            $body['createdAt'] = $createdAt->format(\DateTime::ATOM);
+        }
+
         $responseBody = $this->api->run(
             $this->getUri(),
             null,
-            json_encode(['comment' => $commentDetail->comment]),
+            json_encode($body),
             'POST'
         );
         return json_decode($responseBody)->data->commentId;
