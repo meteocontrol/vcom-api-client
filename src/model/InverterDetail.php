@@ -21,4 +21,7 @@ class InverterDetail extends BaseModel {
 
     /** @var string */
     public $scaleFactor;
+
+    /** @var string */
+    public $firmware;
 }
