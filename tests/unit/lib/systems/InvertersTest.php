@@ -60,6 +60,7 @@ class InvertersTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('123456789', $inverter->serial);
         $this->assertEquals('Halle A - WR 1', $inverter->name);
         $this->assertEquals(24.01, $inverter->scaleFactor);
+        $this->assertEquals('1.0', $inverter->firmware);
     }
 
     public function testGetInverterAbbreviations() {
