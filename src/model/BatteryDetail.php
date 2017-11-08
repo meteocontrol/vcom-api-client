@@ -12,4 +12,7 @@ class BatteryDetail extends BaseModel {
 
     /** @var string */
     public $address;
+
+    /** @var string */
+    public $firmware;
 }

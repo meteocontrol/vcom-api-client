@@ -58,6 +58,7 @@ class BatteriesTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('145103', $battery->id);
         $this->assertEquals('', $battery->name);
         $this->assertEquals('bat1', $battery->address);
+        $this->assertEquals('1.0', $battery->firmware);
     }
 
     public function testGetBatteryAbbreviations() {
