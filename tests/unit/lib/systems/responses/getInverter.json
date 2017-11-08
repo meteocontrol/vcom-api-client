@@ -5,6 +5,7 @@
     "vendor": "Danfoss",
     "serial": "123456789",
     "name": "Halle A - WR 1",
-    "scaleFactor": 24.01
+    "scaleFactor": 24.01,
+    "firmware": "1.0"
   }
 }

@@ -57,6 +57,7 @@ class MetersTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(773, $meter->id);
         $this->assertEquals('Meter 1', $meter->name);
         $this->assertEquals('12', $meter->address);
+        $this->assertEquals('1.0', $meter->firmware);
     }
 
     public function testGetMeterAbbreviations() {

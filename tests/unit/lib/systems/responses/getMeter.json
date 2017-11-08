@@ -5,6 +5,7 @@
     "address": "12",
     "description": "Meter 1",
     "model": "Meter 1",
-    "type": "DataDevice"
+    "type": "DataDevice",
+    "firmware": "1.0"
   }
 }

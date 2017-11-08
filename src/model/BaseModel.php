@@ -6,10 +6,9 @@ abstract class BaseModel {
 
     /**
      * @param array $data
-     * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, $name = null) {
+    public static function deserialize(array $data) {
         $className = get_called_class();
         $classInstance = new $className();
         foreach ($data as $key => $value) {
@@ -34,8 +33,8 @@ abstract class BaseModel {
     }
 
     /**
-     * @param string | int | float $value
-     * @return \DateTime | string | int | float
+     * @param string | int | float | null $value
+     * @return \DateTime | string | int | float | null
      */
     protected static function getPhpValue($value) {
         if (self::isSimpleDateString($value)) {
