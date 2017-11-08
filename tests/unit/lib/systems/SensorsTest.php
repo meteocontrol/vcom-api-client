@@ -61,6 +61,7 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(126222, $sensor->id);
         $this->assertEquals('Pyranometer SMPx (Modbus)', $sensor->name);
         $this->assertEquals('7', $sensor->address);
+        $this->assertEquals('1.0', $sensor->firmware);
     }
 
     public function testGetSensorAbbreviations() {

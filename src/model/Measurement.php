@@ -14,15 +14,14 @@ class Measurement extends BaseModel {
 
     /**
      * @param array $data
-     * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, $name = null) {
+    public static function deserialize(array $data) {
         $className = get_called_class();
         $classInstance = new $className();
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                $classInstance->$key = MeasurementValue::deserializeArray($value);
+                $classInstance->{$key} = MeasurementValue::deserializeArray($value);
             } else {
                 $classInstance->{$key} = self::getPhpValue($value);
             }
@@ -36,8 +35,8 @@ class Measurement extends BaseModel {
      */
     public static function deserializeArray(array $decodedJsonArray) {
         $objects = [];
-        foreach ($decodedJsonArray as $key => $item) {
-            $objects[] = self::deserialize($item, $key);
+        foreach ($decodedJsonArray as $item) {
+            $objects[] = self::deserialize($item);
         }
         return $objects;
     }
