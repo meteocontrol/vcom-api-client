@@ -8,3 +8,4 @@
 2017-06-29: Support Users and Responsiblities endpoint
 2017-08-09: Add battery, stringboxes, ticket attachemnt and support OAuth2
 2017-09-13: Add ticket history , extend update and create ticket endpoint inorder to access assignee
+2017-10-19: Add serial UTC DateTime as return values, create comment support createdAt
