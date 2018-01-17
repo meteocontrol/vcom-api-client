@@ -50,5 +50,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('2F-1', $session->user->address->streetAddition);
         $this->assertEquals('Europe/Berlin', $session->user->timezone->name);
         $this->assertEquals('+02:00', $session->user->timezone->utcOffset);
+        $this->assertEquals(true, $session->user->hasVcom);
     }
 }
