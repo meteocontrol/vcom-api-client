@@ -76,7 +76,7 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
-            ->withResolution(Measurement::RESOLUTION_INTERVAL);
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL);
         /** @var MeasurementValue[] $measurements */
         $measurements = $this->api->system('ABCDE')->basics()->abbreviation('wr.E_INT')->measurements()->get($criteria);
         $this->assertEquals(2, count($measurements));

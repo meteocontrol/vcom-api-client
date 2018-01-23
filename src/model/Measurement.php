@@ -2,12 +2,20 @@
 
 namespace meteocontrol\client\vcomapi\model;
 
+use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
+
 class Measurement extends BaseModel {
 
-    const RESOLUTION_INTERVAL = 'interval';
-    const RESOLUTION_DAY = 'day';
-    const RESOLUTION_MONTH = 'month';
-    const RESOLUTION_YEAR = 'year';
+    /** @deprecated */
+    const RESOLUTION_INTERVAL = MeasurementsCriteria::RESOLUTION_INTERVAL;
+    /** @deprecated */
+    const RESOLUTION_HOUR = MeasurementsCriteria::RESOLUTION_HOUR;
+    /** @deprecated */
+    const RESOLUTION_DAY = MeasurementsCriteria::RESOLUTION_DAY;
+    /** @deprecated */
+    const RESOLUTION_MONTH = MeasurementsCriteria::RESOLUTION_MONTH;
+    /** @deprecated */
+    const RESOLUTION_YEAR = MeasurementsCriteria::RESOLUTION_YEAR;
 
     /** @var string */
     public $systemKey;

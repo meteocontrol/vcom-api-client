@@ -2,12 +2,19 @@
 
 namespace meteocontrol\client\vcomapi\model;
 
-class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
+use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 
-    const RESOLUTION_INTERVAL = 'interval';
-    const RESOLUTION_DAY = 'day';
-    const RESOLUTION_MONTH = 'month';
-    const RESOLUTION_YEAR = 'year';
+class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
+    /** @deprecated */
+    const RESOLUTION_INTERVAL = MeasurementsCriteria::RESOLUTION_INTERVAL;
+    /** @deprecated */
+    const RESOLUTION_HOUR = MeasurementsCriteria::RESOLUTION_HOUR;
+    /** @deprecated */
+    const RESOLUTION_DAY = MeasurementsCriteria::RESOLUTION_DAY;
+    /** @deprecated */
+    const RESOLUTION_MONTH = MeasurementsCriteria::RESOLUTION_MONTH;
+    /** @deprecated */
+    const RESOLUTION_YEAR = MeasurementsCriteria::RESOLUTION_YEAR;
 
     /** @var MeasurementValue[][] */
     private $values = array();

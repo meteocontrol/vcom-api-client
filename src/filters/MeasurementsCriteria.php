@@ -2,10 +2,15 @@
 
 namespace meteocontrol\client\vcomapi\filters;
 
-use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 
 class MeasurementsCriteria {
+
+    const RESOLUTION_INTERVAL = 'interval';
+    const RESOLUTION_HOUR = 'hour';
+    const RESOLUTION_DAY = 'day';
+    const RESOLUTION_MONTH = 'month';
+    const RESOLUTION_YEAR = 'year';
 
     /** @var string[] */
     private $filters;
@@ -43,16 +48,18 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return string DevicesMeasurement::RESOLUTION_INTERVAL | DevicesMeasurement::RESOLUTION_DAY |
-     *         DevicesMeasurement::RESOLUTION_MONTH | DevicesMeasurement::RESOLUTION_YEAR
+     * @return string MeasurementsCriteria::RESOLUTION_INTERVAL | MeasurementsCriteria::RESOLUTION_HOUR |
+     * MeasurementsCriteria::RESOLUTION_DAY | MeasurementsCriteria::RESOLUTION_MONTH |
+     * MeasurementsCriteria::RESOLUTION_YEAR
      */
     public function getResolution() {
         return $this->filters['resolution'];
     }
 
     /**
-     * @param string $resolution DevicesMeasurement::RESOLUTION_INTERVAL | DevicesMeasurement::RESOLUTION_DAY |
-     *        DevicesMeasurement::RESOLUTION_MONTH | DevicesMeasurement::RESOLUTION_YEAR
+     * @param string $resolution MeasurementsCriteria::RESOLUTION_INTERVAL | MeasurementsCriteria::RESOLUTION_HOUR
+     * | MeasurementsCriteria::RESOLUTION_DAY | MeasurementsCriteria::RESOLUTION_MONTH
+     * | MeasurementsCriteria::RESOLUTION_YEAR
      * @return MeasurementsCriteria
      */
     public function withResolution($resolution) {
