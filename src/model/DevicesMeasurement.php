@@ -8,8 +8,6 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
     /** @deprecated */
     const RESOLUTION_INTERVAL = MeasurementsCriteria::RESOLUTION_INTERVAL;
     /** @deprecated */
-    const RESOLUTION_HOUR = MeasurementsCriteria::RESOLUTION_HOUR;
-    /** @deprecated */
     const RESOLUTION_DAY = MeasurementsCriteria::RESOLUTION_DAY;
     /** @deprecated */
     const RESOLUTION_MONTH = MeasurementsCriteria::RESOLUTION_MONTH;
