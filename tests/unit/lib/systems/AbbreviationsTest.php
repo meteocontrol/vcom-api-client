@@ -67,7 +67,7 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
-            ->withResolution(Measurement::RESOLUTION_DAY);
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
         /** @var Measurement[] $measurements */
         $measurements = $this->systemsEndpoint->abbreviation('E_Z_EVU')->measurements()->get($criteria);
 

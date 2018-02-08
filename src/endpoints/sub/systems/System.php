@@ -172,4 +172,10 @@ class System extends SubEndpoint {
         $userEndpoint = new User($userIdEndpoint);
         return $userEndpoint;
     }
+    /**
+     * @return Picture
+     */
+    public function picture() {
+        return new Picture($this);
+    }
 }

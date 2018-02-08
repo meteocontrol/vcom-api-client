@@ -30,6 +30,8 @@ class UserDetail extends BaseModel {
     public $address;
     /** @var Timezone */
     public $timezone;
+    /** @var bool */
+    public $hasVcom;
 
     /**
      * @param array $data
