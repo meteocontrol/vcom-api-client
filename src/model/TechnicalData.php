@@ -1,6 +1,6 @@
 <?php
 
-namespace meteocontrol\client\vcomapi\model;
+namespace meteocontrol\vcomapi\model;
 
 class TechnicalData extends BaseModel {
 

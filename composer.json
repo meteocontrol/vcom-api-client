@@ -27,8 +27,12 @@
     "squizlabs/php_codesniffer": "2.7.0"
   },
   "autoload": {
+    "files": [
+      "src/Model.php"
+    ],
     "psr-4": {
-      "meteocontrol\\client\\vcomapi\\": "src"
+      "meteocontrol\\client\\vcomapi\\": "src",
+      "meteocontrol\\vcomapi\\model\\": "src/model"
     }
   }
 }
