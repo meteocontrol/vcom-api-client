@@ -2,7 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\filters;
 
-use meteocontrol\client\vcomapi\model\Ticket;
+use meteocontrol\vcomapi\model\Ticket;
 
 class TicketsCriteria {
 

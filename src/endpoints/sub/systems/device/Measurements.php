@@ -2,10 +2,10 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\device;
 
+use meteocontrol\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 
 class Measurements extends SubEndpoint {
 

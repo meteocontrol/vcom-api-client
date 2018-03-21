@@ -8,7 +8,6 @@ use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
-use meteocontrol\client\vcomapi\model\Measurement;
 use meteocontrol\client\vcomapi\model\Meter;
 use meteocontrol\client\vcomapi\model\MeterDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;

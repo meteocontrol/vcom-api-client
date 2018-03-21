@@ -2,9 +2,9 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
+use meteocontrol\vcomapi\model\CommentDetail;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\client\vcomapi\model\CommentDetail;
 
 class Comment extends SubEndpoint {
 

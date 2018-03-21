@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
+use meteocontrol\vcomapi\model\Session as SessionModel;
 use meteocontrol\client\vcomapi\ApiClient;
 
 class Session extends MainEndpoint {
@@ -15,11 +16,11 @@ class Session extends MainEndpoint {
     }
 
     /**
-     * @return \meteocontrol\client\vcomapi\model\Session
+     * @return SessionModel
      */
     public function get() {
         $sessionJson = $this->api->run($this->getUri());
         $decoded = json_decode($sessionJson, true);
-        return \meteocontrol\client\vcomapi\model\Session::deserialize($decoded['data']);
+        return SessionModel::deserialize($decoded['data']);
     }
 }
