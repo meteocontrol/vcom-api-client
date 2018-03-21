@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
+use meteocontrol\vcomapi\model\SystemDetail;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 
@@ -17,14 +18,14 @@ class System extends SubEndpoint {
     }
 
     /**
-     * @return \meteocontrol\client\vcomapi\model\SystemDetail
+     * @return SystemDetail
      */
     public function get() {
         $systemJson = $this->api->run(
             $this->getUri()
         );
         $decodedData = json_decode($systemJson, true);
-        return \meteocontrol\client\vcomapi\model\SystemDetail::deserialize($decodedData['data']);
+        return SystemDetail::deserialize($decodedData['data']);
     }
 
     /**
@@ -56,7 +57,7 @@ class System extends SubEndpoint {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $inverters = new Inverters($this);
         $inverterIdEndpoint = new DeviceId($inverters, $deviceId);
-        $inverterEndpoint = new \meteocontrol\client\vcomapi\endpoints\sub\systems\Inverter($inverterIdEndpoint);
+        $inverterEndpoint = new Inverter($inverterIdEndpoint);
         return $inverterEndpoint;
     }
 
@@ -75,7 +76,7 @@ class System extends SubEndpoint {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $meters = new Meters($this);
         $meterIdEndpoint = new DeviceId($meters, $deviceId);
-        $meterEndpoint = new \meteocontrol\client\vcomapi\endpoints\sub\systems\Meter($meterIdEndpoint);
+        $meterEndpoint = new Meter($meterIdEndpoint);
         return $meterEndpoint;
     }
 
@@ -94,7 +95,7 @@ class System extends SubEndpoint {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $sensors = new Sensors($this);
         $sensorIdEndpoint = new DeviceId($sensors, $deviceId);
-        $sensorEndpoint = new \meteocontrol\client\vcomapi\endpoints\sub\systems\Sensor($sensorIdEndpoint);
+        $sensorEndpoint = new Sensor($sensorIdEndpoint);
         return $sensorEndpoint;
     }
 
@@ -113,7 +114,7 @@ class System extends SubEndpoint {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $batteries = new Batteries($this);
         $batteryIdEndpoint = new DeviceId($batteries, $deviceId);
-        return new \meteocontrol\client\vcomapi\endpoints\sub\systems\Battery($batteryIdEndpoint);
+        return new Battery($batteryIdEndpoint);
     }
 
     /**
@@ -131,7 +132,7 @@ class System extends SubEndpoint {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $stringboxes = new Stringboxes($this);
         $stringboxIdEndpoint = new DeviceId($stringboxes, $deviceId);
-        return new \meteocontrol\client\vcomapi\endpoints\sub\systems\Stringbox($stringboxIdEndpoint);
+        return new Stringbox($stringboxIdEndpoint);
     }
 
     /**

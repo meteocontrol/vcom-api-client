@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
+use meteocontrol\vcomapi\model\System as SystemModel;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\endpoints\sub\AbbreviationId;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Abbreviation as SystemsAbbreviation;
@@ -18,12 +19,12 @@ class Systems extends MainEndpoint {
     }
 
     /**
-     * @return \meteocontrol\client\vcomapi\model\System[]
+     * @return SystemModel[]
      */
     public function get() {
         $systemsJson = $this->api->run($this->getUri());
         $decoded = json_decode($systemsJson, true);
-        return \meteocontrol\client\vcomapi\model\System::deserializeArray($decoded['data']);
+        return SystemModel::deserializeArray($decoded['data']);
     }
 
     /**

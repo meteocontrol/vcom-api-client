@@ -2,9 +2,9 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
+use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\filters\TicketsCriteria;
-use meteocontrol\client\vcomapi\model\Ticket;
 
 class Tickets extends MainEndpoint {
 

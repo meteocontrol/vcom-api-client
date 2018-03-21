@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
+use meteocontrol\vcomapi\model\TechnicalData as TechnicalDataModel;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 
@@ -17,11 +18,11 @@ class TechnicalData extends SubEndpoint {
     }
 
     /**
-     * @return \meteocontrol\client\vcomapi\model\TechnicalData
+     * @return TechnicalDataModel
      */
     public function get() {
         $technicalDataJson = $this->api->run($this->getUri());
         $decodedJson = json_decode($technicalDataJson, true);
-        return \meteocontrol\client\vcomapi\model\TechnicalData::deserialize($decodedJson['data']);
+        return TechnicalDataModel::deserialize($decodedJson['data']);
     }
 }
