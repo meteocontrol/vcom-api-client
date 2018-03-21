@@ -5,7 +5,6 @@ namespace meteocontrol\client\vcomapi\tests\unit\systems;
 use GuzzleHttp\Client;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\Config;
-use meteocontrol\client\vcomapi\endpoints\sub\systems\Users;
 use meteocontrol\client\vcomapi\filters\UserCriteria;
 use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\User;
