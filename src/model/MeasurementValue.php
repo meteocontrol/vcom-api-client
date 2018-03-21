@@ -1,6 +1,6 @@
 <?php
 
-namespace meteocontrol\client\vcomapi\model;
+namespace meteocontrol\vcomapi\model;
 
 use meteocontrol\client\vcomapi\ApiClientException;
 

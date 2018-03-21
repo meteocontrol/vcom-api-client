@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
+use meteocontrol\vcomapi\model\Ticket as TicketModel;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 
@@ -17,19 +18,19 @@ class Ticket extends SubEndpoint {
     }
 
     /**
-     * @return \meteocontrol\client\vcomapi\model\Ticket
+     * @return TicketModel
      */
     public function get() {
         $ticketJson = $this->api->run($this->getUri());
         $decodedData = json_decode($ticketJson, true);
-        return \meteocontrol\client\vcomapi\model\Ticket::deserialize($decodedData['data']);
+        return TicketModel::deserialize($decodedData['data']);
     }
 
     /**
-     * @param \meteocontrol\client\vcomapi\model\Ticket $ticket
+     * @param TicketModel $ticket
      * @param array | null $updateFilter Properties to update. Update all if nothing given.
      */
-    public function update(\meteocontrol\client\vcomapi\model\Ticket $ticket, array $updateFilter = null) {
+    public function update(TicketModel $ticket, array $updateFilter = null) {
         if (!$ticket || !$ticket->isValid()) {
             throw new \InvalidArgumentException('Ticket is invalid!');
         }

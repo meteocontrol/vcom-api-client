@@ -1,0 +1,138 @@
+<?php
+
+class_alias(
+    'meteocontrol\vcomapi\model\Abbreviation',
+    'meteocontrol\client\vcomapi\model\Abbreviation'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Address',
+    'meteocontrol\client\vcomapi\model\Address'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\AttachmentFile',
+    'meteocontrol\client\vcomapi\model\AttachmentFile'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\BaseModel',
+    'meteocontrol\client\vcomapi\model\BaseModel'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Battery',
+    'meteocontrol\client\vcomapi\model\Battery'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\BatteryDetail',
+    'meteocontrol\client\vcomapi\model\BatteryDetail'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Comment',
+    'meteocontrol\client\vcomapi\model\Comment'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\CommentDetail',
+    'meteocontrol\client\vcomapi\model\CommentDetail'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Coordinates',
+    'meteocontrol\client\vcomapi\model\Coordinates'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\DevicesMeasurement',
+    'meteocontrol\client\vcomapi\model\DevicesMeasurement'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\ExtendedAddress',
+    'meteocontrol\client\vcomapi\model\ExtendedAddress'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Inverter',
+    'meteocontrol\client\vcomapi\model\Inverter'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\InverterDetail',
+    'meteocontrol\client\vcomapi\model\InverterDetail'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\InverterType',
+    'meteocontrol\client\vcomapi\model\InverterType'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Measurement',
+    'meteocontrol\client\vcomapi\model\Measurement'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\MeasurementValue',
+    'meteocontrol\client\vcomapi\model\MeasurementValue'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Meter',
+    'meteocontrol\client\vcomapi\model\Meter'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\MeterDetail',
+    'meteocontrol\client\vcomapi\model\MeterDetail'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Panel',
+    'meteocontrol\client\vcomapi\model\Panel'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\PictureFile',
+    'meteocontrol\client\vcomapi\model\PictureFile'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Responsibilities',
+    'meteocontrol\client\vcomapi\model\Responsibilities'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Sensor',
+    'meteocontrol\client\vcomapi\model\Sensor'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\SensorDetail',
+    'meteocontrol\client\vcomapi\model\SensorDetail'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Session',
+    'meteocontrol\client\vcomapi\model\Session'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Stringbox',
+    'meteocontrol\client\vcomapi\model\Stringbox'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\StringboxDetail',
+    'meteocontrol\client\vcomapi\model\StringboxDetail'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\System',
+    'meteocontrol\client\vcomapi\model\System'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\SystemDetail',
+    'meteocontrol\client\vcomapi\model\SystemDetail'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\TechnicalData',
+    'meteocontrol\client\vcomapi\model\TechnicalData'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Ticket',
+    'meteocontrol\client\vcomapi\model\Ticket'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\TicketHistory',
+    'meteocontrol\client\vcomapi\model\TicketHistory'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\Timezone',
+    'meteocontrol\client\vcomapi\model\Timezone'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\User',
+    'meteocontrol\client\vcomapi\model\User'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\UserDetail',
+    'meteocontrol\client\vcomapi\model\UserDetail'
+);
