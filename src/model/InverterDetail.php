@@ -19,7 +19,7 @@ class InverterDetail extends BaseModel {
     /** @var string */
     public $name;
 
-    /** @var string */
+    /** @var float */
     public $scaleFactor;
 
     /** @var string */
