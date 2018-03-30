@@ -90,7 +90,7 @@ class InvertersTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals('MAX', $abbreviation->aggregation);
         $this->assertEquals('Total Energy', $abbreviation->description);
-        $this->assertEquals('0', $abbreviation->precision);
+        $this->assertEquals(0, $abbreviation->precision);
         $this->assertEquals('kWh', $abbreviation->unit);
     }
 
