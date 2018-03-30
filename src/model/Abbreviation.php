@@ -7,7 +7,7 @@ class Abbreviation extends BaseModel {
     /** @var string */
     public $aggregation;
 
-    /** @var string */
+    /** @var int */
     public $precision;
 
     /** @var string */

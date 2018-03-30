@@ -86,7 +86,7 @@ class MetersTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals('SUM', $abbreviation->aggregation);
         $this->assertEquals('Energy generated per interval', $abbreviation->description);
-        $this->assertEquals('3', $abbreviation->precision);
+        $this->assertEquals(3, $abbreviation->precision);
         $this->assertEquals('kWh', $abbreviation->unit);
     }
 
