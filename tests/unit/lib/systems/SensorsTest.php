@@ -90,7 +90,7 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals('AVG', $abbreviation->aggregation);
         $this->assertEquals('Irradiance on module plane, subsystem 3', $abbreviation->description);
-        $this->assertEquals('3', $abbreviation->precision);
+        $this->assertEquals(3, $abbreviation->precision);
         $this->assertEquals('W/m²', $abbreviation->unit);
     }
 

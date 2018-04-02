@@ -22,6 +22,9 @@ class SystemDetail extends BaseModel {
     /** @var Timezone */
     public $timezone;
 
+    /** @var string */
+    public $currency;
+
     /**
      * @param array $data
      * @param null|string $name

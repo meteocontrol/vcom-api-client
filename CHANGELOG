@@ -13,3 +13,4 @@
 2017-11-08: Add firmware property to devices except stringboxes
 2018-02-08: Add system picture, hourly resolution for measurements and hasVcom property.
 2018-03-21: Update model namespace.
+2018-04-02: Update model parameter type.
