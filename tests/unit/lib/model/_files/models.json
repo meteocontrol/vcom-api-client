@@ -1,0 +1,77 @@
+{
+  "attachmentFile":
+  {
+    "attachmentId": null,
+    "filename": null,
+    "content": null,
+    "description": null,
+    "creatorId": null,
+    "created": "2018-01-02T03:04:01+00:00",
+    "createdAt": "2018-01-02T03:04:01+00:00"
+  },
+  "comment":
+  {
+    "commentId": null,
+    "date": "2018-01-02T03:04:01+00:00",
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "comment": null,
+    "username": null,
+    "firstName": null,
+    "lastName": null
+  },
+  "commentDetail":
+  {
+    "commentId": null,
+    "date": "2018-01-02T03:04:01+00:00",
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "comment": null,
+    "username": null,
+    "firstName": null,
+    "lastName": null
+  },
+  "measurementValue":
+  {
+    "timestamp": "2018-01-02T03:04:01+00:00",
+    "value": null
+  },
+  "ticketHistory":
+  {
+    "timestamp": "2018-01-02T03:04:01+00:00",
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "action": null,
+    "personInCharge": null,
+    "from": null,
+    "to": null
+  },
+  "ticket":
+  {
+    "id": null,
+    "systemKey": null,
+    "designation": null,
+    "summary": null,
+    "date": "2018-01-02 03:04:01",
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "lastChange": "2018-01-02 03:04:01",
+    "lastChangedAt": "2018-01-02T03:04:01+00:00",
+    "rectifiedOn": "2018-01-02 03:04:01",
+    "rectifiedAt": "2018-01-02T03:04:01+00:00",
+    "assignee": null,
+    "status": null,
+    "causeId": null,
+    "priority": null,
+    "includeInReports": null,
+    "fieldService": null,
+    "severity": null,
+    "description": null
+  },
+  "systemDetail":
+  {
+    "address": null,
+    "elevation": null,
+    "commissionDate": "2018-01-02",
+    "coordinates": null,
+    "name": null,
+    "timezone": null,
+    "currency": null
+  }
+}

@@ -46,4 +46,17 @@ class SystemDetail extends BaseModel {
         }
         return $classInstance;
     }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize() {
+        $values = parent::jsonSerialize();
+
+        if (isset($values['commissionDate'])) {
+            $values['commissionDate'] = $this->commissionDate->format('Y-m-d');
+        }
+
+        return $values;
+    }
 }
