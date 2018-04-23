@@ -48,15 +48,14 @@ class SystemDetail extends BaseModel {
     }
 
     /**
-     * @return array
+     * @param \DateTime $dateTime
+     * @param null|string $key
+     * @return string
      */
-    public function jsonSerialize() {
-        $values = parent::jsonSerialize();
-
-        if (isset($values['commissionDate'])) {
-            $values['commissionDate'] = $this->commissionDate->format('Y-m-d');
+    protected static function serializeDateTime(\DateTime $dateTime, $key) {
+        if ($key === 'commissionDate') {
+            return $dateTime->format('Y-m-d');
         }
-
-        return $values;
+        return parent::serializeDateTime($dateTime);
     }
 }

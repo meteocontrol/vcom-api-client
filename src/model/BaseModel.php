@@ -39,14 +39,24 @@ abstract class BaseModel implements JsonSerializable {
      */
     public function jsonSerialize() {
         $values = get_object_vars($this);
+        $className = get_called_class();
 
         foreach ($values as $key => $value) {
             if ($value instanceof \DateTime) {
-                $values[$key] = $value->format(\DateTime::ATOM);
+                $values[$key] = $className::serializeDateTime($value, $key);
             }
         }
 
         return $values;
+    }
+
+    /**
+     * @param \DateTime $dateTime
+     * @param null|string $key
+     * @return string
+     */
+    protected static function serializeDateTime(\DateTime $dateTime, $key = null) {
+        return $dateTime->format(\DateTime::ATOM);
     }
 
     /**

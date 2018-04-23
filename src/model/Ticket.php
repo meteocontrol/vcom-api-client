@@ -109,19 +109,15 @@ class Ticket extends BaseModel {
     }
 
     /**
-     * @return array
+     * @param \DateTime $dateTime
+     * @param null|string $key
+     * @return string
      */
-    public function jsonSerialize() {
-        $values = parent::jsonSerialize();
-
-        $dateTimeParameters = ['date', 'lastChange', 'rectifiedOn'];
-        foreach ($dateTimeParameters as $dateTimeParameter) {
-            if (isset($values[$dateTimeParameter])) {
-                $values[$dateTimeParameter] = $this->{$dateTimeParameter}->format('Y-m-d H:i:s');
-            }
+    protected static function serializeDateTime(\DateTime $dateTime, $key) {
+        if (in_array($key, ['date', 'lastChange', 'rectifiedOn'])) {
+            return $dateTime->format('Y-m-d H:i:s');
         }
-
-        return $values;
+        return parent::serializeDateTime($dateTime);
     }
 
     /**
