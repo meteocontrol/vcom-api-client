@@ -113,7 +113,7 @@ class Ticket extends BaseModel {
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(\DateTime $dateTime, $key) {
+    protected function serializeDateTime(\DateTime $dateTime, $key = null) {
         if (in_array($key, ['date', 'lastChange', 'rectifiedOn'])) {
             return $dateTime->format('Y-m-d H:i:s');
         }

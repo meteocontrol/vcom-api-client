@@ -52,7 +52,7 @@ class SystemDetail extends BaseModel {
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(\DateTime $dateTime, $key) {
+    protected function serializeDateTime(\DateTime $dateTime, $key = null) {
         if ($key === 'commissionDate') {
             return $dateTime->format('Y-m-d');
         }
