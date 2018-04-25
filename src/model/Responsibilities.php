@@ -6,16 +6,12 @@ class Responsibilities extends BaseModel {
 
     /** @var User */
     public $owner;
-
     /** @var User */
     public $operator;
-
     /** @var User */
     public $electrician;
-
     /** @var User */
     public $invoiceRecipient;
-
     /** @var User */
     public $alarmContact;
 
@@ -25,11 +21,11 @@ class Responsibilities extends BaseModel {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $className = get_called_class();
-        $classInstance = new $className();
+        $instance = new static();
+
         foreach ($data as $key => $value) {
-            $classInstance->{$key} = UserDetail::deserialize($value);
+            $instance->{$key} = UserDetail::deserialize($value);
         }
-        return $classInstance;
+        return $instance;
     }
 }

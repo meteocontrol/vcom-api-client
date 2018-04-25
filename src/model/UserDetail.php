@@ -39,17 +39,17 @@ class UserDetail extends BaseModel {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $className = get_called_class();
-        $classInstance = new $className();
+        $instance = new static();
+
         foreach ($data as $key => $value) {
             if (is_array($value) && $key === "address") {
-                $classInstance->address = ExtendedAddress::deserialize($value);
+                $instance->address = ExtendedAddress::deserialize($value);
             } elseif (is_array($value) && $key === "timezone") {
-                $classInstance->timezone = Timezone::deserialize($value);
-            } elseif (property_exists($className, $key)) {
-                $classInstance->{$key} = self::getPhpValue($value);
+                $instance->timezone = Timezone::deserialize($value);
+            } elseif (property_exists($instance, $key)) {
+                $instance->{$key} = self::getPhpValue($value);
             }
         }
-        return $classInstance;
+        return $instance;
     }
 }
