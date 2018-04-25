@@ -11,6 +11,7 @@
 2017-10-19: Add serial UTC DateTime as return values, create comment support createdAt
 2017-10-19: Create comment accepts optional created at timestamp
 2017-11-08: Add firmware property to devices except stringboxes
-2018-02-08: Add system picture, hourly resolution for measurements and hasVcom property.
-2018-03-21: Update model namespace.
-2018-04-02: Update model parameter type.
+2018-02-08: Add system picture, hourly resolution for measurements and hasVcom property
+2018-03-21: Update model namespace
+2018-04-02: Add currency in system, update model parameter type
+2018-04-25: Implement jsonSerialize for model
