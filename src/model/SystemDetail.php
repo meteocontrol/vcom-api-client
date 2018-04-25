@@ -46,4 +46,16 @@ class SystemDetail extends BaseModel {
         }
         return $classInstance;
     }
+
+    /**
+     * @param \DateTime $dateTime
+     * @param null|string $key
+     * @return string
+     */
+    protected function serializeDateTime(\DateTime $dateTime, $key = null) {
+        if ($key === 'commissionDate') {
+            return $dateTime->format('Y-m-d');
+        }
+        return parent::serializeDateTime($dateTime);
+    }
 }

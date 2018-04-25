@@ -2,7 +2,9 @@
 
 namespace meteocontrol\vcomapi\model;
 
-abstract class BaseModel {
+use JsonSerializable;
+
+abstract class BaseModel implements JsonSerializable {
 
     /**
      * @param array $data
@@ -30,6 +32,30 @@ abstract class BaseModel {
             $objects[] = $className::deserialize($item);
         }
         return $objects;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize() {
+        $values = get_object_vars($this);
+
+        foreach ($values as $key => $value) {
+            if ($value instanceof \DateTime) {
+                $values[$key] = $this->serializeDateTime($value, $key);
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * @param \DateTime $dateTime
+     * @param null|string $key
+     * @return string
+     */
+    protected function serializeDateTime(\DateTime $dateTime, $key = null) {
+        return $dateTime->format(\DateTime::ATOM);
     }
 
     /**
