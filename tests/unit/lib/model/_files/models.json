@@ -1,0 +1,82 @@
+{
+  "attachmentFile":
+  {
+    "attachmentId": 1,
+    "filename": "string",
+    "content": "string",
+    "description": "string",
+    "creatorId": 1,
+    "created": "2018-01-02T03:04:01+00:00",
+    "createdAt": "2018-01-02T03:04:01+00:00"
+  },
+  "comment":
+  {
+    "commentId": 1,
+    "date": "2018-01-02T03:04:01+00:00",
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "comment": "string",
+    "username": "string",
+    "firstName": "string",
+    "lastName": "string"
+  },
+  "commentDetail":
+  {
+    "commentId": 1,
+    "date": "2018-01-02T03:04:01+00:00",
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "comment": "string",
+    "username": "string",
+    "firstName": "string",
+    "lastName": "string"
+  },
+  "measurementValue":
+  {
+    "timestamp": "2018-01-02T03:04:01+00:00",
+    "value": "string"
+  },
+  "ticketHistory":
+  {
+    "timestamp": "2018-01-02T03:04:01+00:00",
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "action": "string",
+    "personInCharge": "string",
+    "from": "string",
+    "to": "string"
+  },
+  "ticket":
+  {
+    "id": 1,
+    "systemKey": "string",
+    "designation": "string",
+    "summary": "string",
+    "date": "2018-01-02 03:04:01",
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "lastChange": "2018-01-02 03:04:01",
+    "lastChangedAt": "2018-01-02T03:04:01+00:00",
+    "rectifiedOn": "2018-01-02 03:04:01",
+    "rectifiedAt": "2018-01-02T03:04:01+00:00",
+    "assignee": "string",
+    "status": "string",
+    "causeId": 1,
+    "priority": "string",
+    "includeInReports": "string",
+    "fieldService": true,
+    "severity": "string",
+    "description": "string"
+  },
+  "systemDetail":
+  {
+    "address": null,
+    "elevation": 1,
+    "commissionDate": "2018-01-02",
+    "coordinates": null,
+    "name": "string",
+    "timezone": null,
+    "currency": "string"
+  },
+  "coordinates":
+  {
+    "latitude": 0.1,
+    "longitude": 0.1
+  }
+}
