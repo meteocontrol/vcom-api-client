@@ -21,11 +21,11 @@ class Responsibilities extends BaseModel {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $instance = new static();
+        $object = new static();
 
         foreach ($data as $key => $value) {
-            $instance->{$key} = UserDetail::deserialize($value);
+            $object->{$key} = UserDetail::deserialize($value);
         }
-        return $instance;
+        return $object;
     }
 }

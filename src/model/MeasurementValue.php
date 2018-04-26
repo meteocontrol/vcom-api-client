@@ -10,16 +10,16 @@ class MeasurementValue extends BaseModel {
     public $value;
 
     public static function deserialize(array $data, $name = null) {
-        $instance = new static();
+        $object = new static();
 
         foreach ($data as $key => $value) {
             if ($key === "timestamp") {
-                $instance->timestamp = self::parseTimestamp($value);
-            } elseif (property_exists($instance, $key)) {
-                $instance->{$key} = self::getPhpValue($value);
+                $object->timestamp = self::parseTimestamp($value);
+            } elseif (property_exists($object, $key)) {
+                $object->{$key} = self::getPhpValue($value);
             }
         }
-        return $instance;
+        return $object;
     }
 
     /**

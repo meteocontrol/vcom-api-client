@@ -24,16 +24,16 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $instance = new static();
+        $object = new static();
 
         foreach ($data as $deviceId => $abbreviationMeasurements) {
             $deviceMeasurements = [];
             foreach ($abbreviationMeasurements as $abbreviation => $value) {
                 $deviceMeasurements[$abbreviation] = MeasurementValue::deserializeArray($value);
             }
-            $instance->values[$deviceId] = $deviceMeasurements;
+            $object->values[$deviceId] = $deviceMeasurements;
         }
-        return $instance;
+        return $object;
     }
 
     /**

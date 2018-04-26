@@ -96,16 +96,16 @@ class Ticket extends BaseModel {
     }
 
     public static function deserialize(array $data, $name = null) {
-        $instance = new static();
+        $object = new static();
 
         foreach ($data as $key => $value) {
             if (in_array($key, ['date', 'lastChange', 'rectifiedOn'])) {
-                $instance->{$key} = self::parseTimestamp($value);
-            } elseif (property_exists($instance, $key)) {
-                $instance->{$key} = self::getPhpValue($value);
+                $object->{$key} = self::parseTimestamp($value);
+            } elseif (property_exists($object, $key)) {
+                $object->{$key} = self::getPhpValue($value);
             }
         }
-        return $instance;
+        return $object;
     }
 
     /**

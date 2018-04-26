@@ -19,17 +19,17 @@ class TechnicalData extends BaseModel {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $instance = new static();
+        $object = new static();
 
         foreach ($data as $key => $value) {
             if (is_array($value) && $key === "panels") {
-                $instance->panels = Panel::deserializeArray($value);
+                $object->panels = Panel::deserializeArray($value);
             } elseif (is_array($value) && $key === "inverters") {
-                $instance->inverters = InverterType::deserializeArray($value);
-            } elseif (property_exists($instance, $key)) {
-                $instance->{$key} = self::getPhpValue($value);
+                $object->inverters = InverterType::deserializeArray($value);
+            } elseif (property_exists($object, $key)) {
+                $object->{$key} = self::getPhpValue($value);
             }
         }
-        return $instance;
+        return $object;
     }
 }

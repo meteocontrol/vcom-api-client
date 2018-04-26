@@ -25,20 +25,20 @@ class SystemDetail extends BaseModel {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $instance = new static();
+        $object = new static();
 
         foreach ($data as $key => $value) {
             if (is_array($value) && $key === "address") {
-                $instance->address = Address::deserialize($value);
+                $object->address = Address::deserialize($value);
             } elseif (is_array($value) && $key === "coordinates") {
-                $instance->coordinates = Coordinates::deserialize($value);
+                $object->coordinates = Coordinates::deserialize($value);
             } elseif (is_array($value) && $key === "timezone") {
-                $instance->timezone = Timezone::deserialize($value);
-            } elseif (property_exists($instance, $key)) {
-                $instance->{$key} = self::getPhpValue($value);
+                $object->timezone = Timezone::deserialize($value);
+            } elseif (property_exists($object, $key)) {
+                $object->{$key} = self::getPhpValue($value);
             }
         }
-        return $instance;
+        return $object;
     }
 
     /**
