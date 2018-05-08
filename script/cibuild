@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+
+CI_PROJECT_DIR=$1
+GIT_DESCRIBE=$2
+CI_PACKAGE_NAME=$3
+curl -k -o /tmp/package-and-deploy-composer.sh https://artifactory.mc.box/artifactory/tools-local/mc/package-and-deploy-composer.sh
+sh /tmp/package-and-deploy-composer.sh package ${CI_PROJECT_DIR} ${GIT_DESCRIBE} ${CI_PACKAGE_NAME}
+sh /tmp/package-and-deploy-composer.sh deployToArtifactory ${CI_PROJECT_DIR} ${GIT_DESCRIBE} ${CI_PACKAGE_NAME}

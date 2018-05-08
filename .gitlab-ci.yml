@@ -1,4 +1,9 @@
+stages:
+   - test
+   - package-and-deploy
+
 'unittests':
+  stage: test
   script:
     - composer install --prefer-dist
     - ./vendor/bin/phpunit --colors=never --coverage-text --configuration phpunit.xml
@@ -8,9 +13,18 @@
     - tags
 
 'phpcs':
+  stage: test
   script:
     - sh ./phpcs/phpcs.sh
   tags:
     - php7.1
   except:
     - tags
+
+'upload':
+    variables:
+      CI_PACKAGE_NAME: "vcom-api-client"
+    stage: package-and-deploy
+    script:
+      - script/cibuild ${CI_PROJECT_DIR} ${CI_BUILD_REF_NAME} ${CI_PACKAGE_NAME}
+    image: "dockerhub.mc.box/mc/pre-deploy:5.1.0"
