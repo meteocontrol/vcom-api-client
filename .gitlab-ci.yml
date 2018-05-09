@@ -26,5 +26,9 @@ stages:
       CI_PACKAGE_NAME: "vcom-api-client"
     stage: package-and-deploy
     script:
+      - if [ -n "$CI_COMMIT_TAG" ]; then script/delete; fi
       - script/cibuild ${CI_PROJECT_DIR} ${CI_BUILD_REF_NAME} ${CI_PACKAGE_NAME}
     image: "dockerhub.mc.box/mc/pre-deploy:5.1.0"
+    only:
+      - develop
+      - tags
