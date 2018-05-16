@@ -12,8 +12,12 @@ then
     rm phpcs/phpcs.sh
     rm composer.lock
     rm -fr script
+    PACKAGE_VERSION=$GIT_DESCRIBE
+else
+    # For non-tag versions, composer needs a "dev-" prefix
+    PACKAGE_VERSION=dev-$GIT_DESCRIBE
 fi
 
 curl -k -o /tmp/package-and-deploy-composer.sh https://artifactory.mc.box/artifactory/tools-local/mc/package-and-deploy-composer.sh
-sh /tmp/package-and-deploy-composer.sh package ${CI_PROJECT_DIR} ${GIT_DESCRIBE} ${CI_PACKAGE_NAME}
-sh /tmp/package-and-deploy-composer.sh deployToArtifactory ${CI_PROJECT_DIR} ${GIT_DESCRIBE} ${CI_PACKAGE_NAME}
+sh /tmp/package-and-deploy-composer.sh package ${CI_PROJECT_DIR} ${PACKAGE_VERSION} ${CI_PACKAGE_NAME}
+sh /tmp/package-and-deploy-composer.sh deployToArtifactory ${CI_PROJECT_DIR} ${PACKAGE_VERSION} ${CI_PACKAGE_NAME}
