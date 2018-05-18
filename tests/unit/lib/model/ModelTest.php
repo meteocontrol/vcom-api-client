@@ -60,6 +60,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $systemDetail->elevation = $intValue;
         $systemDetail->name = $systemDetail->currency = $stringValue;
         $systemDetail->commissionDate = $dateTime;
+        $systemDetail->hasSolarForecast = $booleanValue;
 
         $coordinates = new Coordinates();
         $coordinates->latitude = $coordinates->longitude = $floatValue;
