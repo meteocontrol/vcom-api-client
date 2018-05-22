@@ -18,6 +18,8 @@ class SystemDetail extends BaseModel {
     public $timezone;
     /** @var string */
     public $currency;
+    /** @var bool */
+    public $hasSolarForecast;
 
     /**
      * @param array $data
