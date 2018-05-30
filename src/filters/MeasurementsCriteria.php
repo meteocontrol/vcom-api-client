@@ -6,6 +6,7 @@ use meteocontrol\client\vcomapi\readers\CsvFormat;
 
 class MeasurementsCriteria {
 
+    const RESOLUTION_MINUTE = 'minute';
     const RESOLUTION_INTERVAL = 'interval';
     const RESOLUTION_HOUR = 'hour';
     const RESOLUTION_DAY = 'day';
