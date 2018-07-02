@@ -138,7 +138,8 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
-            ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA);
+            ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
+            ->withPrecision(CsvFormat::PRECISION_2);
         $this->api->system('ABCDE')->basics()->bulk()->measurements()->get($criteria);
     }
 }
