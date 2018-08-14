@@ -198,8 +198,9 @@ class MetersTest extends \PHPUnit_Framework_TestCase {
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
-            ->withDelimiter(CsvFormat::DELIMITER_COLON)
-            ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COLON);
+            ->withDelimiter(CsvFormat::DELIMITER_COMMA)
+            ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
+            ->withPrecision(CsvFormat::PRECISION_2);
         $this->api->system('ABCDE')->meters()->bulk()->measurements()->get($criteria);
     }
 }
