@@ -118,4 +118,11 @@ class Ticket extends SubEndpoint {
     public function histories() {
         return new Histories($this);
     }
+
+    /**
+     * @return ServicePartner
+     */
+    public function servicePartner() {
+        return new ServicePartner($this);
+    }
 }
