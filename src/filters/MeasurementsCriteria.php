@@ -77,7 +77,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $format
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withFormat($format) {
         $this->filters['format'] = $format;
@@ -93,7 +93,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $breakSymbol
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withLineBreak($breakSymbol) {
         $this->filters['lineBreak'] = $breakSymbol;
@@ -109,7 +109,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $delimiter
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withDelimiter($delimiter) {
         $this->filters['delimiter'] = $delimiter;
@@ -127,7 +127,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $decimalPoint
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withDecimalPoint($decimalPoint) {
         $this->filters['decimalPoint'] = $decimalPoint;
@@ -145,7 +145,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $emptyPlaceholder
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withEmptyPlaceholder($emptyPlaceholder) {
         $this->filters['emptyPlaceholder'] = $emptyPlaceholder;
@@ -161,7 +161,7 @@ class MeasurementsCriteria {
 
     /**
      * @param int $precision
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withPrecision($precision) {
         $this->filters['precision'] = $precision;
