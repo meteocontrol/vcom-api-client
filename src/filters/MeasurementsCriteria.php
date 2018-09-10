@@ -49,18 +49,22 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return string MeasurementsCriteria::RESOLUTION_INTERVAL | MeasurementsCriteria::RESOLUTION_HOUR |
-     * MeasurementsCriteria::RESOLUTION_DAY | MeasurementsCriteria::RESOLUTION_MONTH |
-     * MeasurementsCriteria::RESOLUTION_YEAR
+     * @return string MeasurementsCriteria::RESOLUTION_INTERVAL
+     *              | MeasurementsCriteria::RESOLUTION_HOUR
+     *              | MeasurementsCriteria::RESOLUTION_DAY
+     *              | MeasurementsCriteria::RESOLUTION_MONTH
+     *              | MeasurementsCriteria::RESOLUTION_YEAR
      */
     public function getResolution() {
         return $this->filters['resolution'];
     }
 
     /**
-     * @param string $resolution MeasurementsCriteria::RESOLUTION_INTERVAL | MeasurementsCriteria::RESOLUTION_HOUR
-     * | MeasurementsCriteria::RESOLUTION_DAY | MeasurementsCriteria::RESOLUTION_MONTH
-     * | MeasurementsCriteria::RESOLUTION_YEAR
+     * @param string $resolution MeasurementsCriteria::RESOLUTION_INTERVAL
+     *              | MeasurementsCriteria::RESOLUTION_HOUR
+     *              | MeasurementsCriteria::RESOLUTION_DAY
+     *              | MeasurementsCriteria::RESOLUTION_MONTH
+     *              | MeasurementsCriteria::RESOLUTION_YEAR
      * @return MeasurementsCriteria
      */
     public function withResolution($resolution) {
