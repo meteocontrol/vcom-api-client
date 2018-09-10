@@ -50,6 +50,7 @@ class MeasurementsCriteria {
 
     /**
      * @return string MeasurementsCriteria::RESOLUTION_INTERVAL
+     *              | MeasurementsCriteria::RESOLUTION_MINUTE
      *              | MeasurementsCriteria::RESOLUTION_HOUR
      *              | MeasurementsCriteria::RESOLUTION_DAY
      *              | MeasurementsCriteria::RESOLUTION_MONTH
@@ -61,6 +62,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $resolution MeasurementsCriteria::RESOLUTION_INTERVAL
+     *              | MeasurementsCriteria::RESOLUTION_MINUTE
      *              | MeasurementsCriteria::RESOLUTION_HOUR
      *              | MeasurementsCriteria::RESOLUTION_DAY
      *              | MeasurementsCriteria::RESOLUTION_MONTH
