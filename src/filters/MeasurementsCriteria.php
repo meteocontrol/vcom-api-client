@@ -8,6 +8,8 @@ class MeasurementsCriteria {
 
     const RESOLUTION_MINUTE = 'minute';
     const RESOLUTION_INTERVAL = 'interval';
+    const RESOLUTION_FIFTEEN_MINUTES = 'fifteen-minutes';
+    const RESOLUTION_THIRTY_MINUTES = 'thirty-minutes';
     const RESOLUTION_HOUR = 'hour';
     const RESOLUTION_DAY = 'day';
     const RESOLUTION_MONTH = 'month';
@@ -51,6 +53,8 @@ class MeasurementsCriteria {
     /**
      * @return string MeasurementsCriteria::RESOLUTION_INTERVAL
      *              | MeasurementsCriteria::RESOLUTION_MINUTE
+     *              | MeasurementsCriteria::RESOLUTION_FIFTEEN_MINUTES
+     *              | MeasurementsCriteria::RESOLUTION_THIRTY_MINUTES
      *              | MeasurementsCriteria::RESOLUTION_HOUR
      *              | MeasurementsCriteria::RESOLUTION_DAY
      *              | MeasurementsCriteria::RESOLUTION_MONTH
@@ -63,6 +67,8 @@ class MeasurementsCriteria {
     /**
      * @param string $resolution MeasurementsCriteria::RESOLUTION_INTERVAL
      *              | MeasurementsCriteria::RESOLUTION_MINUTE
+     *              | MeasurementsCriteria::RESOLUTION_FIFTEEN_MINUTES
+     *              | MeasurementsCriteria::RESOLUTION_THIRTY_MINUTES
      *              | MeasurementsCriteria::RESOLUTION_HOUR
      *              | MeasurementsCriteria::RESOLUTION_DAY
      *              | MeasurementsCriteria::RESOLUTION_MONTH
