@@ -8,6 +8,8 @@ class MeasurementsCriteria {
 
     const RESOLUTION_MINUTE = 'minute';
     const RESOLUTION_INTERVAL = 'interval';
+    const RESOLUTION_FIFTEEN_MINUTES = 'fifteen-minutes';
+    const RESOLUTION_THIRTY_MINUTES = 'thirty-minutes';
     const RESOLUTION_HOUR = 'hour';
     const RESOLUTION_DAY = 'day';
     const RESOLUTION_MONTH = 'month';
@@ -49,18 +51,28 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return string MeasurementsCriteria::RESOLUTION_INTERVAL | MeasurementsCriteria::RESOLUTION_HOUR |
-     * MeasurementsCriteria::RESOLUTION_DAY | MeasurementsCriteria::RESOLUTION_MONTH |
-     * MeasurementsCriteria::RESOLUTION_YEAR
+     * @return string MeasurementsCriteria::RESOLUTION_INTERVAL
+     *              | MeasurementsCriteria::RESOLUTION_MINUTE
+     *              | MeasurementsCriteria::RESOLUTION_FIFTEEN_MINUTES
+     *              | MeasurementsCriteria::RESOLUTION_THIRTY_MINUTES
+     *              | MeasurementsCriteria::RESOLUTION_HOUR
+     *              | MeasurementsCriteria::RESOLUTION_DAY
+     *              | MeasurementsCriteria::RESOLUTION_MONTH
+     *              | MeasurementsCriteria::RESOLUTION_YEAR
      */
     public function getResolution() {
         return $this->filters['resolution'];
     }
 
     /**
-     * @param string $resolution MeasurementsCriteria::RESOLUTION_INTERVAL | MeasurementsCriteria::RESOLUTION_HOUR
-     * | MeasurementsCriteria::RESOLUTION_DAY | MeasurementsCriteria::RESOLUTION_MONTH
-     * | MeasurementsCriteria::RESOLUTION_YEAR
+     * @param string $resolution MeasurementsCriteria::RESOLUTION_INTERVAL
+     *              | MeasurementsCriteria::RESOLUTION_MINUTE
+     *              | MeasurementsCriteria::RESOLUTION_FIFTEEN_MINUTES
+     *              | MeasurementsCriteria::RESOLUTION_THIRTY_MINUTES
+     *              | MeasurementsCriteria::RESOLUTION_HOUR
+     *              | MeasurementsCriteria::RESOLUTION_DAY
+     *              | MeasurementsCriteria::RESOLUTION_MONTH
+     *              | MeasurementsCriteria::RESOLUTION_YEAR
      * @return MeasurementsCriteria
      */
     public function withResolution($resolution) {
@@ -77,7 +89,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $format
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withFormat($format) {
         $this->filters['format'] = $format;
@@ -93,7 +105,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $breakSymbol
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withLineBreak($breakSymbol) {
         $this->filters['lineBreak'] = $breakSymbol;
@@ -109,7 +121,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $delimiter
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withDelimiter($delimiter) {
         $this->filters['delimiter'] = $delimiter;
@@ -127,7 +139,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $decimalPoint
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withDecimalPoint($decimalPoint) {
         $this->filters['decimalPoint'] = $decimalPoint;
@@ -145,7 +157,7 @@ class MeasurementsCriteria {
 
     /**
      * @param string $emptyPlaceholder
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withEmptyPlaceholder($emptyPlaceholder) {
         $this->filters['emptyPlaceholder'] = $emptyPlaceholder;
@@ -161,7 +173,7 @@ class MeasurementsCriteria {
 
     /**
      * @param int $precision
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withPrecision($precision) {
         $this->filters['precision'] = $precision;
