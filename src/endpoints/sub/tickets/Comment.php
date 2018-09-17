@@ -22,8 +22,7 @@ class Comment extends SubEndpoint {
      */
     public function get() {
         $meterJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($meterJson, true);
-        return CommentDetail::deserialize($decodedJson['data']);
+        return CommentDetail::deserialize($this->jsonDecode($meterJson, true)['data']);
     }
 
     /**

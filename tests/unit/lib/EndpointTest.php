@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit;
 
 use meteocontrol\client\vcomapi\ApiClient;
+use meteocontrol\client\vcomapi\ApiClientException;
 use meteocontrol\client\vcomapi\endpoints\Endpoint;
 use meteocontrol\client\vcomapi\endpoints\main\Systems;
 use meteocontrol\client\vcomapi\endpoints\main\Tickets;
@@ -44,5 +45,17 @@ class EndpointTest extends \PHPUnit_Framework_TestCase {
             'systems/ABCDE/abbreviations/E_INT/measurements',
             $measurementEndpoint->getUri()
         );
+    }
+
+    public function testInvalidJsonResponseCausesException() {
+        $this->setExpectedException(
+            ApiClientException::class,
+            "Failed to deserialize body as json: 'not a valid json string', error: 'Syntax error'",
+            500
+        );
+
+        require_once __DIR__ . "/DummyEndpoint.php";
+        $dummy = new DummyEndpoint();
+        $dummy->someActionThatGetsAJsonReponse();
     }
 }

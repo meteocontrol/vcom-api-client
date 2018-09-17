@@ -24,7 +24,6 @@ class Measurements extends SubEndpoint {
      */
     public function get(MeasurementsCriteria $criteria) {
         $measurementsJson = $this->api->run($this->getUri(), $criteria->generateQueryString());
-        $decodedJson = json_decode($measurementsJson, true);
-        return DevicesMeasurement::deserialize($decodedJson['data']);
+        return DevicesMeasurement::deserialize($this->jsonDecode($measurementsJson, true)['data']);
     }
 }

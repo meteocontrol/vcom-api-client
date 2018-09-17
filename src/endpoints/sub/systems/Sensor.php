@@ -24,8 +24,7 @@ class Sensor extends SubEndpoint {
      */
     public function get() {
         $meteoDeviceJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($meteoDeviceJson, true);
-        return SensorDetail::deserialize($decodedJson['data']);
+        return SensorDetail::deserialize($this->jsonDecode($meteoDeviceJson, true)['data']);
     }
 
     /**

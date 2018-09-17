@@ -22,8 +22,7 @@ class Inverters extends SubEndpoint {
      */
     public function get() {
         $invertersJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($invertersJson, true);
-        return Inverter::deserializeArray($decodedJson['data']);
+        return Inverter::deserializeArray($this->jsonDecode($invertersJson, true)['data']);
     }
 
     /**

@@ -22,8 +22,7 @@ class Attachments extends SubEndpoint {
      */
     public function get() {
         $commentsJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($commentsJson, true);
-        return AttachmentFile::deserializeArray($decodedJson['data']);
+        return AttachmentFile::deserializeArray($this->jsonDecode($commentsJson, true)['data']);
     }
 
     /**
@@ -50,7 +49,6 @@ class Attachments extends SubEndpoint {
             ),
             'POST'
         );
-        $decodedJson = json_decode($responseBody, true);
-        return $decodedJson['data'];
+        return $this->jsonDecode($responseBody, true)['data'];
     }
 }
