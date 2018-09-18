@@ -23,8 +23,7 @@ class Comments extends SubEndpoint {
      */
     public function get() {
         $commentsJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($commentsJson, true);
-        return Comment::deserializeArray($decodedJson['data']);
+        return Comment::deserializeArray($this->jsonDecode($commentsJson, true)['data']);
     }
 
     /**
@@ -48,6 +47,6 @@ class Comments extends SubEndpoint {
             json_encode($body),
             'POST'
         );
-        return json_decode($responseBody)->data->commentId;
+        return $this->jsonDecode($responseBody)->data->commentId;
     }
 }

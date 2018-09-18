@@ -22,8 +22,7 @@ class Tickets extends MainEndpoint {
      */
     public function find(TicketsCriteria $criteria) {
         $ticketsJson = $this->api->run($this->uri, $criteria->generateQueryString());
-        $decodedData = json_decode($ticketsJson, true);
-        return Ticket::deserializeArray($decodedData['data']);
+        return Ticket::deserializeArray($this->jsonDecode($ticketsJson, true)['data']);
     }
 
     /**
@@ -55,6 +54,6 @@ class Tickets extends MainEndpoint {
             json_encode($fields),
             'POST'
         );
-        return json_decode($responseBody)->data->ticketId;
+        return $this->jsonDecode($responseBody)->data->ticketId;
     }
 }

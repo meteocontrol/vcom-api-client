@@ -22,8 +22,7 @@ class Ticket extends SubEndpoint {
      */
     public function get() {
         $ticketJson = $this->api->run($this->getUri());
-        $decodedData = json_decode($ticketJson, true);
-        return TicketModel::deserialize($decodedData['data']);
+        return TicketModel::deserialize($this->jsonDecode($ticketJson, true)['data']);
     }
 
     /**

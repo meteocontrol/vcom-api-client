@@ -22,7 +22,6 @@ class Histories extends SubEndpoint {
      */
     public function get() {
         $historiesJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($historiesJson, true);
-        return TicketHistory::deserializeArray($decodedJson['data']);
+        return TicketHistory::deserializeArray($this->jsonDecode($historiesJson, true)['data']);
     }
 }

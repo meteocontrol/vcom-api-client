@@ -23,7 +23,6 @@ class Picture extends SubEndpoint {
      */
     public function get() {
         $pictureJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($pictureJson, true);
-        return PictureFile::deserialize($decodedJson['data']);
+        return PictureFile::deserialize($this->jsonDecode($pictureJson, true)['data']);
     }
 }
