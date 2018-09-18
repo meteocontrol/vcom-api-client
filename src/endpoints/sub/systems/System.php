@@ -24,8 +24,7 @@ class System extends SubEndpoint {
         $systemJson = $this->api->run(
             $this->getUri()
         );
-        $decodedData = json_decode($systemJson, true);
-        return SystemDetail::deserialize($decodedData['data']);
+        return SystemDetail::deserialize($this->jsonDecode($systemJson, true)['data']);
     }
 
     /**

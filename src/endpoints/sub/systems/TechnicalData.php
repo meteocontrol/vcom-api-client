@@ -22,7 +22,6 @@ class TechnicalData extends SubEndpoint {
      */
     public function get() {
         $technicalDataJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($technicalDataJson, true);
-        return TechnicalDataModel::deserialize($decodedJson['data']);
+        return TechnicalDataModel::deserialize($this->jsonDecode($technicalDataJson, true)['data']);
     }
 }

@@ -22,8 +22,7 @@ class Stringboxes extends SubEndpoint {
      */
     public function get() {
         $invertersJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($invertersJson, true);
-        return Stringbox::deserializeArray($decodedJson['data']);
+        return Stringbox::deserializeArray($this->jsonDecode($invertersJson, true)['data']);
     }
 
     /**

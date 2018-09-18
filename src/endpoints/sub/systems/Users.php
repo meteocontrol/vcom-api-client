@@ -27,12 +27,10 @@ class Users extends SubEndpoint {
     public function get(UserCriteria $criteria = null) {
         if (is_null($criteria)) {
             $userListJson = $this->api->run($this->getUri());
-            $decodedJson = json_decode($userListJson, true);
-            return User::deserializeArray($decodedJson['data']);
+            return User::deserializeArray($this->jsonDecode($userListJson, true)['data']);
         } else {
             $userDetailJson = $this->api->run($this->getUri(), $criteria->generateQueryString());
-            $decodedJson = json_decode($userDetailJson, true);
-            return UserDetail::deserialize($decodedJson['data']);
+            return UserDetail::deserialize($this->jsonDecode($userDetailJson, true)['data']);
         }
     }
 }
