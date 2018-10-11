@@ -62,7 +62,14 @@
     "includeInReports": "string",
     "fieldService": true,
     "severity": "string",
-    "description": "string"
+    "description": "string",
+    "outage": {
+      "startedAt": "2018-01-02T03:04:01+00:00",
+      "endedAt": "2018-01-02T03:04:01+00:00",
+      "affectedPower": 0.1,
+      "shouldInfluenceAvailability": true,
+      "shouldInfluencePr": true
+    }
   },
   "systemDetail":
   {

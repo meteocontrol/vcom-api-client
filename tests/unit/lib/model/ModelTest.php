@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi;
 
+use meteocontrol\vcomapi\model\Outage;
 use meteocontrol\vcomapi\model\AttachmentFile;
 use meteocontrol\vcomapi\model\Comment;
 use meteocontrol\vcomapi\model\CommentDetail;
@@ -50,6 +51,10 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $ticket->fieldService = $booleanValue;
         $ticket->date = $ticket->lastChange = $ticket->rectifiedOn = $ticket->createdAt =
         $ticket->lastChangedAt = $ticket->rectifiedAt = $dateTime;
+        $ticket->outage = new Outage();
+        $ticket->outage->startedAt = $ticket->outage->endedAt = $dateTime;
+        $ticket->outage->shouldInfluenceAvailability = $ticket->outage->shouldInfluencePr = $booleanValue;
+        $ticket->outage->affectedPower = $floatValue;
 
         $ticketHistory = new TicketHistory();
         $ticketHistory->action = $ticketHistory->personInCharge = $ticketHistory->from =
