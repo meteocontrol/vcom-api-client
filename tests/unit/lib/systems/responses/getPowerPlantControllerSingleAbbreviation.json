@@ -1,0 +1,8 @@
+{
+    "data": {
+        "aggregation": "AVG",
+        "precision": 3,
+        "description": "Actual active power",
+        "unit": "W"
+    }
+}

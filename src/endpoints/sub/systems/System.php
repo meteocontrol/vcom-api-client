@@ -2,9 +2,9 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
-use meteocontrol\vcomapi\model\SystemDetail;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\vcomapi\model\SystemDetail;
 
 class System extends SubEndpoint {
 
@@ -114,6 +114,24 @@ class System extends SubEndpoint {
         $batteries = new Batteries($this);
         $batteryIdEndpoint = new DeviceId($batteries, $deviceId);
         return new Battery($batteryIdEndpoint);
+    }
+
+    /**
+     * @return PowerPlantControllers
+     */
+    public function powerPlantControllers() {
+        return new PowerPlantControllers($this);
+    }
+
+    /**
+     * @param string|array $deviceId
+     * @return PowerPlantController
+     */
+    public function powerPlantController($deviceId) {
+        $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
+        $powerPlantControllers = new PowerPlantControllers($this);
+        $powerPlantControllerIdEndpoint = new DeviceId($powerPlantControllers, $deviceId);
+        return new PowerPlantController($powerPlantControllerIdEndpoint);
     }
 
     /**
