@@ -1,0 +1,19 @@
+{
+  "data": [
+    "PPC_P_AC",
+    "PPC_P_AC_AVAIL",
+    "PPC_P_AC_GRIDOP_MAX",
+    "PPC_P_AC_INV",
+    "PPC_P_AC_RPC_MAX",
+    "PPC_P_SET_GRIDOP_ABS",
+    "PPC_P_SET_GRIDOP_REL",
+    "PPC_P_SET_REL",
+    "PPC_P_SET_RPC_REL",
+    "PPC_PF",
+    "PPC_PF_SET",
+    "PPC_Q_AC",
+    "PPC_Q_AC_AVAIL",
+    "PPC_Q_SET_ABS",
+    "PPC_Q_SET_REL"
+  ]
+}
