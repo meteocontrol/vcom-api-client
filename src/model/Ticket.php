@@ -104,7 +104,7 @@ class Ticket extends BaseModel {
         foreach ($data as $key => $value) {
             if (in_array($key, ['date', 'lastChange', 'rectifiedOn'])) {
                 $classInstance->{$key} = self::parseTimestamp($value);
-            } elseif ($key === "outage") {
+            } elseif ($key === "outage" && is_array($value)) {
                 $classInstance->outage = Outage::deserialize($value);
             } elseif (property_exists($classInstance, $key)) {
                 $classInstance->{$key} = self::getPhpValue($value);
