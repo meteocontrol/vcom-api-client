@@ -94,14 +94,14 @@ class MetersTest extends \PHPUnit_Framework_TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');
         $this->api->expects($this->exactly(2))
             ->method('run')
-        ->with(
-            $this->identicalTo(
-                'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
-            ),
-            $this->identicalTo(
-                'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
+                )
             )
-        )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
@@ -144,6 +144,51 @@ class MetersTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
         $this->assertEquals(65, $values[1]->value);
         $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+    }
+
+    public function testGetMeterMeasurementsWithIntervalIncluded() {
+        $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurementsIncludeInterval.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
+                    . '&resolution=day&includeInterval=1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withIntervalIncluded();
+
+        /** @var DevicesMeasurement $measurements */
+        $measurements = $this->api->system('ABCDE')->meter('12345,67890')->abbreviation(['E_INT', 'M_AC_F'])
+            ->measurements()->get($criteria);
+        $this->assertEquals(2, count($measurements));
+        $abbreviationsMeasurements = $measurements['12345'];
+        $values = $abbreviationsMeasurements['E_INT'];
+        $this->assertEquals(2, count($values));
+        $this->assertEquals(0.089, $values[0]->value);
+        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[0]->interval);
+        $this->assertEquals(0.082, $values[1]->value);
+        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[1]->interval);
+
+        $values = $abbreviationsMeasurements['M_AC_F'];
+        $this->assertEquals(2, count($values));
+        $this->assertEquals(50, $values[0]->value);
+        $this->assertEquals(300, $values[0]->interval);
+        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(55, $values[1]->value);
+        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[1]->interval);
     }
 
     public function testGetMetersBulkData() {

@@ -133,6 +133,52 @@ class InvertersTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('2016-01-01 12:00:00', $values[4]->timestamp->format('Y-m-d H:i:s'));
     }
 
+    public function testGetInverterMeasurementsWithIntervalIncluded() {
+        $json = file_get_contents(__DIR__ . '/responses/getInverterMeasurementsIncludeInterval.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/inverters/Id12345.1/abbreviations/E_INT/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
+                    . '&resolution=day&includeInterval=1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withIntervalIncluded();
+
+        /** @var DevicesMeasurement $measurements */
+        $measurements = $this->api->system('ABCDE')->inverter('Id12345.1')->abbreviation('E_INT')->measurements()
+            ->get($criteria);
+
+        $this->assertEquals(1, count($measurements));
+        $abbreviationsMeasurements = $measurements['Id12345.1'];
+        $values = $abbreviationsMeasurements['E_INT'];
+        $this->assertEquals(5, count($values));
+        $this->assertEquals(0.089, $values[0]->value);
+        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[0]->interval);
+        $this->assertEquals(0.082, $values[1]->value);
+        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[1]->interval);
+        $this->assertEquals(0.078, $values[2]->value);
+        $this->assertEquals('2016-01-01 11:30:00', $values[2]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[2]->interval);
+        $this->assertEquals(0.089, $values[3]->value);
+        $this->assertEquals('2016-01-01 11:45:00', $values[3]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[3]->interval);
+        $this->assertEquals(0.095, $values[4]->value);
+        $this->assertEquals('2016-01-01 12:00:00', $values[4]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[4]->interval);
+    }
+
     public function testGetInverterBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterBulk.json');
         $this->api->expects($this->once())
