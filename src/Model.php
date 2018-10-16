@@ -40,6 +40,12 @@ class_alias(
     'meteocontrol\vcomapi\model\DevicesMeasurement',
     'meteocontrol\client\vcomapi\model\DevicesMeasurement'
 );
+
+class_alias(
+    'meteocontrol\vcomapi\model\DevicesMeasurementWithInterval',
+    'meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval'
+);
+
 class_alias(
     'meteocontrol\vcomapi\model\ExtendedAddress',
     'meteocontrol\client\vcomapi\model\ExtendedAddress'
