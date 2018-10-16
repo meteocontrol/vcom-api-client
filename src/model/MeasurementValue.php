@@ -8,8 +8,6 @@ class MeasurementValue extends BaseModel {
     public $timestamp;
     /** @var string */
     public $value;
-    /** @var string */
-    public $interval;
 
     public static function deserialize(array $data, $name = null) {
         $object = new static();
