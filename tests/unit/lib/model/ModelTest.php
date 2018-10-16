@@ -8,6 +8,7 @@ use meteocontrol\vcomapi\model\Comment;
 use meteocontrol\vcomapi\model\CommentDetail;
 use meteocontrol\vcomapi\model\Coordinates;
 use meteocontrol\vcomapi\model\MeasurementValue;
+use meteocontrol\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\vcomapi\model\SystemDetail;
 use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\vcomapi\model\TicketHistory;
@@ -20,6 +21,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $floatValue = 0.1;
         $stringValue = 'string';
         $booleanValue = true;
+        $intervalValue = 300;
         $expectedData = json_decode(file_get_contents(__DIR__ . '/_files/models.json'), true);
 
         $attachmentFile = new AttachmentFile();
@@ -42,6 +44,11 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $measurementValue = new MeasurementValue();
         $measurementValue->value = $stringValue;
         $measurementValue->timestamp = $dateTime;
+
+        $measurementValueWithInterval = new MeasurementValueWithInterval();
+        $measurementValueWithInterval->value = $stringValue;
+        $measurementValueWithInterval->timestamp = $dateTime;
+        $measurementValueWithInterval->interval = $intervalValue;
 
         $ticket = new Ticket();
         $ticket->id = $ticket->causeId = $intValue;
@@ -74,6 +81,10 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedData['comment'], json_decode(json_encode($comment), true));
         $this->assertEquals($expectedData['commentDetail'], json_decode(json_encode($commentDetail), true));
         $this->assertEquals($expectedData['measurementValue'], json_decode(json_encode($measurementValue), true));
+        $this->assertEquals(
+            $expectedData['measurementValueWithInterval'],
+            json_decode(json_encode($measurementValueWithInterval), true)
+        );
         $this->assertEquals($expectedData['ticket'], json_decode(json_encode($ticket), true));
         $this->assertEquals($expectedData['ticketHistory'], json_decode(json_encode($ticketHistory), true));
         $this->assertEquals($expectedData['systemDetail'], json_decode(json_encode($systemDetail), true));

@@ -16,7 +16,7 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
     const RESOLUTION_YEAR = MeasurementsCriteria::RESOLUTION_YEAR;
 
     /** @var MeasurementValue[] */
-    private $values = [];
+    protected $values = [];
 
     /**
      * @param array $data

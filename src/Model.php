@@ -40,6 +40,12 @@ class_alias(
     'meteocontrol\vcomapi\model\DevicesMeasurement',
     'meteocontrol\client\vcomapi\model\DevicesMeasurement'
 );
+
+class_alias(
+    'meteocontrol\vcomapi\model\DevicesMeasurementWithInterval',
+    'meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval'
+);
+
 class_alias(
     'meteocontrol\vcomapi\model\ExtendedAddress',
     'meteocontrol\client\vcomapi\model\ExtendedAddress'
@@ -63,6 +69,10 @@ class_alias(
 class_alias(
     'meteocontrol\vcomapi\model\MeasurementValue',
     'meteocontrol\client\vcomapi\model\MeasurementValue'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\MeasurementValueWithInterval',
+    'meteocontrol\client\vcomapi\model\MeasurementValueWithInterval'
 );
 class_alias(
     'meteocontrol\vcomapi\model\Meter',

@@ -181,6 +181,21 @@ class MeasurementsCriteria {
     }
 
     /**
+     * @return bool
+     */
+    public function getIntervalIncluded() {
+        return isset($this->filters['includeInterval']);
+    }
+
+    /**
+     * @return MeasurementsCriteria
+     */
+    public function withIntervalIncluded() {
+        $this->filters['includeInterval'] = '1';
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function generateQueryString() {

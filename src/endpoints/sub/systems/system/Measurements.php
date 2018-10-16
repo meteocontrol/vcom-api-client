@@ -6,6 +6,7 @@ use meteocontrol\vcomapi\model\MeasurementValue;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
+use meteocontrol\vcomapi\model\MeasurementValueWithInterval;
 
 class Measurements extends SubEndpoint {
 
@@ -24,6 +25,9 @@ class Measurements extends SubEndpoint {
      */
     public function get(MeasurementsCriteria $criteria) {
         $measurementsJson = $this->api->run($this->getUri(), $criteria->generateQueryString());
+        if ($criteria->getIntervalIncluded()) {
+            return MeasurementValueWithInterval::deserializeArray($this->jsonDecode($measurementsJson, true)['data']);
+        }
         return MeasurementValue::deserializeArray($this->jsonDecode($measurementsJson, true)['data']);
     }
 }
