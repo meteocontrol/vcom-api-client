@@ -65,6 +65,10 @@ class_alias(
     'meteocontrol\client\vcomapi\model\MeasurementValue'
 );
 class_alias(
+    'meteocontrol\vcomapi\model\MeasurementValueWithInterval',
+    'meteocontrol\client\vcomapi\model\MeasurementValueWithInterval'
+);
+class_alias(
     'meteocontrol\vcomapi\model\Meter',
     'meteocontrol\client\vcomapi\model\Meter'
 );
