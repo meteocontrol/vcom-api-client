@@ -59,9 +59,10 @@ class MeasurementsCriteria {
      *              | MeasurementsCriteria::RESOLUTION_DAY
      *              | MeasurementsCriteria::RESOLUTION_MONTH
      *              | MeasurementsCriteria::RESOLUTION_YEAR
+     *              | null
      */
     public function getResolution() {
-        return $this->filters['resolution'];
+        return isset($this->filters['resolution']) ? $this->filters['resolution'] : null;
     }
 
     /**

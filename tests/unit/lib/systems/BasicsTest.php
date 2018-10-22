@@ -8,6 +8,7 @@ use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\MeasurementValue;
+use meteocontrol\client\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 
@@ -83,6 +84,103 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('2016-01-01 00:00:00', $measurements[0]->timestamp->format('Y-m-d H:i:s'));
         $this->assertEquals(0, $measurements[1]->value);
         $this->assertEquals('2016-01-01 00:15:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
+    }
+
+    public function testGetBasicsMeasurementsWithIntervalIncluded() {
+        $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurementsIncludeInterval.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
+                    . '&resolution=interval&includeInterval=1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
+            ->withIntervalIncluded();
+
+        /** @var MeasurementValueWithInterval[] $measurements */
+        $measurements = $this->api->system('ABCDE')->basics()->abbreviation('wr.E_INT')->measurements()->get($criteria);
+        $this->assertEquals(2, count($measurements));
+        $this->assertEquals(0, $measurements[0]->value);
+        $this->assertEquals(300, $measurements[0]->interval);
+        $this->assertEquals('2016-01-01 00:00:00', $measurements[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(0, $measurements[1]->value);
+        $this->assertEquals('2016-01-01 00:15:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $measurements[1]->interval);
+    }
+
+    /**
+     * @expectedException \PHPUnit_Framework_Error_Notice
+     */
+    public function testGetBasicsMeasurementsWithIntervalIncludedWithWrongResolution() {
+        $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
+                    . '&resolution=day&includeInterval=1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withIntervalIncluded();
+
+        $this->api->system('ABCDE')->basics()->abbreviation('wr.E_INT')->measurements()->get($criteria);
+    }
+
+    public function testGetBasicsMeasurementsWithIntervalIncludedWithWrongResolution2() {
+        $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
+                    . '&resolution=day&includeInterval=1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withIntervalIncluded();
+
+
+        /** @var MeasurementValueWithInterval[] $measurements */
+        @$measurements = $this->api
+            ->system('ABCDE')
+            ->basics()
+            ->abbreviation('wr.E_INT')
+            ->measurements()
+            ->get($criteria);
+        $this->assertEquals(2, count($measurements));
+        $this->assertEquals(0, $measurements[0]->value);
+        $this->assertEquals(null, $measurements[0]->interval);
+        $this->assertEquals('2016-01-01 00:00:00', $measurements[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(0, $measurements[1]->value);
+        $this->assertEquals('2016-01-01 00:15:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(null, $measurements[1]->interval);
     }
 
     public function testGetBasicsBulkData() {
