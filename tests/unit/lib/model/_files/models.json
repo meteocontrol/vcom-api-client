@@ -34,6 +34,12 @@
     "timestamp": "2018-01-02T03:04:01+00:00",
     "value": "string"
   },
+  "measurementValueWithInterval":
+  {
+    "timestamp": "2018-01-02T03:04:01+00:00",
+    "value": "string",
+    "interval": 300
+  },
   "ticketHistory":
   {
     "timestamp": "2018-01-02T03:04:01+00:00",

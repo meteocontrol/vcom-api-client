@@ -58,9 +58,10 @@ class MeasurementsCriteria {
      *              | MeasurementsCriteria::RESOLUTION_DAY
      *              | MeasurementsCriteria::RESOLUTION_MONTH
      *              | MeasurementsCriteria::RESOLUTION_YEAR
+     *              | null
      */
     public function getResolution() {
-        return $this->filters['resolution'];
+        return isset($this->filters['resolution']) ? $this->filters['resolution'] : null;
     }
 
     /**
@@ -176,6 +177,21 @@ class MeasurementsCriteria {
      */
     public function withPrecision($precision) {
         $this->filters['precision'] = $precision;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIntervalIncluded() {
+        return isset($this->filters['includeInterval']);
+    }
+
+    /**
+     * @return MeasurementsCriteria
+     */
+    public function withIntervalIncluded() {
+        $this->filters['includeInterval'] = '1';
         return $this;
     }
 
