@@ -16,8 +16,6 @@ class CsvFormat {
     const DELIMITER_TAB = "tab";
 
     const DECIMAL_POINT_DOT = "dot";
-    const DECIMAL_POINT_SEMICOLON = "semicolon";
-    const DECIMAL_POINT_COLON = "colon";
     const DECIMAL_POINT_COMMA = "comma";
 
     const EMPTY_PLACE_HOLDER_EMPTY = "";

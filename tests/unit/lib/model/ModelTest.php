@@ -2,11 +2,13 @@
 
 namespace meteocontrol\client\vcomapi;
 
+use meteocontrol\vcomapi\model\Outage;
 use meteocontrol\vcomapi\model\AttachmentFile;
 use meteocontrol\vcomapi\model\Comment;
 use meteocontrol\vcomapi\model\CommentDetail;
 use meteocontrol\vcomapi\model\Coordinates;
 use meteocontrol\vcomapi\model\MeasurementValue;
+use meteocontrol\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\vcomapi\model\SystemDetail;
 use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\vcomapi\model\TicketHistory;
@@ -19,6 +21,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $floatValue = 0.1;
         $stringValue = 'string';
         $booleanValue = true;
+        $intervalValue = 300;
         $expectedData = json_decode(file_get_contents(__DIR__ . '/_files/models.json'), true);
 
         $attachmentFile = new AttachmentFile();
@@ -42,6 +45,11 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $measurementValue->value = $stringValue;
         $measurementValue->timestamp = $dateTime;
 
+        $measurementValueWithInterval = new MeasurementValueWithInterval();
+        $measurementValueWithInterval->value = $stringValue;
+        $measurementValueWithInterval->timestamp = $dateTime;
+        $measurementValueWithInterval->interval = $intervalValue;
+
         $ticket = new Ticket();
         $ticket->id = $ticket->causeId = $intValue;
         $ticket->systemKey = $ticket->designation = $ticket->summary = $ticket->assignee =
@@ -50,6 +58,10 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $ticket->fieldService = $booleanValue;
         $ticket->date = $ticket->lastChange = $ticket->rectifiedOn = $ticket->createdAt =
         $ticket->lastChangedAt = $ticket->rectifiedAt = $dateTime;
+        $ticket->outage = new Outage();
+        $ticket->outage->startedAt = $ticket->outage->endedAt = $dateTime;
+        $ticket->outage->shouldInfluenceAvailability = $ticket->outage->shouldInfluencePr = $booleanValue;
+        $ticket->outage->affectedPower = $floatValue;
 
         $ticketHistory = new TicketHistory();
         $ticketHistory->action = $ticketHistory->personInCharge = $ticketHistory->from =
@@ -60,6 +72,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $systemDetail->elevation = $intValue;
         $systemDetail->name = $systemDetail->currency = $stringValue;
         $systemDetail->commissionDate = $dateTime;
+        $systemDetail->hasSolarForecast = $booleanValue;
 
         $coordinates = new Coordinates();
         $coordinates->latitude = $coordinates->longitude = $floatValue;
@@ -68,9 +81,31 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedData['comment'], json_decode(json_encode($comment), true));
         $this->assertEquals($expectedData['commentDetail'], json_decode(json_encode($commentDetail), true));
         $this->assertEquals($expectedData['measurementValue'], json_decode(json_encode($measurementValue), true));
+        $this->assertEquals(
+            $expectedData['measurementValueWithInterval'],
+            json_decode(json_encode($measurementValueWithInterval), true)
+        );
         $this->assertEquals($expectedData['ticket'], json_decode(json_encode($ticket), true));
         $this->assertEquals($expectedData['ticketHistory'], json_decode(json_encode($ticketHistory), true));
         $this->assertEquals($expectedData['systemDetail'], json_decode(json_encode($systemDetail), true));
         $this->assertEquals($expectedData['coordinates'], json_decode(json_encode($coordinates), true));
+    }
+
+    public function testDecodeJsonToSystemDetail() {
+        $expectedTimestamp = '2018-01-01';
+        $expectedTimezones = [
+            new \DateTimeZone('Europe/Berlin'),
+            new \DateTimeZone('Asia/Kolkata'),
+            (new \DateTime())->getTimezone()
+        ];
+
+        $testData = json_decode(file_get_contents(__DIR__ . '/_files/systemDetails.json'), true);
+        $systemDetails = SystemDetail::deserializeArray($testData);
+
+        /** @var SystemDetail $systemDetail */
+        foreach ($systemDetails as $index => $systemDetail) {
+            $this->assertEquals($expectedTimestamp, $systemDetail->commissionDate->format('Y-m-d'));
+            $this->assertEquals($expectedTimezones[$index], $systemDetail->commissionDate->getTimezone());
+        }
     }
 }

@@ -1,0 +1,17 @@
+[
+  {
+    "commissionDate": "2018-01-01",
+    "timezone": {
+      "name": "Europe/Berlin"
+    }
+  },
+  {
+    "commissionDate": "2018-01-01",
+    "timezone": {
+      "name": "Asia/Kolkata"
+    }
+  },
+  {
+    "commissionDate": "2018-01-01"
+  }
+]

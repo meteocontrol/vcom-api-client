@@ -6,24 +6,20 @@ class SystemDetail extends BaseModel {
 
     /** @var Address */
     public $address;
-
     /** @var int */
     public $elevation;
-
     /** @var \DateTime */
     public $commissionDate;
-
     /** @var Coordinates */
     public $coordinates;
-
     /** @var string */
     public $name;
-
     /** @var Timezone */
     public $timezone;
-
     /** @var string */
     public $currency;
+    /** @var bool */
+    public $hasSolarForecast;
 
     /**
      * @param array $data
@@ -31,20 +27,22 @@ class SystemDetail extends BaseModel {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $className = get_called_class();
-        $classInstance = new $className();
+        $object = new static();
+
         foreach ($data as $key => $value) {
             if (is_array($value) && $key === "address") {
-                $classInstance->address = Address::deserialize($value);
+                $object->address = Address::deserialize($value);
             } elseif (is_array($value) && $key === "coordinates") {
-                $classInstance->coordinates = Coordinates::deserialize($value);
+                $object->coordinates = Coordinates::deserialize($value);
             } elseif (is_array($value) && $key === "timezone") {
-                $classInstance->timezone = Timezone::deserialize($value);
-            } elseif (property_exists($className, $key)) {
-                $classInstance->{$key} = self::getPhpValue($value);
+                $object->timezone = Timezone::deserialize($value);
+            } elseif ($key === "commissionDate") {
+                $object->commissionDate = self::deserializeCommissionDate($value, $data);
+            } elseif (property_exists($object, $key)) {
+                $object->{$key} = self::getPhpValue($value);
             }
         }
-        return $classInstance;
+        return $object;
     }
 
     /**
@@ -57,5 +55,18 @@ class SystemDetail extends BaseModel {
             return $dateTime->format('Y-m-d');
         }
         return parent::serializeDateTime($dateTime);
+    }
+
+    /**
+     * @param string $dateString
+     * @param array $data
+     * @return bool|\DateTime
+     */
+    private static function deserializeCommissionDate($dateString, array $data) {
+        return \DateTime::createFromFormat(
+            'Y-m-d H:i:s',
+            "{$dateString} 00:00:00",
+            isset($data['timezone']['name']) ? new \DateTimeZone($data['timezone']['name']) : null
+        );
     }
 }

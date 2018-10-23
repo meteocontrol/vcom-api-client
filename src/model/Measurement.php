@@ -23,16 +23,16 @@ class Measurement extends BaseModel {
      * @return $this
      */
     public static function deserialize(array $data) {
-        $className = get_called_class();
-        $classInstance = new $className();
+        $object = new static();
+
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                $classInstance->{$key} = MeasurementValue::deserializeArray($value);
+                $object->{$key} = MeasurementValue::deserializeArray($value);
             } else {
-                $classInstance->{$key} = self::getPhpValue($value);
+                $object->{$key} = self::getPhpValue($value);
             }
         }
-        return $classInstance;
+        return $object;
     }
 
     /**

@@ -171,6 +171,42 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $ticket->severity);
         $this->assertEquals('no', $ticket->includeInReports);
         $this->assertEquals(true, $ticket->fieldService);
+        $this->assertNull($ticket->outage);
+    }
+
+    public function testGetSingleTicketWithOutage() {
+        $json = file_get_contents(__DIR__ . '/responses/getTicketWithOutage.json');
+
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo('tickets/123'))
+            ->willReturn($json);
+
+        /** @var \meteocontrol\client\vcomapi\model\Ticket $ticket */
+        $ticket = $this->api->ticket(123)->get();
+
+        $this->assertEquals(123, $ticket->id);
+        $this->assertEquals('ABCDE', $ticket->systemKey);
+        $this->assertEquals('Ticket #123', $ticket->designation);
+        $this->assertEquals('This is a summary.', $ticket->summary);
+        $this->assertEquals('2016-01-01T12:00:00', $ticket->date->format('Y-m-d\TH:i:s'));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $ticket->createdAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T13:00:00', $ticket->lastChange->format('Y-m-d\TH:i:s'));
+        $this->assertEquals('2016-01-01T13:00:00+02:00', $ticket->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T14:00:00', $ticket->rectifiedOn->format('Y-m-d\TH:i:s'));
+        $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->rectifiedAt->format(\DateTime::ATOM));
+        $this->assertEquals(null, $ticket->assignee);
+        $this->assertEquals(Ticket::STATUS_INPROGRESS, $ticket->status);
+        $this->assertEquals(10, $ticket->causeId);
+        $this->assertEquals(Ticket::PRIORITY_NORMAL, $ticket->priority);
+        $this->assertEquals(Ticket::SEVERITY_NORMAL, $ticket->severity);
+        $this->assertEquals('no', $ticket->includeInReports);
+        $this->assertEquals(true, $ticket->fieldService);
+        $this->assertEquals("2018-01-01T12:20:00+00:00", $ticket->outage->startedAt->format(\DateTime::ATOM));
+        $this->assertEquals("2018-01-02T16:00:00+00:00", $ticket->outage->endedAt->format(\DateTime::ATOM));
+        $this->assertEquals(5, $ticket->outage->affectedPower);
+        $this->assertTrue($ticket->outage->shouldInfluenceAvailability);
+        $this->assertTrue($ticket->outage->shouldInfluencePr);
     }
 
     public function testUpdateTicket() {

@@ -9,6 +9,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\Sensors;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
+use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
 use meteocontrol\client\vcomapi\model\SensorDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
@@ -133,6 +134,126 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
     }
 
+    public function testGetSensorMeasurementsWithIntervalIncluded() {
+        $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurementsIncludeInterval.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
+                    . '&resolution=interval&includeInterval=1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
+            ->withIntervalIncluded();
+
+        /** @var DevicesMeasurementWithInterval $measurements */
+        $measurements = $this->api->system('ABCDE')->sensor('123')->abbreviation('T_M1,G_M3')->measurements()
+            ->get($criteria);
+
+        $this->assertEquals(1, count($measurements));
+        $abbreviationsMeasurements = $measurements['123'];
+        $values = $abbreviationsMeasurements['T_M1'];
+        $this->assertEquals(2, count($values));
+        $this->assertEquals(2.054, $values[0]->value);
+        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[0]->interval);
+        $this->assertEquals(2.049, $values[1]->value);
+        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[1]->interval);
+
+        $values = $abbreviationsMeasurements['G_M3'];
+        $this->assertEquals(2, count($values));
+        $this->assertEquals(13.16, $values[0]->value);
+        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[0]->interval);
+        $this->assertEquals(13.03, $values[1]->value);
+        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(300, $values[1]->interval);
+    }
+
+    /**
+     * @expectedException \PHPUnit_Framework_Error_Notice
+     */
+    public function testGetSensorMeasurementsWithIntervalIncludedWithWrongResolution() {
+        $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurements.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
+                    . '&resolution=day&includeInterval=1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withIntervalIncluded();
+
+        $this->api->system('ABCDE')->sensor('123')->abbreviation('T_M1,G_M3')->measurements()
+            ->get($criteria);
+    }
+
+    public function testGetSensorMeasurementsWithIntervalIncludedWithWrongResolution2() {
+        $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurements.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
+                    . '&resolution=day&includeInterval=1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withIntervalIncluded();
+
+        /** @var DevicesMeasurementWithInterval $measurements */
+        @$measurements = $this->api->system('ABCDE')->sensor('123')->abbreviation('T_M1,G_M3')->measurements()
+            ->get($criteria);
+
+        $this->assertEquals(1, count($measurements));
+        $abbreviationsMeasurements = $measurements['123'];
+        $values = $abbreviationsMeasurements['T_M1'];
+        $this->assertEquals(2, count($values));
+        $this->assertEquals(2.054, $values[0]->value);
+        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(null, $values[0]->interval);
+        $this->assertEquals(2.049, $values[1]->value);
+        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(null, $values[1]->interval);
+
+        $values = $abbreviationsMeasurements['G_M3'];
+        $this->assertEquals(2, count($values));
+        $this->assertEquals(13.16, $values[0]->value);
+        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(null, $values[0]->interval);
+        $this->assertEquals(13.03, $values[1]->value);
+        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(null, $values[1]->interval);
+    }
+
     public function testGetSensorsBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorBulk.json');
         $this->api->expects($this->once())
@@ -185,8 +306,9 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
-            ->withDelimiter(CsvFormat::DELIMITER_COLON)
-            ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COLON);
+            ->withDelimiter(CsvFormat::DELIMITER_COMMA)
+            ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
+            ->withPrecision(CsvFormat::PRECISION_2);
         $this->api->system('ABCDE')->sensors()->bulk()->measurements()->get($criteria);
     }
 }

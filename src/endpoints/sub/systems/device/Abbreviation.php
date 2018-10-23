@@ -22,8 +22,7 @@ class Abbreviation extends SubEndpoint {
      */
     public function get() {
         $abbreviationJson = $this->api->run($this->getUri());
-        $decodedJson = json_decode($abbreviationJson, true);
-        return AbbreviationModel::deserialize($decodedJson['data']);
+        return AbbreviationModel::deserialize($this->jsonDecode($abbreviationJson, true)['data']);
     }
 
     /**

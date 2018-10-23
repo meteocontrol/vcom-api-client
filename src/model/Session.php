@@ -13,15 +13,15 @@ class Session extends BaseModel {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $className = get_called_class();
-        $classInstance = new $className();
+        $object = new static();
+
         foreach ($data as $key => $value) {
             if (is_array($value) && $key === "user") {
-                $classInstance->user = UserDetail::deserialize($value);
-            } elseif (property_exists($className, $key)) {
-                $classInstance->{$key} = self::getPhpValue($value);
+                $object->user = UserDetail::deserialize($value);
+            } elseif (property_exists($object, $key)) {
+                $object->{$key} = self::getPhpValue($value);
             }
         }
-        return $classInstance;
+        return $object;
     }
 }
