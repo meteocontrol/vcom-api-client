@@ -5,6 +5,7 @@ namespace meteocontrol\vcomapi\model;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 
 class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
+
     /** @deprecated */
     const RESOLUTION_INTERVAL = MeasurementsCriteria::RESOLUTION_INTERVAL;
     /** @deprecated */
@@ -23,17 +24,16 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * @return $this
      */
     public static function deserialize(array $data, $name = null) {
-        $className = get_called_class();
-        $classInstance = new $className();
+        $object = new static();
 
         foreach ($data as $deviceId => $abbreviationMeasurements) {
-            $deviceMeasurements = array();
+            $deviceMeasurements = [];
             foreach ($abbreviationMeasurements as $abbreviation => $value) {
                 $deviceMeasurements[$abbreviation] = MeasurementValue::deserializeArray($value);
             }
-            $classInstance->values[$deviceId] = $deviceMeasurements;
+            $object->values[$deviceId] = $deviceMeasurements;
         }
-        return $classInstance;
+        return $object;
     }
 
     /**

@@ -59,7 +59,10 @@ class SystemsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('Spicherer Straße 48', $system->address->street);
         $this->assertEquals(480, $system->elevation);
         $this->assertEquals('test', $system->name);
-        $this->assertEquals('2016-01-28', $system->commissionDate->format('Y-m-d'));
+        $this->assertEquals(
+            new \DateTime('2016-01-28 00:00:00', new \DateTimeZone('Europe/Berlin')),
+            $system->commissionDate
+        );
         $this->assertEquals(48.3670191, $system->coordinates->latitude);
         $this->assertEquals(10.8681, $system->coordinates->longitude);
         $this->assertEquals('Europe/Berlin', $system->timezone->name);

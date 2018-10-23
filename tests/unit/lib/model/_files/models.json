@@ -85,7 +85,8 @@
     "coordinates": null,
     "name": "string",
     "timezone": null,
-    "currency": "string"
+    "currency": "string",
+    "hasSolarForecast": true
   },
   "coordinates":
   {

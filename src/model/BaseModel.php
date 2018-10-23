@@ -11,14 +11,13 @@ abstract class BaseModel implements JsonSerializable {
      * @return $this
      */
     public static function deserialize(array $data) {
-        $className = get_called_class();
-        $classInstance = new $className();
+        $object = new static();
         foreach ($data as $key => $value) {
-            if (property_exists($className, $key)) {
-                $classInstance->{$key} = self::getPhpValue($value);
+            if (property_exists($object, $key)) {
+                $object->{$key} = static::getPhpValue($value);
             }
         }
-        return $classInstance;
+        return $object;
     }
 
     /**
@@ -27,9 +26,8 @@ abstract class BaseModel implements JsonSerializable {
      */
     public static function deserializeArray(array $decodedJsonArray) {
         $objects = [];
-        $className = get_called_class();
         foreach ($decodedJsonArray as $item) {
-            $objects[] = $className::deserialize($item);
+            $objects[] = static::deserialize($item);
         }
         return $objects;
     }

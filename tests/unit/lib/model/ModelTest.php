@@ -72,6 +72,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $systemDetail->elevation = $intValue;
         $systemDetail->name = $systemDetail->currency = $stringValue;
         $systemDetail->commissionDate = $dateTime;
+        $systemDetail->hasSolarForecast = $booleanValue;
 
         $coordinates = new Coordinates();
         $coordinates->latitude = $coordinates->longitude = $floatValue;
@@ -88,5 +89,23 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedData['ticketHistory'], json_decode(json_encode($ticketHistory), true));
         $this->assertEquals($expectedData['systemDetail'], json_decode(json_encode($systemDetail), true));
         $this->assertEquals($expectedData['coordinates'], json_decode(json_encode($coordinates), true));
+    }
+
+    public function testDecodeJsonToSystemDetail() {
+        $expectedTimestamp = '2018-01-01';
+        $expectedTimezones = [
+            new \DateTimeZone('Europe/Berlin'),
+            new \DateTimeZone('Asia/Kolkata'),
+            (new \DateTime())->getTimezone()
+        ];
+
+        $testData = json_decode(file_get_contents(__DIR__ . '/_files/systemDetails.json'), true);
+        $systemDetails = SystemDetail::deserializeArray($testData);
+
+        /** @var SystemDetail $systemDetail */
+        foreach ($systemDetails as $index => $systemDetail) {
+            $this->assertEquals($expectedTimestamp, $systemDetail->commissionDate->format('Y-m-d'));
+            $this->assertEquals($expectedTimezones[$index], $systemDetail->commissionDate->getTimezone());
+        }
     }
 }
