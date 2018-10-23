@@ -15,4 +15,4 @@
 2018-03-21: Update model namespace
 2018-04-02: Add currency in system, update model parameter type
 2018-04-25: Implement jsonSerialize for model
-2018-10-22: Support includeInterval query parameter and support more resolutions for measurement endpoints
+2018-10-22: Support includeInterval query parameter, power plant controllers endpoints and support more resolutions for measurement endpoints
