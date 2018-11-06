@@ -14,6 +14,7 @@ class MeasurementsCriteria {
     const RESOLUTION_DAY = 'day';
     const RESOLUTION_MONTH = 'month';
     const RESOLUTION_YEAR = 'year';
+    const SUPPORTED_VERSION = 2;
 
     /** @var string[] */
     private $filters;

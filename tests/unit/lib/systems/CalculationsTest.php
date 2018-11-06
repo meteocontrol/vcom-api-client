@@ -91,6 +91,58 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('2016-01-02 00:00:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
     }
 
+    public function testGetCalculationMeasurementsWithVersion2Data() {
+        $json = file_get_contents(__DIR__ . '/responses/getCalculationsMeasurementsVersion2.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/calculations/abbreviations/berechnet.WR,berechnet.PR/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day&v=2'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
+
+        /** @var MeasurementValue[] $measurements */
+        $measurements = $this->api
+            ->system('ABCDE')
+            ->calculations()
+            ->abbreviation(['berechnet.WR', 'berechnet.PR'])
+            ->measurements()
+            ->get($criteria, 2);
+        $this->assertEquals(2, count($measurements));
+        $value = $measurements['WR'];
+        $this->assertEquals(0, $value[0]->value);
+        $this->assertEquals('2016-01-01 00:00:00', $value[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(0, $value[1]->value);
+        $this->assertEquals('2016-01-02 00:00:00', $value[1]->timestamp->format('Y-m-d H:i:s'));
+        $value = $measurements['PR'];
+        $this->assertEquals(0, $value[0]->value);
+        $this->assertEquals('2016-01-01 00:00:00', $value[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals(0, $value[1]->value);
+        $this->assertEquals('2016-01-02 00:00:00', $value[1]->timestamp->format('Y-m-d H:i:s'));
+    }
+
+    /**
+     * @expectedException \meteocontrol\client\vcomapi\ApiClientException
+     * @expectedExceptionMessage The value of version parameter is not supported.
+     */
+    public function testGetCalculationsMeasurementsWithNonSupportedVersion() {
+        $criteria = new MeasurementsCriteria();
+        $this->api
+            ->system('ABCDE')
+            ->calculations()
+            ->abbreviation(['berechnet.WR', 'berechnet.PR'])
+            ->measurements()
+            ->get($criteria, 99);
+    }
     /**
      * @expectedException \PHPUnit_Framework_Error_Notice
      */

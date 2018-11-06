@@ -31,8 +31,52 @@ class Measurements extends SubEndpoint {
             ) {
                 trigger_error('"includeInterval" is only accepted with interval resolution.');
             }
-            return MeasurementValueWithInterval::deserializeArray($this->jsonDecode($measurementsJson, true)['data']);
+            return $this->deserializeIntervalData($measurementsJson);
         }
-        return MeasurementValue::deserializeArray($this->jsonDecode($measurementsJson, true)['data']);
+        return $this->deserializeData($measurementsJson);
+    }
+
+    /**
+     * @param string $measurementsJson
+     * @return array
+     */
+    private function deserializeIntervalData($measurementsJson): array {
+        return $this->deserializeWithIntervalVersion2Data(
+            $this->jsonDecode($measurementsJson, true)['data']
+        );
+    }
+
+    /**
+     * @param string $measurementsJson
+     * @return array
+     */
+    private function deserializeData($measurementsJson): array {
+        return $this->deserializeVersion2Data(
+            $this->jsonDecode($measurementsJson, true)['data']
+        );
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function deserializeVersion2Data(array $data) {
+        $deviceMeasurements = [];
+        foreach ($data as $abbreviation => $value) {
+            $deviceMeasurements[$abbreviation] = MeasurementValue::deserializeArray($value);
+        }
+        return $deviceMeasurements;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function deserializeWithIntervalVersion2Data(array $data) {
+        $deviceMeasurements = [];
+        foreach ($data as $abbreviation => $value) {
+            $deviceMeasurements[$abbreviation] = MeasurementValueWithInterval::deserializeArray($value);
+        }
+        return $deviceMeasurements;
     }
 }
