@@ -96,7 +96,7 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
                     'systems/abbreviations/E_Z_EVU,PR/measurements'
                 ),
                 $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day&v=2'
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
                 )
             )
             ->willReturn($json);
@@ -106,7 +106,7 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
         /** @var Measurement[] $measurements */
-        $measurements = $this->systemsEndpoint->abbreviation(['E_Z_EVU', 'PR'])->measurements()->get($criteria, 2);
+        $measurements = $this->systemsEndpoint->abbreviation(['E_Z_EVU', 'PR'])->measurements()->get($criteria);
 
         $this->assertEquals(2, count($measurements));
         $this->assertEquals('ABCDE', $measurements[0]->systemKey);
@@ -127,14 +127,5 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
         $valuesForSystem2 = $measurements[1]->PR;
         $this->assertEquals("20", $valuesForSystem2[0]->value);
         $this->assertEquals("2016-01-01 00:00:00", $valuesForSystem2[0]->timestamp->format('Y-m-d H:i:s'));
-    }
-
-    /**
-     * @expectedException \meteocontrol\client\vcomapi\ApiClientException
-     * @expectedExceptionMessage The value of version parameter is not supported.
-     */
-    public function testGetSystemMeasurementsWithNonSupportedVersion() {
-        $criteria = new MeasurementsCriteria();
-        $this->systemsEndpoint->abbreviation(['E_Z_EVU', 'PR'])->measurements()->get($criteria, 99);
     }
 }
