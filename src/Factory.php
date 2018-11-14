@@ -45,7 +45,7 @@ class Factory {
      * @return Client
      */
     public static function getHttpClient(Config $config) {
-        $baseUri = $config->getApiUrl() . '/v' . $config->getApiVersion() . '/';
+        $baseUri = $config->getApiUrl() . '/v2';
         $client = new Client(
             [
                 'base_uri' => $baseUri,

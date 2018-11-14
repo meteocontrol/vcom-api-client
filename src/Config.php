@@ -13,8 +13,7 @@ class Config {
         'API_KEY',
         'API_USERNAME',
         'API_PASSWORD',
-        'API_AUTH_MODE',
-        'API_VERSION'
+        'API_AUTH_MODE'
     ];
 
     /**
@@ -97,20 +96,6 @@ class Config {
      */
     public function setApiAuthorizationMode($authorizationMode) {
         $this->config['API_AUTH_MODE'] = $authorizationMode;
-    }
-
-    /**
-     * @return int
-     */
-    public function getApiVersion() {
-        return isset($this->config['API_VERSION']) ? (int)$this->config['API_VERSION'] : 1;
-    }
-
-    /**
-     * @param int $version
-     */
-    public function setApiVersion($version) {
-        $this->config['API_VERSION'] = $version;
     }
 
     /**
