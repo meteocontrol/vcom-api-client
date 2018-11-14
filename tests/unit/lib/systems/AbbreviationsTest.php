@@ -86,8 +86,8 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals("2016-01-01 00:00:00", $valuesForSystem2[0]->timestamp->format('Y-m-d H:i:s'));
     }
 
-    public function testGetSystemsMeasurementsWithVersion2Data() {
-        $json = file_get_contents(__DIR__ . '/responses/getMeasurementsVersion2.json');
+    public function testGetSystemsMeasurementsWithMultipleAbbreviation() {
+        $json = file_get_contents(__DIR__ . '/responses/getMeasurements2.json');
 
         $this->api->expects($this->once())
             ->method('run')

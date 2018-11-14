@@ -11,6 +11,7 @@ class MeasurementValue extends BaseModel {
 
     public static function deserialize(array $data, $name = null) {
         $object = new static();
+
         foreach ($data as $key => $value) {
             if ($key === "timestamp") {
                 $object->timestamp = self::parseTimestamp($value);
