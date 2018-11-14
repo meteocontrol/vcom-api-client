@@ -41,9 +41,12 @@ class Measurements extends SubEndpoint {
      * @return array
      */
     private function deserializeIntervalData($measurementsJson): array {
-        return $this->deserializeWithIntervalVersion2Data(
-            $this->jsonDecode($measurementsJson, true)['data']
-        );
+        $data = $this->jsonDecode($measurementsJson, true)['data'];
+        $deviceMeasurements = [];
+        foreach ($data as $abbreviation => $value) {
+            $deviceMeasurements[$abbreviation] = MeasurementValueWithInterval::deserializeArray($value);
+        }
+        return $deviceMeasurements;
     }
 
     /**
@@ -51,31 +54,10 @@ class Measurements extends SubEndpoint {
      * @return array
      */
     private function deserializeData($measurementsJson): array {
-        return $this->deserializeVersion2Data(
-            $this->jsonDecode($measurementsJson, true)['data']
-        );
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    private function deserializeVersion2Data(array $data) {
+        $data = $this->jsonDecode($measurementsJson, true)['data'];
         $deviceMeasurements = [];
         foreach ($data as $abbreviation => $value) {
             $deviceMeasurements[$abbreviation] = MeasurementValue::deserializeArray($value);
-        }
-        return $deviceMeasurements;
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    private function deserializeWithIntervalVersion2Data(array $data) {
-        $deviceMeasurements = [];
-        foreach ($data as $abbreviation => $value) {
-            $deviceMeasurements[$abbreviation] = MeasurementValueWithInterval::deserializeArray($value);
         }
         return $deviceMeasurements;
     }
