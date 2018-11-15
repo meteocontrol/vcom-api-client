@@ -45,9 +45,10 @@ class Factory {
      * @return Client
      */
     public static function getHttpClient(Config $config) {
+        $baseUri = $config->getApiUrl() . '/v2';
         $client = new Client(
             [
-                'base_uri' => $config->getApiUrl() . '/',
+                'base_uri' => $baseUri,
                 'headers' => self::getDefaultHeaders($config),
                 'debug' => false
             ]
