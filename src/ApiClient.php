@@ -18,14 +18,22 @@ class ApiClient {
     private $client;
     /** @var AuthorizationHandlerInterface */
     private $authorizationHandler;
+    /** @var string */
+    private $basePath;
 
     /**
      * @param Client $client
      * @param AuthorizationHandlerInterface $authorizationHandler
+     * @param string $basePath
      */
-    public function __construct(Client $client, AuthorizationHandlerInterface $authorizationHandler) {
+    public function __construct(
+        Client $client,
+        AuthorizationHandlerInterface $authorizationHandler,
+        $basePath = ''
+    ) {
         $this->client = $client;
         $this->authorizationHandler = $authorizationHandler;
+        $this->basePath = $basePath;
     }
 
     /**
@@ -101,6 +109,7 @@ class ApiClient {
      * @throws ApiClientException
      */
     public function run($uri, $queryParams = null, $body = null, $method = 'GET') {
+        $uri = $this->prependBasePathToUri($uri);
         /** @var $response ResponseInterface */
         $response = null;
         $options = $this->getRequestOptions($queryParams, $body);
@@ -172,5 +181,13 @@ class ApiClient {
                 throw new ApiClientException('Unacceptable HTTP method ' . $method);
         }
         return $response;
+    }
+
+    /**
+     * @param string $uri
+     * @return string
+     */
+    private function prependBasePathToUri($uri) {
+        return $this->basePath . $uri;
     }
 }
