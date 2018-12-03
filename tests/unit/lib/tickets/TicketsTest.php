@@ -56,9 +56,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('ABCDE', $tickets[0]->systemKey);
         $this->assertEquals('Ticket #123', $tickets[0]->designation);
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
-        $this->assertEquals('2016-01-01T12:00:00', $tickets[0]->date->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T13:00:00', $tickets[0]->lastChange->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $tickets[0]->assignee);
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
@@ -69,9 +67,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('FGHIJ', $tickets[1]->systemKey);
         $this->assertEquals('Ticket #456', $tickets[1]->designation);
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
-        $this->assertEquals('2016-02-01T12:00:00', $tickets[1]->date->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-02-02T13:00:00', $tickets[1]->lastChange->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $tickets[1]->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
@@ -119,9 +115,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('ABCDE', $tickets[0]->systemKey);
         $this->assertEquals('Ticket #123', $tickets[0]->designation);
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
-        $this->assertEquals('2016-01-01T12:00:00', $tickets[0]->date->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T13:00:00', $tickets[0]->lastChange->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $tickets[0]->assignee);
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
@@ -132,9 +126,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('FGHIJ', $tickets[1]->systemKey);
         $this->assertEquals('Ticket #456', $tickets[1]->designation);
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
-        $this->assertEquals('2016-02-01T12:00:00', $tickets[1]->date->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-02-02T13:00:00', $tickets[1]->lastChange->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $tickets[1]->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
@@ -158,11 +150,8 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('ABCDE', $ticket->systemKey);
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
-        $this->assertEquals('2016-01-01T12:00:00', $ticket->date->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T12:00:00+02:00', $ticket->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T13:00:00', $ticket->lastChange->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T13:00:00+02:00', $ticket->lastChangedAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T14:00:00', $ticket->rectifiedOn->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->rectifiedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $ticket->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $ticket->status);
@@ -189,11 +178,8 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('ABCDE', $ticket->systemKey);
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
-        $this->assertEquals('2016-01-01T12:00:00', $ticket->date->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T12:00:00+02:00', $ticket->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T13:00:00', $ticket->lastChange->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T13:00:00+02:00', $ticket->lastChangedAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T14:00:00', $ticket->rectifiedOn->format('Y-m-d\TH:i:s'));
         $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->rectifiedAt->format(\DateTime::ATOM));
         $this->assertEquals(null, $ticket->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $ticket->status);
@@ -237,7 +223,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
                     json_encode(
                         [
                             'designation' => 'abc',
-                            'date' => '2016-01-01T00:00:00+00:00',
+                            'createdAt' => '2016-01-01T00:00:00+00:00',
                             'includeInReports' => 'detail'
                         ]
                     ),
@@ -245,7 +231,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
                 ]
             );
         $this->api->ticket($ticket->id)->update($ticket);
-        $this->api->ticket($ticket->id)->update($ticket, ['designation', 'date', 'includeInReports']);
+        $this->api->ticket($ticket->id)->update($ticket, ['designation', 'createdAt', 'includeInReports']);
     }
 
     /**
@@ -254,18 +240,18 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
      */
     public function testUpdateTicketWithWrongFilter() {
         $ticket = $this->getTicket();
-        unset($ticket->date);
+        unset($ticket->createdAt);
 
         $this->api->expects($this->never())
             ->method('run');
-        $this->api->ticket($ticket->id)->update($ticket, ['designation', 'date', 'reportType']);
+        $this->api->ticket($ticket->id)->update($ticket, ['designation', 'createdAt', 'reportType']);
     }
 
     public function testCreateTicket() {
         $ticket = new Ticket();
         $ticket->systemKey = 'ABCDE';
         $ticket->designation = 'designation';
-        $ticket->date = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
+        $ticket->createdAt = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
         $ticket->status = Ticket::STATUS_OPEN;
         $ticket->priority = Ticket::PRIORITY_HIGH;
         $ticket->includeInReports = Ticket::REPORT_TYPE_SUMMARY;
@@ -302,7 +288,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
     public function testCreateTicketWithoutRequiredValue() {
         $ticket = new Ticket();
         $ticket->designation = 'designation';
-        $ticket->date = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
+        $ticket->createdAt = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
         $ticket->status = Ticket::STATUS_OPEN;
         $ticket->priority = Ticket::PRIORITY_HIGH;
 
@@ -385,7 +371,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $ticket->systemKey = 'ABCDE';
         $ticket->designation = 'abc';
         $ticket->summary = 'summary';
-        $ticket->date = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00');
+        $ticket->createdAt = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00');
         $ticket->includeInReports = Ticket::REPORT_TYPE_DETAIL;
         $ticket->status = Ticket::STATUS_CLOSED;
         $ticket->priority = Ticket::PRIORITY_URGENT;

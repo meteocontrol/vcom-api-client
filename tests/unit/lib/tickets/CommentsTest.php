@@ -37,14 +37,12 @@ class CommentsTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(2, count($comments));
         $this->assertEquals(661288, $comments[0]->commentId);
-        $this->assertEquals('2016-02-19T12:49:20+01:00', $comments[0]->date->format(\DateTime::RFC3339));
         $this->assertEquals('2016-02-19T16:49:20+05:00', $comments[0]->createdAt->format(\DateTime::RFC3339));
         $this->assertEquals('Comment text', $comments[0]->comment);
         $this->assertEquals('Username', $comments[0]->username);
         $this->assertEquals('First', $comments[0]->firstName);
         $this->assertEquals('Last', $comments[0]->lastName);
         $this->assertEquals(661286, $comments[1]->commentId);
-        $this->assertEquals('2016-02-19T12:49:07+01:00', $comments[1]->date->format(\DateTime::RFC3339));
         $this->assertEquals('2016-02-19T16:49:07+05:00', $comments[1]->createdAt->format(\DateTime::RFC3339));
         $this->assertEquals('Comment text', $comments[1]->comment);
         $this->assertEquals('Username', $comments[1]->username);
@@ -64,7 +62,6 @@ class CommentsTest extends \PHPUnit_Framework_TestCase {
         $commentDetail = $this->api->ticket('123')->comment(661288)->get();
 
         $this->assertEquals(661288, $commentDetail->commentId);
-        $this->assertEquals('2016-02-19T12:49:20+01:00', $commentDetail->date->format(\DateTime::RFC3339));
         $this->assertEquals('2016-02-19T16:49:20+05:00', $commentDetail->createdAt->format(\DateTime::RFC3339));
         $this->assertEquals('Comment text', $commentDetail->comment);
         $this->assertEquals('Username', $commentDetail->username);
@@ -168,7 +165,6 @@ class CommentsTest extends \PHPUnit_Framework_TestCase {
      */
     private function getCommentDetail() {
         $commentDetail = new CommentDetail();
-        $commentDetail->date = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00');
         $commentDetail->comment = 'New Comment';
         $commentDetail->username = 'test.username';
         return $commentDetail;

@@ -33,13 +33,13 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $comment->commentId = $intValue;
         $comment->comment = $comment->username = $comment->firstName =
         $comment->lastName = $stringValue;
-        $comment->date = $comment->createdAt = $dateTime;
+        $comment->createdAt = $dateTime;
 
         $commentDetail = new CommentDetail();
         $commentDetail->commentId = $intValue;
         $commentDetail->comment = $commentDetail->username = $commentDetail->firstName =
         $commentDetail->lastName = $stringValue;
-        $commentDetail->date = $commentDetail->createdAt = $dateTime;
+        $commentDetail->createdAt = $dateTime;
 
         $measurementValue = new MeasurementValue();
         $measurementValue->value = $stringValue;
@@ -56,8 +56,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $ticket->status = $ticket->priority = $ticket->includeInReports = $ticket->severity =
         $ticket->description = $stringValue;
         $ticket->fieldService = $booleanValue;
-        $ticket->date = $ticket->lastChange = $ticket->rectifiedOn = $ticket->createdAt =
-        $ticket->lastChangedAt = $ticket->rectifiedAt = $dateTime;
+        $ticket->createdAt = $ticket->lastChangedAt = $ticket->rectifiedAt = $dateTime;
         $ticket->outage = new Outage();
         $ticket->outage->startedAt = $ticket->outage->endedAt = $dateTime;
         $ticket->outage->shouldInfluenceAvailability = $ticket->outage->shouldInfluencePr = $booleanValue;

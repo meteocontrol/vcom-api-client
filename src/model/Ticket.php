@@ -35,29 +35,11 @@ class Ticket extends BaseModel {
     /** @var string */
     public $summary;
 
-    /**
-     * @var \DateTime
-     * @deprecated
-     */
-    public $date;
-
     /** @var \DateTime */
     public $createdAt;
 
-    /**
-     * @var \DateTime
-     * @deprecated
-     */
-    public $lastChange;
-
     /** @var \DateTime */
     public $lastChangedAt;
-
-    /**
-     * @var \DateTime
-     * @deprecated
-     */
-    public $rectifiedOn;
 
     /** @var \DateTime */
     public $rectifiedAt;
@@ -95,14 +77,14 @@ class Ticket extends BaseModel {
     public function isValid() {
         return !empty($this->systemKey)
             && !empty($this->designation)
-            && (!empty($this->date) || !empty($this->createdAt));
+            && !empty($this->createdAt);
     }
 
     public static function deserialize(array $data, $name = null) {
         $object = new static();
 
         foreach ($data as $key => $value) {
-            if (in_array($key, ['date', 'lastChange', 'rectifiedOn'])) {
+            if (in_array($key, ['createdAt', 'lastChangedAt', 'rectifiedAt'])) {
                 $object->{$key} = self::parseTimestamp($value);
             } elseif ($key === "outage" && is_array($value)) {
                 $object->outage = Outage::deserialize($value);
@@ -119,7 +101,7 @@ class Ticket extends BaseModel {
      * @return string
      */
     protected function serializeDateTime(\DateTime $dateTime, $key = null) {
-        if (in_array($key, ['date', 'lastChange', 'rectifiedOn'])) {
+        if (in_array($key, ['createdAt', 'lastChangedAt', 'rectifiedAt'])) {
             return $dateTime->format('Y-m-d H:i:s');
         }
         return parent::serializeDateTime($dateTime);
