@@ -96,18 +96,6 @@ class Ticket extends BaseModel {
     }
 
     /**
-     * @param \DateTime $dateTime
-     * @param null|string $key
-     * @return string
-     */
-    protected function serializeDateTime(\DateTime $dateTime, $key = null) {
-        if (in_array($key, ['createdAt', 'lastChangedAt', 'rectifiedAt'])) {
-            return $dateTime->format('Y-m-d H:i:s');
-        }
-        return parent::serializeDateTime($dateTime);
-    }
-
-    /**
      * @param string $value
      * @return \DateTime
      */

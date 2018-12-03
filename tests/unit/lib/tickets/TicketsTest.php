@@ -321,10 +321,6 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
 
         $history = $histories[0];
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T01:42:03+00:00'),
-            $history->timestamp
-        );
-        $this->assertEquals(
             \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T03:42:03+02:00'),
             $history->createdAt
         );
@@ -335,10 +331,6 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
 
         $history = $histories[1];
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:18:51+00:00'),
-            $history->timestamp
-        );
-        $this->assertEquals(
             \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T04:18:51+02:00'),
             $history->createdAt
         );
@@ -348,10 +340,6 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('userA', $history->to);
 
         $history = $histories[2];
-        $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T02:19:41+00:00'),
-            $history->timestamp
-        );
         $this->assertEquals(
             \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T04:19:41+02:00'),
             $history->createdAt
