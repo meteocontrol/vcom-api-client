@@ -27,7 +27,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $attachmentFile = new AttachmentFile();
         $attachmentFile->attachmentId = $attachmentFile->creatorId = $intValue;
         $attachmentFile->filename = $attachmentFile->content = $attachmentFile->description = $stringValue;
-        $attachmentFile->created = $attachmentFile->createdAt = $dateTime;
+        $attachmentFile->createdAt = $dateTime;
 
         $comment = new Comment();
         $comment->commentId = $intValue;
