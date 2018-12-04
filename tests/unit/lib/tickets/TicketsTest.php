@@ -27,12 +27,12 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
     public function testGetTicketsWithFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getTickets.json');
         $criteria = new TicketsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
-            ->withLastChangeFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
-            ->withLastChangeTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
-            ->withRectifiedOnFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
-            ->withRectifiedOnTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'));
+        $criteria->withCreatedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
+            ->withCreatedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
+            ->withLastChangedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
+            ->withLastChangedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
+            ->withRectifiedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
+            ->withRectifiedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'));
 
         $this->api->expects($this->once())
             ->method('run')
@@ -78,12 +78,12 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
     public function testGetTicketsWithMultipleParametersInFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getTickets2.json');
         $criteria = new TicketsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
-            ->withLastChangeFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
-            ->withLastChangeTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
-            ->withRectifiedOnFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
-            ->withRectifiedOnTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'))
+        $criteria->withCreatedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
+            ->withCreatedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
+            ->withLastChangedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
+            ->withLastChangedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
+            ->withRectifiedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
+            ->withRectifiedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'))
             ->withStatus([Ticket::STATUS_CLOSED, Ticket::STATUS_INPROGRESS])
             ->withPriority([Ticket::PRIORITY_NORMAL, Ticket::PRIORITY_HIGH])
             ->withSeverity([Ticket::PRIORITY_NORMAL, Ticket::PRIORITY_HIGH])
