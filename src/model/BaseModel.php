@@ -63,8 +63,6 @@ abstract class BaseModel implements JsonSerializable {
     protected static function getPhpValue($value) {
         if (self::isRFC3339DateString($value)) {
             return \DateTime::createFromFormat(\DateTime::RFC3339, $value);
-        } elseif (self::isISO8601WithoutOffsetDateString($value)) {
-            return \DateTime::createFromFormat(\DateTime::RFC3339, $value . 'Z');
         } else {
             return $value;
         }
@@ -76,13 +74,5 @@ abstract class BaseModel implements JsonSerializable {
      */
     private static function isRFC3339DateString($dateString) {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $dateString);
-    }
-
-    /**
-     * @param string $dateString
-     * @return \DateTime
-     */
-    private static function isISO8601WithoutOffsetDateString($dateString) {
-        return \DateTime::createFromFormat(\DateTime::RFC3339, $dateString . 'Z');
     }
 }
