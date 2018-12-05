@@ -6,15 +6,6 @@ use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 
 class Measurement extends BaseModel {
 
-    /** @deprecated */
-    const RESOLUTION_INTERVAL = MeasurementsCriteria::RESOLUTION_INTERVAL;
-    /** @deprecated */
-    const RESOLUTION_DAY = MeasurementsCriteria::RESOLUTION_DAY;
-    /** @deprecated */
-    const RESOLUTION_MONTH = MeasurementsCriteria::RESOLUTION_MONTH;
-    /** @deprecated */
-    const RESOLUTION_YEAR = MeasurementsCriteria::RESOLUTION_YEAR;
-
     /** @var string */
     public $systemKey;
 

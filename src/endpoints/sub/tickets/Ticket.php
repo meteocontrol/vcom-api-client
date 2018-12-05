@@ -43,16 +43,10 @@ class Ticket extends SubEndpoint {
                 'description' => $ticket->description,
                 'assignee' => $ticket->assignee
             ];
-            if ($ticket->rectifiedAt || $ticket->rectifiedOn) {
-                $fields['rectifiedAt'] = $ticket->rectifiedAt ?
-                    $ticket->rectifiedAt->format(\DateTime::RFC3339) :
-                    $ticket->rectifiedOn->format(\DateTime::RFC3339);
+            if ($ticket->rectifiedAt) {
+                $fields['rectifiedAt'] = $ticket->rectifiedAt->format(\DateTime::RFC3339);
             }
         } else {
-            if (isset($updateFilter['rectifiedOn'])) {
-                $updateFilter['rectifiedAt'] = $updateFilter['rectifiedOn'];
-                unset($updateFilter['rectifiedOn']);
-            }
             $fields = $this->applyFilter($updateFilter, $ticket);
         }
 

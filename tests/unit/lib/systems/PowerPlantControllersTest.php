@@ -131,15 +131,15 @@ class PowerPlantControllersTest extends \PHPUnit_Framework_TestCase {
         $values = $abbreviationsMeasurements['PPC_P_AC_AVAIL'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(12.52, $values[0]->value);
-        $this->assertEquals('2016-10-29 12:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-29T12:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(35.53, $values[1]->value);
-        $this->assertEquals('2016-10-29 12:05:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-29T12:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $values = $abbreviationsMeasurements['PPC_P_AC'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(65.84, $values[0]->value);
-        $this->assertEquals('2016-10-29 12:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-29T12:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(22.01, $values[1]->value);
-        $this->assertEquals('2016-10-29 12:05:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-29T12:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
     }
 
     public function testGetPowerPlantControllersBulkData() {

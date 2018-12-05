@@ -123,15 +123,15 @@ class InvertersTest extends \PHPUnit_Framework_TestCase {
         $values = $abbreviationsMeasurements['E_INT'];
         $this->assertEquals(5, count($values));
         $this->assertEquals(0.089, $values[0]->value);
-        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0.082, $values[1]->value);
-        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0.078, $values[2]->value);
-        $this->assertEquals('2016-01-01 11:30:00', $values[2]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0.089, $values[3]->value);
-        $this->assertEquals('2016-01-01 11:45:00', $values[3]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0.095, $values[4]->value);
-        $this->assertEquals('2016-01-01 12:00:00', $values[4]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(\DateTime::RFC3339));
     }
 
     public function testGetInverterMeasurementsWithIntervalIncluded() {
@@ -164,19 +164,19 @@ class InvertersTest extends \PHPUnit_Framework_TestCase {
         $values = $abbreviationsMeasurements['E_INT'];
         $this->assertEquals(5, count($values));
         $this->assertEquals(0.089, $values[0]->value);
-        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(0.082, $values[1]->value);
-        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $this->assertEquals(0.078, $values[2]->value);
-        $this->assertEquals('2016-01-01 11:30:00', $values[2]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[2]->interval);
         $this->assertEquals(0.089, $values[3]->value);
-        $this->assertEquals('2016-01-01 11:45:00', $values[3]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[3]->interval);
         $this->assertEquals(0.095, $values[4]->value);
-        $this->assertEquals('2016-01-01 12:00:00', $values[4]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[4]->interval);
     }
 
@@ -238,19 +238,19 @@ class InvertersTest extends \PHPUnit_Framework_TestCase {
         $values = $abbreviationsMeasurements['E_INT'];
         $this->assertEquals(5, count($values));
         $this->assertEquals(0.089, $values[0]->value);
-        $this->assertEquals('2016-01-01 11:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(0.082, $values[1]->value);
-        $this->assertEquals('2016-01-01 11:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $this->assertEquals(0.078, $values[2]->value);
-        $this->assertEquals('2016-01-01 11:30:00', $values[2]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[2]->interval);
         $this->assertEquals(0.089, $values[3]->value);
-        $this->assertEquals('2016-01-01 11:45:00', $values[3]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[3]->interval);
         $this->assertEquals(0.095, $values[4]->value);
-        $this->assertEquals('2016-01-01 12:00:00', $values[4]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[4]->interval);
     }
 

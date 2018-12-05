@@ -78,12 +78,12 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($measurements[1]->E_Z_EVU));
 
         $valuesForSystem1 = $measurements[0]->E_Z_EVU;
-        $this->assertEquals("52.182", $valuesForSystem1[0]->value);
-        $this->assertEquals("2016-01-01 00:00:00", $valuesForSystem1[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('52.182', $valuesForSystem1[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $valuesForSystem1[0]->timestamp->format(\DateTime::RFC3339));
 
         $valuesForSystem2 = $measurements[1]->E_Z_EVU;
-        $this->assertEquals("199.175", $valuesForSystem2[0]->value);
-        $this->assertEquals("2016-01-01 00:00:00", $valuesForSystem2[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('199.175', $valuesForSystem2[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $valuesForSystem2[0]->timestamp->format(\DateTime::RFC3339));
     }
 
     public function testGetSystemsMeasurementsWithMultipleAbbreviation() {
@@ -115,17 +115,17 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($measurements[1]->E_Z_EVU));
 
         $valuesForSystem1 = $measurements[0]->E_Z_EVU;
-        $this->assertEquals("52.182", $valuesForSystem1[0]->value);
-        $this->assertEquals("2016-01-01 00:00:00", $valuesForSystem1[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('52.182', $valuesForSystem1[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $valuesForSystem1[0]->timestamp->format(\DateTime::RFC3339));
         $valuesForSystem1 = $measurements[0]->PR;
-        $this->assertEquals("20", $valuesForSystem1[0]->value);
-        $this->assertEquals("2016-01-01 00:00:00", $valuesForSystem1[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('20', $valuesForSystem1[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $valuesForSystem1[0]->timestamp->format(\DateTime::RFC3339));
 
         $valuesForSystem2 = $measurements[1]->E_Z_EVU;
-        $this->assertEquals("199.175", $valuesForSystem2[0]->value);
-        $this->assertEquals("2016-01-01 00:00:00", $valuesForSystem2[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('199.175', $valuesForSystem2[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $valuesForSystem2[0]->timestamp->format(\DateTime::RFC3339));
         $valuesForSystem2 = $measurements[1]->PR;
-        $this->assertEquals("20", $valuesForSystem2[0]->value);
-        $this->assertEquals("2016-01-01 00:00:00", $valuesForSystem2[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('20', $valuesForSystem2[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $valuesForSystem2[0]->timestamp->format(\DateTime::RFC3339));
     }
 }

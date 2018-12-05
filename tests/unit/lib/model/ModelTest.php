@@ -27,19 +27,19 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $attachmentFile = new AttachmentFile();
         $attachmentFile->attachmentId = $attachmentFile->creatorId = $intValue;
         $attachmentFile->filename = $attachmentFile->content = $attachmentFile->description = $stringValue;
-        $attachmentFile->created = $attachmentFile->createdAt = $dateTime;
+        $attachmentFile->createdAt = $dateTime;
 
         $comment = new Comment();
         $comment->commentId = $intValue;
         $comment->comment = $comment->username = $comment->firstName =
         $comment->lastName = $stringValue;
-        $comment->date = $comment->createdAt = $dateTime;
+        $comment->createdAt = $dateTime;
 
         $commentDetail = new CommentDetail();
         $commentDetail->commentId = $intValue;
         $commentDetail->comment = $commentDetail->username = $commentDetail->firstName =
         $commentDetail->lastName = $stringValue;
-        $commentDetail->date = $commentDetail->createdAt = $dateTime;
+        $commentDetail->createdAt = $dateTime;
 
         $measurementValue = new MeasurementValue();
         $measurementValue->value = $stringValue;
@@ -56,8 +56,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $ticket->status = $ticket->priority = $ticket->includeInReports = $ticket->severity =
         $ticket->description = $stringValue;
         $ticket->fieldService = $booleanValue;
-        $ticket->date = $ticket->lastChange = $ticket->rectifiedOn = $ticket->createdAt =
-        $ticket->lastChangedAt = $ticket->rectifiedAt = $dateTime;
+        $ticket->createdAt = $ticket->lastChangedAt = $ticket->rectifiedAt = $dateTime;
         $ticket->outage = new Outage();
         $ticket->outage->startedAt = $ticket->outage->endedAt = $dateTime;
         $ticket->outage->shouldInfluenceAvailability = $ticket->outage->shouldInfluencePr = $booleanValue;
@@ -66,7 +65,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $ticketHistory = new TicketHistory();
         $ticketHistory->action = $ticketHistory->personInCharge = $ticketHistory->from =
         $ticketHistory->to = $stringValue;
-        $ticketHistory->timestamp = $ticketHistory->createdAt = $dateTime;
+        $ticketHistory->createdAt = $dateTime;
 
         $systemDetail = new SystemDetail();
         $systemDetail->elevation = $intValue;
