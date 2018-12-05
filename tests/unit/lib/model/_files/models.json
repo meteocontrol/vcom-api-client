@@ -39,7 +39,6 @@
   },
   "ticketHistory":
   {
-    "timestamp": "2018-01-02T03:04:01+00:00",
     "createdAt": "2018-01-02T03:04:01+00:00",
     "action": "string",
     "personInCharge": "string",

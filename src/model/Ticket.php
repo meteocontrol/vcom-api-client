@@ -84,34 +84,12 @@ class Ticket extends BaseModel {
         $object = new static();
 
         foreach ($data as $key => $value) {
-            if (in_array($key, ['createdAt', 'lastChangedAt', 'rectifiedAt'])) {
-                $object->{$key} = self::parseTimestamp($value);
-            } elseif ($key === "outage" && is_array($value)) {
+            if ($key === "outage" && is_array($value)) {
                 $object->outage = Outage::deserialize($value);
             } elseif (property_exists($object, $key)) {
                 $object->{$key} = self::getPhpValue($value);
             }
         }
         return $object;
-    }
-
-    /**
-     * @param string $value
-     * @return \DateTime
-     */
-    private static function parseTimestamp($value) {
-        if (self::isDateString($value)) {
-            return \DateTime::createFromFormat('Y-m-d H:i:s', $value);
-        } else {
-            return self::getPhpValue($value);
-        }
-    }
-
-    /**
-     * @param string $dateString
-     * @return bool
-     */
-    private static function isDateString($dateString) {
-        return \DateTime::createFromFormat('Y-m-d H:i:s', $dateString);
     }
 }

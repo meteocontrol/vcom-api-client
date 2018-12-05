@@ -65,7 +65,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $ticketHistory = new TicketHistory();
         $ticketHistory->action = $ticketHistory->personInCharge = $ticketHistory->from =
         $ticketHistory->to = $stringValue;
-        $ticketHistory->timestamp = $ticketHistory->createdAt = $dateTime;
+        $ticketHistory->createdAt = $dateTime;
 
         $systemDetail = new SystemDetail();
         $systemDetail->elevation = $intValue;

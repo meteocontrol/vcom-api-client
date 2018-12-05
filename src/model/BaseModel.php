@@ -61,23 +61,13 @@ abstract class BaseModel implements JsonSerializable {
      * @return \DateTime | string | int | float | null
      */
     protected static function getPhpValue($value) {
-        if (self::isSimpleDateString($value)) {
-            return \DateTime::createFromFormat('Y-m-d H:i:s', $value . ' 00:00:00');
-        } elseif (self::isRFC3339DateString($value)) {
+        if (self::isRFC3339DateString($value)) {
             return \DateTime::createFromFormat(\DateTime::RFC3339, $value);
         } elseif (self::isISO8601WithoutOffsetDateString($value)) {
             return \DateTime::createFromFormat(\DateTime::RFC3339, $value . 'Z');
         } else {
             return $value;
         }
-    }
-
-    /**
-     * @param string $dateString
-     * @return bool
-     */
-    private static function isSimpleDateString($dateString) {
-        return preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $dateString) == 1;
     }
 
     /**
