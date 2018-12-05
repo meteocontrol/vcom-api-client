@@ -86,9 +86,9 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
         $values = $measurements['WR'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0, $values[0]->value);
-        $this->assertEquals('2016-01-01 00:00:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0, $values[1]->value);
-        $this->assertEquals('2016-01-02 00:00:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-02T00:00:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
     }
 
     public function testGetCalculationMeasurementsWithMultipleAbbreviation() {
@@ -120,14 +120,14 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(2, count($measurements));
         $value = $measurements['WR'];
         $this->assertEquals(0, $value[0]->value);
-        $this->assertEquals('2016-01-01 00:00:00', $value[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $value[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0, $value[1]->value);
-        $this->assertEquals('2016-01-02 00:00:00', $value[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-02T00:00:00+02:00', $value[1]->timestamp->format(\DateTime::RFC3339));
         $value = $measurements['PR'];
         $this->assertEquals(0, $value[0]->value);
-        $this->assertEquals('2016-01-01 00:00:00', $value[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $value[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0, $value[1]->value);
-        $this->assertEquals('2016-01-02 00:00:00', $value[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-02T00:00:00+02:00', $value[1]->timestamp->format(\DateTime::RFC3339));
     }
 
     /**
@@ -179,10 +179,10 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($measurements));
         $measurement = $measurements['WR'];
         $this->assertEquals(0, $measurement[0]->value);
-        $this->assertEquals('2016-01-01 00:00:00', $measurement[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $measurement[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $measurement[0]->interval);
         $this->assertEquals(0, $measurement[1]->value);
-        $this->assertEquals('2016-01-02 00:00:00', $measurement[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-01-02T00:00:00+02:00', $measurement[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $measurement[1]->interval);
     }
 
