@@ -131,6 +131,10 @@ class_alias(
     'meteocontrol\client\vcomapi\model\Ticket'
 );
 class_alias(
+    'meteocontrol\vcomapi\model\TicketDetail',
+    'meteocontrol\client\vcomapi\model\TicketDetail'
+);
+class_alias(
     'meteocontrol\vcomapi\model\TicketHistory',
     'meteocontrol\client\vcomapi\model\TicketHistory'
 );
