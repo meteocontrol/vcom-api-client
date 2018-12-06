@@ -3,7 +3,6 @@
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
 use meteocontrol\vcomapi\model\Ticket as TicketModel;
-use meteocontrol\vcomapi\model\TicketDetail;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 
@@ -19,11 +18,11 @@ class Ticket extends SubEndpoint {
     }
 
     /**
-     * @return TicketDetail
+     * @return TicketModel
      */
     public function get() {
         $ticketJson = $this->api->run($this->getUri());
-        return TicketDetail::deserialize($this->jsonDecode($ticketJson, true)['data']);
+        return TicketModel::deserialize($this->jsonDecode($ticketJson, true)['data']);
     }
 
     /**

@@ -8,7 +8,6 @@ use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\Ticket;
-use meteocontrol\vcomapi\model\TicketDetail;
 
 class TicketsTest extends \PHPUnit_Framework_TestCase {
 
@@ -144,7 +143,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             ->with($this->identicalTo('tickets/123'))
             ->willReturn($json);
 
-        /** @var TicketDetail $ticket */
+        /** @var \meteocontrol\client\vcomapi\model\Ticket $ticket */
         $ticket = $this->api->ticket(123)->get();
 
         $this->assertEquals(123, $ticket->id);
@@ -172,7 +171,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             ->with($this->identicalTo('tickets/123'))
             ->willReturn($json);
 
-        /** @var TicketDetail $ticket */
+        /** @var \meteocontrol\client\vcomapi\model\Ticket $ticket */
         $ticket = $this->api->ticket(123)->get();
 
         $this->assertEquals(123, $ticket->id);

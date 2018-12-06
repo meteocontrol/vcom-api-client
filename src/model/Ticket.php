@@ -68,6 +68,9 @@ class Ticket extends BaseModel {
     /** @var string */
     public $description;
 
+    /** @var Outage|null */
+    public $outage;
+
     /**
      * @return bool
      */
@@ -75,5 +78,18 @@ class Ticket extends BaseModel {
         return !empty($this->systemKey)
             && !empty($this->designation)
             && !empty($this->createdAt);
+    }
+
+    public static function deserialize(array $data, $name = null) {
+        $object = new static();
+
+        foreach ($data as $key => $value) {
+            if ($key === "outage" && is_array($value)) {
+                $object->outage = Outage::deserialize($value);
+            } elseif (property_exists($object, $key)) {
+                $object->{$key} = self::getPhpValue($value);
+            }
+        }
+        return $object;
     }
 }
