@@ -47,7 +47,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             )
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Ticket[] $tickets */
+        /** @var \meteocontrol\client\vcomapi\model\TicketOverview[] $tickets */
         $tickets = $this->api->tickets()->find($criteria);
 
         $this->assertEquals(2, count($tickets));
@@ -58,7 +58,6 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
         $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
-        $this->assertEquals(null, $tickets[0]->assignee);
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
         $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $tickets[0]->severity);
@@ -69,7 +68,6 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
         $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
-        $this->assertEquals(null, $tickets[1]->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
         $this->assertEquals(null, $tickets[1]->severity);
@@ -117,7 +115,6 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
         $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
-        $this->assertEquals(null, $tickets[0]->assignee);
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
         $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $tickets[0]->severity);
@@ -128,7 +125,6 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
         $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
         $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
-        $this->assertEquals(null, $tickets[1]->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->severity);
