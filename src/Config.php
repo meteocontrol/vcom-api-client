@@ -4,6 +4,8 @@ namespace meteocontrol\client\vcomapi;
 
 class Config {
 
+    private const DEFAULT_AUTH_MODE = 'oauth';
+
     /** @var array */
     private $config = [];
 
@@ -13,7 +15,15 @@ class Config {
         'API_KEY',
         'API_USERNAME',
         'API_PASSWORD',
-        'API_AUTH_MODE'
+    ];
+
+    /** @var array */
+    private $acceptableKeys = [
+        'API_URL',
+        'API_KEY',
+        'API_USERNAME',
+        'API_PASSWORD',
+        'API_AUTH_MODE',
     ];
 
     /**
@@ -88,7 +98,7 @@ class Config {
      * @return string
      */
     public function getApiAuthorizationMode() {
-        return $this->config['API_AUTH_MODE'];
+        return $this->config['API_AUTH_MODE'] ?? self::DEFAULT_AUTH_MODE;
     }
 
     /**
@@ -123,7 +133,7 @@ class Config {
      * @param string $key
      */
     private function checkForUnexpectedKeys($key) {
-        if (!in_array($key, $this->expectedKeys, true)) {
+        if (!in_array($key, $this->acceptableKeys, true)) {
             throw new \InvalidArgumentException(
                 "wrong config file provided - unexpected key '$key' found"
             );
