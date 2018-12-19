@@ -192,6 +192,7 @@ class ApiClient {
     }
 
     /**
+     * @param string $uri
      * @param string $method
      * @param string|null $body
      * @param array|null $queryParams
