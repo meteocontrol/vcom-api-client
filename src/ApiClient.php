@@ -185,10 +185,9 @@ class ApiClient {
     private function retryRequestWithNewToken($uri, $method, $body = null, array $queryParams = null) {
         $options = $this->getRequestOptions($queryParams, $body);
         try {
-            $response = $this->sendRequest($uri, $method, $options);
+            return $this->sendRequest($uri, $method, $options);
         } catch (ClientException $ex) {
             throw new UnauthorizedException($ex->getMessage(), $ex->getCode());
         }
-        return $response;
     }
 }
