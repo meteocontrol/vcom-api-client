@@ -41,15 +41,23 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with('url')
             ->willReturn($responseMock);
 
-        $config = new Config(__DIR__ . '/_files/config.ini');
-        $authHandler = new BasicAuthorizationHandler($config);
+        $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
+        $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn([]);
         $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url');
     }
 
     public function testRunGetWithParameters() {
         $responseMock = $this->getResponseMock();
-
+        $expectedOption = [
+            'query' => ['name' => 'aa', 'value' => 'bb'],
+            'body' => null,
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept-Encoding' => 'gzip, deflate',
+                'Authorization' => 'Bearer dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
+            ]
+        ];
         /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get'])
@@ -58,27 +66,27 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->method('get')
             ->with(
                 'url',
-                [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
-                    'body' => null,
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'Accept-Encoding' => 'gzip, deflate',
-                        'Authorization' => 'Basic dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
-                    ]
-                ]
+                $expectedOption
             )
             ->willReturn($responseMock);
 
-        $config = new Config(__DIR__ . '/_files/config.ini');
-        $authHandler = new BasicAuthorizationHandler($config);
+        $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
+        $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb']);
     }
 
     public function testRunDeleteWithParameters() {
         $responseMock = $this->getResponseMock();
-
+        $expectedOption = [
+            'query' => ['name' => 'aa', 'value' => 'bb'],
+            'body' => null,
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept-Encoding' => 'gzip, deflate',
+                'Authorization' => 'Bearer dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
+            ]
+        ];
         /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['delete'])
@@ -87,27 +95,27 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->method('delete')
             ->with(
                 'url',
-                [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
-                    'body' => null,
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'Accept-Encoding' => 'gzip, deflate',
-                        'Authorization' => 'Basic dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
-                    ]
-                ]
+                $expectedOption
             )
             ->willReturn($responseMock);
 
-        $config = new Config(__DIR__ . '/_files/config.ini');
-        $authHandler = new BasicAuthorizationHandler($config);
+        $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
+        $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], null, 'DELETE');
     }
 
     public function testRunPostWithParameters() {
         $responseMock = $this->getResponseMock();
-
+        $expectedOption = [
+            'query' => ['name' => 'aa', 'value' => 'bb'],
+            'body' => 'post body',
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept-Encoding' => 'gzip, deflate',
+                'Authorization' => 'Bearer dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
+            ]
+        ];
         /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['post'])
@@ -116,20 +124,12 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->method('post')
             ->with(
                 'url',
-                [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
-                    'body' => 'post body',
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'Accept-Encoding' => 'gzip, deflate',
-                        'Authorization' => 'Basic dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
-                    ]
-                ]
+                $expectedOption
             )
             ->willReturn($responseMock);
 
-        $config = new Config(__DIR__ . '/_files/config.ini');
-        $authHandler = new BasicAuthorizationHandler($config);
+        $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
+        $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'post body', 'POST');
     }
@@ -141,24 +141,25 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['patch'])
             ->getMock();
+        $expectedOption = [
+            'query' => ['name' => 'aa', 'value' => 'bb'],
+            'body' => 'patch body',
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept-Encoding' => 'gzip, deflate',
+                'Authorization' => 'Bearer dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
+            ]
+        ];
         $client->expects($this->once())
             ->method('patch')
             ->with(
                 'url',
-                [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
-                    'body' => 'patch body',
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'Accept-Encoding' => 'gzip, deflate',
-                        'Authorization' => 'Basic dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
-                    ]
-                ]
+                $expectedOption
             )
             ->willReturn($responseMock);
 
-        $config = new Config(__DIR__ . '/_files/config.ini');
-        $authHandler = new BasicAuthorizationHandler($config);
+        $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
+        $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'PATCH');
     }
@@ -168,9 +169,10 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage Unacceptable HTTP method UNKNOWN
      */
     public function testRunUnknownMethod() {
-        $factory = new Factory();
-        $config = new Config(__DIR__ . '/_files/config.ini');
-        $apiClient = $factory->getApiClient($config);
+        $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
+        $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn([]);
+        $client = $this->getMockBuilder('\GuzzleHttp\Client')->getMock();
+        $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'UNKNOWN');
     }
 
@@ -180,6 +182,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
      */
     public function testRunWithBasicAuthenticationUnauthorized() {
         $config = new Config();
+        $config->setApiAuthorizationMode('basic');
 
         $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
             ->disableOriginalConstructor()
@@ -395,8 +398,8 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with('url')
             ->willReturn($responseMock);
 
-        $config = new Config(__DIR__ . '/_files/config.ini');
-        $authHandler = new BasicAuthorizationHandler($config);
+        $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
+        $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn([]);
         $apiClient = new ApiClient($client, $authHandler);
 
         self::$us = 0;
