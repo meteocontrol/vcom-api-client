@@ -14,6 +14,7 @@ use meteocontrol\client\vcomapi\handlers\AuthorizationHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ApiClient {
+
     /** @var Client */
     private $client;
     /** @var AuthorizationHandlerInterface */
@@ -119,8 +120,7 @@ class ApiClient {
         } catch (ClientException $ex) {
             if ($ex->getResponse()->getStatusCode() === 401) {
                 $this->authorizationHandler->handleUnauthorizedException($ex, $this->client);
-                $options = $this->getRequestOptions($queryParams, $body);
-                $response = $this->sendRequest($uri, $method, $options);
+                $response = $this->retryRequestWithNewToken($uri, $method, $body, $queryParams);
             } else {
                 throw $ex;
             }
@@ -189,5 +189,21 @@ class ApiClient {
      */
     private function prependBasePathToUri($uri) {
         return $this->basePath . $uri;
+    }
+
+    /**
+     * @param string $method
+     * @param string|null $body
+     * @param array|null $queryParams
+     * @return ResponseInterface
+     * @throws UnauthorizedException
+     */
+    private function retryRequestWithNewToken($uri, $method, $body = null, array $queryParams = null) {
+        $options = $this->getRequestOptions($queryParams, $body);
+        try {
+            return $this->sendRequest($uri, $method, $options);
+        } catch (ClientException $ex) {
+            throw new UnauthorizedException($ex->getMessage(), $ex->getCode());
+        }
     }
 }
