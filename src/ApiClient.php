@@ -195,11 +195,11 @@ class ApiClient {
      * @param string $uri
      * @param string $method
      * @param string|null $body
-     * @param array|null $queryParams
+     * @param array|string|null $queryParams
      * @return ResponseInterface
      * @throws UnauthorizedException
      */
-    private function retryRequestWithNewToken($uri, $method, $body = null, array $queryParams = null) {
+    private function retryRequestWithNewToken($uri, $method, $body = null, $queryParams = null) {
         $options = $this->getRequestOptions($queryParams, $body);
         try {
             return $this->sendRequest($uri, $method, $options);
