@@ -59,7 +59,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 'url',
                 [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
+                    'query' => $this->getQueryString(),
                     'body' => null,
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -73,7 +73,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb']);
+        $apiClient->run('url', $this->getQueryString());
     }
 
     public function testRunDeleteWithParameters() {
@@ -88,7 +88,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 'url',
                 [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
+                    'query' => $this->getQueryString(),
                     'body' => null,
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -102,7 +102,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], null, 'DELETE');
+        $apiClient->run('url', $this->getQueryString(), null, 'DELETE');
     }
 
     public function testRunPostWithParameters() {
@@ -117,7 +117,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 'url',
                 [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
+                    'query' => $this->getQueryString(),
                     'body' => 'post body',
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -131,7 +131,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'post body', 'POST');
+        $apiClient->run('url', $this->getQueryString(), 'post body', 'POST');
     }
 
     public function testRunPatchWithParameters() {
@@ -146,7 +146,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 'url',
                 [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
+                    'query' => $this->getQueryString(),
                     'body' => 'patch body',
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -160,7 +160,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'PATCH');
+        $apiClient->run('url', $this->getQueryString(), 'patch body', 'PATCH');
     }
 
     /**
@@ -171,7 +171,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $factory = new Factory();
         $config = new Config(__DIR__ . '/_files/config.ini');
         $apiClient = $factory->getApiClient($config);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'UNKNOWN');
+        $apiClient->run('url', $this->getQueryString(), 'patch body', 'UNKNOWN');
     }
 
     /**
@@ -562,5 +562,12 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->method('getBody')
             ->willReturn($streamMock);
         return $refreshResponseMock;
+    }
+
+    /**
+     * @return string
+     */
+    private function getQueryString(): string {
+        return 'name=aa&value=bb';
     }
 }
