@@ -568,6 +568,6 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
      * @return string
      */
     private function getQueryString(): string {
-        return 'name=aa&value=bb';
+        return http_build_query(['name' => 'aa', 'value' => 'bb']);
     }
 }
