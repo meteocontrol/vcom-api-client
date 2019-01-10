@@ -34,10 +34,11 @@ class Systems extends MainEndpoint {
     }
 
     /**
-     * @param string $abbreviationId
+     * @param string|array $abbreviationId
      * @return SystemsAbbreviation
      */
     public function abbreviation($abbreviationId) {
+        $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new SystemsAbbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
         $abbreviationEndpoint = new SystemsAbbreviation($abbreviationIdEndpoint);

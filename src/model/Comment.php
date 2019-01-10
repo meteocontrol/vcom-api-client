@@ -6,11 +6,6 @@ class Comment extends BaseModel {
 
     /** @var int */
     public $commentId;
-    /**
-     * @var \DateTime
-     * @deprecated
-     */
-    public $date;
     /** @var \DateTime */
     public $createdAt;
     /** @var string */

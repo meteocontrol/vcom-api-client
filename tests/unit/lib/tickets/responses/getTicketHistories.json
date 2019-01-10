@@ -1,7 +1,6 @@
 {
   "data": [
     {
-      "timestamp": "2017-08-31T01:42:03+00:00",
       "createdAt": "2017-08-31T03:42:03+02:00",
       "action": "statusChanged",
       "personInCharge": "userB",
@@ -9,7 +8,6 @@
       "to": "inProgress"
     },
     {
-      "timestamp": "2017-08-31T02:18:51+00:00",
       "createdAt": "2017-08-31T04:18:51+02:00",
       "action": "assigneeChanged",
       "personInCharge": "userB",
@@ -17,7 +15,6 @@
       "to": "userA"
     },
     {
-      "timestamp": "2017-08-31T02:19:41+00:00",
       "createdAt": "2017-08-31T04:19:41+02:00",
       "action": "assigneeChanged",
       "personInCharge": "userB",

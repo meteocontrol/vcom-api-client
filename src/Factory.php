@@ -10,6 +10,8 @@ use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 
 class Factory {
 
+    private const BASE_PATH = '/v2/';
+
     /**
      * @param Config $config
      * @param ClientInterface $client
@@ -25,7 +27,8 @@ class Factory {
 
         return new ApiClient(
             $client,
-            self::getAuthorizationHandler($config)
+            self::getAuthorizationHandler($config),
+            self::BASE_PATH
         );
     }
 
@@ -47,7 +50,7 @@ class Factory {
     public static function getHttpClient(Config $config) {
         $client = new Client(
             [
-                'base_uri' => $config->getApiUrl() . '/',
+                'base_uri' => $config->getApiUrl(),
                 'headers' => self::getDefaultHeaders($config),
                 'debug' => false
             ]
@@ -60,8 +63,8 @@ class Factory {
      * @return AuthorizationHandlerInterface
      */
     public static function getAuthorizationHandler(Config $config) {
-        return $config->getApiAuthorizationMode() === 'oauth' ?
-            new OAuthAuthorizationHandler($config) :
-            new BasicAuthorizationHandler($config);
+        return $config->getApiAuthorizationMode() === 'basic' ?
+            new BasicAuthorizationHandler($config) :
+            new OAuthAuthorizationHandler($config);
     }
 }

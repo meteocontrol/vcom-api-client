@@ -68,7 +68,8 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
                 $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00&resolution=interval'
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
+                    . '&resolution=interval'
                 )
             )
             ->willReturn($json);
@@ -79,20 +80,61 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
             ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL);
         /** @var MeasurementValue[] $measurements */
         $measurements = $this->api->system('ABCDE')->basics()->abbreviation('wr.E_INT')->measurements()->get($criteria);
-        $this->assertEquals(2, count($measurements));
-        $this->assertEquals(0, $measurements[0]->value);
-        $this->assertEquals('2016-01-01 00:00:00', $measurements[0]->timestamp->format('Y-m-d H:i:s'));
-        $this->assertEquals(0, $measurements[1]->value);
-        $this->assertEquals('2016-01-01 00:15:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
+        $values = $measurements['E_INT'];
+        $this->assertEquals(2, count($values));
+        $this->assertEquals(0, $values[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(0, $values[1]->value);
+        $this->assertEquals('2016-01-01T00:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
     }
 
-    public function testGetBasicsMeasurementsWithIntervalIncluded() {
-        $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurementsIncludeInterval.json');
+    public function testGetBasicsMeasurementsWithMultipleAbbreviation() {
+        $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements2.json');
         $this->api->expects($this->once())
             ->method('run')
             ->with(
                 $this->identicalTo(
-                    'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
+                    'systems/ABCDE/basics/abbreviations/wr.E_INT,wr.G_M0/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
+                    . '&resolution=interval'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL);
+        /** @var MeasurementValue[] $measurements */
+        $measurements = $this->api
+            ->system('ABCDE')
+            ->basics()
+            ->abbreviation(['wr.E_INT', 'wr.G_M0'])
+            ->measurements()
+            ->get($criteria);
+
+        $this->assertEquals(2, count($measurements));
+        $values = $measurements['E_INT'];
+        $this->assertEquals(0, $values[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(0, $values[1]->value);
+        $this->assertEquals('2016-01-01T00:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $values = $measurements['G_M0'];
+        $this->assertEquals(1, $values[0]->value);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(1, $values[1]->value);
+        $this->assertEquals('2016-01-01T00:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+    }
+
+    public function testGetBasicsMeasurementsWithMultipleAbbreviationAndIntervalData() {
+        $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurementsIncludeIntervalVersion2.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/basics/abbreviations/wr.E_INT,wr.G_M0/measurements'
                 ),
                 $this->identicalTo(
                     'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
@@ -108,14 +150,28 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
             ->withIntervalIncluded();
 
         /** @var MeasurementValueWithInterval[] $measurements */
-        $measurements = $this->api->system('ABCDE')->basics()->abbreviation('wr.E_INT')->measurements()->get($criteria);
+        $measurements = $this->api
+            ->system('ABCDE')
+            ->basics()
+            ->abbreviation(['wr.E_INT', 'wr.G_M0'])
+            ->measurements()
+            ->get($criteria);
+
         $this->assertEquals(2, count($measurements));
-        $this->assertEquals(0, $measurements[0]->value);
-        $this->assertEquals(300, $measurements[0]->interval);
-        $this->assertEquals('2016-01-01 00:00:00', $measurements[0]->timestamp->format('Y-m-d H:i:s'));
-        $this->assertEquals(0, $measurements[1]->value);
-        $this->assertEquals('2016-01-01 00:15:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
-        $this->assertEquals(300, $measurements[1]->interval);
+        $values = $measurements['E_INT'];
+        $this->assertEquals(0, $values[0]->value);
+        $this->assertEquals(300, $values[0]->interval);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(0, $values[1]->value);
+        $this->assertEquals('2016-01-01T00:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(300, $values[1]->interval);
+        $values = $measurements['G_M0'];
+        $this->assertEquals(0, $values[0]->value);
+        $this->assertEquals(300, $values[0]->interval);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(0, $values[1]->value);
+        $this->assertEquals('2016-01-01T00:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(300, $values[1]->interval);
     }
 
     /**
@@ -174,13 +230,14 @@ class BasicsTest extends \PHPUnit_Framework_TestCase {
             ->abbreviation('wr.E_INT')
             ->measurements()
             ->get($criteria);
-        $this->assertEquals(2, count($measurements));
-        $this->assertEquals(0, $measurements[0]->value);
-        $this->assertEquals(null, $measurements[0]->interval);
-        $this->assertEquals('2016-01-01 00:00:00', $measurements[0]->timestamp->format('Y-m-d H:i:s'));
-        $this->assertEquals(0, $measurements[1]->value);
-        $this->assertEquals('2016-01-01 00:15:00', $measurements[1]->timestamp->format('Y-m-d H:i:s'));
-        $this->assertEquals(null, $measurements[1]->interval);
+        $this->assertEquals(1, count($measurements));
+        $measurement = $measurements['E_INT'];
+        $this->assertEquals(0, $measurement[0]->value);
+        $this->assertEquals(null, $measurement[0]->interval);
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $measurement[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(0, $measurement[1]->value);
+        $this->assertEquals('2016-01-01T00:15:00+02:00', $measurement[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals(null, $measurement[1]->interval);
     }
 
     public function testGetBasicsBulkData() {
