@@ -73,7 +73,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb']);
+        $apiClient->run('url', $this->getQueryString());
     }
 
     public function testRunDeleteWithParameters() {
@@ -102,7 +102,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], null, 'DELETE');
+        $apiClient->run('url', $this->getQueryString(), null, 'DELETE');
     }
 
     public function testRunPostWithParameters() {
@@ -131,7 +131,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'post body', 'POST');
+        $apiClient->run('url', $this->getQueryString(), 'post body', 'POST');
     }
 
     public function testRunPatchWithParameters() {
@@ -161,7 +161,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'PATCH');
+        $apiClient->run('url', $this->getQueryString(), 'patch body', 'PATCH');
     }
 
     /**
@@ -565,5 +565,12 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->method('getBody')
             ->willReturn($streamMock);
         return $refreshResponseMock;
+    }
+
+    /**
+     * @return string
+     */
+    private function getQueryString(): string {
+        return http_build_query(['name' => 'aa', 'value' => 'bb']);
     }
 }
