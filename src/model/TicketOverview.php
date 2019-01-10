@@ -2,11 +2,7 @@
 
 namespace meteocontrol\vcomapi\model;
 
-class Ticket extends BaseModel {
-
-    const REPORT_TYPE_NO = 'no';
-    const REPORT_TYPE_DETAIL = 'detail';
-    const REPORT_TYPE_SUMMARY = 'summary';
+class TicketOverview extends BaseModel {
 
     const STATUS_OPEN = 'open';
     const STATUS_CLOSED = 'closed';
@@ -45,31 +41,16 @@ class Ticket extends BaseModel {
     public $rectifiedAt;
 
     /** @var string */
-    public $assignee;
-
-    /** @var string */
     public $status;
-
-    /** @var int */
-    public $causeId;
 
     /** @var string */
     public $priority;
-
-    /** @var string */
-    public $includeInReports;
-
-    /** @var bool */
-    public $fieldService;
 
     /** @var string */
     public $severity;
 
     /** @var string */
     public $description;
-
-    /** @var Outage|null */
-    public $outage;
 
     /**
      * @return bool
@@ -84,9 +65,7 @@ class Ticket extends BaseModel {
         $object = new static();
 
         foreach ($data as $key => $value) {
-            if ($key === "outage" && is_array($value)) {
-                $object->outage = Outage::deserialize($value);
-            } elseif (property_exists($object, $key)) {
+            if (property_exists($object, $key)) {
                 $object->{$key} = self::getPhpValue($value);
             }
         }

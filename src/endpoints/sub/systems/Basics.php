@@ -26,10 +26,11 @@ class Basics extends SubEndpoint {
     }
 
     /**
-     * @param string $abbreviationId
+     * @param string|array $abbreviationId
      * @return DeviceAbbreviation
      */
     public function abbreviation($abbreviationId) {
+        $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
         $abbreviationEndpoint = new DeviceAbbreviation($abbreviationIdEndpoint);

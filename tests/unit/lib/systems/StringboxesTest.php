@@ -121,29 +121,29 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
         $values = $abbreviationsMeasurements['I1'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4512, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0.6075, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $values = $abbreviationsMeasurements['I2'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4668, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0.6237, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
 
         $abbreviationsMeasurements = $measurements['816640'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4382, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0.6149, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $values = $abbreviationsMeasurements['I2'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4226, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(0.5962, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
     }
 
     public function testGetStringboxMeasurementsWithIntervalIncluded() {
@@ -174,36 +174,36 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
         $values = $abbreviationsMeasurements['I1'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4512, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(0.6075, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $values = $abbreviationsMeasurements['I2'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4668, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(0.6237, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
 
         $abbreviationsMeasurements = $measurements['816640'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4382, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(0.6149, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $values = $abbreviationsMeasurements['I2'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4226, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(0.5962, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
     }
 
@@ -266,36 +266,36 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
         $values = $abbreviationsMeasurements['I1'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4512, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(0.6075, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $values = $abbreviationsMeasurements['I2'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4668, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(0.6237, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
 
         $abbreviationsMeasurements = $measurements['816640'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4382, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(0.6149, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $values = $abbreviationsMeasurements['I2'];
         $this->assertEquals(2, count($values));
         $this->assertEquals(0.4226, $values[0]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:10:00', $values[0]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(0.5962, $values[1]->value, '', 0.0001);
-        $this->assertEquals('2016-10-31 15:15:00', $values[1]->timestamp->format('Y-m-d H:i:s'));
+        $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
     }
 

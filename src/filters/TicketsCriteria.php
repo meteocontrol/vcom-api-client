@@ -10,28 +10,10 @@ class TicketsCriteria {
     private $filters;
 
     /**
-     * @deprecated
-     * @return \DateTime
-     */
-    public function getLastChangeFrom() {
-        return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['lastChangedAt[from]']);
-    }
-
-    /**
      * @return \DateTime
      */
     public function getLastChangedAtFrom() {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['lastChangedAt[from]']);
-    }
-
-    /**
-     * @deprecated
-     * @param \DateTime $from
-     * @return TicketsCriteria
-     */
-    public function withLastChangeFrom(\DateTime $from) {
-        $this->filters['lastChangedAt[from]'] = $from->format(\DateTime::RFC3339);
-        return $this;
     }
 
     /**
@@ -44,28 +26,10 @@ class TicketsCriteria {
     }
 
     /**
-     * @deprecated
-     * @return \DateTime
-     */
-    public function getLastChangeTo() {
-        return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['lastChangedAt[to]']);
-    }
-
-    /**
      * @return \DateTime
      */
     public function getLastChangedAtTo() {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['lastChangedAt[to]']);
-    }
-
-    /**
-     * @deprecated
-     * @param \DateTime $to
-     * @return TicketsCriteria
-     */
-    public function withLastChangeTo(\DateTime $to) {
-        $this->filters['lastChangedAt[to]'] = $to->format(\DateTime::RFC3339);
-        return $this;
     }
 
     /**
@@ -78,28 +42,10 @@ class TicketsCriteria {
     }
 
     /**
-     * @deprecated
-     * @return \DateTime
-     */
-    public function getDateFrom() {
-        return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['createdAt[from]']);
-    }
-
-    /**
      * @return \DateTime
      */
     public function getCreatedAtFrom() {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['createdAt[from]']);
-    }
-
-    /**
-     * @deprecated
-     * @param \DateTime $from
-     * @return TicketsCriteria
-     */
-    public function withDateFrom(\DateTime $from) {
-        $this->filters['createdAt[from]'] = $from->format(\DateTime::RFC3339);
-        return $this;
     }
 
     /**
@@ -112,28 +58,10 @@ class TicketsCriteria {
     }
 
     /**
-     * @deprecated
-     * @return \DateTime
-     */
-    public function getDateTo() {
-        return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['createdAt[to]']);
-    }
-
-    /**
      * @return \DateTime
      */
     public function getCreatedAtTo() {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['createdAt[to]']);
-    }
-
-    /**
-     * @deprecated
-     * @param \DateTime $to
-     * @return TicketsCriteria
-     */
-    public function withDateTo(\DateTime $to) {
-        $this->filters['createdAt[to]'] = $to->format(\DateTime::RFC3339);
-        return $this;
     }
 
     /**
@@ -146,28 +74,10 @@ class TicketsCriteria {
     }
 
     /**
-     * @deprecated
-     * @return \DateTime
-     */
-    public function getRectifiedOnFrom() {
-        return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['rectifiedAt[from]']);
-    }
-
-    /**
      * @return \DateTime
      */
     public function getRectifiedAtFrom() {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['rectifiedAt[from]']);
-    }
-
-    /**
-     * @deprecated
-     * @param \DateTime $from
-     * @return TicketsCriteria
-     */
-    public function withRectifiedOnFrom(\DateTime $from) {
-        $this->filters['rectifiedAt[from]'] = $from->format(\DateTime::RFC3339);
-        return $this;
     }
 
     /**
@@ -180,28 +90,10 @@ class TicketsCriteria {
     }
 
     /**
-     * @deprecated
-     * @return \DateTime
-     */
-    public function getRectifiedOnTo() {
-        return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['rectifiedAt[to]']);
-    }
-
-    /**
      * @return \DateTime
      */
     public function getRectifiedAtTo() {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['rectifiedAt[to]']);
-    }
-
-    /**
-     * @deprecated
-     * @param \DateTime $to
-     * @return TicketsCriteria
-     */
-    public function withRectifiedOnTo(\DateTime $to) {
-        $this->filters['rectifiedAt[to]'] = $to->format(\DateTime::RFC3339);
-        return $this;
     }
 
     /**

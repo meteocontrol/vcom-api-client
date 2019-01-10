@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
+use meteocontrol\vcomapi\model\TicketOverview;
 use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\filters\TicketsCriteria;
@@ -18,11 +19,11 @@ class Tickets extends MainEndpoint {
 
     /**
      * @param TicketsCriteria $criteria
-     * @return Ticket[]
+     * @return TicketOverview[]
      */
     public function find(TicketsCriteria $criteria) {
         $ticketsJson = $this->api->run($this->uri, $criteria->generateQueryString());
-        return Ticket::deserializeArray($this->jsonDecode($ticketsJson, true)['data']);
+        return TicketOverview::deserializeArray($this->jsonDecode($ticketsJson, true)['data']);
     }
 
     /**
@@ -37,9 +38,7 @@ class Tickets extends MainEndpoint {
         $fields = [
             'systemKey' => $ticket->systemKey,
             'designation' => $ticket->designation,
-            'createdAt' => $ticket->createdAt ?
-                $ticket->createdAt->format(\DateTime::RFC3339) :
-                $ticket->date->format(\DateTime::RFC3339)
+            'createdAt' => $ticket->createdAt->format(\DateTime::RFC3339)
         ];
         empty($ticket->summary) ?: $fields['summary'] = $ticket->summary;
         empty($ticket->description) ?: $fields['description'] = $ticket->description;
