@@ -16,4 +16,4 @@
 2018-04-02: Add currency in system, update model parameter type
 2018-04-25: Implement jsonSerialize for model
 2018-10-22: Support includeInterval query parameter, power plant controllers endpoints and support more resolutions for measurement endpoints
-2019-01-10: Version 2.0.0, all measurement endpoints support multiple abbreviations, and use OAuth2 authentication mode by default
+2019-01-10: Version 2.0.0, support multiple abbreviations for basics and calculations measurement endpoints, and use OAuth2 authentication mode by default
