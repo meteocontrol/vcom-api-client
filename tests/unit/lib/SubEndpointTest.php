@@ -15,6 +15,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\Inverters;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Measurements;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Sensors;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Meters;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Forecasts;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\SystemId;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\TechnicalData;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\CommentId;
@@ -51,6 +52,9 @@ class SubEndpointTest extends \PHPUnit_Framework_TestCase {
 
         $this->subEndpoint = new Calculations($this->mainEndpoint);
         $this->assertEquals('systems/calculations', $this->subEndpoint->getUri());
+
+        $this->subEndpoint = new Forecasts($this->mainEndpoint);
+        $this->assertEquals('systems/forecasts', $this->subEndpoint->getUri());
 
         $this->subEndpoint = new CommentId($this->mainEndpoint, 1);
         $this->assertEquals('systems/1', $this->subEndpoint->getUri());
