@@ -4,6 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Forecasts;
 use meteocontrol\vcomapi\model\SystemDetail;
 
 class System extends SubEndpoint {
@@ -39,6 +40,13 @@ class System extends SubEndpoint {
      */
     public function calculations() {
         return new Calculations($this);
+    }
+
+    /**
+     * @return Forecasts
+     */
+    public function forecasts() {
+        return new Forecasts($this);
     }
 
     /**
