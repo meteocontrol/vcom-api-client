@@ -4,8 +4,6 @@ namespace meteocontrol\client\vcomapi;
 
 class Config {
 
-    private const DEFAULT_AUTH_MODE = 'oauth';
-
     /** @var array */
     private $config = [];
 
@@ -23,7 +21,6 @@ class Config {
         'API_KEY',
         'API_USERNAME',
         'API_PASSWORD',
-        'API_AUTH_MODE',
     ];
 
     /**
@@ -92,20 +89,6 @@ class Config {
      */
     public function setApiPassword($password) {
         $this->config['API_PASSWORD'] = $password;
-    }
-
-    /**
-     * @return string
-     */
-    public function getApiAuthorizationMode() {
-        return $this->config['API_AUTH_MODE'] ?? self::DEFAULT_AUTH_MODE;
-    }
-
-    /**
-     * @param string $authorizationMode
-     */
-    public function setApiAuthorizationMode($authorizationMode) {
-        $this->config['API_AUTH_MODE'] = $authorizationMode;
     }
 
     /**

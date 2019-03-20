@@ -1,4 +1,10 @@
 {
+  "pageSize": 10,
+  "totalCount": 2,
+  "links": {
+    "prev": "prevUrl",
+    "next": null
+  },
   "data": [
     {
       "systemKey": "ABCDE",

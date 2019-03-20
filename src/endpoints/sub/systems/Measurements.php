@@ -2,10 +2,10 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
-use meteocontrol\vcomapi\model\Measurement;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
+use meteocontrol\client\vcomapi\filters\PaginationCriteria;
+use meteocontrol\vcomapi\model\PaginationMeasurement;
 
 class Measurements extends SubEndpoint {
 
@@ -19,11 +19,11 @@ class Measurements extends SubEndpoint {
     }
 
     /**
-     * @param MeasurementsCriteria $criteria
-     * @return Measurement[]
+     * @param PaginationCriteria $criteria
+     * @return PaginationMeasurement
      */
-    public function get(MeasurementsCriteria $criteria) {
+    public function get(PaginationCriteria $criteria) {
         $measurementsJson = $this->api->run($this->getUri(), $criteria->generateQueryString());
-        return Measurement::deserializeArray($this->jsonDecode($measurementsJson, true)['data']);
+        return PaginationMeasurement::deserialize($this->jsonDecode($measurementsJson, true));
     }
 }
