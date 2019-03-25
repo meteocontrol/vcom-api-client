@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
+use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\MeasurementValue;
 use meteocontrol\client\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
@@ -20,7 +20,7 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
     public function setup() {
         $config = new Config();
         $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
+        $authHandler = new OAuthAuthorizationHandler($config);
         $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
             ->setConstructorArgs([$client, $authHandler])
             ->setMethods(['run'])

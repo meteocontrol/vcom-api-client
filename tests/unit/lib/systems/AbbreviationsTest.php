@@ -6,8 +6,8 @@ use GuzzleHttp\Client;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
-use meteocontrol\client\vcomapi\model\Measurement;
+use meteocontrol\client\vcomapi\filters\PaginationCriteria;
+use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 
 class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
 
@@ -23,7 +23,7 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
     public function setup() {
         $config = new Config();
         $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
+        $authHandler = new OAuthAuthorizationHandler($config);
         $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
             ->setConstructorArgs([$client, $authHandler])
             ->setMethods(['run'])
@@ -64,13 +64,17 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
             )
             ->willReturn($json);
 
-        $criteria = new MeasurementsCriteria();
+        $criteria = new PaginationCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
-        /** @var Measurement[] $measurements */
-        $measurements = $this->systemsEndpoint->abbreviation('E_Z_EVU')->measurements()->get($criteria);
+        $paginationData = $this->systemsEndpoint->abbreviation('E_Z_EVU')->measurements()->get($criteria);
+        $this->assertEquals(2, $paginationData->totalCount);
+        $this->assertEquals(10, $paginationData->pageSize);
+        $this->assertNull($paginationData->links->prev);
+        $this->assertEquals('nextUrl', $paginationData->links->next);
 
+        $measurements = $paginationData->data;
         $this->assertEquals(2, count($measurements));
         $this->assertEquals('ABCDE', $measurements[0]->systemKey);
         $this->assertEquals(1, count($measurements[0]->E_Z_EVU));
@@ -96,18 +100,25 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
                     'systems/abbreviations/E_Z_EVU,PR/measurements'
                 ),
                 $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
+                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day' .
+                    '&skip=0&limit=10'
                 )
             )
             ->willReturn($json);
 
-        $criteria = new MeasurementsCriteria();
+        $criteria = new PaginationCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
-            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
-        /** @var Measurement[] $measurements */
-        $measurements = $this->systemsEndpoint->abbreviation(['E_Z_EVU', 'PR'])->measurements()->get($criteria);
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withSkip(0)
+            ->withLimit(10);
+        $paginationData = $this->systemsEndpoint->abbreviation(['E_Z_EVU', 'PR'])->measurements()->get($criteria);
+        $this->assertEquals(2, $paginationData->totalCount);
+        $this->assertEquals(10, $paginationData->pageSize);
+        $this->assertEquals('prevUrl', $paginationData->links->prev);
+        $this->assertNull($paginationData->links->next);
 
+        $measurements = $paginationData->data;
         $this->assertEquals(2, count($measurements));
         $this->assertEquals('ABCDE', $measurements[0]->systemKey);
         $this->assertEquals(1, count($measurements[0]->E_Z_EVU));

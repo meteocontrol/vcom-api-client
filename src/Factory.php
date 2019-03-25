@@ -5,12 +5,11 @@ namespace meteocontrol\client\vcomapi;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use meteocontrol\client\vcomapi\handlers\AuthorizationHandlerInterface;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 
 class Factory {
 
-    private const API_VERSION = 'v2';
+    private const API_VERSION = 'v3';
 
     /**
      * @param Config $config
@@ -64,8 +63,6 @@ class Factory {
      * @return AuthorizationHandlerInterface
      */
     public static function getAuthorizationHandler(Config $config) {
-        return $config->getApiAuthorizationMode() === 'basic' ?
-            new BasicAuthorizationHandler($config) :
-            new OAuthAuthorizationHandler($config);
+        return new OAuthAuthorizationHandler($config);
     }
 }
