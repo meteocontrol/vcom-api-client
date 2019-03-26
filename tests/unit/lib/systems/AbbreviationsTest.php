@@ -2,17 +2,11 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\filters\PaginationCriteria;
-use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
-class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
+class AbbreviationsTest extends TestCase {
 
     /** @var \meteocontrol\client\vcomapi\endpoints\main\Systems */
     private $systemsEndpoint;
@@ -21,13 +15,8 @@ class AbbreviationsTest extends \PHPUnit_Framework_TestCase {
     private $systemEndpoint;
 
     public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new OAuthAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
+        parent::setup();
+
         $this->systemsEndpoint = $this->api->systems();
         $this->systemEndpoint = $this->api->system('ABCDE');
     }

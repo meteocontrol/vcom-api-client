@@ -2,32 +2,16 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\vcomapi\model\Abbreviation;
 use meteocontrol\vcomapi\model\PowerPlantController;
 use meteocontrol\vcomapi\model\PowerPlantControllerDetail;
 
-class PowerPlantControllersTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
-
-    public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new OAuthAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
-    }
+class PowerPlantControllersTest extends TestCase {
 
     public function testGetPowerPlantControllers() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllers.json');
@@ -108,14 +92,14 @@ class PowerPlantControllersTest extends \PHPUnit_Framework_TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerMeasurements.json');
         $this->api->expects($this->exactly(1))
             ->method('run')
-        ->with(
-            $this->identicalTo(
-                'systems/ABCDE/power-plant-controllers/163784/abbreviations/PPC_P_AC_AVAIL,PPC_P_AC/measurements'
-            ),
-            $this->identicalTo(
-                'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00'
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/power-plant-controllers/163784/abbreviations/PPC_P_AC_AVAIL,PPC_P_AC/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00'
+                )
             )
-        )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();

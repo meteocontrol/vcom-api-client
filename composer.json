@@ -32,7 +32,8 @@
     ],
     "psr-4": {
       "meteocontrol\\client\\vcomapi\\": "src",
-      "meteocontrol\\vcomapi\\model\\": "src/model"
+      "meteocontrol\\vcomapi\\model\\": "src/model",
+      "meteocontrol\\client\\vcomapi\\tests\\unit\\": "tests/unit/lib"
     }
   }
 }
