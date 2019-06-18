@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
+use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 
 function usleep($us) {
@@ -173,6 +174,48 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $client = $this->getMockBuilder('\GuzzleHttp\Client')->getMock();
         $apiClient = new ApiClient($client, $authHandler);
         $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'UNKNOWN');
+    }
+
+    /**
+     * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
+     * @expectedExceptionMessage 123
+     */
+    public function testRunWithBasicAuthenticationUnauthorized() {
+        $config = new Config();
+        $config->setApiAuthorizationMode('basic');
+
+        $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
+            ->disableOriginalConstructor()
+            ->setMethods(['getContents'])
+            ->getMock();
+        $streamMock->expects($this->once())
+            ->method('getContents')
+            ->willReturn('123');
+
+        $request = new Request('GET', 'url');
+        $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $responseMock->expects($this->exactly(3))
+            ->method('getStatusCode')
+            ->willReturn(401);
+        $responseMock->expects($this->once())
+            ->method('getBody')
+            ->willReturn($streamMock);
+        $clientException = new ClientException('', $request, $responseMock);
+
+        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        $client = $this->getMockBuilder('\GuzzleHttp\Client')
+            ->setMethods(['get'])
+            ->getMock();
+        $client->expects($this->once())
+            ->method('get')
+            ->with('url')
+            ->willThrowException($clientException);
+
+        $authHandler = new BasicAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
+        $apiClient->run('url');
     }
 
     public function testRunWithOAuthUnauthorizedAndRefreshTokenIsValid() {

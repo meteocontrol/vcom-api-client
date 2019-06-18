@@ -38,6 +38,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
             'test-api-password',
             $this->config->getApiPassword()
         );
+
+        $this->assertEquals(
+            'oauth',
+            $this->config->getApiAuthorizationMode()
+        );
     }
 
     public function testCreateConfigManually() {
@@ -47,12 +52,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
         $this->config->setApiUrl('https://test.meteocontrol.api');
         $this->config->setApiUsername('test-api-username');
         $this->config->setApiPassword('test-api-password');
+        $this->config->setApiAuthorizationMode('basic');
         $this->config->validate();
 
         $this->assertEquals('test-api-key', $this->config->getApiKey());
         $this->assertEquals('https://test.meteocontrol.api', $this->config->getApiUrl());
         $this->assertEquals('test-api-username', $this->config->getApiUsername());
         $this->assertEquals('test-api-password', $this->config->getApiPassword());
+        $this->assertEquals('basic', $this->config->getApiAuthorizationMode());
     }
 
     /**
