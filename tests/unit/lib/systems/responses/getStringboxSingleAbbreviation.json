@@ -3,6 +3,7 @@
     "aggregation": "AVG",
     "precision": null,
     "description": "Current DC",
-    "unit": "A"
+    "unit": "A",
+    "active": true
   }
 }
