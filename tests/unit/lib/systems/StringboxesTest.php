@@ -69,13 +69,14 @@ class StringboxesTest extends TestCase {
             ->with($this->identicalTo('systems/ABCDE/stringboxes/816639/abbreviations/I1'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Abbreviation $abbreviation */
+        /** @var \meteocontrol\client\vcomapi\model\StringboxAbbreviation $abbreviation */
         $abbreviation = $this->api->system('ABCDE')->stringbox('816639')->abbreviation('I1')->get();
 
         $this->assertEquals('AVG', $abbreviation->aggregation);
         $this->assertEquals('Current DC', $abbreviation->description);
         $this->assertEquals(null, $abbreviation->precision);
         $this->assertEquals('A', $abbreviation->unit);
+        $this->assertEquals(true, $abbreviation->active);
     }
 
     public function testGetStringboxMeasurements() {
@@ -324,6 +325,25 @@ class StringboxesTest extends TestCase {
         $bulkReader = $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
 
         $this->assertEquals($cvsRawData, $bulkReader->getAsString());
+    }
+
+    public function testGetStringboxesBulkDataWithActiveOnlyOption() {
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&activeOnly=1'
+                )
+            );
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+            ->withActiveOnly();
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
     }
 
     /**

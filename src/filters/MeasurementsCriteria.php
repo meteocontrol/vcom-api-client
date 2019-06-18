@@ -197,6 +197,21 @@ class MeasurementsCriteria {
     }
 
     /**
+     * @return bool
+     */
+    public function getActiveOnly() {
+        return isset($this->filters['activeOnly']);
+    }
+
+    /**
+     * @return MeasurementsCriteria
+     */
+    public function withActiveOnly() {
+        $this->filters['activeOnly'] = '1';
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function generateQueryString() {
