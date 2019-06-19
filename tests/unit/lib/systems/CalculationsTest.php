@@ -207,8 +207,7 @@ class CalculationsTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:15:00+02:00'))
-            ->withAbbreviation("AREA")
-            ->withAbbreviation("VFG");
+            ->withAbbreviation(["AREA", "VFG"]);
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);

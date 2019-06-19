@@ -390,8 +390,7 @@ class BatteriesTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
-            ->withAbbreviation("B_CHARGE_LEVEL")
-            ->withAbbreviation("T1");
+            ->withAbbreviation(["B_CHARGE_LEVEL", "T1"]);
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->batteries()->bulk()->measurements()->get($criteria);

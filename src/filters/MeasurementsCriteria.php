@@ -215,19 +215,15 @@ class MeasurementsCriteria {
      * @return string
      */
     public function getAbbreviations(): string {
-        return isset($this->filters['abbreviations']) ? $this->filters['abbreviations'] : "";
+        return isset($this->filters['abbreviations']) ? $this->filters['abbreviations'] : '';
     }
 
     /**
-     * @param string $abbreviation
+     * @param array $abbreviations
      * @return $this
      */
-    public function withAbbreviation($abbreviation) {
-        if (empty($this->filters['abbreviations'])) {
-            $this->filters['abbreviations'] = $abbreviation;
-        } else {
-            $this->filters['abbreviations'] = $this->filters['abbreviations'] . "," . $abbreviation;
-        }
+    public function withAbbreviation(array $abbreviations) {
+        $this->filters['abbreviations'] = implode(',', $abbreviations);
         return $this;
     }
 

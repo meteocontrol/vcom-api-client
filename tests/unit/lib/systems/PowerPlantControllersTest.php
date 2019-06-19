@@ -163,9 +163,7 @@ class PowerPlantControllersTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:05:00+02:00'))
-            ->withAbbreviation("PPC_P_AC_INV")
-            ->withAbbreviation("PPC_Q_AC_AVAIL")
-            ->withAbbreviation("PPC_Q_SET_REL");
+            ->withAbbreviation(["PPC_P_AC_INV", "PPC_Q_AC_AVAIL", "PPC_Q_SET_REL"]);
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->powerPlantControllers()->bulk()->measurements()->get($criteria);

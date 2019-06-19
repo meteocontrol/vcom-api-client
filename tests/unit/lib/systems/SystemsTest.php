@@ -90,12 +90,7 @@ class SystemsTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:05:00+02:00'))
-            ->withAbbreviation("G_M2")
-            ->withAbbreviation("AREA")
-            ->withAbbreviation("E_DAY")
-            ->withAbbreviation("E_INT")
-            ->withAbbreviation("SRAD")
-            ->withAbbreviation("D_IN1");
+            ->withAbbreviation(["G_M2", "AREA", "E_DAY", "E_INT", "SRAD", "D_IN1"]);
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
