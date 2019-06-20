@@ -109,7 +109,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals(2, count($tickets));
 
-        $this->assertEquals(123, $tickets[0]->id);
+        $this->assertEquals('123', $tickets[0]->id);
         $this->assertEquals('ABCDE', $tickets[0]->systemKey);
         $this->assertEquals('Ticket #123', $tickets[0]->designation);
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
@@ -119,7 +119,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $tickets[0]->severity);
 
-        $this->assertEquals(456, $tickets[1]->id);
+        $this->assertEquals('456', $tickets[1]->id);
         $this->assertEquals('FGHIJ', $tickets[1]->systemKey);
         $this->assertEquals('Ticket #456', $tickets[1]->designation);
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
@@ -140,9 +140,9 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             ->willReturn($json);
 
         /** @var \meteocontrol\client\vcomapi\model\Ticket $ticket */
-        $ticket = $this->api->ticket(123)->get();
+        $ticket = $this->api->ticket('123')->get();
 
-        $this->assertEquals(123, $ticket->id);
+        $this->assertEquals('123', $ticket->id);
         $this->assertEquals('ABCDE', $ticket->systemKey);
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
@@ -168,9 +168,9 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             ->willReturn($json);
 
         /** @var \meteocontrol\client\vcomapi\model\Ticket $ticket */
-        $ticket = $this->api->ticket(123)->get();
+        $ticket = $this->api->ticket('123')->get();
 
-        $this->assertEquals(123, $ticket->id);
+        $this->assertEquals('123', $ticket->id);
         $this->assertEquals('ABCDE', $ticket->systemKey);
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
@@ -300,7 +300,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
                 null,
                 'DELETE'
             );
-        $this->api->ticket(123)->delete();
+        $this->api->ticket('123')->delete();
     }
 
     public function testGetTicketHistories() {
@@ -311,7 +311,7 @@ class TicketsTest extends \PHPUnit_Framework_TestCase {
             ->with($this->identicalTo('tickets/123/histories'))
             ->willReturn($json);
 
-        $histories = $this->api->ticket(123)->histories()->get();
+        $histories = $this->api->ticket('123')->histories()->get();
 
         $this->assertCount(3, $histories);
 
