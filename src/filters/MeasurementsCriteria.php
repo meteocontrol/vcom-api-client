@@ -215,7 +215,7 @@ class MeasurementsCriteria {
      * @return string
      */
     public function getAbbreviations(): string {
-        return isset($this->filters['abbreviations']) ? $this->filters['abbreviations'] : '';
+        return $this->filters['abbreviations'] ?? '';
     }
 
     /**
