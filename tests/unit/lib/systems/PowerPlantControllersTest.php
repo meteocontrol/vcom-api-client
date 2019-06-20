@@ -147,6 +147,31 @@ class PowerPlantControllersTest extends TestCase {
         $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
     }
 
+    public function testGetPowerPlantControllersBulkDataWithAbbreviationsFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerBulkWithAbbreviationsFilter.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/power-plant-controllers/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00'
+                    . '&abbreviations=PPC_P_AC_INV%2CPPC_Q_AC_AVAIL%2CPPC_Q_SET_REL'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:05:00+02:00'))
+            ->withAbbreviation(['PPC_P_AC_INV', 'PPC_Q_AC_AVAIL', 'PPC_Q_SET_REL']);
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $bulkReader = $this->api->system('ABCDE')->powerPlantControllers()->bulk()->measurements()->get($criteria);
+
+        $this->assertEquals($json, $bulkReader->getAsString());
+        $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
+    }
+
     public function testGetPowerPlantControllersBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getPowerPlantControllerBulk.csv');
         $this->api->expects($this->once())

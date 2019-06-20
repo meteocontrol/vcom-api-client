@@ -374,6 +374,31 @@ class BatteriesTest extends TestCase {
         $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
     }
 
+    public function testGetBatteriesBulkDataWithAbbreviationsFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getBatteryBulkWithAbbreviationsFilter.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/batteries/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A15%3A00%2B02%3A00'
+                    . '&abbreviations=B_CHARGE_LEVEL%2CT1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
+            ->withAbbreviation(['B_CHARGE_LEVEL', 'T1']);
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $bulkReader = $this->api->system('ABCDE')->batteries()->bulk()->measurements()->get($criteria);
+
+        $this->assertEquals($json, $bulkReader->getAsString());
+        $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
+    }
+
     public function testGetBatteriesBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getBatteryBulk.csv');
         $this->api->expects($this->once())

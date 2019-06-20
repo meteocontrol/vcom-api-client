@@ -214,6 +214,22 @@ class MeasurementsCriteria {
     /**
      * @return string
      */
+    public function getAbbreviations(): string {
+        return $this->filters['abbreviations'] ?? '';
+    }
+
+    /**
+     * @param array $abbreviations
+     * @return $this
+     */
+    public function withAbbreviation(array $abbreviations) {
+        $this->filters['abbreviations'] = implode(',', $abbreviations);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function generateQueryString() {
         $this->validateCriteriaSettings();
         return http_build_query($this->filters);
