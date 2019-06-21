@@ -23,7 +23,7 @@ class Ticket extends BaseModel {
     const PRIORITY_HIGH = 'high';
     const PRIORITY_URGENT = 'urgent';
 
-    /** @var int */
+    /** @var string */
     public $id;
 
     /** @var string */
