@@ -76,7 +76,7 @@ class ApiClient {
     }
 
     /**
-     * @param int $ticketId
+     * @param string $ticketId
      * @return endpoints\sub\tickets\Ticket
      */
     public function ticket($ticketId) {

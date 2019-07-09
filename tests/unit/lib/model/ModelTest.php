@@ -51,7 +51,8 @@ class ModelTest extends \PHPUnit_Framework_TestCase {
         $measurementValueWithInterval->interval = $intervalValue;
 
         $ticket = new Ticket();
-        $ticket->id = $ticket->causeId = $intValue;
+        $ticket->id = (string)$intValue;
+        $ticket->causeId = $intValue;
         $ticket->systemKey = $ticket->designation = $ticket->summary = $ticket->assignee =
         $ticket->status = $ticket->priority = $ticket->includeInReports = $ticket->severity =
         $ticket->description = $stringValue;

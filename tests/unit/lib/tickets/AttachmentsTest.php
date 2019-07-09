@@ -13,7 +13,7 @@ class AttachmentsTest extends TestCase {
             ->method('run')
             ->with($this->identicalTo('tickets/123/attachments'))
             ->willReturn($json);
-        $actual = $this->api->ticket(123)->attachments()->get();
+        $actual = $this->api->ticket('123')->attachments()->get();
         $this->assertCount(2, $actual);
         $this->assertEquals("1234", $actual[0]->attachmentId);
         $this->assertEquals("test.jpg", $actual[0]->filename);
@@ -27,7 +27,7 @@ class AttachmentsTest extends TestCase {
             ->method('run')
             ->with($this->identicalTo('tickets/123/attachments/1234'))
             ->willReturn($json);
-        $actual = $this->api->ticket(123)->attachment(1234)->get();
+        $actual = $this->api->ticket('123')->attachment(1234)->get();
         $this->assertEquals(1234, $actual->attachmentId);
         $this->assertEquals("test.jpg", $actual->filename);
         $this->assertEquals($this->getEncodedTestAttachment(), $actual->content);
@@ -50,7 +50,7 @@ class AttachmentsTest extends TestCase {
         $attachment->description = "test attachment";
         $attachment->filename = "test.jpg";
         $attachment->content = $this->getEncodedTestAttachment();
-        $actual = $this->api->ticket(123)->attachments()->create($attachment);
+        $actual = $this->api->ticket('123')->attachments()->create($attachment);
         $this->assertEquals("1234", $actual['attachmentId']);
         $this->assertEquals("test.jpg", $actual['filename']);
     }
@@ -64,7 +64,7 @@ class AttachmentsTest extends TestCase {
             ->method('run');
         $attachment = new AttachmentFile();
         $attachment->content = $this->getEncodedTestAttachment();
-        $this->api->ticket(123)->attachments()->create($attachment);
+        $this->api->ticket('123')->attachments()->create($attachment);
     }
 
     /**
@@ -76,7 +76,7 @@ class AttachmentsTest extends TestCase {
             ->method('run');
         $attachment = new AttachmentFile();
         $attachment->filename  = "test.jpg";
-        $this->api->ticket(123)->attachments()->create($attachment);
+        $this->api->ticket('123')->attachments()->create($attachment);
     }
 
     /**
