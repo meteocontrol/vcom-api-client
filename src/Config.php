@@ -6,6 +6,8 @@ class Config {
 
     private const DEFAULT_AUTH_MODE = 'oauth';
 
+    private const DEFAULT_ACCESS_FILE_PATH = '/../.tokenAccess';
+
     /** @var array */
     private $config = [];
 
@@ -142,6 +144,12 @@ class Config {
         $this->tokenAccessCallable = $tokenAccessCallable;
     }
 
+    public function deleteTokenAccessFile() {
+        if (file_exists(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH)) {
+            unlink(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH);
+        }
+    }
+
     /**
      * @throws \InvalidArgumentException
      */
@@ -160,6 +168,22 @@ class Config {
             throw new \InvalidArgumentException("config file '$path' not found");
         }
         $this->config = parse_ini_file($path);
+
+        $this->setTokenRefreshCallable(static function ($accessToken, $refreshToken) {
+            $credentials = [
+                'access_token' => $accessToken,
+                'refresh_token' => $refreshToken,
+            ];
+            file_put_contents(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH, base64_encode(json_encode($credentials)));
+        });
+
+        $this->setTokenAccessCallable(static function () {
+            if (!file_exists(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH)) {
+                return false;
+            }
+            return json_decode(base64_decode(file_get_contents(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH)), true);
+        });
+
         $this->validate();
     }
 

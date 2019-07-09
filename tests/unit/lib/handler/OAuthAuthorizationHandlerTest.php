@@ -8,8 +8,10 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
+use meteocontrol\client\vcomapi\UnauthorizedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\StreamInterface;
 
 class OAuthAuthorizationHandlerTest extends TestCase {
 
@@ -34,9 +36,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     }
 
     public function testGetAccessTokens() {
-        if (file_exists($this->tokenAccessFile)) {
-            unlink($this->tokenAccessFile);
-        }
+        $this->config->deleteTokenAccessFile();
 
         $mockedJson = file_get_contents(__DIR__ . '/_files/expectedResponse.json');
         list($expectedAccessToken) = $this->parseResponse($mockedJson);
@@ -82,7 +82,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     }
 
     public function testHandleUnauthorizedException() {
-        unlink($this->tokenAccessFile);
+        $this->config->deleteTokenAccessFile();
 
         $mockedJson = file_get_contents(__DIR__ . '/_files/expectedResponse.json');
         $mockedJson2 = file_get_contents(__DIR__ . '/_files/expectedRefreshResponse.json');
@@ -172,14 +172,23 @@ class OAuthAuthorizationHandlerTest extends TestCase {
 
         $mockedException = $this->getMockBuilder(ClientException::class)->disableOriginalConstructor()->getMock();
         $mockedResponse = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
+        $mockedBody = $this->getMockBuilder(StreamInterface::class)->disableOriginalConstructor()->getMock();
 
-        $mockedException->expects($this->once())
+        $mockedBody->expects($this->once())
+            ->method('getContents')
+            ->willReturn('Unauthorized');
+
+        $mockedException->expects($this->exactly(3))
             ->method('getResponse')
             ->willReturn($mockedResponse);
 
-        $mockedResponse->expects($this->once())
+        $mockedResponse->expects($this->exactly(2))
             ->method('getStatusCode')
-            ->willReturn(221);
+            ->willReturn(401);
+
+        $mockedResponse->expects($this->once())
+            ->method('getBody')
+            ->willReturn($mockedBody);
 
         $this->mockedClient->expects($this->once())
             ->method('post')
@@ -200,15 +209,15 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         $handler->appendAuthorizationHeader($this->mockedClient, []);
         try {
             $handler->handleUnauthorizedException($mockedException, $this->mockedClient);
-        } catch (ClientException $ex) {
+        } catch (UnauthorizedException $ex) {
+            $this->assertEquals('Unauthorized', $ex->getMessage());
+            $this->assertEquals(401, $ex->getCode());
         }
         $this->assertFileNotExists($this->tokenAccessFile);
     }
 
     public function testWithTokenCallbackFunction() {
-        if (file_exists($this->tokenAccessFile)) {
-            unlink($this->tokenAccessFile);
-        }
+        $this->config->deleteTokenAccessFile();
 
         $mockedJson = file_get_contents(__DIR__ . '/_files/expectedResponse.json');
         $mockedJson2 = file_get_contents(__DIR__ . '/_files/expectedRefreshResponse.json');
