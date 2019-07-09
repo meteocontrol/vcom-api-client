@@ -51,8 +51,8 @@ class OAuthAuthorizationHandlerTest extends TestCase {
                     'form_params' => [
                         'grant_type' => 'password',
                         'username' => $this->config->getApiUsername(),
-                        'password' => $this->config->getApiPassword()
-                    ]
+                        'password' => $this->config->getApiPassword(),
+                    ],
                 ]
             )
             ->willReturn($mockedResponse);
@@ -102,8 +102,8 @@ class OAuthAuthorizationHandlerTest extends TestCase {
                         'form_params' => [
                             'grant_type' => 'password',
                             'username' => $this->config->getApiUsername(),
-                            'password' => $this->config->getApiPassword()
-                        ]
+                            'password' => $this->config->getApiPassword(),
+                        ],
                     ]
                 ],
                 [
@@ -111,8 +111,8 @@ class OAuthAuthorizationHandlerTest extends TestCase {
                     [
                         'form_params' => [
                             'grant_type' => 'refresh_token',
-                            'refresh_token' => $expectedRefreshToken
-                        ]
+                            'refresh_token' => $expectedRefreshToken,
+                        ],
                     ]
                 ]
             )
@@ -147,8 +147,8 @@ class OAuthAuthorizationHandlerTest extends TestCase {
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',
-                        'refresh_token' => $expectedRefreshToken
-                    ]
+                        'refresh_token' => $expectedRefreshToken,
+                    ],
                 ]
             )
             ->willReturn($mockedResponse);
@@ -188,8 +188,8 @@ class OAuthAuthorizationHandlerTest extends TestCase {
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',
-                        'refresh_token' => $expectedRefreshToken
-                    ]
+                        'refresh_token' => $expectedRefreshToken,
+                    ],
                 ]
             )
             ->willThrowException($mockedException);
@@ -202,6 +202,55 @@ class OAuthAuthorizationHandlerTest extends TestCase {
             $handler->handleUnauthorizedException($mockedException, $this->mockedClient);
         } catch (ClientException $ex) {
         }
+        $this->assertFileNotExists($this->tokenAccessFile);
+    }
+
+    public function testWithTokenCallbackFunction() {
+        if (file_exists($this->tokenAccessFile)) {
+            unlink($this->tokenAccessFile);
+        }
+
+        $mockedJson = file_get_contents(__DIR__ . '/_files/expectedResponse.json');
+        $mockedJson2 = file_get_contents(__DIR__ . '/_files/expectedRefreshResponse.json');
+
+        list(, $expectedRefreshToken) = $this->parseResponse($mockedJson);
+        list($expectedAccessToken) = $this->parseResponse($mockedJson2);
+
+        $mockedResponse = $this->createMockedResponse($this->createMockedSteam($mockedJson2));
+
+        $this->mockedClient->expects($this->once())
+            ->method('post')
+            ->with(
+                sprintf('%s/login', $this->config->getApiUrl()),
+                [
+                    'form_params' => [
+                        'grant_type' => 'refresh_token',
+                        'refresh_token' => $expectedRefreshToken,
+                    ],
+                ]
+            )
+            ->willReturn($mockedResponse);
+
+        $this->config->setTokenAccessCallable(function () use ($mockedJson) {
+            return json_decode($mockedJson, true);
+        });
+
+        $this->config->setTokenRefreshCallable(function ($accessToken, $refreshToken) use ($mockedJson2) {
+            $credentials = json_decode($mockedJson2, true);
+            self::assertEquals($credentials['access_token'], $accessToken);
+            self::assertEquals($credentials['refresh_token'], $refreshToken);
+        });
+
+        $mockedException = $this->getMockBuilder(ClientException::class)->disableOriginalConstructor()->getMock();
+
+        $handler = new OAuthAuthorizationHandler($this->config);
+
+        $handler->appendAuthorizationHeader($this->mockedClient, []);
+        $handler->handleUnauthorizedException($mockedException, $this->mockedClient);
+
+        $actualOptions = $handler->appendAuthorizationHeader($this->mockedClient, []);
+
+        $this->assertEquals($expectedAccessToken, $actualOptions['headers']['Authorization']);
         $this->assertFileNotExists($this->tokenAccessFile);
     }
 

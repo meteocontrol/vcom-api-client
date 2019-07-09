@@ -26,6 +26,12 @@ class Config {
         'API_AUTH_MODE',
     ];
 
+    /** @var callable */
+    private $tokenRefreshCallable;
+
+    /** @var callable */
+    private $tokenAccessCallable;
+
     /**
      * @param string $path
      */
@@ -106,6 +112,34 @@ class Config {
      */
     public function setApiAuthorizationMode(string $authorizationMode) {
         $this->config['API_AUTH_MODE'] = $authorizationMode;
+    }
+
+    /**
+     * @return callable|null
+     */
+    public function getTokenRefreshCallable() {
+        return $this->tokenRefreshCallable;
+    }
+
+    /**
+     * @param callable $tokenRefreshCallable
+     */
+    public function setTokenRefreshCallable(callable $tokenRefreshCallable) {
+        $this->tokenRefreshCallable = $tokenRefreshCallable;
+    }
+
+    /**
+     * @return callable|null
+     */
+    public function getTokenAccessCallable() {
+        return $this->tokenAccessCallable;
+    }
+
+    /**
+     * @param callable $tokenAccessCallable
+     */
+    public function setTokenAccessCallable(callable $tokenAccessCallable) {
+        $this->tokenAccessCallable = $tokenAccessCallable;
     }
 
     /**

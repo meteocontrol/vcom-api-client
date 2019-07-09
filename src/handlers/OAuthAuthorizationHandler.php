@@ -69,7 +69,9 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
             $this->refreshToken = $credentials['refresh_token'];
             $this->storeCredentials($credentials);
         } catch (ClientException $ex) {
-            unlink($this->tokenAccessFile);
+            if (file_exists($this->tokenAccessFile)) {
+                unlink($this->tokenAccessFile);
+            }
             if (!in_array($ex->getResponse()->getStatusCode(), [400, 401, 403])) {
                 throw $ex;
             }
@@ -100,7 +102,9 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
             $this->refreshToken = $credentials['refresh_token'];
             $this->storeCredentials($credentials);
         } catch (ClientException $ex) {
-            unlink($this->tokenAccessFile);
+            if (file_exists($this->tokenAccessFile)) {
+                unlink($this->tokenAccessFile);
+            }
             if (!in_array($ex->getResponse()->getStatusCode(), [400, 401, 403])) {
                 throw $ex;
             }
@@ -112,10 +116,15 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
     }
 
     private function parseCredentials() {
-        if (!file_exists($this->tokenAccessFile)) {
-            return false;
+        $tokenAccessCallable = $this->config->getTokenAccessCallable();
+        if (is_callable($tokenAccessCallable)) {
+            $credentials = call_user_func_array($tokenAccessCallable, []);
+        } else {
+            if (!file_exists($this->tokenAccessFile)) {
+                return false;
+            }
+            $credentials = json_decode(base64_decode(file_get_contents($this->tokenAccessFile)), true);
         }
-        $credentials = json_decode(base64_decode(file_get_contents($this->tokenAccessFile)), true);
         if (!$credentials || !isset($credentials['access_token'], $credentials['refresh_token'])) {
             return false;
         }
@@ -130,6 +139,11 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
      * @param array $credentials
      */
     private function storeCredentials(array $credentials) {
-        file_put_contents($this->tokenAccessFile, base64_encode(json_encode($credentials)));
+        $tokenRefreshCallable = $this->config->getTokenRefreshCallable();
+        if (is_callable($tokenRefreshCallable)) {
+            call_user_func_array($tokenRefreshCallable, $credentials);
+        } else {
+            file_put_contents($this->tokenAccessFile, base64_encode(json_encode($credentials)));
+        }
     }
 }
