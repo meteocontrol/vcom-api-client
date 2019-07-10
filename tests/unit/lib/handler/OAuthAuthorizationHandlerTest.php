@@ -8,9 +8,10 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
-use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class OAuthAuthorizationHandlerTest extends \PHPUnit_Framework_TestCase {
+class OAuthAuthorizationHandlerTest extends TestCase {
 
     public function testGetAccessTokens() {
         $config = new Config(__DIR__ . '/../_files/config.ini');
@@ -23,7 +24,7 @@ class OAuthAuthorizationHandlerTest extends \PHPUnit_Framework_TestCase {
         $mockedResponse = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
         $mockedResponse->expects($this->once())->method('getBody')->willReturn($mockedSteam);
 
-        /** @var Client|PHPUnit_Framework_MockObject_MockObject $mockedClient */
+        /** @var Client|MockObject $mockedClient */
         $mockedClient = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->setMethods(['post'])
@@ -59,7 +60,7 @@ class OAuthAuthorizationHandlerTest extends \PHPUnit_Framework_TestCase {
         $mockedResponse = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
         $mockedResponse->expects($this->exactly(2))->method('getBody')->willReturn($mockedSteam);
 
-        /** @var Client|PHPUnit_Framework_MockObject_MockObject $mockedClient */
+        /** @var Client|MockObject $mockedClient */
         $mockedClient = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->setMethods(['post'])

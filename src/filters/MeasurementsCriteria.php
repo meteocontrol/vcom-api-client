@@ -76,7 +76,7 @@ class MeasurementsCriteria {
      *              | MeasurementsCriteria::RESOLUTION_YEAR
      * @return MeasurementsCriteria
      */
-    public function withResolution($resolution) {
+    public function withResolution(string $resolution) {
         $this->filters['resolution'] = $resolution;
         return $this;
     }
@@ -92,7 +92,7 @@ class MeasurementsCriteria {
      * @param string $format
      * @return MeasurementsCriteria
      */
-    public function withFormat($format) {
+    public function withFormat(string $format) {
         $this->filters['format'] = $format;
         return $this;
     }
@@ -108,7 +108,7 @@ class MeasurementsCriteria {
      * @param string $breakSymbol
      * @return MeasurementsCriteria
      */
-    public function withLineBreak($breakSymbol) {
+    public function withLineBreak(string $breakSymbol) {
         $this->filters['lineBreak'] = $breakSymbol;
         return $this;
     }
@@ -124,7 +124,7 @@ class MeasurementsCriteria {
      * @param string $delimiter
      * @return MeasurementsCriteria
      */
-    public function withDelimiter($delimiter) {
+    public function withDelimiter(string $delimiter) {
         $this->filters['delimiter'] = $delimiter;
         return $this;
     }
@@ -142,7 +142,7 @@ class MeasurementsCriteria {
      * @param string $decimalPoint
      * @return MeasurementsCriteria
      */
-    public function withDecimalPoint($decimalPoint) {
+    public function withDecimalPoint(string $decimalPoint) {
         $this->filters['decimalPoint'] = $decimalPoint;
         return $this;
     }
@@ -160,7 +160,7 @@ class MeasurementsCriteria {
      * @param string $emptyPlaceholder
      * @return MeasurementsCriteria
      */
-    public function withEmptyPlaceholder($emptyPlaceholder) {
+    public function withEmptyPlaceholder(string $emptyPlaceholder) {
         $this->filters['emptyPlaceholder'] = $emptyPlaceholder;
         return $this;
     }
@@ -176,7 +176,7 @@ class MeasurementsCriteria {
      * @param int $precision
      * @return MeasurementsCriteria
      */
-    public function withPrecision($precision) {
+    public function withPrecision(int $precision) {
         $this->filters['precision'] = $precision;
         return $this;
     }

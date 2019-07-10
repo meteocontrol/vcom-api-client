@@ -192,7 +192,7 @@ class System extends SubEndpoint {
      * @param string $userId
      * @return User
      */
-    public function user($userId) {
+    public function user(string $userId) {
         $users = new Users($this);
         $userIdEndpoint = new UserId($users, $userId);
         $userEndpoint = new User($userIdEndpoint);

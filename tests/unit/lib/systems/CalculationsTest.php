@@ -115,7 +115,7 @@ class CalculationsTest extends TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetCalculationMeasurementsWithIntervalIncluded() {
         $criteria = new MeasurementsCriteria();

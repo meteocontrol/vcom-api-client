@@ -2,8 +2,6 @@
 
 namespace meteocontrol\vcomapi\model;
 
-use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-
 class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
 
     /** @var MeasurementValue[] */
@@ -31,7 +29,7 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * Whether a offset exists
      *
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param string $offset <p>
+     * @param mixed $offset <p>
      * An offset to check for.
      * </p>
      * @return bool true on success or false on failure.
@@ -48,7 +46,7 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * Offset to retrieve
      *
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param string $offset <p>
+     * @param mixed $offset <p>
      * The offset to retrieve.
      * </p>
      * @return MeasurementValue[]
@@ -62,7 +60,7 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * Offset to set
      *
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param string $offset <p>
+     * @param mixed $offset <p>
      * The offset to assign the value to.
      * </p>
      * @param mixed $value <p>
@@ -79,7 +77,7 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * Offset to unset
      *
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param string $offset <p>
+     * @param mixed $offset <p>
      * The offset to unset.
      * </p>
      * @return void

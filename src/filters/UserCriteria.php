@@ -18,7 +18,7 @@ class UserCriteria {
      * @param string $username
      * @return $this
      */
-    public function withUsername($username) {
+    public function withUsername(string $username) {
         $this->filters['username'] = $username;
         return $this;
     }

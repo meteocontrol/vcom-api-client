@@ -235,7 +235,7 @@ class BatteriesTest extends TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetBatteryMeasurementsWithIntervalIncludedWithWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurements.json');

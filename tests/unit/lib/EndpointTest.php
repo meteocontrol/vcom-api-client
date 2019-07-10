@@ -11,8 +11,9 @@ use meteocontrol\client\vcomapi\endpoints\sub\AbbreviationId;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Abbreviations;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Measurements;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\SystemId;
+use PHPUnit\Framework\TestCase;
 
-class EndpointTest extends \PHPUnit_Framework_TestCase {
+class EndpointTest extends TestCase {
 
     /** @var ApiClient */
     private $apiClient;
@@ -48,11 +49,11 @@ class EndpointTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testInvalidJsonResponseCausesException() {
-        $this->setExpectedException(
-            ApiClientException::class,
-            "Failed to deserialize body as json: 'not a valid json string', error: 'Syntax error'",
-            500
+        $this->expectException(ApiClientException::class);
+        $this->expectExceptionMessage(
+            "Failed to deserialize body as json: 'not a valid json string', error: 'Syntax error'"
         );
+        $this->expectExceptionCode(500);
 
         require_once __DIR__ . "/DummyEndpoint.php";
         $dummy = new DummyEndpoint();

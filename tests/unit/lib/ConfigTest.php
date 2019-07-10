@@ -3,8 +3,9 @@
 namespace meteocontrol\client\vcomapi\tests\unit;
 
 use meteocontrol\client\vcomapi\Config;
+use PHPUnit\Framework\TestCase;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase {
+class ConfigTest extends TestCase {
 
     /** @var Config */
     private $config;

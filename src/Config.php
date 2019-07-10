@@ -29,7 +29,7 @@ class Config {
     /**
      * @param string $path
      */
-    public function __construct($path = '') {
+    public function __construct(string $path = '') {
         if (!$path) {
             $path = __DIR__ . '/../config.ini';
         }
@@ -48,7 +48,7 @@ class Config {
     /**
      * @param string $url
      */
-    public function setApiUrl($url) {
+    public function setApiUrl(string $url) {
         $this->config['API_URL'] = $url;
     }
 
@@ -62,7 +62,7 @@ class Config {
     /**
      * @param string $apiKey
      */
-    public function setApiKey($apiKey) {
+    public function setApiKey(string $apiKey) {
         $this->config['API_KEY'] = $apiKey;
     }
 
@@ -76,7 +76,7 @@ class Config {
     /**
      * @param string $username
      */
-    public function setApiUsername($username) {
+    public function setApiUsername(string $username) {
         $this->config['API_USERNAME'] = $username;
     }
 
@@ -90,7 +90,7 @@ class Config {
     /**
      * @param string $password
      */
-    public function setApiPassword($password) {
+    public function setApiPassword(string $password) {
         $this->config['API_PASSWORD'] = $password;
     }
 
@@ -104,7 +104,7 @@ class Config {
     /**
      * @param string $authorizationMode
      */
-    public function setApiAuthorizationMode($authorizationMode) {
+    public function setApiAuthorizationMode(string $authorizationMode) {
         $this->config['API_AUTH_MODE'] = $authorizationMode;
     }
 
@@ -121,7 +121,7 @@ class Config {
     /**
      * @param string $path
      */
-    private function readConfigurationFile($path) {
+    private function readConfigurationFile(string $path) {
         if (!file_exists($path)) {
             throw new \InvalidArgumentException("config file '$path' not found");
         }
@@ -132,7 +132,7 @@ class Config {
     /**
      * @param string $key
      */
-    private function checkForUnexpectedKeys($key) {
+    private function checkForUnexpectedKeys(string $key) {
         if (!in_array($key, $this->acceptableKeys, true)) {
             throw new \InvalidArgumentException(
                 "wrong config file provided - unexpected key '$key' found"

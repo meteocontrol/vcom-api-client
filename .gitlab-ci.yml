@@ -6,7 +6,7 @@ stages:
   stage: test
   script:
     - composer install --prefer-dist
-    - ./vendor/bin/phpunit --colors=never --coverage-text --configuration phpunit.xml
+    - ./vendor/bin/phpunit --colors=never --configuration phpunit.xml
   tags:
     - php7.1
   except:

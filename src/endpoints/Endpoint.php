@@ -49,7 +49,7 @@ abstract class Endpoint implements EndpointInterface {
      * @param bool $assoc
      * @return mixed
      */
-    final protected function jsonDecode($json, $assoc = false) {
+    final protected function jsonDecode($json, bool $assoc = false) {
         $decoded = json_decode($json, $assoc);
         if (json_last_error() !== JSON_ERROR_NONE) {
             $message = "Failed to deserialize body as json: '" . $json . "', error: '" . json_last_error_msg() . "'";

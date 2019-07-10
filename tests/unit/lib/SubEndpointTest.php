@@ -21,8 +21,9 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\TechnicalData;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\CommentId;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\Comments;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\TicketId;
+use PHPUnit\Framework\TestCase;
 
-class SubEndpointTest extends \PHPUnit_Framework_TestCase {
+class SubEndpointTest extends TestCase {
 
     /** @var ApiClient */
     private $apiClient;
@@ -41,7 +42,7 @@ class SubEndpointTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testUri() {
-        $this->subEndpoint = new AbbreviationId($this->mainEndpoint, 1);
+        $this->subEndpoint = new AbbreviationId($this->mainEndpoint, '1');
         $this->assertEquals('systems/1', $this->subEndpoint->getUri());
 
         $this->subEndpoint = new Abbreviations($this->mainEndpoint);
@@ -62,7 +63,7 @@ class SubEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->subEndpoint = new Comments($this->mainEndpoint);
         $this->assertEquals('systems/comments', $this->subEndpoint->getUri());
 
-        $this->subEndpoint = new DeviceId($this->mainEndpoint, 1);
+        $this->subEndpoint = new DeviceId($this->mainEndpoint, '1');
         $this->assertEquals('systems/1', $this->subEndpoint->getUri());
 
         $this->subEndpoint = new Inverters($this->mainEndpoint);
@@ -77,13 +78,13 @@ class SubEndpointTest extends \PHPUnit_Framework_TestCase {
         $this->subEndpoint = new Meters($this->mainEndpoint);
         $this->assertEquals('systems/meters', $this->subEndpoint->getUri());
 
-        $this->subEndpoint = new SystemId($this->mainEndpoint, 1);
+        $this->subEndpoint = new SystemId($this->mainEndpoint, '1');
         $this->assertEquals('systems/1', $this->subEndpoint->getUri());
 
         $this->subEndpoint = new TechnicalData($this->mainEndpoint);
         $this->assertEquals('systems/technical-data', $this->subEndpoint->getUri());
 
-        $this->subEndpoint = new TicketId($this->mainEndpoint, 1);
+        $this->subEndpoint = new TicketId($this->mainEndpoint, '1');
         $this->assertEquals('systems/1', $this->subEndpoint->getUri());
     }
 }
