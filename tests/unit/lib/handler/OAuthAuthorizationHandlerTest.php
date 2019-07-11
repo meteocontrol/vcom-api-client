@@ -25,9 +25,8 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     private $tokenAccessFile;
 
     public function setup() {
-        $this->tokenAccessFile = __DIR__ . '/../../../../.tokenAccess';
-
         $this->config = new Config(__DIR__ . '/../_files/config.ini');
+        $this->tokenAccessFile = __DIR__ . '/../../../../.tokenAccess/' . md5($this->config->getApiUsername());
 
         $this->mockedClient = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -38,8 +37,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     public function testGetAccessTokens() {
         $this->config->deleteTokenAccessFile();
 
-        $mockedJson = file_get_contents(__DIR__ . '/_files/expectedResponse.json');
-        list($expectedAccessToken) = $this->parseResponse($mockedJson);
+        [$mockedJson, $expectedAccessToken] = $this->parseResponse(__DIR__ . '/_files/expectedResponse.json');
 
         $mockedResponse = $this->createMockedResponse($this->createMockedSteam($mockedJson));
 
@@ -68,8 +66,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
      * @depends testGetAccessTokens
      */
     public function testGetAccessWithCredentialsFile() {
-        $mockedJson = file_get_contents(__DIR__ . '/_files/expectedResponse.json');
-        list($expectedAccessToken) = $this->parseResponse($mockedJson);
+        [, $expectedAccessToken] = $this->parseResponse(__DIR__ . '/_files/expectedResponse.json');
 
         $this->mockedClient->expects($this->never())
             ->method('post');
@@ -81,14 +78,47 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         $this->assertFileExists($this->tokenAccessFile);
     }
 
+    /**
+     * @depends testGetAccessWithCredentialsFile
+     */
+    public function testGetAccessWithMultipleUserAndCredentialsFile() {
+        $this->config->setApiUsername('guest-user');
+        $this->tokenAccessFile = __DIR__ . '/../../../../.tokenAccess/' . md5($this->config->getApiUsername());
+
+        [$mockedJson, $expectedAccessToken] = $this->parseResponse(__DIR__ . '/_files/expectedRefreshResponse.json');
+
+        $mockedResponse = $this->createMockedResponse($this->createMockedSteam($mockedJson));
+
+        $this->mockedClient->expects($this->once())
+            ->method('post')
+            ->with(
+                sprintf('%s/login', $this->config->getApiUrl()),
+                [
+                    'form_params' => [
+                        'grant_type' => 'password',
+                        'username' => $this->config->getApiUsername(),
+                        'password' => $this->config->getApiPassword(),
+                    ],
+                ]
+            )
+            ->willReturn($mockedResponse);
+
+        $handler = new OAuthAuthorizationHandler($this->config);
+        $actualOptions = $handler->appendAuthorizationHeader($this->mockedClient, []);
+
+        $this->assertEquals($expectedAccessToken, $actualOptions['headers']['Authorization']);
+        $this->assertFileExists($this->tokenAccessFile);
+
+        $this->config->deleteTokenAccessFile();
+
+        $this->assertFileNotExists($this->tokenAccessFile);
+    }
+
     public function testHandleUnauthorizedException() {
         $this->config->deleteTokenAccessFile();
 
-        $mockedJson = file_get_contents(__DIR__ . '/_files/expectedResponse.json');
-        $mockedJson2 = file_get_contents(__DIR__ . '/_files/expectedRefreshResponse.json');
-
-        list(, $expectedRefreshToken) = $this->parseResponse($mockedJson);
-        list($expectedAccessToken) = $this->parseResponse($mockedJson2);
+        [$mockedJson, , $expectedRefreshToken] = $this->parseResponse(__DIR__ . '/_files/expectedResponse.json');
+        [$mockedJson2, $expectedAccessToken] = $this->parseResponse(__DIR__ . '/_files/expectedRefreshResponse.json');
 
         $mockedResponse = $this->createMockedResponse($this->createMockedSteam($mockedJson));
         $mockedResponse2 = $this->createMockedResponse($this->createMockedSteam($mockedJson2));
@@ -134,9 +164,8 @@ class OAuthAuthorizationHandlerTest extends TestCase {
      * @depends testHandleUnauthorizedException
      */
     public function testHandleUnauthorizedExceptionWithCredentialsFile() {
-        $mockedJson = file_get_contents(__DIR__ . '/_files/expectedRefreshResponse.json');
-
-        list($expectedAccessToken, $expectedRefreshToken) = $this->parseResponse($mockedJson);
+        [$mockedJson, $expectedAccessToken, $expectedRefreshToken] =
+            $this->parseResponse(__DIR__ . '/_files/expectedRefreshResponse.json');
 
         $mockedResponse = $this->createMockedResponse($this->createMockedSteam($mockedJson));
 
@@ -166,10 +195,6 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     }
 
     public function testDeleteCredentialsFileWhenException() {
-        $mockedJson = file_get_contents(__DIR__ . '/_files/expectedRefreshResponse.json');
-
-        list(, $expectedRefreshToken) = $this->parseResponse($mockedJson);
-
         $mockedException = $this->getMockBuilder(ClientException::class)->disableOriginalConstructor()->getMock();
         $mockedResponse = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
         $mockedBody = $this->getMockBuilder(StreamInterface::class)->disableOriginalConstructor()->getMock();
@@ -192,15 +217,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
 
         $this->mockedClient->expects($this->once())
             ->method('post')
-            ->with(
-                sprintf('%s/login', $this->config->getApiUrl()),
-                [
-                    'form_params' => [
-                        'grant_type' => 'refresh_token',
-                        'refresh_token' => $expectedRefreshToken,
-                    ],
-                ]
-            )
+            ->with($this->isType('string'))
             ->willThrowException($mockedException);
 
 
@@ -219,11 +236,8 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     public function testWithTokenCallbackFunction() {
         $this->config->deleteTokenAccessFile();
 
-        $mockedJson = file_get_contents(__DIR__ . '/_files/expectedResponse.json');
-        $mockedJson2 = file_get_contents(__DIR__ . '/_files/expectedRefreshResponse.json');
-
-        list(, $expectedRefreshToken) = $this->parseResponse($mockedJson);
-        list($expectedAccessToken) = $this->parseResponse($mockedJson2);
+        [$mockedJson, , $expectedRefreshToken] = $this->parseResponse(__DIR__ . '/_files/expectedResponse.json');
+        [$mockedJson2, $expectedAccessToken] = $this->parseResponse(__DIR__ . '/_files/expectedRefreshResponse.json');
 
         $mockedResponse = $this->createMockedResponse($this->createMockedSteam($mockedJson2));
 
@@ -277,9 +291,11 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         return $mockedResponse;
     }
 
-    private function parseResponse(string $json) {
+    private function parseResponse(string $filename) {
+        $json = file_get_contents($filename);
         $credentials = json_decode($json, true);
         return [
+            $json,
             sprintf('Bearer %s', $credentials['access_token']),
             $credentials['refresh_token'],
         ];

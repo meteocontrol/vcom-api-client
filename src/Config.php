@@ -6,7 +6,7 @@ class Config {
 
     private const DEFAULT_AUTH_MODE = 'oauth';
 
-    private const DEFAULT_ACCESS_FILE_PATH = '/../.tokenAccess';
+    private const TOKEN_ACCESS_DIR = __DIR__ . '/../.tokenAccess/';
 
     /** @var array */
     private $config = [];
@@ -145,8 +145,9 @@ class Config {
     }
 
     public function deleteTokenAccessFile() {
-        if (file_exists(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH)) {
-            unlink(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH);
+        $filename = md5($this->getApiUsername());
+        if (file_exists(self::TOKEN_ACCESS_DIR . $filename)) {
+            unlink(self::TOKEN_ACCESS_DIR . $filename);
         }
     }
 
@@ -169,19 +170,26 @@ class Config {
         }
         $this->config = parse_ini_file($path);
 
-        $this->setTokenRefreshCallable(static function ($accessToken, $refreshToken) {
+        $username = &$this->config['API_USERNAME'];
+        $this->setTokenRefreshCallable(static function ($accessToken, $refreshToken) use (&$username) {
+            self::createTokenDir();
             $credentials = [
                 'access_token' => $accessToken,
                 'refresh_token' => $refreshToken,
             ];
-            file_put_contents(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH, base64_encode(json_encode($credentials)));
+            file_put_contents(
+                self::TOKEN_ACCESS_DIR . md5($username),
+                base64_encode(json_encode($credentials))
+            );
         });
 
-        $this->setTokenAccessCallable(static function () {
-            if (!file_exists(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH)) {
+        $this->setTokenAccessCallable(static function () use (&$username) {
+            if (!file_exists(self::TOKEN_ACCESS_DIR . md5($username))) {
                 return false;
             }
-            return json_decode(base64_decode(file_get_contents(__DIR__ . self::DEFAULT_ACCESS_FILE_PATH)), true);
+            return json_decode(base64_decode(
+                file_get_contents(self::TOKEN_ACCESS_DIR . md5($username))
+            ), true);
         });
 
         $this->validate();
@@ -209,5 +217,11 @@ class Config {
                 );
             }
         }
+    }
+
+    private static function createTokenDir() {
+        !is_dir(self::TOKEN_ACCESS_DIR) &&
+        !mkdir(self::TOKEN_ACCESS_DIR) &&
+        !is_dir(self::TOKEN_ACCESS_DIR);
     }
 }
