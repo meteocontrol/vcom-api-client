@@ -193,7 +193,7 @@ class StringboxesTest extends TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetStringboxMeasurementsWithIntervalIncludedWithWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurements.json');
@@ -360,14 +360,14 @@ class StringboxesTest extends TestCase {
                 $this->identicalTo(
                     'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&activeOnly=1'
                 )
-            );
+            )
+            ->willReturn('');
 
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withActiveOnly();
 
-        /** @var MeasurementsBulkReader $bulkReader */
         $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
     }
 

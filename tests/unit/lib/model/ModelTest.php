@@ -12,8 +12,9 @@ use meteocontrol\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\vcomapi\model\SystemDetail;
 use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\vcomapi\model\TicketHistory;
+use PHPUnit\Framework\TestCase;
 
-class ModelTest extends \PHPUnit_Framework_TestCase {
+class ModelTest extends TestCase {
 
     public function testModelEncodeToJson() {
         $dateTime = new \DateTime('2018-01-02T03:04:01+00:00');

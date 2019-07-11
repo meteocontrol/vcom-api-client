@@ -7,12 +7,14 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 function usleep($us) {
     ApiClientTest::$us = $us;
 }
 
-class ApiClientTest extends \PHPUnit_Framework_TestCase {
+class ApiClientTest extends TestCase {
 
     /** @var float */
     public static $us;
@@ -32,7 +34,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
     public function testRunGet() {
         $responseMock = $this->getResponseMock();
 
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get'])
             ->getMock();
@@ -58,7 +60,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                 'Authorization' => 'Bearer dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
             ]
         ];
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get'])
             ->getMock();
@@ -87,7 +89,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                 'Authorization' => 'Bearer dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
             ]
         ];
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['delete'])
             ->getMock();
@@ -116,7 +118,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                 'Authorization' => 'Bearer dGVzdC1hcGktdXNlcm5hbWU6dGVzdC1hcGktcGFzc3dvcmQ='
             ]
         ];
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['post'])
             ->getMock();
@@ -137,7 +139,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
     public function testRunPatchWithParameters() {
         $responseMock = $this->getResponseMock();
 
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['patch'])
             ->getMock();
@@ -173,7 +175,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn([]);
         $client = $this->getMockBuilder('\GuzzleHttp\Client')->getMock();
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'UNKNOWN');
+        $apiClient->run('url', $this->getQueryString(), 'patch body', 'UNKNOWN');
     }
 
     /**
@@ -204,7 +206,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->willReturn($streamMock);
         $clientException = new ClientException('', $request, $responseMock);
 
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get'])
             ->getMock();
@@ -244,7 +246,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->withConsecutive(['X-RateLimit-Remaining-Minute'])
             ->willReturn('10');
 
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get', 'post'])
             ->getMock();
@@ -312,7 +314,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->willReturn(401);
         $clientException = new ClientException('', $request, $responseMock);
 
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get', 'post'])
             ->getMock();
@@ -408,7 +410,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->withConsecutive(['X-RateLimit-Remaining-Minute'], ['Date'], ['X-RateLimit-Reset-Minute'])
             ->willReturnOnConsecutiveCalls('1', 'Thu, 25 Feb 2016 10:32:57 GMT', 'Thu, 25 Feb 2016 10:32:59 GMT');
 
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get'])
             ->getMock();
@@ -449,7 +451,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
     private function getResponseMockForOAuthPasswordGrant() {
         $streamMockPasswordGrant = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
@@ -470,7 +472,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
     private function getResponseMockForOAuthRefreshGrant() {
         $streamMockRefreshGrant = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
@@ -492,12 +494,12 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @param Request $request
-     * @param \PHPUnit_Framework_MockObject_MockObject $refreshResponseMock
-     * @return Client|\PHPUnit_Framework_MockObject_MockObject
+     * @param MockObject $refreshResponseMock
+     * @return Client|MockObject
      */
     private function getMockedClientToRefresh(
         Request $request,
-        \PHPUnit_Framework_MockObject_MockObject $refreshResponseMock
+        MockObject $refreshResponseMock
     ) {
         $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
 
@@ -508,7 +510,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->method('getStatusCode')
             ->willReturn(401);
         $clientException = new ClientException('Invalid API key', $request, $responseMock);
-        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get', 'post'])
             ->getMock();
@@ -545,9 +547,9 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
-    private function getMockedResponseFromRefresh(): \PHPUnit_Framework_MockObject_MockObject {
+    private function getMockedResponseFromRefresh(): MockObject {
         $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
             ->disableOriginalConstructor()
             ->setMethods(['getContents'])

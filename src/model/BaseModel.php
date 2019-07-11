@@ -69,8 +69,8 @@ abstract class BaseModel implements JsonSerializable {
     }
 
     /**
-     * @param string $dateString
-     * @return bool
+     * @param string|null $dateString
+     * @return bool|\DateTime
      */
     private static function isRFC3339DateString($dateString) {
         return \DateTime::createFromFormat(\DateTime::RFC3339, $dateString);

@@ -9,6 +9,7 @@ use meteocontrol\client\vcomapi\endpoints\main\Systems;
 use meteocontrol\client\vcomapi\endpoints\main\Tickets;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\System;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\SystemId;
+use meteocontrol\client\vcomapi\endpoints\sub\tickets\Ticket;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\TicketId;
 use meteocontrol\client\vcomapi\handlers\AuthorizationHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -35,7 +36,7 @@ class ApiClient {
      * @param string $apiKey
      * @return ApiClient
      */
-    public static function get($username, $password, $apiKey) {
+    public static function get(string $username, string $password, string $apiKey) {
         $config = new Config();
         $config->setApiUsername($username);
         $config->setApiPassword($password);
@@ -60,7 +61,7 @@ class ApiClient {
      * @param string $systemKey
      * @return System
      */
-    public function system($systemKey) {
+    public function system(string $systemKey) {
         $systems = new Systems($this);
         $systemIdEndpoint = new SystemId($systems, $systemKey);
         $systemEndpoint = new System($systemIdEndpoint);
@@ -79,11 +80,10 @@ class ApiClient {
      * @param string $ticketId
      * @return endpoints\sub\tickets\Ticket
      */
-    public function ticket($ticketId) {
+    public function ticket(string $ticketId) {
         $tickets = new Tickets($this);
         $ticketIdEndpoint = new TicketId($tickets, $ticketId);
-        $ticketEndpoint = new \meteocontrol\client\vcomapi\endpoints\sub\tickets\Ticket($ticketIdEndpoint);
-        return $ticketEndpoint;
+        return new Ticket($ticketIdEndpoint);
     }
 
     /**
@@ -101,7 +101,7 @@ class ApiClient {
      * @return mixed
      * @throws ApiClientException
      */
-    public function run($uri, $queryString = null, $body = null, $method = 'GET') {
+    public function run(string $uri, string $queryString = null, string $body = null, string $method = 'GET') {
         /** @var $response ResponseInterface */
         $response = null;
         $options = $this->getRequestOptions($queryString, $body);
@@ -154,7 +154,7 @@ class ApiClient {
      * @return ResponseInterface
      * @throws ApiClientException
      */
-    private function sendRequest($uri, $method, array $options) {
+    private function sendRequest(string $uri, string $method, array $options) {
         switch (strtoupper($method)) {
             case 'GET':
                 $response = $this->client->get($uri, $options);
@@ -182,7 +182,12 @@ class ApiClient {
      * @return ResponseInterface
      * @throws UnauthorizedException
      */
-    private function retryRequestWithNewToken($uri, $method, $body = null, $queryString = null) {
+    private function retryRequestWithNewToken(
+        string $uri,
+        string $method,
+        string $body = null,
+        string $queryString = null
+    ) {
         $options = $this->getRequestOptions($queryString, $body);
         try {
             return $this->sendRequest($uri, $method, $options);

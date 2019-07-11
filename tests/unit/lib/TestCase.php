@@ -6,10 +6,11 @@ use GuzzleHttp\Client;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class TestCase extends \PHPUnit_Framework_TestCase {
+class TestCase extends \PHPUnit\Framework\TestCase {
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
+    /** @var MockObject | ApiClient */
     protected $api;
 
     public function setup() {
@@ -17,7 +18,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @return ApiClient|\PHPUnit_Framework_MockObject_MockObject
+     * @return ApiClient|MockObject
      */
     private function getMockedApiClient(): ApiClient {
         $config = new Config();

@@ -123,7 +123,7 @@ class AttachmentsTest extends TestCase {
      * @param string $content
      * @return string
      */
-    private function encodeContent($content) {
+    private function encodeContent(string $content) {
         return 'data:' . "image/jpeg" . ';base64,' . base64_encode($content);
     }
 }

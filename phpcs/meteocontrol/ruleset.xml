@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ruleset name="meteocontrol">
   <description>PHP coding standard for meteocontrol</description>
-    <config name="php_version" value="50500"/>
+    <config name="php_version" value="70100"/>
     <rule ref="PSR2">
         <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"/>
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>

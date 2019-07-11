@@ -177,7 +177,7 @@ class MetersTest extends TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetMeterMeasurementsWithIntervalIncludedButWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');

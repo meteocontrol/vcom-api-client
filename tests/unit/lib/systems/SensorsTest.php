@@ -165,7 +165,7 @@ class SensorsTest extends TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetSensorMeasurementsWithIntervalIncludedWithWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurements.json');

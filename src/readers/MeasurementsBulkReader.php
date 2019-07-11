@@ -24,7 +24,7 @@ class MeasurementsBulkReader {
      * @param string $raw
      * @param MeasurementsCriteria|null $criteria
      */
-    public function __construct($raw, MeasurementsCriteria $criteria = null) {
+    public function __construct(string $raw, MeasurementsCriteria $criteria = null) {
         $this->rawData = $raw;
         $this->criteria = $criteria;
     }
@@ -66,7 +66,7 @@ class MeasurementsBulkReader {
      * @param string $delimiterName
      * @return string
      */
-    private function getDelimiterSymbol($delimiterName) {
+    private function getDelimiterSymbol(string $delimiterName) {
         return $this->delimiterMapping[$delimiterName];
     }
 }

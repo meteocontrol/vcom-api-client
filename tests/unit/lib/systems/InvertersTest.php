@@ -165,7 +165,7 @@ class InvertersTest extends TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetInverterMeasurementsWithIntervalIncludedButWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterMeasurements.json');
