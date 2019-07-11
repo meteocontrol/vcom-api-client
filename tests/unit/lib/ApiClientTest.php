@@ -19,6 +19,13 @@ class ApiClientTest extends TestCase {
     /** @var float */
     public static $us;
 
+    public function tearDown() {
+        $tokenAccess = __DIR__ . '/../../../.tokenAccess/4ce900b2bdbb2af2334279b0b5971eef';
+        if (file_exists($tokenAccess)) {
+            unlink($tokenAccess);
+        }
+    }
+
     public function testIsInstantiable() {
         $factory = new Factory();
         $config = new Config(__DIR__ . '/_files/config.ini');
@@ -185,8 +192,6 @@ class ApiClientTest extends TestCase {
     public function testRunWithBasicAuthenticationUnauthorized() {
         $config = new Config();
         $config->setApiAuthorizationMode('basic');
-        $config->setTokenRefreshCallable(static function () {
-        });
 
         $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
             ->disableOriginalConstructor()
@@ -224,8 +229,6 @@ class ApiClientTest extends TestCase {
 
     public function testRunWithOAuthUnauthorizedAndRefreshTokenIsValid() {
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $config->setTokenRefreshCallable(static function () {
-        });
 
         $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
 
@@ -306,8 +309,6 @@ class ApiClientTest extends TestCase {
      */
     public function testRunWithOAuthUnauthorizedAndRefreshTokenIsInvalid() {
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $config->setTokenRefreshCallable(static function () {
-        });
 
         $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
 
@@ -383,8 +384,6 @@ class ApiClientTest extends TestCase {
      */
     public function testRunWithOAuthUnauthorizedAndTokenRefreshingIsFailed() {
         $config = new Config(__DIR__ . '/_files/config.ini');
-        $config->setTokenRefreshCallable(static function () {
-        });
 
         $request = new Request('GET', 'url');
 
