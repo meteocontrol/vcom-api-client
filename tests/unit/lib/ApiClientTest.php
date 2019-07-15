@@ -19,6 +19,13 @@ class ApiClientTest extends TestCase {
     /** @var float */
     public static $us;
 
+    public function tearDown() {
+        $tokenAccess = __DIR__ . '/../../../.tokenAccess/4ce900b2bdbb2af2334279b0b5971eef';
+        if (file_exists($tokenAccess)) {
+            unlink($tokenAccess);
+        }
+    }
+
     public function testIsInstantiable() {
         $factory = new Factory();
         $config = new Config(__DIR__ . '/_files/config.ini');

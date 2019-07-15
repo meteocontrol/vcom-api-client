@@ -6,6 +6,8 @@ class Config {
 
     private const DEFAULT_AUTH_MODE = 'oauth';
 
+    private const TOKEN_ACCESS_DIR = __DIR__ . '/../.tokenAccess/';
+
     /** @var array */
     private $config = [];
 
@@ -25,6 +27,12 @@ class Config {
         'API_PASSWORD',
         'API_AUTH_MODE',
     ];
+
+    /** @var callable */
+    private $tokenRefreshCallable;
+
+    /** @var callable */
+    private $tokenAccessCallable;
 
     /**
      * @param string $path
@@ -109,6 +117,41 @@ class Config {
     }
 
     /**
+     * @return callable|null
+     */
+    public function getTokenRefreshCallable() {
+        return $this->tokenRefreshCallable;
+    }
+
+    /**
+     * @param callable $tokenRefreshCallable
+     */
+    public function setTokenRefreshCallable(callable $tokenRefreshCallable) {
+        $this->tokenRefreshCallable = $tokenRefreshCallable;
+    }
+
+    /**
+     * @return callable|null
+     */
+    public function getTokenAccessCallable() {
+        return $this->tokenAccessCallable;
+    }
+
+    /**
+     * @param callable $tokenAccessCallable
+     */
+    public function setTokenAccessCallable(callable $tokenAccessCallable) {
+        $this->tokenAccessCallable = $tokenAccessCallable;
+    }
+
+    public function deleteTokenAccessFile() {
+        $filename = md5($this->getApiUsername());
+        if (file_exists(self::TOKEN_ACCESS_DIR . $filename)) {
+            unlink(self::TOKEN_ACCESS_DIR . $filename);
+        }
+    }
+
+    /**
      * @throws \InvalidArgumentException
      */
     public function validate() {
@@ -126,6 +169,29 @@ class Config {
             throw new \InvalidArgumentException("config file '$path' not found");
         }
         $this->config = parse_ini_file($path);
+
+        $username = &$this->config['API_USERNAME'];
+        $this->setTokenRefreshCallable(static function ($accessToken, $refreshToken) use (&$username) {
+            self::createTokenDir();
+            $credentials = [
+                'access_token' => $accessToken,
+                'refresh_token' => $refreshToken,
+            ];
+            file_put_contents(
+                self::TOKEN_ACCESS_DIR . md5($username),
+                base64_encode(json_encode($credentials))
+            );
+        });
+
+        $this->setTokenAccessCallable(static function () use (&$username) {
+            if (!file_exists(self::TOKEN_ACCESS_DIR . md5($username))) {
+                return false;
+            }
+            return json_decode(base64_decode(
+                file_get_contents(self::TOKEN_ACCESS_DIR . md5($username))
+            ), true);
+        });
+
         $this->validate();
     }
 
@@ -151,5 +217,11 @@ class Config {
                 );
             }
         }
+    }
+
+    private static function createTokenDir() {
+        !is_dir(self::TOKEN_ACCESS_DIR) &&
+        !mkdir(self::TOKEN_ACCESS_DIR) &&
+        !is_dir(self::TOKEN_ACCESS_DIR);
     }
 }

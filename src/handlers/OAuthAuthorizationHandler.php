@@ -38,12 +38,10 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
      * @return array
      */
     public function appendAuthorizationHeader(Client $client, array $options) {
-        if (empty($this->accessToken)) {
+        if (empty($this->accessToken) && !$this->parseCredentials()) {
             $this->doOAuthGrant($client);
-            $options['headers']['Authorization'] = sprintf('Bearer %s', $this->accessToken);
-        } else {
-            $options['headers']['Authorization'] = sprintf('Bearer %s', $this->accessToken);
         }
+        $options['headers']['Authorization'] = sprintf('Bearer %s', $this->accessToken);
         return $options;
     }
 
@@ -66,10 +64,12 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
             $credentials = json_decode($response->getBody()->getContents(), true);
             $this->accessToken = $credentials['access_token'];
             $this->refreshToken = $credentials['refresh_token'];
+            $this->storeCredentials($credentials);
         } catch (ClientException $ex) {
             if (!in_array($ex->getResponse()->getStatusCode(), [400, 401, 403])) {
                 throw $ex;
             }
+            $this->config->deleteTokenAccessFile();
             throw new UnauthorizedException(
                 $ex->getResponse()->getBody()->getContents(),
                 $ex->getResponse()->getStatusCode()
@@ -95,14 +95,37 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
             $credentials = json_decode($response->getBody()->getContents(), true);
             $this->accessToken = $credentials['access_token'];
             $this->refreshToken = $credentials['refresh_token'];
+            $this->storeCredentials($credentials);
         } catch (ClientException $ex) {
             if (!in_array($ex->getResponse()->getStatusCode(), [400, 401, 403])) {
                 throw $ex;
             }
+            $this->config->deleteTokenAccessFile();
             throw new UnauthorizedException(
                 $ex->getResponse()->getBody()->getContents(),
                 $ex->getResponse()->getStatusCode()
             );
         }
+    }
+
+    private function parseCredentials() {
+        $tokenAccessCallable = $this->config->getTokenAccessCallable();
+        $credentials = call_user_func_array($tokenAccessCallable, []);
+        if (!$credentials || !isset($credentials['access_token'], $credentials['refresh_token'])) {
+            return false;
+        }
+
+        $this->accessToken = $credentials['access_token'];
+        $this->refreshToken = $credentials['refresh_token'];
+
+        return true;
+    }
+
+    /**
+     * @param array $credentials
+     */
+    private function storeCredentials(array $credentials) {
+        $tokenRefreshCallable = $this->config->getTokenRefreshCallable();
+        call_user_func_array($tokenRefreshCallable, $credentials);
     }
 }
