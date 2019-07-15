@@ -18,3 +18,4 @@
 2018-10-22: Support includeInterval query parameter, power plant controllers endpoints and support more resolutions for measurement endpoints
 2019-01-10: Version 2.0.0, support multiple abbreviations for basics and calculations measurement endpoints, and use OAuth2 authentication mode by default
 2019-01-16: Add specific energy yield forecast endpoint
+2019-07-15: Implement OAuth token cache
