@@ -19,6 +19,13 @@ class ApiClientTest extends TestCase {
     /** @var float */
     public static $us;
 
+    public function tearDown() {
+        $tokenAccess = __DIR__ . '/../../../.tokenAccess/706eace5d3a3dbb56f141547162dc636';
+        if (file_exists($tokenAccess)) {
+            unlink($tokenAccess);
+        }
+    }
+
     public function testIsInstantiable() {
         $factory = new Factory();
         $config = new Config(__DIR__ . '/_files/config.ini');
@@ -296,14 +303,8 @@ class ApiClientTest extends TestCase {
         $this->assertEquals('123', $apiClient->run('url'));
     }
 
-    /**
-     * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
-     * @expectedExceptionMessage {"hint":"refresh token is revoked"}
-     */
     public function testRunWithOAuthUnauthorizedAndRefreshTokenIsInvalid() {
         $config = new Config(__DIR__ . '/_files/config.ini');
-
-        $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
 
         $request = new Request('GET', 'url');
         $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
@@ -318,11 +319,14 @@ class ApiClientTest extends TestCase {
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get', 'post'])
             ->getMock();
-        $client->expects($this->once())
-            ->method('get')
-            ->with('url')
-            ->willThrowException($clientException);
         $client->expects($this->exactly(2))
+            ->method('get')
+            ->withConsecutive(['url'], ['url'])
+            ->willReturnOnConsecutiveCalls(
+                $this->throwException($clientException),
+                $this->getResponseMock()
+            );
+        $client->expects($this->exactly(3))
             ->method('post')
             ->withConsecutive([
                 'https://test.meteocontrol.api/login',
@@ -341,9 +345,18 @@ class ApiClientTest extends TestCase {
                         'refresh_token' => 'refreshToken'
                     ]
                 ]
+            ], [
+                'https://test.meteocontrol.api/login',
+                [
+                    'form_params' => [
+                        'grant_type' => 'password',
+                        'username' => 'test-api-username',
+                        'password' => 'test-api-password'
+                    ]
+                ]
             ])
             ->willReturnOnConsecutiveCalls(
-                $responseMockPasswordGrant,
+                $this->getResponseMockForOAuthPasswordGrant(),
                 $this->returnCallback(function () {
                     $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
                         ->disableOriginalConstructor()
@@ -363,7 +376,8 @@ class ApiClientTest extends TestCase {
                         ->willReturn($streamMock);
                     $request = new Request('POST', '/login');
                     throw new ClientException('refresh token is revoked', $request, $responseMock);
-                })
+                }),
+                $this->getResponseMockForOAuthPasswordGrant()
             );
 
         $authHandler = new OAuthAuthorizationHandler($config);
@@ -373,7 +387,6 @@ class ApiClientTest extends TestCase {
 
     /**
      * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
-     * @expectedExceptionMessage Invalid API key
      */
     public function testRunWithOAuthUnauthorizedAndTokenRefreshingIsFailed() {
         $config = new Config(__DIR__ . '/_files/config.ini');
@@ -509,7 +522,7 @@ class ApiClientTest extends TestCase {
         $responseMock->expects($this->exactly(2))
             ->method('getStatusCode')
             ->willReturn(401);
-        $clientException = new ClientException('Invalid API key', $request, $responseMock);
+        $clientException = new ClientException('', $request, $responseMock);
         /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get', 'post'])
