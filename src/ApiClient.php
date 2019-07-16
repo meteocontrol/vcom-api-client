@@ -109,7 +109,7 @@ class ApiClient {
         try {
             $response = $this->sendRequest($uri, $method, $options);
         } catch (ClientException $ex) {
-            if ($ex->getResponse()->getStatusCode() === 401) {
+            if ($ex->getResponse()->getStatusCode() === 401 && $ex->getMessage() !== 'Invalid API key') {
                 $this->authorizationHandler->handleUnauthorizedException($ex, $this->client);
                 $response = $this->retryRequestWithNewToken($uri, $method, $body, $queryString);
             } else {

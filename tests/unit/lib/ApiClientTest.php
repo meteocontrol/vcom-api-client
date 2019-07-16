@@ -20,7 +20,7 @@ class ApiClientTest extends TestCase {
     public static $us;
 
     public function tearDown() {
-        $tokenAccess = __DIR__ . '/../../../.tokenAccess/4ce900b2bdbb2af2334279b0b5971eef';
+        $tokenAccess = __DIR__ . '/../../../.tokenAccess/706eace5d3a3dbb56f141547162dc636';
         if (file_exists($tokenAccess)) {
             unlink($tokenAccess);
         }
@@ -387,7 +387,6 @@ class ApiClientTest extends TestCase {
 
     /**
      * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
-     * @expectedExceptionMessage Invalid API key
      */
     public function testRunWithOAuthUnauthorizedAndTokenRefreshingIsFailed() {
         $config = new Config(__DIR__ . '/_files/config.ini');
@@ -523,7 +522,7 @@ class ApiClientTest extends TestCase {
         $responseMock->expects($this->exactly(2))
             ->method('getStatusCode')
             ->willReturn(401);
-        $clientException = new ClientException('Invalid API key', $request, $responseMock);
+        $clientException = new ClientException('', $request, $responseMock);
         /** @var Client|MockObject $client */
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get', 'post'])

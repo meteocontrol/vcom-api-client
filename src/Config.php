@@ -145,7 +145,7 @@ class Config {
     }
 
     public function deleteTokenAccessFile() {
-        $filename = md5($this->getApiUsername());
+        $filename = $this->getTokenAccessFilename();
         if (file_exists(self::TOKEN_ACCESS_DIR . $filename)) {
             unlink(self::TOKEN_ACCESS_DIR . $filename);
         }
@@ -170,25 +170,25 @@ class Config {
         }
         $this->config = parse_ini_file($path);
 
-        $username = &$this->config['API_USERNAME'];
-        $this->setTokenRefreshCallable(static function ($credentials) use (&$username) {
+        $this->setTokenRefreshCallable(function ($credentials) {
             self::createTokenDir();
             $credentials = [
                 'access_token' => $credentials['access_token'],
                 'refresh_token' => $credentials['refresh_token'],
             ];
             file_put_contents(
-                self::TOKEN_ACCESS_DIR . md5($username),
+                self::TOKEN_ACCESS_DIR . $this->getTokenAccessFilename(),
                 base64_encode(json_encode($credentials))
             );
         });
 
-        $this->setTokenAccessCallable(static function () use (&$username) {
-            if (!file_exists(self::TOKEN_ACCESS_DIR . md5($username))) {
+        $this->setTokenAccessCallable(function () {
+            $filename = $this->getTokenAccessFilename();
+            if (!file_exists(self::TOKEN_ACCESS_DIR . $filename)) {
                 return false;
             }
             return json_decode(base64_decode(
-                file_get_contents(self::TOKEN_ACCESS_DIR . md5($username))
+                file_get_contents(self::TOKEN_ACCESS_DIR . $filename)
             ), true);
         });
 
@@ -217,6 +217,13 @@ class Config {
                 );
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    private function getTokenAccessFilename() {
+        return md5($this->getApiUsername() . $this->getApiPassword());
     }
 
     private static function createTokenDir() {

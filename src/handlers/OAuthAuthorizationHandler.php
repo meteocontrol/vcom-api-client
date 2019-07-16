@@ -32,6 +32,9 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
         try {
             $this->doOAuthRefresh($client);
         } catch (UnauthorizedException $ex) {
+            if ($ex->getMessage() === 'Invalid API key') {
+                throw $ex;
+            }
             $this->doOAuthGrant($client);
         }
     }
