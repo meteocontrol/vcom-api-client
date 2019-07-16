@@ -258,10 +258,10 @@ class OAuthAuthorizationHandlerTest extends TestCase {
             return json_decode($mockedJson, true);
         });
 
-        $this->config->setTokenRefreshCallable(function ($accessToken, $refreshToken) use ($mockedJson2) {
-            $credentials = json_decode($mockedJson2, true);
-            self::assertEquals($credentials['access_token'], $accessToken);
-            self::assertEquals($credentials['refresh_token'], $refreshToken);
+        $this->config->setTokenRefreshCallable(function ($credentials) use ($mockedJson2) {
+            $expectedCredentials = json_decode($mockedJson2, true);
+            self::assertEquals($expectedCredentials['access_token'], $credentials['access_token']);
+            self::assertEquals($expectedCredentials['refresh_token'], $credentials['refresh_token']);
         });
 
         $mockedException = $this->getMockBuilder(ClientException::class)->disableOriginalConstructor()->getMock();
