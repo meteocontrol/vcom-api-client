@@ -29,7 +29,11 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
      * @throws UnauthorizedException
      */
     public function handleUnauthorizedException(ClientException $ex, Client $client) {
-        $this->doOAuthRefresh($client);
+        try {
+            $this->doOAuthRefresh($client);
+        } catch (UnauthorizedException $ex) {
+            $this->doOAuthGrant($client);
+        }
     }
 
     /**
