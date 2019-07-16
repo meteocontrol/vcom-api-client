@@ -171,11 +171,11 @@ class Config {
         $this->config = parse_ini_file($path);
 
         $username = &$this->config['API_USERNAME'];
-        $this->setTokenRefreshCallable(static function ($accessToken, $refreshToken) use (&$username) {
+        $this->setTokenRefreshCallable(static function ($credentials) use (&$username) {
             self::createTokenDir();
             $credentials = [
-                'access_token' => $accessToken,
-                'refresh_token' => $refreshToken,
+                'access_token' => $credentials['access_token'],
+                'refresh_token' => $credentials['refresh_token'],
             ];
             file_put_contents(
                 self::TOKEN_ACCESS_DIR . md5($username),

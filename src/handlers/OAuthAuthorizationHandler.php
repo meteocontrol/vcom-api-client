@@ -126,6 +126,6 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
      */
     private function storeCredentials(array $credentials) {
         $tokenRefreshCallable = $this->config->getTokenRefreshCallable();
-        call_user_func_array($tokenRefreshCallable, $credentials);
+        call_user_func_array($tokenRefreshCallable, [$credentials]);
     }
 }

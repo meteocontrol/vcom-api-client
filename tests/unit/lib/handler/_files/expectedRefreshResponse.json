@@ -1,4 +1,6 @@
 {
+  "token_type": "Bearer",
+  "expires_in": 86400,
   "access_token": "YWNjZXNzX3Rva2Vu",
   "refresh_token": "cmVmcmVzaF90b2tlbg=="
 }
