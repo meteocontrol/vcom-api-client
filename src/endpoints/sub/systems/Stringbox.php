@@ -6,7 +6,7 @@ use meteocontrol\vcomapi\model\StringboxDetail;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\AbbreviationId;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\client\vcomapi\endpoints\sub\systems\device\Abbreviation as DeviceAbbreviation;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\device\StringboxAbbreviation as DeviceAbbreviation;
 
 class Stringbox extends SubEndpoint {
 

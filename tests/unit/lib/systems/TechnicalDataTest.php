@@ -2,26 +2,10 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\TechnicalData;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
-class TechnicalDataTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
-
-    public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
-    }
+class TechnicalDataTest extends TestCase {
 
     public function testGetTechnicalData() {
         $json = file_get_contents(__DIR__ . '/responses/getTechnicalData.json');

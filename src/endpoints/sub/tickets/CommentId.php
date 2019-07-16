@@ -9,9 +9,9 @@ class CommentId extends SubEndpoint {
 
     /**
      * @param EndpointInterface $parent
-     * @param string $id
+     * @param int $id
      */
-    public function __construct(EndpointInterface $parent, $id) {
+    public function __construct(EndpointInterface $parent, int $id) {
         $this->uri = '/' . $id;
         $this->parent = $parent;
         $this->api = $parent->getApiClient();

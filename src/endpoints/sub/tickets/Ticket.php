@@ -81,7 +81,7 @@ class Ticket extends SubEndpoint {
      * @param int $commentId
      * @return Comment
      */
-    public function comment($commentId) {
+    public function comment(int $commentId) {
         $comments = new Comments($this);
         $commentIdEndpoint = new CommentId($comments, $commentId);
         $commentEndpoint = new Comment($commentIdEndpoint);
@@ -99,7 +99,7 @@ class Ticket extends SubEndpoint {
      * @param int $attachmentId
      * @return Attachment
      */
-    public function attachment($attachmentId) {
+    public function attachment(int $attachmentId) {
         $attachments = new Attachments($this);
         $attachmentIdEndpoint = new AttachmentId($attachments, (string)$attachmentId);
         return new Attachment($attachmentIdEndpoint);

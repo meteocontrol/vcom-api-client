@@ -5,6 +5,10 @@ class_alias(
     'meteocontrol\client\vcomapi\model\Abbreviation'
 );
 class_alias(
+    'meteocontrol\vcomapi\model\StringboxAbbreviation',
+    'meteocontrol\client\vcomapi\model\StringboxAbbreviation'
+);
+class_alias(
     'meteocontrol\vcomapi\model\Address',
     'meteocontrol\client\vcomapi\model\Address'
 );

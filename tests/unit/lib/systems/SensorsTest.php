@@ -2,32 +2,16 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Sensors;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
 use meteocontrol\client\vcomapi\model\SensorDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
-class SensorsTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
-
-    public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
-    }
+class SensorsTest extends TestCase {
 
     public function testGetSensors() {
         $json = file_get_contents(__DIR__ . '/responses/getSensors.json');
@@ -181,7 +165,7 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetSensorMeasurementsWithIntervalIncludedWithWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurements.json');
@@ -267,6 +251,31 @@ class SensorsTest extends \PHPUnit_Framework_TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'));
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $bulkReader = $this->api->system('ABCDE')->sensors()->bulk()->measurements()->get($criteria);
+
+        $this->assertEquals($json, $bulkReader->getAsString());
+        $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
+    }
+
+    public function testGetSensorsBulkDataWithAbbreviationsFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getSensorBulkWithAbbreviationsFilter.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/sensors/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00'
+                    . '&abbreviations=E_AH_ABS'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+            ->withAbbreviation(['E_AH_ABS']);
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->sensors()->bulk()->measurements()->get($criteria);

@@ -2,32 +2,16 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
 use meteocontrol\client\vcomapi\model\Stringbox;
 use meteocontrol\client\vcomapi\model\StringboxDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
-class StringboxesTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
-
-    public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
-    }
+class StringboxesTest extends TestCase {
 
     public function testGetStringboxDevices() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxes.json');
@@ -85,13 +69,14 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
             ->with($this->identicalTo('systems/ABCDE/stringboxes/816639/abbreviations/I1'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Abbreviation $abbreviation */
+        /** @var \meteocontrol\client\vcomapi\model\StringboxAbbreviation $abbreviation */
         $abbreviation = $this->api->system('ABCDE')->stringbox('816639')->abbreviation('I1')->get();
 
         $this->assertEquals('AVG', $abbreviation->aggregation);
         $this->assertEquals('Current DC', $abbreviation->description);
         $this->assertEquals(null, $abbreviation->precision);
         $this->assertEquals('A', $abbreviation->unit);
+        $this->assertEquals(true, $abbreviation->active);
     }
 
     public function testGetStringboxMeasurements() {
@@ -208,7 +193,7 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetStringboxMeasurementsWithIntervalIncludedWithWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurements.json');
@@ -320,6 +305,31 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
     }
 
+    public function testGetStringboxesBulkDataWithAbbreviationsFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getStringboxBulkWithAbbreviationsFilter.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00'
+                    . '&abbreviations=I1%2CI8_N'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+            ->withAbbreviation(['I1', 'I8_N']);
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $bulkReader = $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
+
+        $this->assertEquals($json, $bulkReader->getAsString());
+        $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
+    }
+
     public function testGetStringboxesBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getStringboxesBulk.csv');
         $this->api->expects($this->once())
@@ -340,6 +350,25 @@ class StringboxesTest extends \PHPUnit_Framework_TestCase {
         $bulkReader = $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
 
         $this->assertEquals($cvsRawData, $bulkReader->getAsString());
+    }
+
+    public function testGetStringboxesBulkDataWithActiveOnlyOption() {
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&activeOnly=1'
+                )
+            )
+            ->willReturn('');
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+            ->withActiveOnly();
+
+        $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
     }
 
     /**

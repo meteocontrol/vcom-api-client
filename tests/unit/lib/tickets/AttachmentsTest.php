@@ -2,26 +2,10 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\AttachmentFile;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
-class AttachmentsTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
-
-    public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
-    }
+class AttachmentsTest extends TestCase {
 
     public function testGetAttachments() {
         $json = file_get_contents($this->getExpectedAttachments());
@@ -29,7 +13,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->method('run')
             ->with($this->identicalTo('tickets/123/attachments'))
             ->willReturn($json);
-        $actual = $this->api->ticket(123)->attachments()->get();
+        $actual = $this->api->ticket('123')->attachments()->get();
         $this->assertCount(2, $actual);
         $this->assertEquals("1234", $actual[0]->attachmentId);
         $this->assertEquals("test.jpg", $actual[0]->filename);
@@ -43,7 +27,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->method('run')
             ->with($this->identicalTo('tickets/123/attachments/1234'))
             ->willReturn($json);
-        $actual = $this->api->ticket(123)->attachment(1234)->get();
+        $actual = $this->api->ticket('123')->attachment(1234)->get();
         $this->assertEquals(1234, $actual->attachmentId);
         $this->assertEquals("test.jpg", $actual->filename);
         $this->assertEquals($this->getEncodedTestAttachment(), $actual->content);
@@ -66,7 +50,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
         $attachment->description = "test attachment";
         $attachment->filename = "test.jpg";
         $attachment->content = $this->getEncodedTestAttachment();
-        $actual = $this->api->ticket(123)->attachments()->create($attachment);
+        $actual = $this->api->ticket('123')->attachments()->create($attachment);
         $this->assertEquals("1234", $actual['attachmentId']);
         $this->assertEquals("test.jpg", $actual['filename']);
     }
@@ -80,7 +64,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->method('run');
         $attachment = new AttachmentFile();
         $attachment->content = $this->getEncodedTestAttachment();
-        $this->api->ticket(123)->attachments()->create($attachment);
+        $this->api->ticket('123')->attachments()->create($attachment);
     }
 
     /**
@@ -92,7 +76,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
             ->method('run');
         $attachment = new AttachmentFile();
         $attachment->filename  = "test.jpg";
-        $this->api->ticket(123)->attachments()->create($attachment);
+        $this->api->ticket('123')->attachments()->create($attachment);
     }
 
     /**
@@ -139,7 +123,7 @@ class AttachmentsTest extends \PHPUnit_Framework_TestCase {
      * @param string $content
      * @return string
      */
-    private function encodeContent($content) {
+    private function encodeContent(string $content) {
         return 'data:' . "image/jpeg" . ';base64,' . base64_encode($content);
     }
 }

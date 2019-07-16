@@ -4,8 +4,9 @@ namespace meteocontrol\client\vcomapi\tests\unit;
 
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\Factory;
+use PHPUnit\Framework\TestCase;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase {
+class FactoryTest extends TestCase {
 
     /** @var Factory */
     private $factory;

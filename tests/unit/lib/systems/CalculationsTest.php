@@ -2,30 +2,14 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\MeasurementValue;
 use meteocontrol\client\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
-class CalculationsTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
-
-    public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
-    }
+class CalculationsTest extends TestCase {
 
     public function testGetCalculationAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsAbbreviations.json');
@@ -131,7 +115,7 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error_Notice
+     * @expectedException \PHPUnit\Framework\Error\Notice
      */
     public function testGetCalculationMeasurementsWithIntervalIncluded() {
         $criteria = new MeasurementsCriteria();
@@ -199,6 +183,31 @@ class CalculationsTest extends \PHPUnit_Framework_TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:15:00+02:00'));
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $bulkReader = $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);
+
+        $this->assertEquals($json, $bulkReader->getAsString());
+        $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
+    }
+
+    public function testGetCalculationBulkDataWithAbbreviationsFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getCalculationsBulkWithAbbreviationsFilter.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/calculations/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-09-01T00%3A00%3A00%2B02%3A00&to=2016-09-01T00%3A15%3A00%2B02%3A00'
+                    . '&abbreviations=AREA%2CVFG'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:15:00+02:00'))
+            ->withAbbreviation(['AREA', 'VFG']);
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);

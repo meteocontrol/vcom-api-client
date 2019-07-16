@@ -2,32 +2,16 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\vcomapi\model\Abbreviation;
 use meteocontrol\vcomapi\model\PowerPlantController;
 use meteocontrol\vcomapi\model\PowerPlantControllerDetail;
 
-class PowerPlantControllersTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
-
-    public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
-    }
+class PowerPlantControllersTest extends TestCase {
 
     public function testGetPowerPlantControllers() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllers.json');
@@ -108,14 +92,14 @@ class PowerPlantControllersTest extends \PHPUnit_Framework_TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerMeasurements.json');
         $this->api->expects($this->exactly(1))
             ->method('run')
-        ->with(
-            $this->identicalTo(
-                'systems/ABCDE/power-plant-controllers/163784/abbreviations/PPC_P_AC_AVAIL,PPC_P_AC/measurements'
-            ),
-            $this->identicalTo(
-                'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00'
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/power-plant-controllers/163784/abbreviations/PPC_P_AC_AVAIL,PPC_P_AC/measurements'
+                ),
+                $this->identicalTo(
+                    'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00'
+                )
             )
-        )
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
@@ -155,6 +139,31 @@ class PowerPlantControllersTest extends \PHPUnit_Framework_TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:05:00+02:00'));
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $bulkReader = $this->api->system('ABCDE')->powerPlantControllers()->bulk()->measurements()->get($criteria);
+
+        $this->assertEquals($json, $bulkReader->getAsString());
+        $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
+    }
+
+    public function testGetPowerPlantControllersBulkDataWithAbbreviationsFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerBulkWithAbbreviationsFilter.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/power-plant-controllers/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00'
+                    . '&abbreviations=PPC_P_AC_INV%2CPPC_Q_AC_AVAIL%2CPPC_Q_SET_REL'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:05:00+02:00'))
+            ->withAbbreviation(['PPC_P_AC_INV', 'PPC_Q_AC_AVAIL', 'PPC_Q_SET_REL']);
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->powerPlantControllers()->bulk()->measurements()->get($criteria);

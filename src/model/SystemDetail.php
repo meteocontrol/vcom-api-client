@@ -62,7 +62,7 @@ class SystemDetail extends BaseModel {
      * @param array $data
      * @return bool|\DateTime
      */
-    private static function deserializeCommissionDate($dateString, array $data) {
+    private static function deserializeCommissionDate(string $dateString, array $data) {
         return \DateTime::createFromFormat(
             'Y-m-d H:i:s',
             "{$dateString} 00:00:00",

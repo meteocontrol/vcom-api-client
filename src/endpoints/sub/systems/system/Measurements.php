@@ -40,7 +40,7 @@ class Measurements extends SubEndpoint {
      * @param string $measurementsJson
      * @return array
      */
-    private function deserializeIntervalData($measurementsJson): array {
+    private function deserializeIntervalData(string $measurementsJson): array {
         $data = $this->jsonDecode($measurementsJson, true)['data'];
         $deviceMeasurements = [];
         foreach ($data as $abbreviation => $value) {
@@ -53,7 +53,7 @@ class Measurements extends SubEndpoint {
      * @param string $measurementsJson
      * @return array
      */
-    private function deserializeData($measurementsJson): array {
+    private function deserializeData(string $measurementsJson): array {
         $data = $this->jsonDecode($measurementsJson, true)['data'];
         $deviceMeasurements = [];
         foreach ($data as $abbreviation => $value) {

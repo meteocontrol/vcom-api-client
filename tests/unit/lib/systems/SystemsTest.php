@@ -2,28 +2,12 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use GuzzleHttp\Client;
-use meteocontrol\client\vcomapi\ApiClient;
-use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
+use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
-class SystemsTest extends \PHPUnit_Framework_TestCase {
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject | ApiClient */
-    private $api;
-
-    public function setup() {
-        $config = new Config();
-        $client = new Client();
-        $authHandler = new BasicAuthorizationHandler($config);
-        $this->api = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
-            ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
-            ->getMock();
-    }
+class SystemsTest extends TestCase {
 
     public function testGetSystems() {
         $json = file_get_contents(__DIR__ . '/responses/getSystems.json');
@@ -82,6 +66,31 @@ class SystemsTest extends \PHPUnit_Framework_TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
             ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:05:00+02:00'));
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
+
+        $this->assertEquals($json, $bulkReader->getAsString());
+        $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
+    }
+
+    public function testGetSystemBulkDataWithAbbreviationsFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getSystemBulkWithAbbreviationsFilter.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-11-01T11%3A00%3A00%2B02%3A00&to=2016-11-01T11%3A05%3A00%2B02%3A00'
+                    . '&abbreviations=G_M2%2CAREA%2CE_DAY%2CE_INT%2CSRAD%2CD_IN1'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
+            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:05:00+02:00'))
+            ->withAbbreviation(['G_M2', 'AREA', 'E_DAY', 'E_INT', 'SRAD', 'D_IN1']);
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
