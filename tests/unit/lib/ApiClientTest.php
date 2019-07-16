@@ -303,14 +303,8 @@ class ApiClientTest extends TestCase {
         $this->assertEquals('123', $apiClient->run('url'));
     }
 
-    /**
-     * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
-     * @expectedExceptionMessage {"hint":"refresh token is revoked"}
-     */
     public function testRunWithOAuthUnauthorizedAndRefreshTokenIsInvalid() {
         $config = new Config(__DIR__ . '/_files/config.ini');
-
-        $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
 
         $request = new Request('GET', 'url');
         $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
@@ -325,11 +319,14 @@ class ApiClientTest extends TestCase {
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get', 'post'])
             ->getMock();
-        $client->expects($this->once())
-            ->method('get')
-            ->with('url')
-            ->willThrowException($clientException);
         $client->expects($this->exactly(2))
+            ->method('get')
+            ->withConsecutive(['url'], ['url'])
+            ->willReturnOnConsecutiveCalls(
+                $this->throwException($clientException),
+                $this->getResponseMock()
+            );
+        $client->expects($this->exactly(3))
             ->method('post')
             ->withConsecutive([
                 'https://test.meteocontrol.api/login',
@@ -348,9 +345,18 @@ class ApiClientTest extends TestCase {
                         'refresh_token' => 'refreshToken'
                     ]
                 ]
+            ], [
+                'https://test.meteocontrol.api/login',
+                [
+                    'form_params' => [
+                        'grant_type' => 'password',
+                        'username' => 'test-api-username',
+                        'password' => 'test-api-password'
+                    ]
+                ]
             ])
             ->willReturnOnConsecutiveCalls(
-                $responseMockPasswordGrant,
+                $this->getResponseMockForOAuthPasswordGrant(),
                 $this->returnCallback(function () {
                     $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
                         ->disableOriginalConstructor()
@@ -370,7 +376,8 @@ class ApiClientTest extends TestCase {
                         ->willReturn($streamMock);
                     $request = new Request('POST', '/login');
                     throw new ClientException('refresh token is revoked', $request, $responseMock);
-                })
+                }),
+                $this->getResponseMockForOAuthPasswordGrant()
             );
 
         $authHandler = new OAuthAuthorizationHandler($config);

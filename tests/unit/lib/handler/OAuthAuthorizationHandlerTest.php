@@ -194,45 +194,6 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         $this->assertFileExists($this->tokenAccessFile);
     }
 
-    public function testDeleteCredentialsFileWhenException() {
-        $mockedException = $this->getMockBuilder(ClientException::class)->disableOriginalConstructor()->getMock();
-        $mockedResponse = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
-        $mockedBody = $this->getMockBuilder(StreamInterface::class)->disableOriginalConstructor()->getMock();
-
-        $mockedBody->expects($this->once())
-            ->method('getContents')
-            ->willReturn('Unauthorized');
-
-        $mockedException->expects($this->exactly(3))
-            ->method('getResponse')
-            ->willReturn($mockedResponse);
-
-        $mockedResponse->expects($this->exactly(2))
-            ->method('getStatusCode')
-            ->willReturn(401);
-
-        $mockedResponse->expects($this->once())
-            ->method('getBody')
-            ->willReturn($mockedBody);
-
-        $this->mockedClient->expects($this->once())
-            ->method('post')
-            ->with($this->isType('string'))
-            ->willThrowException($mockedException);
-
-
-        $handler = new OAuthAuthorizationHandler($this->config);
-
-        $handler->appendAuthorizationHeader($this->mockedClient, []);
-        try {
-            $handler->handleUnauthorizedException($mockedException, $this->mockedClient);
-        } catch (UnauthorizedException $ex) {
-            $this->assertEquals('Unauthorized', $ex->getMessage());
-            $this->assertEquals(401, $ex->getCode());
-        }
-        $this->assertFileNotExists($this->tokenAccessFile);
-    }
-
     public function testWithTokenCallbackFunction() {
         $this->config->deleteTokenAccessFile();
 
