@@ -14,6 +14,7 @@ use meteocontrol\client\vcomapi\handlers\AuthorizationHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ApiClient {
+
     /** @var Client */
     private $client;
     /** @var AuthorizationHandlerInterface */
@@ -94,24 +95,23 @@ class ApiClient {
 
     /**
      * @param string $uri
-     * @param array|string $queryParams
-     * @param string $body
+     * @param null|string $queryString
+     * @param null|string $body
      * @param string $method
      * @return mixed
      * @throws ApiClientException
      */
-    public function run($uri, $queryParams = null, $body = null, $method = 'GET') {
+    public function run($uri, $queryString = null, $body = null, $method = 'GET') {
         /** @var $response ResponseInterface */
         $response = null;
-        $options = $this->getRequestOptions($queryParams, $body);
+        $options = $this->getRequestOptions($queryString, $body);
 
         try {
             $response = $this->sendRequest($uri, $method, $options);
         } catch (ClientException $ex) {
-            if ($ex->getResponse()->getStatusCode() === 401) {
+            if ($ex->getResponse()->getStatusCode() === 401 && $ex->getMessage() !== 'Invalid API key') {
                 $this->authorizationHandler->handleUnauthorizedException($ex, $this->client);
-                $options = $this->getRequestOptions($queryParams, $body);
-                $response = $this->sendRequest($uri, $method, $options);
+                $response = $this->retryRequestWithNewToken($uri, $method, $body, $queryString);
             } else {
                 throw $ex;
             }
@@ -130,13 +130,13 @@ class ApiClient {
     }
 
     /**
-     * @param array|string|null $queryParams
+     * @param string|null $queryString
      * @param string|null $body
      * @return array
      */
-    private function getRequestOptions($queryParams, $body) {
+    private function getRequestOptions($queryString, $body) {
         $options = [
-            'query' => $queryParams ?: null,
+            'query' => $queryString ?: null,
             'body' => $body ?: null,
             'headers' => [
                 'Accept-Encoding' => 'gzip, deflate',
@@ -172,5 +172,22 @@ class ApiClient {
                 throw new ApiClientException('Unacceptable HTTP method ' . $method);
         }
         return $response;
+    }
+
+    /**
+     * @param string $uri
+     * @param string $method
+     * @param string|null $body
+     * @param string|null $queryString
+     * @return ResponseInterface
+     * @throws UnauthorizedException
+     */
+    private function retryRequestWithNewToken($uri, $method, $body = null, $queryString = null) {
+        $options = $this->getRequestOptions($queryString, $body);
+        try {
+            return $this->sendRequest($uri, $method, $options);
+        } catch (ClientException $ex) {
+            throw new UnauthorizedException($ex->getMessage(), $ex->getCode());
+        }
     }
 }

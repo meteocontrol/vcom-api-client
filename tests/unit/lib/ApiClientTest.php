@@ -59,7 +59,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 'url',
                 [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
+                    'query' => $this->getQueryString(),
                     'body' => null,
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -73,7 +73,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb']);
+        $apiClient->run('url', $this->getQueryString());
     }
 
     public function testRunDeleteWithParameters() {
@@ -88,7 +88,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 'url',
                 [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
+                    'query' => $this->getQueryString(),
                     'body' => null,
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -102,7 +102,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], null, 'DELETE');
+        $apiClient->run('url', $this->getQueryString(), null, 'DELETE');
     }
 
     public function testRunPostWithParameters() {
@@ -117,7 +117,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 'url',
                 [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
+                    'query' => $this->getQueryString(),
                     'body' => 'post body',
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -131,7 +131,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'post body', 'POST');
+        $apiClient->run('url', $this->getQueryString(), 'post body', 'POST');
     }
 
     public function testRunPatchWithParameters() {
@@ -146,7 +146,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->with(
                 'url',
                 [
-                    'query' => ['name' => 'aa', 'value' => 'bb'],
+                    'query' => $this->getQueryString(),
                     'body' => 'patch body',
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -160,7 +160,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'PATCH');
+        $apiClient->run('url', $this->getQueryString(), 'patch body', 'PATCH');
     }
 
     /**
@@ -171,7 +171,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $factory = new Factory();
         $config = new Config(__DIR__ . '/_files/config.ini');
         $apiClient = $factory->getApiClient($config);
-        $apiClient->run('url', ['name' => 'aa', 'value' => 'bb'], 'patch body', 'UNKNOWN');
+        $apiClient->run('url', $this->getQueryString(), 'patch body', 'UNKNOWN');
     }
 
     /**
@@ -216,6 +216,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testRunWithOAuthUnauthorizedAndRefreshTokenIsValid() {
+        $this->removeTokenCache();
         $config = new Config(__DIR__ . '/_files/config.ini');
 
         $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
@@ -289,16 +290,78 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $authHandler = new OAuthAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
         $this->assertEquals('123', $apiClient->run('url'));
+
+        $this->assertFileExists(__DIR__ . '/../../../.tokenAccess/706eace5d3a3dbb56f141547162dc636');
     }
 
-    /**
-     * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
-     * @expectedExceptionMessage {"hint":"refresh token is revoked"}
-     */
-    public function testRunWithOAuthUnauthorizedAndRefreshTokenIsInvalid() {
+    /** @depends testRunWithOAuthUnauthorizedAndRefreshTokenIsValid */
+    public function testRunWithOAuthAuthorizedWithTokenCache() {
         $config = new Config(__DIR__ . '/_files/config.ini');
 
-        $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
+        $responseMockRefreshGrant = $this->getResponseMockForOAuthRefreshGrant();
+
+        $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
+            ->disableOriginalConstructor()
+            ->setMethods(['getContents'])
+            ->getMock();
+        $streamMock->expects($this->once())
+            ->method('getContents')
+            ->willReturn('123');
+        $responseMock = $this->getMockBuilder('Guzzle\Http\Message\Response')
+            ->disableOriginalConstructor()
+            ->setMethods(['getHeaderLine', 'getBody'])
+            ->getMock();
+        $responseMock->expects($this->once())
+            ->method('getBody')
+            ->willReturn($streamMock);
+        $responseMock->expects($this->exactly(1))
+            ->method('getHeaderLine')
+            ->withConsecutive(['X-RateLimit-Remaining-Minute'])
+            ->willReturn('10');
+
+        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        $client = $this->getMockBuilder('\GuzzleHttp\Client')
+            ->setMethods(['get', 'post'])
+            ->getMock();
+        $client->expects($this->exactly(2))
+            ->method('get')
+            ->withConsecutive(['url'], ['url'])
+            ->willReturnOnConsecutiveCalls(
+                $this->returnCallback(function () {
+                    $request = new Request('GET', 'url');
+                    $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+                    $responseMock->expects($this->exactly(2))
+                        ->method('getStatusCode')
+                        ->willReturn(401);
+                    throw new ClientException('', $request, $responseMock);
+                }),
+                $responseMock
+            );
+        $client->expects($this->once())
+            ->method('post')
+            ->with(
+                'https://test.meteocontrol.api/login',
+                [
+                    'form_params' => [
+                        'grant_type' => 'refresh_token',
+                        'refresh_token' => 'refreshToken1'
+                    ]
+                ]
+            )
+            ->willReturn(
+                $responseMockRefreshGrant
+            );
+
+        $authHandler = new OAuthAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
+        $this->assertEquals('123', $apiClient->run('url'));
+    }
+
+    public function testRunWithOAuthUnauthorizedAndRefreshTokenIsInvalid() {
+        $this->removeTokenCache();
+        $config = new Config(__DIR__ . '/_files/config.ini');
 
         $request = new Request('GET', 'url');
         $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
@@ -313,11 +376,14 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
         $client = $this->getMockBuilder('\GuzzleHttp\Client')
             ->setMethods(['get', 'post'])
             ->getMock();
-        $client->expects($this->once())
-            ->method('get')
-            ->with('url')
-            ->willThrowException($clientException);
         $client->expects($this->exactly(2))
+            ->method('get')
+            ->withConsecutive(['url'], ['url'])
+            ->willReturnOnConsecutiveCalls(
+                $this->throwException($clientException),
+                $this->getResponseMock()
+            );
+        $client->expects($this->exactly(3))
             ->method('post')
             ->withConsecutive([
                 'https://test.meteocontrol.api/login',
@@ -336,9 +402,18 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                         'refresh_token' => 'refreshToken'
                     ]
                 ]
+            ], [
+                    'https://test.meteocontrol.api/login',
+                    [
+                        'form_params' => [
+                            'grant_type' => 'password',
+                            'username' => 'test-api-username',
+                            'password' => 'test-api-password'
+                        ]
+                    ]
             ])
             ->willReturnOnConsecutiveCalls(
-                $responseMockPasswordGrant,
+                $this->getResponseMockForOAuthPasswordGrant(),
                 $this->returnCallback(function () {
                     $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
                         ->disableOriginalConstructor()
@@ -358,11 +433,31 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
                         ->willReturn($streamMock);
                     $request = new Request('POST', '/login');
                     throw new ClientException('refresh token is revoked', $request, $responseMock);
-                })
+                }),
+                $this->getResponseMockForOAuthPasswordGrant()
             );
 
         $authHandler = new OAuthAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
+        $apiClient->run('url');
+    }
+
+    /**
+     * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
+     */
+    public function testRunWithOAuthUnauthorizedAndTokenRefreshingIsFailed() {
+        $this->removeTokenCache();
+        $config = new Config(__DIR__ . '/_files/config.ini');
+
+        $request = new Request('GET', 'url');
+
+        $refreshResponseMock = $this->getMockedResponseFromRefresh();
+
+        $client = $this->getMockedClientToRefresh($request, $refreshResponseMock);
+
+        $authHandler = new OAuthAuthorizationHandler($config);
+        $apiClient = new ApiClient($client, $authHandler);
+
         $apiClient->run('url');
     }
 
@@ -466,5 +561,97 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase {
             ->method('getBody')
             ->willReturn($streamMockRefreshGrant);
         return $responseMockRefreshGrant;
+    }
+
+    /**
+     * @param Request $request
+     * @param \PHPUnit_Framework_MockObject_MockObject $refreshResponseMock
+     * @return Client|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getMockedClientToRefresh(
+        Request $request,
+        \PHPUnit_Framework_MockObject_MockObject $refreshResponseMock
+    ) {
+        $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
+
+        $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $responseMock->expects($this->exactly(2))
+            ->method('getStatusCode')
+            ->willReturn(401);
+        $clientException = new ClientException('', $request, $responseMock);
+        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        $client = $this->getMockBuilder('\GuzzleHttp\Client')
+            ->setMethods(['get', 'post'])
+            ->getMock();
+        $client->expects($this->exactly(2))
+            ->method('get')
+            ->with('url')
+            ->willThrowException($clientException);
+
+        $client->expects($this->exactly(2))
+            ->method('post')
+            ->withConsecutive([
+                'https://test.meteocontrol.api/login',
+                [
+                    'form_params' => [
+                        'grant_type' => 'password',
+                        'username' => 'test-api-username',
+                        'password' => 'test-api-password'
+                    ]
+                ]
+            ], [
+                'https://test.meteocontrol.api/login',
+                [
+                    'form_params' => [
+                        'grant_type' => 'refresh_token',
+                        'refresh_token' => 'refreshToken'
+                    ]
+                ]
+            ])
+            ->willReturnOnConsecutiveCalls(
+                $responseMockPasswordGrant,
+                $refreshResponseMock
+            );
+        return $client;
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getMockedResponseFromRefresh() {
+        $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
+            ->disableOriginalConstructor()
+            ->setMethods(['getContents'])
+            ->getMock();
+
+        $streamMock->expects($this->once())
+            ->method('getContents')
+            ->willReturn('{"access_token": "123",  "refresh_token": "1234"}');
+
+        $refreshResponseMock = $this->getMockBuilder('Guzzle\Http\Message\Response')
+            ->disableOriginalConstructor()
+            ->setMethods(['getBody'])
+            ->getMock();
+        $refreshResponseMock->expects($this->once())
+            ->method('getBody')
+            ->willReturn($streamMock);
+        return $refreshResponseMock;
+    }
+
+    /**
+     * @return string
+     */
+    private function getQueryString() {
+        return http_build_query(['name' => 'aa', 'value' => 'bb']);
+    }
+
+
+    private function removeTokenCache() {
+        $tokenAccess = __DIR__ . '/../../../.tokenAccess/706eace5d3a3dbb56f141547162dc636';
+        if (file_exists($tokenAccess)) {
+            unlink($tokenAccess);
+        }
     }
 }
