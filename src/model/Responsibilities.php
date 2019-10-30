@@ -4,15 +4,15 @@ namespace meteocontrol\vcomapi\model;
 
 class Responsibilities extends BaseModel {
 
-    /** @var User */
+    /** @var UserDetail */
     public $owner;
-    /** @var User */
+    /** @var UserDetail */
     public $operator;
-    /** @var User */
+    /** @var UserDetail */
     public $electrician;
-    /** @var User */
+    /** @var UserDetail */
     public $invoiceRecipient;
-    /** @var User */
+    /** @var UserDetail */
     public $alarmContact;
 
     /**
