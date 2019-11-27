@@ -3,7 +3,7 @@ namespace meteocontrol\vcomapi\model;
 
 class VirtualMeter extends BaseModel {
 
-    /** @var int */
+    /** @var string */
     public $id;
     /** @var string */
     public $name;
