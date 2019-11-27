@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "id": 81297,
+      "name": "energy meter",
+      "serial": "s1234"
+    },
+    {
+      "id": 81298,
+      "name": "energy meter2",
+      "serial": "s5678"
+    }
+  ]
+}

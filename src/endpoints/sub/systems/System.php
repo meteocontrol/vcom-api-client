@@ -204,4 +204,21 @@ class System extends SubEndpoint {
     public function picture() {
         return new Picture($this);
     }
+
+    /**
+     * @return VirtualMeters
+     */
+    public function virtualMeters() {
+        return new VirtualMeters($this);
+    }
+
+    /**
+     * @param string $virtualMeterId
+     * @return VirtualMeter
+     */
+    public function virtualMeter(string $virtualMeterId) {
+        $virtualMeters = new VirtualMeters($this);
+        $virtualMeterIdEndpoint = new DeviceId($virtualMeters, $virtualMeterId);
+        return new VirtualMeter($virtualMeterIdEndpoint);
+    }
 }
