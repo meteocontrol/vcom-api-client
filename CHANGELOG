@@ -20,3 +20,4 @@
 2019-01-16: Add specific energy yield forecast endpoint
 2019-07-16: Add isActive property to stringbox abbreviation endpoint, activeOnly to stringbox bulk endpoint and abbreviations filter to all bulk endpoints
 2019-07-16: Implement OAuth token cache
+2019-11-27: Add virtual-meters

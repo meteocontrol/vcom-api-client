@@ -1,0 +1,10 @@
+{
+  "data": {
+    "id": "81297",
+    "name": "energy meter",
+    "serial": "s1234",
+    "installationDate": "2016-12-19",
+    "unit": "kWh"
+  }
+}
+

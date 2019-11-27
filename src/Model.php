@@ -154,3 +154,15 @@ class_alias(
     'meteocontrol\vcomapi\model\UserDetail',
     'meteocontrol\client\vcomapi\model\UserDetail'
 );
+class_alias(
+    'meteocontrol\vcomapi\model\VirtualMeter',
+    'meteocontrol\client\vcomapi\model\VirtualMeter'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\VirtualMeterDetail',
+    'meteocontrol\client\vcomapi\model\VirtualMeterDetail'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\VirtualMeterReading',
+    'meteocontrol\client\vcomapi\model\VirtualMeterReading'
+);
