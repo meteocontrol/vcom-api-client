@@ -5,7 +5,7 @@ use DateTime;
 
 class VirtualMeterReading extends BaseModel {
 
-    /** @var int */
+    /** @var string */
     public $id;
     /** @var string */
     public $type;
