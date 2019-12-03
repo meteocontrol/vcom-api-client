@@ -23,8 +23,7 @@ class VirtualMeterReadings extends SubEndpoint {
      * @return array
      */
     public function get(MeterReadingCriteria $criteria) {
-        $valueJson = $this->api->run($this->getUri(), $criteria->generateQueryString());
-        $decodedJson = json_decode($valueJson, true);
-        return VirtualMeterReading::deserializeArray($decodedJson["data"]);
+        $json = $this->api->run($this->getUri(), $criteria->generateQueryString());
+        return VirtualMeterReading::deserializeArray($this->jsonDecode($json, true)["data"]);
     }
 }

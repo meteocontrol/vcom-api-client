@@ -64,8 +64,7 @@ class System extends SubEndpoint {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $inverters = new Inverters($this);
         $inverterIdEndpoint = new DeviceId($inverters, $deviceId);
-        $inverterEndpoint = new Inverter($inverterIdEndpoint);
-        return $inverterEndpoint;
+        return new Inverter($inverterIdEndpoint);
     }
 
     /**
@@ -83,8 +82,7 @@ class System extends SubEndpoint {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $meters = new Meters($this);
         $meterIdEndpoint = new DeviceId($meters, $deviceId);
-        $meterEndpoint = new Meter($meterIdEndpoint);
-        return $meterEndpoint;
+        return new Meter($meterIdEndpoint);
     }
 
     /**
@@ -102,8 +100,7 @@ class System extends SubEndpoint {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $sensors = new Sensors($this);
         $sensorIdEndpoint = new DeviceId($sensors, $deviceId);
-        $sensorEndpoint = new Sensor($sensorIdEndpoint);
-        return $sensorEndpoint;
+        return new Sensor($sensorIdEndpoint);
     }
 
     /**
@@ -195,8 +192,7 @@ class System extends SubEndpoint {
     public function user(string $userId) {
         $users = new Users($this);
         $userIdEndpoint = new UserId($users, $userId);
-        $userEndpoint = new User($userIdEndpoint);
-        return $userEndpoint;
+        return new User($userIdEndpoint);
     }
     /**
      * @return Picture

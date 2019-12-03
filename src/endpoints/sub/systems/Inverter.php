@@ -23,8 +23,8 @@ class Inverter extends SubEndpoint {
      * @return InverterDetail
      */
     public function get() {
-        $inverterJson = $this->api->run($this->getUri());
-        return InverterDetail::deserialize($this->jsonDecode($inverterJson, true)['data']);
+        $json = $this->api->run($this->getUri());
+        return InverterDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
     /**
@@ -42,7 +42,6 @@ class Inverter extends SubEndpoint {
         $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
-        $abbreviationEndpoint = new DeviceAbbreviation($abbreviationIdEndpoint);
-        return $abbreviationEndpoint;
+        return new DeviceAbbreviation($abbreviationIdEndpoint);
     }
 }
