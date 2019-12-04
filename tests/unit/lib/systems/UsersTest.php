@@ -17,7 +17,7 @@ class UsersTest extends TestCase {
             ->willReturn($json);
         /** @var User[] $users */
         $users = $this->api->system('ABCDE')->users()->get();
-        $this->assertEquals(2, count($users));
+        $this->assertCount(2, $users);
         $this->assertEquals("123", $users[0]->id);
         $this->assertEquals('test', $users[0]->username);
         $this->assertEquals('vcom-api', $users[0]->firstName);

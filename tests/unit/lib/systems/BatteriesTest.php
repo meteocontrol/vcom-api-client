@@ -2,9 +2,12 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
+use DateTime;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
+use meteocontrol\client\vcomapi\model\Abbreviation;
 use meteocontrol\client\vcomapi\model\Battery;
 use meteocontrol\client\vcomapi\model\BatteryDetail;
+use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
@@ -22,7 +25,7 @@ class BatteriesTest extends TestCase {
         /** @var Battery[] $batteries */
         $batteries = $this->api->system('ABCDE')->batteries()->get();
 
-        $this->assertEquals(2, count($batteries));
+        $this->assertCount(2, $batteries);
         $this->assertEquals('145103', $batteries[0]->id);
         $this->assertEquals('', $batteries[0]->name);
         $this->assertEquals('145104', $batteries[1]->id);
@@ -55,7 +58,7 @@ class BatteriesTest extends TestCase {
         /** @var string[] $abbreviations */
         $abbreviations = $this->api->system('ABCDE')->battery('145103')->abbreviations()->get();
 
-        $this->assertEquals(4, count($abbreviations));
+        $this->assertCount(4, $abbreviations);
         $this->assertEquals('B_CHARGE_LEVEL', $abbreviations[0]);
         $this->assertEquals('B_E_EXP', $abbreviations[1]);
         $this->assertEquals('B_E_IMP', $abbreviations[2]);
@@ -69,7 +72,7 @@ class BatteriesTest extends TestCase {
             ->with($this->identicalTo('systems/ABCDE/batteries/145103/abbreviations/B_CHARGE_LEVEL'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Abbreviation $abbreviation */
+        /** @var Abbreviation $abbreviation */
         $abbreviation = $this->api->system('ABCDE')->battery('145103')->abbreviation('B_CHARGE_LEVEL')->get();
 
         $this->assertEquals('AVG', $abbreviation->aggregation);
@@ -80,7 +83,7 @@ class BatteriesTest extends TestCase {
 
     public function testGetBatteryMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurements.json');
-        $this->api->expects($this->exactly(1))
+        $this->api->expects($this->once())
             ->method('run')
             ->with(
                 $this->identicalTo(
@@ -93,62 +96,62 @@ class BatteriesTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:15:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:15:00+02:00'));
 
         /** @var DevicesMeasurement $measurements */
         $measurements = $this->api->system('ABCDE')->battery('145103,145104')
             ->abbreviation(['B_CHARGE_LEVEL', 'B_E_EXP'])
             ->measurements()->get($criteria);
-        $this->assertEquals(2, count($measurements));
+        $this->assertCount(2, $measurements);
         $abbreviationsMeasurements = $measurements['145103'];
         $values = $abbreviationsMeasurements['B_CHARGE_LEVEL'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(80.762, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(80.782, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(80.802, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(80.822, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $values = $abbreviationsMeasurements['B_E_EXP'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(1347.762, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(1347.782, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(1347.802, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(1347.822, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
 
         $abbreviationsMeasurements = $measurements['145104'];
         $values = $abbreviationsMeasurements['B_CHARGE_LEVEL'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(80.772, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(80.792, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(80.812, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(80.832, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $values = $abbreviationsMeasurements['B_E_EXP'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(1347.772, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(1347.792, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(1347.812, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(1347.832, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
     }
 
     public function testGetBatteryMeasurementsWithIntervalIncluded() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurementsIncludeInterval.json');
-        $this->api->expects($this->exactly(1))
+        $this->api->expects($this->once())
             ->method('run')
             ->with(
                 $this->identicalTo(
@@ -161,76 +164,76 @@ class BatteriesTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
             ->withIntervalIncluded();
 
         /** @var DevicesMeasurementWithInterval $measurements */
         $measurements = $this->api->system('ABCDE')->battery('145103,145104')
             ->abbreviation(['B_CHARGE_LEVEL', 'B_E_EXP'])
             ->measurements()->get($criteria);
-        $this->assertEquals(2, count($measurements));
+        $this->assertCount(2, $measurements);
         $abbreviationsMeasurements = $measurements['145103'];
         $values = $abbreviationsMeasurements['B_CHARGE_LEVEL'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(80.762, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(80.782, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $this->assertEquals(80.802, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[2]->interval);
         $this->assertEquals(80.822, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[3]->interval);
 
         $values = $abbreviationsMeasurements['B_E_EXP'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(1347.762, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(1347.782, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $this->assertEquals(1347.802, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[2]->interval);
         $this->assertEquals(1347.822, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[3]->interval);
 
 
         $abbreviationsMeasurements = $measurements['145104'];
         $values = $abbreviationsMeasurements['B_CHARGE_LEVEL'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(80.772, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(80.792, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $this->assertEquals(80.812, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[2]->interval);
         $this->assertEquals(80.832, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[3]->interval);
 
         $values = $abbreviationsMeasurements['B_E_EXP'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(1347.772, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(1347.792, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $this->assertEquals(1347.812, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[2]->interval);
         $this->assertEquals(1347.832, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[3]->interval);
     }
 
@@ -239,7 +242,7 @@ class BatteriesTest extends TestCase {
      */
     public function testGetBatteryMeasurementsWithIntervalIncludedWithWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurements.json');
-        $this->api->expects($this->exactly(1))
+        $this->api->expects($this->once())
             ->method('run')
             ->with(
                 $this->identicalTo(
@@ -253,8 +256,8 @@ class BatteriesTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
 
@@ -265,7 +268,7 @@ class BatteriesTest extends TestCase {
 
     public function testGetBatteryMeasurementsWithIntervalIncluded2() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurements.json');
-        $this->api->expects($this->exactly(1))
+        $this->api->expects($this->once())
             ->method('run')
             ->with(
                 $this->identicalTo(
@@ -279,8 +282,8 @@ class BatteriesTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
 
@@ -288,68 +291,68 @@ class BatteriesTest extends TestCase {
         @$measurements = $this->api->system('ABCDE')->battery('145103,145104')
             ->abbreviation(['B_CHARGE_LEVEL', 'B_E_EXP'])
             ->measurements()->get($criteria);
-        $this->assertEquals(2, count($measurements));
+        $this->assertCount(2, $measurements);
         $abbreviationsMeasurements = $measurements['145103'];
         $values = $abbreviationsMeasurements['B_CHARGE_LEVEL'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(80.762, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(80.782, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $this->assertEquals(80.802, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[2]->interval);
         $this->assertEquals(80.822, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[3]->interval);
 
         $values = $abbreviationsMeasurements['B_E_EXP'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(1347.762, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(1347.782, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $this->assertEquals(1347.802, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[2]->interval);
         $this->assertEquals(1347.822, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[3]->interval);
 
 
         $abbreviationsMeasurements = $measurements['145104'];
         $values = $abbreviationsMeasurements['B_CHARGE_LEVEL'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(80.772, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(80.792, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $this->assertEquals(80.812, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[2]->interval);
         $this->assertEquals(80.832, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[3]->interval);
 
         $values = $abbreviationsMeasurements['B_E_EXP'];
-        $this->assertEquals(4, count($values));
+        $this->assertCount(4, $values);
         $this->assertEquals(1347.772, $values[0]->value);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(1347.792, $values[1]->value);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $this->assertEquals(1347.812, $values[2]->value);
-        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:10:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[2]->interval);
         $this->assertEquals(1347.832, $values[3]->value);
-        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:15:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[3]->interval);
     }
 
@@ -364,8 +367,8 @@ class BatteriesTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:15:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:15:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->batteries()->bulk()->measurements()->get($criteria);
@@ -388,8 +391,8 @@ class BatteriesTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
             ->withAbbreviation(['B_CHARGE_LEVEL', 'T1']);
 
         /** @var MeasurementsBulkReader $bulkReader */
@@ -412,8 +415,8 @@ class BatteriesTest extends TestCase {
             ->willReturn($cvsRawData);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV);
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->batteries()->bulk()->measurements()->get($criteria);
@@ -427,8 +430,8 @@ class BatteriesTest extends TestCase {
      */
     public function testGetBatteriesBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
