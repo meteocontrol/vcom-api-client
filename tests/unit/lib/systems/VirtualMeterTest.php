@@ -21,7 +21,7 @@ class VirtualMeterTest extends TestCase {
         /** @var VirtualMeter[] $virtualMeters */
         $virtualMeters = $this->api->system('ABCDE')->virtualMeters()->get();
 
-        $this->assertEquals(2, count($virtualMeters));
+        $this->assertCount(2, $virtualMeters);
         $this->assertEquals(81297, $virtualMeters[0]->id);
         $this->assertEquals('energy meter', $virtualMeters[0]->name);
         $this->assertEquals('s1234', $virtualMeters[0]->serial);

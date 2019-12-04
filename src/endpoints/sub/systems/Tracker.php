@@ -5,17 +5,26 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\AbbreviationId;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\client\vcomapi\endpoints\sub\systems\system\calculations\Abbreviation as DeviceAbbreviation;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\device\Abbreviation as DeviceAbbreviation;
+use meteocontrol\vcomapi\model\TrackerDetail;
 
-class Calculations extends SubEndpoint {
+class Tracker extends SubEndpoint {
 
     /**
      * @param EndpointInterface $parent
      */
     public function __construct(EndpointInterface $parent) {
-        $this->uri = '/calculations';
+        $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
+    }
+
+    /**
+     * @return TrackerDetail
+     */
+    public function get() {
+        $json = $this->api->run($this->getUri());
+        return TrackerDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
     /**
@@ -34,12 +43,5 @@ class Calculations extends SubEndpoint {
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
         return new DeviceAbbreviation($abbreviationIdEndpoint);
-    }
-
-    /**
-     * @return Bulk
-     */
-    public function bulk() {
-        return new Bulk($this);
     }
 }

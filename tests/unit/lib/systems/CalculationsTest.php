@@ -2,7 +2,9 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
+use DateTime;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
+use meteocontrol\client\vcomapi\model\Abbreviation;
 use meteocontrol\client\vcomapi\model\MeasurementValue;
 use meteocontrol\client\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
@@ -21,7 +23,7 @@ class CalculationsTest extends TestCase {
         /** @var string[] $abbreviations */
         $abbreviations = $this->api->system('ABCDE')->calculations()->abbreviations()->get();
 
-        $this->assertEquals(1, count($abbreviations));
+        $this->assertCount(1, $abbreviations);
         $this->assertEquals('PR', $abbreviations[0]);
     }
 
@@ -32,7 +34,7 @@ class CalculationsTest extends TestCase {
             ->with($this->identicalTo('systems/ABCDE/calculations/abbreviations/PR'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Abbreviation $abbreviation */
+        /** @var Abbreviation $abbreviation */
         $abbreviation = $this->api->system('ABCDE')->calculations()->abbreviation('PR')->get();
 
         $this->assertEquals('AVG', $abbreviation->aggregation);
@@ -56,8 +58,8 @@ class CalculationsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
 
         /** @var MeasurementValue[] $measurements */
@@ -68,11 +70,11 @@ class CalculationsTest extends TestCase {
             ->measurements()
             ->get($criteria);
         $values = $measurements['WR'];
-        $this->assertEquals(2, count($values));
+        $this->assertCount(2, $values);
         $this->assertEquals(0, $values[0]->value);
-        $this->assertEquals('2016-01-01T00:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(0, $values[1]->value);
-        $this->assertEquals('2016-01-02T00:00:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-02T00:00:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
     }
 
     public function testGetCalculationMeasurementsWithMultipleAbbreviation() {
@@ -90,8 +92,8 @@ class CalculationsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
 
         /** @var MeasurementValue[] $measurements */
@@ -101,17 +103,17 @@ class CalculationsTest extends TestCase {
             ->abbreviation(['berechnet.WR', 'berechnet.PR'])
             ->measurements()
             ->get($criteria);
-        $this->assertEquals(2, count($measurements));
+        $this->assertCount(2, $measurements);
         $value = $measurements['WR'];
         $this->assertEquals(0, $value[0]->value);
-        $this->assertEquals('2016-01-01T00:00:00+02:00', $value[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $value[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(0, $value[1]->value);
-        $this->assertEquals('2016-01-02T00:00:00+02:00', $value[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-02T00:00:00+02:00', $value[1]->timestamp->format(DateTime::RFC3339));
         $value = $measurements['PR'];
         $this->assertEquals(0, $value[0]->value);
-        $this->assertEquals('2016-01-01T00:00:00+02:00', $value[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $value[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(0, $value[1]->value);
-        $this->assertEquals('2016-01-02T00:00:00+02:00', $value[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-02T00:00:00+02:00', $value[1]->timestamp->format(DateTime::RFC3339));
     }
 
     /**
@@ -119,8 +121,8 @@ class CalculationsTest extends TestCase {
      */
     public function testGetCalculationMeasurementsWithIntervalIncluded() {
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
 
@@ -147,8 +149,8 @@ class CalculationsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
 
@@ -160,13 +162,13 @@ class CalculationsTest extends TestCase {
             ->measurements()
             ->get($criteria);
 
-        $this->assertEquals(1, count($measurements));
+        $this->assertCount(1, $measurements);
         $measurement = $measurements['WR'];
         $this->assertEquals(0, $measurement[0]->value);
-        $this->assertEquals('2016-01-01T00:00:00+02:00', $measurement[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T00:00:00+02:00', $measurement[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $measurement[0]->interval);
         $this->assertEquals(0, $measurement[1]->value);
-        $this->assertEquals('2016-01-02T00:00:00+02:00', $measurement[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-02T00:00:00+02:00', $measurement[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $measurement[1]->interval);
     }
 
@@ -181,8 +183,8 @@ class CalculationsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:15:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T00:15:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);
@@ -205,8 +207,8 @@ class CalculationsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T00:15:00+02:00'))
             ->withAbbreviation(['AREA', 'VFG']);
 
         /** @var MeasurementsBulkReader $bulkReader */
@@ -229,8 +231,8 @@ class CalculationsTest extends TestCase {
             ->willReturn($cvsRawData);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T00:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T00:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV);
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);
@@ -244,8 +246,8 @@ class CalculationsTest extends TestCase {
      */
     public function testGetCalculationsBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)

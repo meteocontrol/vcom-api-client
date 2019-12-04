@@ -23,8 +23,8 @@ class Meter extends SubEndpoint {
      * @return MeterDetail
      */
     public function get() {
-        $meterJson = $this->api->run($this->getUri());
-        return MeterDetail::deserialize($this->jsonDecode($meterJson, true)['data']);
+        $json = $this->api->run($this->getUri());
+        return MeterDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
     /**
@@ -42,7 +42,6 @@ class Meter extends SubEndpoint {
         $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
-        $abbreviationEndpoint = new DeviceAbbreviation($abbreviationIdEndpoint);
-        return $abbreviationEndpoint;
+        return new DeviceAbbreviation($abbreviationIdEndpoint);
     }
 }

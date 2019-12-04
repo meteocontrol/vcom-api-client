@@ -2,7 +2,9 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
+use DateTime;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
+use meteocontrol\client\vcomapi\model\Abbreviation;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
 use meteocontrol\client\vcomapi\model\Inverter;
@@ -23,7 +25,7 @@ class InvertersTest extends TestCase {
         /** @var Inverter[] $inverters */
         $inverters = $this->api->system('ABCDE')->inverters()->get();
 
-        $this->assertEquals(1, count($inverters));
+        $this->assertCount(1, $inverters);
         $this->assertEquals('Id30773.25', $inverters[0]->id);
         $this->assertEquals('Halle A - WR 1', $inverters[0]->name);
         $this->assertEquals('123456789', $inverters[0]->serial);
@@ -58,7 +60,7 @@ class InvertersTest extends TestCase {
         /** @var string[] $abbreviations */
         $abbreviations = $this->api->system('ABCDE')->inverter('Id30773.25')->abbreviations()->get();
 
-        $this->assertEquals(2, count($abbreviations));
+        $this->assertCount(2, $abbreviations);
         $this->assertEquals('E_TOTAL', $abbreviations[0]);
         $this->assertEquals('E_INT', $abbreviations[1]);
     }
@@ -70,7 +72,7 @@ class InvertersTest extends TestCase {
             ->with($this->identicalTo('systems/ABCDE/inverters/Id30773.25/abbreviations/E_TOTAL'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Abbreviation $abbreviation */
+        /** @var Abbreviation $abbreviation */
         $abbreviation = $this->api->system('ABCDE')->inverter('Id30773.25')->abbreviation('E_TOTAL')->get();
 
         $this->assertEquals('MAX', $abbreviation->aggregation);
@@ -94,28 +96,28 @@ class InvertersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
 
         /** @var DevicesMeasurement $measurements */
         $measurements = $this->api->system('ABCDE')->inverter('Id12345.1')->abbreviation('E_INT')->measurements()
             ->get($criteria);
 
-        $this->assertEquals(1, count($measurements));
+        $this->assertCount(1, $measurements);
         $abbreviationsMeasurements = $measurements['Id12345.1'];
         $values = $abbreviationsMeasurements['E_INT'];
-        $this->assertEquals(5, count($values));
+        $this->assertCount(5, $values);
         $this->assertEquals(0.089, $values[0]->value);
-        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(0.082, $values[1]->value);
-        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(0.078, $values[2]->value);
-        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(0.089, $values[3]->value);
-        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(0.095, $values[4]->value);
-        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(DateTime::RFC3339));
     }
 
     public function testGetInverterMeasurementsWithIntervalIncluded() {
@@ -134,8 +136,8 @@ class InvertersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T23:59:59+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
 
@@ -143,24 +145,24 @@ class InvertersTest extends TestCase {
         $measurements = $this->api->system('ABCDE')->inverter('Id12345.1')->abbreviation('E_INT')->measurements()
             ->get($criteria);
 
-        $this->assertEquals(1, count($measurements));
+        $this->assertCount(1, $measurements);
         $abbreviationsMeasurements = $measurements['Id12345.1'];
         $values = $abbreviationsMeasurements['E_INT'];
-        $this->assertEquals(5, count($values));
+        $this->assertCount(5, $values);
         $this->assertEquals(0.089, $values[0]->value);
-        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEquals(0.082, $values[1]->value);
-        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $this->assertEquals(0.078, $values[2]->value);
-        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[2]->interval);
         $this->assertEquals(0.089, $values[3]->value);
-        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[3]->interval);
         $this->assertEquals(0.095, $values[4]->value);
-        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[4]->interval);
     }
 
@@ -183,8 +185,8 @@ class InvertersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
 
@@ -208,8 +210,8 @@ class InvertersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
 
@@ -217,24 +219,24 @@ class InvertersTest extends TestCase {
         @$measurements = $this->api->system('ABCDE')->inverter('Id12345.1')->abbreviation('E_INT')->measurements()
             ->get($criteria);
 
-        $this->assertEquals(1, count($measurements));
+        $this->assertCount(1, $measurements);
         $abbreviationsMeasurements = $measurements['Id12345.1'];
         $values = $abbreviationsMeasurements['E_INT'];
-        $this->assertEquals(5, count($values));
+        $this->assertCount(5, $values);
         $this->assertEquals(0.089, $values[0]->value);
-        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEquals(0.082, $values[1]->value);
-        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $this->assertEquals(0.078, $values[2]->value);
-        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:30:00+02:00', $values[2]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[2]->interval);
         $this->assertEquals(0.089, $values[3]->value);
-        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T11:45:00+02:00', $values[3]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[3]->interval);
         $this->assertEquals(0.095, $values[4]->value);
-        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $values[4]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[4]->interval);
     }
 
@@ -249,8 +251,8 @@ class InvertersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->inverters()->bulk()->measurements()->get($criteria);
@@ -273,8 +275,8 @@ class InvertersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withAbbreviation(['E_TOTAL']);
 
         /** @var MeasurementsBulkReader $bulkReader */
@@ -297,8 +299,8 @@ class InvertersTest extends TestCase {
             ->willReturn($cvsRawData);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV);
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->inverters()->bulk()->measurements()->get($criteria);
@@ -312,8 +314,8 @@ class InvertersTest extends TestCase {
      */
     public function testGetInvertersBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)

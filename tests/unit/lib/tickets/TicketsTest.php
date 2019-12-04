@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
+use DateTime;
 use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\model\Ticket;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
@@ -11,12 +12,12 @@ class TicketsTest extends TestCase {
     public function testGetTicketsWithFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getTickets.json');
         $criteria = new TicketsCriteria();
-        $criteria->withCreatedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withCreatedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
-            ->withLastChangedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
-            ->withLastChangedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
-            ->withRectifiedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
-            ->withRectifiedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'));
+        $criteria->withCreatedAtFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
+            ->withCreatedAtTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
+            ->withLastChangedAtFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
+            ->withLastChangedAtTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
+            ->withRectifiedAtFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
+            ->withRectifiedAtTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-02-20T14:00:00+00:00'));
 
         $this->api->expects($this->once())
             ->method('run')
@@ -34,14 +35,14 @@ class TicketsTest extends TestCase {
         /** @var \meteocontrol\client\vcomapi\model\TicketOverview[] $tickets */
         $tickets = $this->api->tickets()->find($criteria);
 
-        $this->assertEquals(2, count($tickets));
+        $this->assertCount(2, $tickets);
 
         $this->assertEquals(123, $tickets[0]->id);
         $this->assertEquals('ABCDE', $tickets[0]->systemKey);
         $this->assertEquals('Ticket #123', $tickets[0]->designation);
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
-        $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(DateTime::ATOM));
+        $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(DateTime::ATOM));
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
         $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $tickets[0]->severity);
@@ -50,8 +51,8 @@ class TicketsTest extends TestCase {
         $this->assertEquals('FGHIJ', $tickets[1]->systemKey);
         $this->assertEquals('Ticket #456', $tickets[1]->designation);
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
-        $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(DateTime::ATOM));
+        $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(DateTime::ATOM));
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
         $this->assertEquals(null, $tickets[1]->severity);
@@ -60,12 +61,12 @@ class TicketsTest extends TestCase {
     public function testGetTicketsWithMultipleParametersInFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getTickets2.json');
         $criteria = new TicketsCriteria();
-        $criteria->withCreatedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
-            ->withCreatedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
-            ->withLastChangedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
-            ->withLastChangedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
-            ->withRectifiedAtFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
-            ->withRectifiedAtTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-02-20T14:00:00+00:00'))
+        $criteria->withCreatedAtFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+00:00'))
+            ->withCreatedAtTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-03-01T01:00:00+00:00'))
+            ->withLastChangedAtFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T12:00:00+00:00'))
+            ->withLastChangedAtTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-02-21T12:00:00+00:00'))
+            ->withRectifiedAtFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T14:00:00+00:00'))
+            ->withRectifiedAtTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-02-20T14:00:00+00:00'))
             ->withStatus([Ticket::STATUS_CLOSED, Ticket::STATUS_INPROGRESS])
             ->withPriority([Ticket::PRIORITY_NORMAL, Ticket::PRIORITY_HIGH])
             ->withSeverity([Ticket::PRIORITY_NORMAL, Ticket::PRIORITY_HIGH])
@@ -91,14 +92,14 @@ class TicketsTest extends TestCase {
         /** @var \meteocontrol\client\vcomapi\model\Ticket[] $tickets */
         $tickets = $this->api->tickets()->find($criteria);
 
-        $this->assertEquals(2, count($tickets));
+        $this->assertCount(2, $tickets);
 
         $this->assertEquals('123', $tickets[0]->id);
         $this->assertEquals('ABCDE', $tickets[0]->systemKey);
         $this->assertEquals('Ticket #123', $tickets[0]->designation);
         $this->assertEquals('This is a summary.', $tickets[0]->summary);
-        $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $tickets[0]->createdAt->format(DateTime::ATOM));
+        $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(DateTime::ATOM));
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
         $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $tickets[0]->severity);
@@ -107,8 +108,8 @@ class TicketsTest extends TestCase {
         $this->assertEquals('FGHIJ', $tickets[1]->systemKey);
         $this->assertEquals('Ticket #456', $tickets[1]->designation);
         $this->assertEquals('This is a summary.', $tickets[1]->summary);
-        $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-02-01T12:00:00+04:00', $tickets[1]->createdAt->format(DateTime::ATOM));
+        $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(DateTime::ATOM));
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->severity);
@@ -130,9 +131,9 @@ class TicketsTest extends TestCase {
         $this->assertEquals('ABCDE', $ticket->systemKey);
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
-        $this->assertEquals('2016-01-01T12:00:00+02:00', $ticket->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T13:00:00+02:00', $ticket->lastChangedAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->rectifiedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $ticket->createdAt->format(DateTime::ATOM));
+        $this->assertEquals('2016-01-01T13:00:00+02:00', $ticket->lastChangedAt->format(DateTime::ATOM));
+        $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->rectifiedAt->format(DateTime::ATOM));
         $this->assertEquals(null, $ticket->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $ticket->status);
         $this->assertEquals(10, $ticket->causeId);
@@ -158,9 +159,9 @@ class TicketsTest extends TestCase {
         $this->assertEquals('ABCDE', $ticket->systemKey);
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
-        $this->assertEquals('2016-01-01T12:00:00+02:00', $ticket->createdAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T13:00:00+02:00', $ticket->lastChangedAt->format(\DateTime::ATOM));
-        $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->rectifiedAt->format(\DateTime::ATOM));
+        $this->assertEquals('2016-01-01T12:00:00+02:00', $ticket->createdAt->format(DateTime::ATOM));
+        $this->assertEquals('2016-01-01T13:00:00+02:00', $ticket->lastChangedAt->format(DateTime::ATOM));
+        $this->assertEquals('2016-01-01T14:00:00+02:00', $ticket->rectifiedAt->format(DateTime::ATOM));
         $this->assertEquals(null, $ticket->assignee);
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $ticket->status);
         $this->assertEquals(10, $ticket->causeId);
@@ -168,8 +169,8 @@ class TicketsTest extends TestCase {
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $ticket->severity);
         $this->assertEquals('no', $ticket->includeInReports);
         $this->assertEquals(true, $ticket->fieldService);
-        $this->assertEquals("2018-01-01T12:20:00+00:00", $ticket->outage->startedAt->format(\DateTime::ATOM));
-        $this->assertEquals("2018-01-02T16:00:00+00:00", $ticket->outage->endedAt->format(\DateTime::ATOM));
+        $this->assertEquals("2018-01-01T12:20:00+00:00", $ticket->outage->startedAt->format(DateTime::ATOM));
+        $this->assertEquals("2018-01-02T16:00:00+00:00", $ticket->outage->endedAt->format(DateTime::ATOM));
         $this->assertEquals(5, $ticket->outage->affectedPower);
         $this->assertTrue($ticket->outage->shouldInfluenceAvailability);
         $this->assertTrue($ticket->outage->shouldInfluencePr);
@@ -231,7 +232,7 @@ class TicketsTest extends TestCase {
         $ticket = new Ticket();
         $ticket->systemKey = 'ABCDE';
         $ticket->designation = 'designation';
-        $ticket->createdAt = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
+        $ticket->createdAt = DateTime::createFromFormat(DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
         $ticket->status = Ticket::STATUS_OPEN;
         $ticket->priority = Ticket::PRIORITY_HIGH;
         $ticket->includeInReports = Ticket::REPORT_TYPE_SUMMARY;
@@ -268,7 +269,7 @@ class TicketsTest extends TestCase {
     public function testCreateTicketWithoutRequiredValue() {
         $ticket = new Ticket();
         $ticket->designation = 'designation';
-        $ticket->createdAt = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
+        $ticket->createdAt = DateTime::createFromFormat(DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
         $ticket->status = Ticket::STATUS_OPEN;
         $ticket->priority = Ticket::PRIORITY_HIGH;
 
@@ -301,7 +302,7 @@ class TicketsTest extends TestCase {
 
         $history = $histories[0];
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T03:42:03+02:00'),
+            DateTime::createFromFormat(DateTime::ATOM, '2017-08-31T03:42:03+02:00'),
             $history->createdAt
         );
         $this->assertSame('statusChanged', $history->action);
@@ -311,7 +312,7 @@ class TicketsTest extends TestCase {
 
         $history = $histories[1];
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T04:18:51+02:00'),
+            DateTime::createFromFormat(DateTime::ATOM, '2017-08-31T04:18:51+02:00'),
             $history->createdAt
         );
         $this->assertSame('assigneeChanged', $history->action);
@@ -321,7 +322,7 @@ class TicketsTest extends TestCase {
 
         $history = $histories[2];
         $this->assertEquals(
-            \DateTime::createFromFormat(\DateTime::ATOM, '2017-08-31T04:19:41+02:00'),
+            DateTime::createFromFormat(DateTime::ATOM, '2017-08-31T04:19:41+02:00'),
             $history->createdAt
         );
         $this->assertSame('assigneeChanged', $history->action);
@@ -339,7 +340,7 @@ class TicketsTest extends TestCase {
         $ticket->systemKey = 'ABCDE';
         $ticket->designation = 'abc';
         $ticket->summary = 'summary';
-        $ticket->createdAt = \DateTime::createFromFormat(\DateTime::RFC3339, '2016-01-01T00:00:00+00:00');
+        $ticket->createdAt = DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+00:00');
         $ticket->includeInReports = Ticket::REPORT_TYPE_DETAIL;
         $ticket->status = Ticket::STATUS_CLOSED;
         $ticket->priority = Ticket::PRIORITY_URGENT;

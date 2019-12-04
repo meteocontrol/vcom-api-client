@@ -248,7 +248,7 @@ class ApiClientTest extends TestCase {
         $responseMock->expects($this->once())
             ->method('getBody')
             ->willReturn($streamMock);
-        $responseMock->expects($this->exactly(1))
+        $responseMock->expects($this->once())
             ->method('getHeaderLine')
             ->withConsecutive(['X-RateLimit-Remaining-Minute'])
             ->willReturn('10');

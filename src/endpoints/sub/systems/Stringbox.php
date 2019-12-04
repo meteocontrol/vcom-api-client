@@ -23,8 +23,8 @@ class Stringbox extends SubEndpoint {
      * @return StringboxDetail
      */
     public function get() {
-        $invertersJson = $this->api->run($this->getUri());
-        return StringboxDetail::deserialize($this->jsonDecode($invertersJson, true)['data']);
+        $json = $this->api->run($this->getUri());
+        return StringboxDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
     /**
@@ -42,7 +42,6 @@ class Stringbox extends SubEndpoint {
         $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
-        $abbreviationEndpoint = new DeviceAbbreviation($abbreviationIdEndpoint);
-        return $abbreviationEndpoint;
+        return new DeviceAbbreviation($abbreviationIdEndpoint);
     }
 }
