@@ -23,8 +23,8 @@ class Sensor extends SubEndpoint {
      * @return SensorDetail
      */
     public function get() {
-        $meteoDeviceJson = $this->api->run($this->getUri());
-        return SensorDetail::deserialize($this->jsonDecode($meteoDeviceJson, true)['data']);
+        $json = $this->api->run($this->getUri());
+        return SensorDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
     /**
@@ -42,7 +42,6 @@ class Sensor extends SubEndpoint {
         $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
-        $abbreviationEndpoint = new DeviceAbbreviation($abbreviationIdEndpoint);
-        return $abbreviationEndpoint;
+        return new DeviceAbbreviation($abbreviationIdEndpoint);
     }
 }

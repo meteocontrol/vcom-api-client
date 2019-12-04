@@ -2,6 +2,8 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
+use DateTime;
+use DateTimeZone;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
@@ -20,7 +22,7 @@ class SystemsTest extends TestCase {
         /** @var \meteocontrol\client\vcomapi\model\System[] $systems */
         $systems = $this->api->systems()->get();
 
-        $this->assertEquals(2, count($systems));
+        $this->assertCount(2, $systems);
         $this->assertEquals('ABCDE', $systems[0]->key);
         $this->assertEquals('Meteocontrol PV system', $systems[0]->name);
         $this->assertEquals('VWXYZ', $systems[1]->key);
@@ -44,7 +46,7 @@ class SystemsTest extends TestCase {
         $this->assertEquals(480, $system->elevation);
         $this->assertEquals('test', $system->name);
         $this->assertEquals(
-            new \DateTime('2016-01-28 00:00:00', new \DateTimeZone('Europe/Berlin')),
+            new DateTime('2016-01-28 00:00:00', new DateTimeZone('Europe/Berlin')),
             $system->commissionDate
         );
         $this->assertEquals(48.3670191, $system->coordinates->latitude);
@@ -64,8 +66,8 @@ class SystemsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:05:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:05:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
@@ -88,8 +90,8 @@ class SystemsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-11-01T11:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:05:00+02:00'))
             ->withAbbreviation(['G_M2', 'AREA', 'E_DAY', 'E_INT', 'SRAD', 'D_IN1']);
 
         /** @var MeasurementsBulkReader $bulkReader */
@@ -112,8 +114,8 @@ class SystemsTest extends TestCase {
             ->willReturn($cvsRawData);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:30:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:30:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV);
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
@@ -127,8 +129,8 @@ class SystemsTest extends TestCase {
      */
     public function testGetSystemBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:30:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:30:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
