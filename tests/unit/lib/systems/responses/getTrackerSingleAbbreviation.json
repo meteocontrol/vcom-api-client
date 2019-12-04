@@ -1,0 +1,8 @@
+{
+  "data": {
+    "aggregation": "AVG",
+    "precision": 0,
+    "description": "Tilt, actual value",
+    "unit": "°"
+  }
+}

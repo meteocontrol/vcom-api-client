@@ -4,31 +4,31 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\VirtualMeterDetail;
+use meteocontrol\vcomapi\model\Tracker;
 
-class VirtualMeter extends SubEndpoint {
+class Trackers extends SubEndpoint {
 
     /**
      * @param EndpointInterface $parent
      */
     public function __construct(EndpointInterface $parent) {
-        $this->uri = '';
+        $this->uri = '/trackers';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
     /**
-     * @return VirtualMeterDetail
+     * @return Tracker[]
      */
     public function get() {
         $json = $this->api->run($this->getUri());
-        return VirtualMeterDetail::deserialize($this->jsonDecode($json, true)['data']);
+        return Tracker::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
     /**
-     * @return VirtualMeterReadings
+     * @return Bulk
      */
-    public function readings() {
-        return new VirtualMeterReadings($this);
+    public function bulk() {
+        return new Bulk($this);
     }
 }

@@ -1,0 +1,10 @@
+{
+  "data": {
+    "id": "30001",
+    "name": "Tracker 1",
+    "address": "10.80.67.101:502-1-1",
+    "vendor": "IDEEMATEC",
+    "model": "HORIZON 2",
+    "firmware": "1.1"
+  }
+}
