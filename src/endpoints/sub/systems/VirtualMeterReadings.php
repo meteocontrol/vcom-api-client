@@ -13,7 +13,7 @@ class VirtualMeterReadings extends SubEndpoint {
      * @param EndpointInterface $parent
      */
     public function __construct(EndpointInterface $parent) {
-        $this->uri = "/readings";
+        $this->uri = '/readings';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
@@ -24,6 +24,6 @@ class VirtualMeterReadings extends SubEndpoint {
      */
     public function get(MeterReadingCriteria $criteria) {
         $json = $this->api->run($this->getUri(), $criteria->generateQueryString());
-        return VirtualMeterReading::deserializeArray($this->jsonDecode($json, true)["data"]);
+        return VirtualMeterReading::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 }

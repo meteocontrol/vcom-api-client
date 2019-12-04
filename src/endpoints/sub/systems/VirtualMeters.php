@@ -12,7 +12,7 @@ class VirtualMeters extends SubEndpoint {
      * @param EndpointInterface $parent
      */
     public function __construct(EndpointInterface $parent) {
-        $this->uri = "/virtual-meters";
+        $this->uri = '/virtual-meters';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }

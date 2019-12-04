@@ -158,6 +158,24 @@ class System extends SubEndpoint {
     }
 
     /**
+     * @return Trackers
+     */
+    public function trackers() {
+        return new Trackers($this);
+    }
+
+    /**
+     * @param string|array $deviceId
+     * @return Tracker
+     */
+    public function tracker($deviceId) {
+        $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
+        $trackers = new Trackers($this);
+        $trackerIdEndpoint = new DeviceId($trackers, $deviceId);
+        return new Tracker($trackerIdEndpoint);
+    }
+
+    /**
      * @return TechnicalData
      */
     public function technicalData() {

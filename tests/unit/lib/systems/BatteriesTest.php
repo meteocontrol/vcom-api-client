@@ -266,7 +266,7 @@ class BatteriesTest extends TestCase {
             ->measurements()->get($criteria);
     }
 
-    public function testGetBatteryMeasurementsWithIntervalIncluded2() {
+    public function testGetBatteryMeasurementsWithIntervalIncludedWithWrongResolution2() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
