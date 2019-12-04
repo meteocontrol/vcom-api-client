@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
+use DateTime;
 use meteocontrol\client\vcomapi\model\AttachmentFile;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
@@ -33,7 +34,7 @@ class AttachmentsTest extends TestCase {
         $this->assertEquals($this->getEncodedTestAttachment(), $actual->content);
         $this->assertEquals(12345, $actual->creatorId);
         $this->assertEquals("test attachment", $actual->description);
-        $this->assertEquals(new \DateTime("2017-08-29T04:22:23+01:00"), $actual->createdAt);
+        $this->assertEquals(new DateTime("2017-08-29T04:22:23+01:00"), $actual->createdAt);
     }
 
     public function testCreateAttachment() {

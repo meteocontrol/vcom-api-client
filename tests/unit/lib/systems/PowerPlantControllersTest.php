@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
+use DateTime;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
@@ -23,7 +24,7 @@ class PowerPlantControllersTest extends TestCase {
         /** @var PowerPlantController[] $powerPlantControllers */
         $powerPlantControllers = $this->api->system('ABCDE')->powerPlantControllers()->get();
 
-        $this->assertEquals(1, count($powerPlantControllers));
+        $this->assertCount(1, $powerPlantControllers);
         $this->assertEquals('163784', $powerPlantControllers[0]->id);
         $this->assertEquals('ppc-5bbc370ddb808', $powerPlantControllers[0]->name);
     }
@@ -54,7 +55,7 @@ class PowerPlantControllersTest extends TestCase {
         /** @var string[] $abbreviations */
         $abbreviations = $this->api->system('ABCDE')->powerPlantController('163784')->abbreviations()->get();
 
-        $this->assertEquals(15, count($abbreviations));
+        $this->assertCount(15, $abbreviations);
         $this->assertEquals('PPC_P_AC', $abbreviations[0]);
         $this->assertEquals('PPC_P_AC_AVAIL', $abbreviations[1]);
         $this->assertEquals('PPC_P_AC_GRIDOP_MAX', $abbreviations[2]);
@@ -90,7 +91,7 @@ class PowerPlantControllersTest extends TestCase {
 
     public function testGetPowerPlantControllerMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerMeasurements.json');
-        $this->api->expects($this->exactly(1))
+        $this->api->expects($this->once())
             ->method('run')
             ->with(
                 $this->identicalTo(
@@ -103,27 +104,27 @@ class PowerPlantControllersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:05:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-29T12:05:00+02:00'));
 
         /** @var DevicesMeasurement $measurements */
         $measurements = $this->api->system('ABCDE')->powerPlantController('163784')
             ->abbreviation(['PPC_P_AC_AVAIL', 'PPC_P_AC'])
             ->measurements()->get($criteria);
-        $this->assertEquals(1, count($measurements));
+        $this->assertCount(1, $measurements);
         $abbreviationsMeasurements = $measurements['163784'];
         $values = $abbreviationsMeasurements['PPC_P_AC_AVAIL'];
-        $this->assertEquals(2, count($values));
+        $this->assertCount(2, $values);
         $this->assertEquals(12.52, $values[0]->value);
-        $this->assertEquals('2016-10-29T12:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-29T12:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(35.53, $values[1]->value);
-        $this->assertEquals('2016-10-29T12:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-29T12:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $values = $abbreviationsMeasurements['PPC_P_AC'];
-        $this->assertEquals(2, count($values));
+        $this->assertCount(2, $values);
         $this->assertEquals(65.84, $values[0]->value);
-        $this->assertEquals('2016-10-29T12:00:00+02:00', $values[0]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-29T12:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(22.01, $values[1]->value);
-        $this->assertEquals('2016-10-29T12:05:00+02:00', $values[1]->timestamp->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-10-29T12:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
     }
 
     public function testGetPowerPlantControllersBulkData() {
@@ -137,8 +138,8 @@ class PowerPlantControllersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:05:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-29T12:05:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->powerPlantControllers()->bulk()->measurements()->get($criteria);
@@ -161,8 +162,8 @@ class PowerPlantControllersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-29T12:05:00+02:00'))
             ->withAbbreviation(['PPC_P_AC_INV', 'PPC_Q_AC_AVAIL', 'PPC_Q_SET_REL']);
 
         /** @var MeasurementsBulkReader $bulkReader */
@@ -185,8 +186,8 @@ class PowerPlantControllersTest extends TestCase {
             ->willReturn($cvsRawData);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-10-29T12:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-29T12:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-29T12:05:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV);
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->powerPlantControllers()->bulk()->measurements()->get($criteria);
@@ -200,8 +201,8 @@ class PowerPlantControllersTest extends TestCase {
      */
     public function testGetPowerPlantControllersBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(\DateTime::createFromFormat(\DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)

@@ -2,6 +2,8 @@
 
 namespace meteocontrol\client\vcomapi;
 
+use DateTime;
+use DateTimeZone;
 use meteocontrol\vcomapi\model\Outage;
 use meteocontrol\vcomapi\model\AttachmentFile;
 use meteocontrol\vcomapi\model\Comment;
@@ -17,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 class ModelTest extends TestCase {
 
     public function testModelEncodeToJson() {
-        $dateTime = new \DateTime('2018-01-02T03:04:01+00:00');
+        $dateTime = new DateTime('2018-01-02T03:04:01+00:00');
         $intValue = 1;
         $floatValue = 0.1;
         $stringValue = 'string';
@@ -95,9 +97,9 @@ class ModelTest extends TestCase {
     public function testDecodeJsonToSystemDetail() {
         $expectedTimestamp = '2018-01-01';
         $expectedTimezones = [
-            new \DateTimeZone('Europe/Berlin'),
-            new \DateTimeZone('Asia/Kolkata'),
-            (new \DateTime())->getTimezone()
+            new DateTimeZone('Europe/Berlin'),
+            new DateTimeZone('Asia/Kolkata'),
+            (new DateTime())->getTimezone()
         ];
 
         $testData = json_decode(file_get_contents(__DIR__ . '/_files/systemDetails.json'), true);

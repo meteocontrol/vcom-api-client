@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
+use DateTime;
 use meteocontrol\client\vcomapi\model\Comment;
 use meteocontrol\client\vcomapi\model\CommentDetail;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
@@ -19,15 +20,15 @@ class CommentsTest extends TestCase {
         /** @var Comment[] */
         $comments = $this->api->ticket('123')->comments()->get();
 
-        $this->assertEquals(2, count($comments));
+        $this->assertCount(2, $comments);
         $this->assertEquals(661288, $comments[0]->commentId);
-        $this->assertEquals('2016-02-19T16:49:20+05:00', $comments[0]->createdAt->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-02-19T16:49:20+05:00', $comments[0]->createdAt->format(DateTime::RFC3339));
         $this->assertEquals('Comment text', $comments[0]->comment);
         $this->assertEquals('Username', $comments[0]->username);
         $this->assertEquals('First', $comments[0]->firstName);
         $this->assertEquals('Last', $comments[0]->lastName);
         $this->assertEquals(661286, $comments[1]->commentId);
-        $this->assertEquals('2016-02-19T16:49:07+05:00', $comments[1]->createdAt->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-02-19T16:49:07+05:00', $comments[1]->createdAt->format(DateTime::RFC3339));
         $this->assertEquals('Comment text', $comments[1]->comment);
         $this->assertEquals('Username', $comments[1]->username);
         $this->assertEquals('First', $comments[1]->firstName);
@@ -46,7 +47,7 @@ class CommentsTest extends TestCase {
         $commentDetail = $this->api->ticket('123')->comment(661288)->get();
 
         $this->assertEquals(661288, $commentDetail->commentId);
-        $this->assertEquals('2016-02-19T16:49:20+05:00', $commentDetail->createdAt->format(\DateTime::RFC3339));
+        $this->assertEquals('2016-02-19T16:49:20+05:00', $commentDetail->createdAt->format(DateTime::RFC3339));
         $this->assertEquals('Comment text', $commentDetail->comment);
         $this->assertEquals('Username', $commentDetail->username);
         $this->assertEquals('First', $commentDetail->firstName);
@@ -159,7 +160,7 @@ class CommentsTest extends TestCase {
      */
     private function getCommentDetail2() {
         $commentDetail = new CommentDetail();
-        $commentDetail->createdAt = \DateTime::createFromFormat(\DateTime::RFC3339, '2017-10-01T00:00:00+03:00');
+        $commentDetail->createdAt = DateTime::createFromFormat(DateTime::RFC3339, '2017-10-01T00:00:00+03:00');
         $commentDetail->comment = 'New Comment 2';
         $commentDetail->username = 'test.username';
         return $commentDetail;
