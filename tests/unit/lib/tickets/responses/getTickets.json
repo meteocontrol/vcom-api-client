@@ -10,6 +10,7 @@
       "assignee": null,
       "status": "closed",
       "priority": "normal",
+      "fieldService": true,
       "severity": "normal"
     },
     {
@@ -22,6 +23,7 @@
       "assignee": null,
       "status": "inProgress",
       "priority": "high",
+      "fieldService": false,
       "severity": null
     }
   ]

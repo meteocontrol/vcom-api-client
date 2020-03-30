@@ -45,6 +45,7 @@ class TicketsTest extends TestCase {
         $this->assertEquals('2016-01-01T13:00:00+02:00', $tickets[0]->lastChangedAt->format(DateTime::ATOM));
         $this->assertEquals(Ticket::STATUS_CLOSED, $tickets[0]->status);
         $this->assertEquals(Ticket::PRIORITY_NORMAL, $tickets[0]->priority);
+        $this->assertEquals(true, $tickets[0]->fieldService);
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $tickets[0]->severity);
 
         $this->assertEquals(456, $tickets[1]->id);
@@ -55,6 +56,7 @@ class TicketsTest extends TestCase {
         $this->assertEquals('2016-02-02T13:00:00+04:00', $tickets[1]->lastChangedAt->format(DateTime::ATOM));
         $this->assertEquals(Ticket::STATUS_INPROGRESS, $tickets[1]->status);
         $this->assertEquals(Ticket::PRIORITY_HIGH, $tickets[1]->priority);
+        $this->assertEquals(false, $tickets[1]->fieldService);
         $this->assertEquals(null, $tickets[1]->severity);
     }
 
