@@ -46,6 +46,9 @@ class TicketOverview extends BaseModel {
     /** @var string */
     public $priority;
 
+    /** @var bool */
+    public $fieldService;
+
     /** @var string */
     public $severity;
 
