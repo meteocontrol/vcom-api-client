@@ -20,6 +20,8 @@ class SystemDetail extends BaseModel {
     public $currency;
     /** @var bool */
     public $hasSolarForecast;
+    /** @var string */
+    public $simulationMethod;
 
     /**
      * @param array $data

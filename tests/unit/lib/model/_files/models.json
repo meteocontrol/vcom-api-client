@@ -79,7 +79,8 @@
     "name": "string",
     "timezone": null,
     "currency": "string",
-    "hasSolarForecast": true
+    "hasSolarForecast": true,
+    "simulationMethod": "string"
   },
   "coordinates":
   {
