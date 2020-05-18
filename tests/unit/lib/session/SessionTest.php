@@ -1,6 +1,6 @@
 <?php
 
-namespace meteocontrol\client\vcomapi\tests\unit\systems;
+namespace meteocontrol\client\vcomapi\tests\unit\session;
 
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
