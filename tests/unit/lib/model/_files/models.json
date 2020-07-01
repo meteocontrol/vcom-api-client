@@ -6,7 +6,8 @@
     "content": "string",
     "description": "string",
     "creatorId": 1,
-    "createdAt": "2018-01-02T03:04:01+00:00"
+    "createdAt": "2018-01-02T03:04:01+00:00",
+    "metaData": { "location" : { "lat": 40, "lon": 20 } }
   },
   "comment":
   {
