@@ -23,6 +23,7 @@ class ModelTest extends TestCase {
         $intValue = 1;
         $floatValue = 0.1;
         $stringValue = 'string';
+        $coordinatesValue = '{ "location": { "lat": 40, "lon": 20 } }';
         $booleanValue = true;
         $intervalValue = 300;
         $expectedData = json_decode(file_get_contents(__DIR__ . '/_files/models.json'), true);
@@ -31,6 +32,7 @@ class ModelTest extends TestCase {
         $attachmentFile->attachmentId = $attachmentFile->creatorId = $intValue;
         $attachmentFile->filename = $attachmentFile->content = $attachmentFile->description = $stringValue;
         $attachmentFile->createdAt = $dateTime;
+        $attachmentFile->metaData = json_decode($coordinatesValue, true);
 
         $comment = new Comment();
         $comment->commentId = $intValue;

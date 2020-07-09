@@ -101,6 +101,32 @@ class SystemsTest extends TestCase {
         $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
     }
 
+    public function testGetSystemBulkDataWithDeviceIdsAndAbbreviationsFilter() {
+        $json = file_get_contents(__DIR__ . '/responses/getSystemBulkWithDeviceIdsAndAbbreviationsFilter.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->identicalTo('systems/ABCDE/bulk/measurements'),
+                $this->identicalTo(
+                    'from=2016-11-01T11%3A00%3A00%2B02%3A00&to=2016-11-01T11%3A05%3A00%2B02%3A00'
+                    . '&deviceIds=Id73872.1%2C118045&abbreviations=E_DAY%2CE_INT'
+                )
+            )
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:05:00+02:00'))
+            ->withDeviceIds(['Id73872.1', '118045'])
+            ->withAbbreviation(['E_DAY', 'E_INT']);
+
+        /** @var MeasurementsBulkReader $bulkReader */
+        $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
+
+        $this->assertEquals($json, $bulkReader->getAsString());
+        $this->assertEquals(json_decode($json, true), $bulkReader->getAsArray());
+    }
+
     public function testGetSystemBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getSuperBulk.csv');
         $this->api->expects($this->once())

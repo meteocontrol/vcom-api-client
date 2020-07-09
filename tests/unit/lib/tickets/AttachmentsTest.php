@@ -35,6 +35,7 @@ class AttachmentsTest extends TestCase {
         $this->assertEquals(12345, $actual->creatorId);
         $this->assertEquals("test attachment", $actual->description);
         $this->assertEquals(new DateTime("2017-08-29T04:22:23+01:00"), $actual->createdAt);
+        $this->assertEquals(["location" => ["lat" => 40, "lon" => 20]], $actual->metaData);
     }
 
     public function testCreateAttachment() {
@@ -51,6 +52,7 @@ class AttachmentsTest extends TestCase {
         $attachment->description = "test attachment";
         $attachment->filename = "test.jpg";
         $attachment->content = $this->getEncodedTestAttachment();
+        $attachment->metaData = '{ "location": { "lat": 40, "lon": 20 } }';
         $actual = $this->api->ticket('123')->attachments()->create($attachment);
         $this->assertEquals("1234", $actual['attachmentId']);
         $this->assertEquals("test.jpg", $actual['filename']);
@@ -115,7 +117,8 @@ class AttachmentsTest extends TestCase {
         $data = [
             "filename" => "test.jpg",
             "content" => $this->getEncodedTestAttachment(),
-            "description" => "test attachment"
+            "description" => "test attachment",
+            "metaData" => '{ "location": { "lat": 40, "lon": 20 } }'
         ];
         return json_encode($data, 79);
     }

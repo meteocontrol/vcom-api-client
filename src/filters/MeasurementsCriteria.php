@@ -214,6 +214,22 @@ class MeasurementsCriteria {
     /**
      * @return string
      */
+    public function getDeviceIds(): string {
+        return $this->filters['deviceIds'] ?? '';
+    }
+
+    /**
+     * @param array $deviceIds
+     * @return $this
+     */
+    public function withDeviceIds(array $deviceIds) {
+        $this->filters['deviceIds'] = implode(',', $deviceIds);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getAbbreviations(): string {
         return $this->filters['abbreviations'] ?? '';
     }
