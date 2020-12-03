@@ -1,0 +1,15 @@
+{
+    "data": {
+        "formId": "3656",
+        "workOrderId": "3280",
+        "title": "app-api test workOrderForm",
+        "form": "{\"elements\":[{\"label\":\"Erste Seite\",\"component\":\"page\",\"config\":{},\"children\":[],\"id\":\"page-1\",\"description\":\"-\"}]}",
+        "description": "test form",
+        "data": "{}",
+        "savedAt": "2018-05-18T13:14:45Z",
+        "createdAt": "2018-05-18T13:14:45Z",
+        "completedAt": "2020-10-19T07:40:57Z",
+        "lastChangedAt": "2020-10-19T07:40:57Z",
+        "editable": false
+    }
+}
