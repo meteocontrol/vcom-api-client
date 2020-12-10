@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 use meteocontrol\client\vcomapi\endpoints\main\Session;
 use meteocontrol\client\vcomapi\endpoints\main\Systems;
 use meteocontrol\client\vcomapi\endpoints\main\Tickets;
+use meteocontrol\client\vcomapi\endpoints\sub\cmms\Cmms;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\System;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\SystemId;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\Ticket;
@@ -91,6 +92,13 @@ class ApiClient {
      */
     public function session() {
         return new Session($this);
+    }
+
+    /**
+     * @return Cmms
+     */
+    public function cmms() {
+        return new Cmms($this);
     }
 
     /**

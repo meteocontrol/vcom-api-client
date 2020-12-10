@@ -1,0 +1,18 @@
+{
+    "data": [
+        {
+            "activeUntil": "2020-09-30",
+            "activeSince": "2019-09-10",
+            "key": "7E3G5",
+            "name": "Solaris Real Ltd. I & II, P 31348",
+            "renew": 0
+        },
+        {
+            "activeUntil": "2020-12-31",
+            "activeSince": "2019-09-10",
+            "key": "4DC11",
+            "name": "VCOM API E2E Test",
+            "renew": 1
+        }
+    ]
+}
