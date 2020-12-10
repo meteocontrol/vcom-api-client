@@ -20,7 +20,7 @@ class WorkOrderForms extends SubEndpoint {
 
     /**
      * @param SystemCriteria|null $systemCriteria
-     * @return WorkOrderForm[]
+     * @return WorkOrderFormModel[]
      */
     public function get(SystemCriteria $systemCriteria = null) {
         $systemCriteria = $systemCriteria ?? new SystemCriteria();
