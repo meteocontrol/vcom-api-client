@@ -43,7 +43,8 @@ class Attachments extends SubEndpoint {
                 [
                     'filename' => basename($attachmentFile->filename),
                     'content' => $attachmentFile->content,
-                    'description' => $attachmentFile->description
+                    'description' => $attachmentFile->description,
+                    'metaData' => $attachmentFile->metaData
                 ],
                 79
             ),

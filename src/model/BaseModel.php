@@ -57,7 +57,7 @@ abstract class BaseModel implements JsonSerializable {
     }
 
     /**
-     * @param string | int | float | null $value
+     * @param array | string | int | float | null $value
      * @return \DateTime | string | int | float | null
      */
     protected static function getPhpValue($value) {
@@ -69,10 +69,10 @@ abstract class BaseModel implements JsonSerializable {
     }
 
     /**
-     * @param string|null $dateString
+     * @param array|string|null $dateString
      * @return bool|\DateTime
      */
     private static function isRFC3339DateString($dateString) {
-        return \DateTime::createFromFormat(\DateTime::RFC3339, $dateString);
+        return is_string($dateString) && \DateTime::createFromFormat(\DateTime::RFC3339, $dateString);
     }
 }
