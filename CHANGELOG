@@ -23,3 +23,4 @@
 2019-11-27: Add virtual-meters
 2019-12-04: Add trackers endpoint
 2020-03-31: Add new property simulationMethod to SystemDetail model
+2020-12-10: Enable cmms endpoints
