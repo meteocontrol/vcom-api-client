@@ -254,4 +254,24 @@ class CalculationsTest extends TestCase {
             ->withPrecision(CsvFormat::PRECISION_2);
         $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);
     }
+
+    public function testGetCalculationsProductionTolerance() {
+        $json = file_get_contents(__DIR__ . '/responses/getCalculationsProductionTolerance.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo('systems/ABCDE/calculations/production-tolerance'))
+            ->willReturn($json);
+
+        $criteria = new MeasurementsCriteria();
+        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T00:00:00+01:00'))
+            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-02T23:59:59+01:00'));
+
+        $productionTolerance = $this->api->system('ABCDE')->calculations()->productionTolerance()->get($criteria);
+
+        $this->assertCount(2, $productionTolerance);
+        $this->assertEquals('2016-11-01T00:00:00+01:00', $productionTolerance[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals(2.79430153178, $productionTolerance[0]->max);
+        $this->assertEquals(2.2862467078199997, $productionTolerance[0]->min);
+        $this->assertEquals(2.5402741198, $productionTolerance[0]->expected);
+    }
 }
