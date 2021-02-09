@@ -5,26 +5,26 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems\calculations;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\vcomapi\model\ToleranceValue;
+use meteocontrol\vcomapi\model\SimulationValue;
 
-class ProductionTolerance extends SubEndpoint {
+class Simulation extends SubEndpoint {
 
     /**
      * @param EndpointInterface $parent
      */
     public function __construct(EndpointInterface $parent) {
-        $this->uri = '/production-tolerance';
+        $this->uri = '/simulation';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
     /**
      * @param MeasurementsCriteria $criteria
-     * @return ToleranceValue[]
+     * @return SimulationValue[]
      */
     public function get(MeasurementsCriteria $criteria) {
         $valueJson = $this->api->run($this->getUri(), $criteria->generateQueryString());
         $decodedJson = json_decode($valueJson, true);
-        return ToleranceValue::deserializeArray($decodedJson['data']);
+        return SimulationValue::deserializeArray($decodedJson['data']);
     }
 }
