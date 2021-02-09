@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\AbbreviationId;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\calculations\Simulation;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\calculations\Abbreviation as DeviceAbbreviation;
 
 class Calculations extends SubEndpoint {
@@ -41,5 +42,12 @@ class Calculations extends SubEndpoint {
      */
     public function bulk() {
         return new Bulk($this);
+    }
+
+    /**
+     * @return Simulation
+     */
+    public function simulation() {
+        return new Simulation($this);
     }
 }
