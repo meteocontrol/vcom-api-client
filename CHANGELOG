@@ -25,4 +25,4 @@
 2020-03-31: Add new property simulationMethod to SystemDetail model
 2020-07-02: Add picture meta in ticket attachment
 2020-12-10: Enable cmms endpoints
-2021-02-05: Add simulation endpoint
+2021-02-09: Add simulation endpoint
