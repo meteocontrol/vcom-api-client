@@ -6,7 +6,7 @@ namespace meteocontrol\vcomapi\model;
 
 use DateTime;
 
-class ToleranceValue extends BaseModel {
+class SimulationValue extends BaseModel {
 
     /** @var DateTime */
     public $timestamp;
