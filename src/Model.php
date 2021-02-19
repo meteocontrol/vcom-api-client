@@ -111,6 +111,14 @@ class_alias(
     'meteocontrol\client\vcomapi\model\Session'
 );
 class_alias(
+    'meteocontrol\vcomapi\model\Status',
+    'meteocontrol\client\vcomapi\model\Status'
+);
+class_alias(
+    'meteocontrol\vcomapi\model\StatusDetail',
+    'meteocontrol\client\vcomapi\model\StatusDetail'
+);
+class_alias(
     'meteocontrol\vcomapi\model\Stringbox',
     'meteocontrol\client\vcomapi\model\Stringbox'
 );
