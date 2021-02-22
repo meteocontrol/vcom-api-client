@@ -1,0 +1,34 @@
+<?php
+
+namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
+
+use meteocontrol\vcomapi\model\Status;
+use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
+use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+
+class Statuses extends SubEndpoint {
+
+    /**
+     * @param EndpointInterface $parent
+     */
+    public function __construct(EndpointInterface $parent) {
+        $this->uri = '/statuses';
+        $this->api = $parent->getApiClient();
+        $this->parent = $parent;
+    }
+
+    /**
+     * @return Status[]
+     */
+    public function get() {
+        $json = $this->api->run($this->getUri());
+        return Status::deserializeArray($this->jsonDecode($json, true)['data']);
+    }
+
+    /**
+     * @return Bulk
+     */
+    public function bulk() {
+        return new Bulk($this);
+    }
+}

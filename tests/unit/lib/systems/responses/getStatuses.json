@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "id": "10001",
+      "name": "Meldung LS TST"
+    },
+    {
+      "id": "10002",
+      "name": "Warnung Trafotemperatur"
+    }
+  ]
+}
