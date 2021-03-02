@@ -176,6 +176,24 @@ class System extends SubEndpoint {
     }
 
     /**
+     * @return Statuses
+     */
+    public function statuses() {
+        return new Statuses($this);
+    }
+
+    /**
+     * @param string|array $deviceId
+     * @return Status
+     */
+    public function status($deviceId) {
+        $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
+        $statuses = new Statuses($this);
+        $statusIdEndpoint = new DeviceId($statuses, $deviceId);
+        return new Status($statusIdEndpoint);
+    }
+
+    /**
      * @return TechnicalData
      */
     public function technicalData() {

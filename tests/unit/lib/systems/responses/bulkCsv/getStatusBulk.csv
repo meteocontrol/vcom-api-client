@@ -1,0 +1,5 @@
+type,statuses,statuses,statuses,statuses
+id,10001,10001,10002
+timestamp,STATE1,STATE2,STATE1
+2016-09-01T10:00:00+02:00,1,0,1
+2016-09-01T10:15:00+02:00,1,1,1
