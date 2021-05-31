@@ -3,16 +3,15 @@
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system\calculations;
 
 use meteocontrol\vcomapi\model\MeasurementValue;
-use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Measurements as DeviceMeasurements;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 
-class Measurements extends DeviceMeasurements {
+class Measurements extends \meteocontrol\client\vcomapi\endpoints\sub\systems\system\Measurements {
 
     /**
      * @param MeasurementsCriteria $criteria
      * @return MeasurementValue[]
      */
-    public function get(MeasurementsCriteria $criteria): array {
+    public function get(MeasurementsCriteria $criteria) {
         if ($criteria->getIntervalIncluded()) {
             trigger_error('"includeInterval" is not supported for calculations.');
         }

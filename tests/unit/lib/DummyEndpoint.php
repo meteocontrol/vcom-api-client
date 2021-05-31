@@ -9,7 +9,7 @@ class DummyEndpoint extends Endpoint {
     /**
      * @return string
      */
-    public function getUri(): string {
+    public function getUri() {
         return "/dummy";
     }
 

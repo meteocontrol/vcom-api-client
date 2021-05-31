@@ -13,11 +13,11 @@ class Factory {
     private const API_VERSION = 'v2';
 
     /**
-     * @param Config|null $config
-     * @param ClientInterface|null $client
+     * @param Config $config
+     * @param ClientInterface $client
      * @return ApiClient
      */
-    public function getApiClient(Config $config = null, ClientInterface $client = null): ApiClient {
+    public function getApiClient(Config $config = null, ClientInterface $client = null) {
         $config = $config ?: new Config();
         $config->validate();
 
@@ -35,7 +35,7 @@ class Factory {
      * @param Config $config
      * @return array
      */
-    public static function getDefaultHeaders(Config $config): array {
+    public static function getDefaultHeaders(Config $config) {
         return [
             'X-API-KEY' => $config->getApiKey(),
             'Accept' => '*/*'
@@ -46,23 +46,24 @@ class Factory {
      * @param Config $config
      * @return Client
      */
-    public static function getHttpClient(Config $config): Client {
+    public static function getHttpClient(Config $config) {
         $baseUri = sprintf("%s/%s/", $config->getApiUrl(), self::API_VERSION);
 
-        return new Client(
+        $client = new Client(
             [
                 'base_uri' => $baseUri,
                 'headers' => self::getDefaultHeaders($config),
                 'debug' => false
             ]
         );
+        return $client;
     }
 
     /**
      * @param Config $config
      * @return AuthorizationHandlerInterface
      */
-    public static function getAuthorizationHandler(Config $config): AuthorizationHandlerInterface {
+    public static function getAuthorizationHandler(Config $config) {
         return $config->getApiAuthorizationMode() === 'basic' ?
             new BasicAuthorizationHandler($config) :
             new OAuthAuthorizationHandler($config);

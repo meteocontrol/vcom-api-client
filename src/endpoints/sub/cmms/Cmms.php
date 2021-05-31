@@ -18,14 +18,14 @@ class Cmms extends MainEndpoint {
     /**
      * @return System
      */
-    public function systems(): System {
+    public function systems() {
         return new System($this);
     }
 
     /**
      * @return WorkOrders
      */
-    public function workOrders(): WorkOrders {
+    public function workOrders() {
         return new WorkOrders($this);
     }
 
@@ -33,7 +33,7 @@ class Cmms extends MainEndpoint {
      * @param int $workOrderId
      * @return WorkOrder
      */
-    public function workOrder(int $workOrderId): WorkOrder {
+    public function workOrder(int $workOrderId) {
         $workOrders = new WorkOrders($this);
         $workOrderIdEndpoint = new WorkOrderId($workOrders, $workOrderId);
         return new WorkOrder($workOrderIdEndpoint);

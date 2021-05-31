@@ -2,15 +2,12 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system\calculations;
 
-use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Abbreviation as DeviceAbbreviation;
-use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Measurements as DeviceMeasurements;
-
-class Abbreviation extends DeviceAbbreviation {
+class Abbreviation extends \meteocontrol\client\vcomapi\endpoints\sub\systems\system\Abbreviation {
 
     /**
      * @return Measurements
      */
-    public function measurements(): DeviceMeasurements {
+    public function measurements() {
         return new Measurements($this);
     }
 }

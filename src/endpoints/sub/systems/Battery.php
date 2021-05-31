@@ -22,7 +22,7 @@ class Battery extends SubEndpoint {
     /**
      * @return BatteryDetail
      */
-    public function get(): BatteryDetail {
+    public function get() {
         $json = $this->api->run($this->getUri());
         return BatteryDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
@@ -30,7 +30,7 @@ class Battery extends SubEndpoint {
     /**
      * @return Abbreviations
      */
-    public function abbreviations(): Abbreviations {
+    public function abbreviations() {
         return new Abbreviations($this);
     }
 
@@ -38,7 +38,7 @@ class Battery extends SubEndpoint {
      * @param string|array $abbreviationId
      * @return DeviceAbbreviation
      */
-    public function abbreviation($abbreviationId): DeviceAbbreviation {
+    public function abbreviation($abbreviationId) {
         $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);

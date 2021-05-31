@@ -2,7 +2,6 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
-use InvalidArgumentException;
 use meteocontrol\vcomapi\model\AttachmentFile;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
@@ -21,7 +20,7 @@ class Attachments extends SubEndpoint {
     /**
      * @return AttachmentFile[]
      */
-    public function get(): array {
+    public function get() {
         $commentsJson = $this->api->run($this->getUri());
         return AttachmentFile::deserializeArray($this->jsonDecode($commentsJson, true)['data']);
     }
@@ -29,14 +28,13 @@ class Attachments extends SubEndpoint {
     /**
      * @param AttachmentFile $attachmentFile
      * @return array
-     * @throws InvalidArgumentException
      */
-    public function create(AttachmentFile $attachmentFile): array {
+    public function create(AttachmentFile $attachmentFile) {
         if (!$attachmentFile->filename) {
-            throw new InvalidArgumentException('Invalid attachment - empty file name.');
+            throw new \InvalidArgumentException('Invalid attachment - empty file name.');
         }
         if (!$attachmentFile->content) {
-            throw new InvalidArgumentException('Invalid attachment - empty file content.');
+            throw new \InvalidArgumentException('Invalid attachment - empty file content.');
         }
         $responseBody = $this->api->run(
             $this->getUri(),
@@ -46,7 +44,7 @@ class Attachments extends SubEndpoint {
                     'filename' => basename($attachmentFile->filename),
                     'content' => $attachmentFile->content,
                     'description' => $attachmentFile->description,
-                    'metaData' => $attachmentFile->metaData,
+                    'metaData' => $attachmentFile->metaData
                 ],
                 79
             ),

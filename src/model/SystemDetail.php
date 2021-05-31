@@ -2,16 +2,13 @@
 
 namespace meteocontrol\vcomapi\model;
 
-use DateTime;
-use DateTimeZone;
-
 class SystemDetail extends BaseModel {
 
     /** @var Address */
     public $address;
     /** @var int */
     public $elevation;
-    /** @var DateTime */
+    /** @var \DateTime */
     public $commissionDate;
     /** @var Coordinates */
     public $coordinates;
@@ -31,7 +28,7 @@ class SystemDetail extends BaseModel {
      * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, string $name = null): self {
+    public static function deserialize(array $data, $name = null) {
         $object = new static();
 
         foreach ($data as $key => $value) {
@@ -51,11 +48,11 @@ class SystemDetail extends BaseModel {
     }
 
     /**
-     * @param DateTime $dateTime
+     * @param \DateTime $dateTime
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(DateTime $dateTime, string $key = null): string {
+    protected function serializeDateTime(\DateTime $dateTime, $key = null) {
         if ($key === 'commissionDate') {
             return $dateTime->format('Y-m-d');
         }
@@ -65,13 +62,13 @@ class SystemDetail extends BaseModel {
     /**
      * @param string $dateString
      * @param array $data
-     * @return bool|DateTime
+     * @return bool|\DateTime
      */
     private static function deserializeCommissionDate(string $dateString, array $data) {
-        return DateTime::createFromFormat(
+        return \DateTime::createFromFormat(
             'Y-m-d H:i:s',
             "{$dateString} 00:00:00",
-            isset($data['timezone']['name']) ? new DateTimeZone($data['timezone']['name']) : null
+            isset($data['timezone']['name']) ? new \DateTimeZone($data['timezone']['name']) : null
         );
     }
 }

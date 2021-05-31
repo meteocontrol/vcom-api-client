@@ -20,7 +20,7 @@ class ForecastsYield extends SubEndpoint {
     /**
      * @return SpecificEnergy
      */
-    public function specificEnergy(): SpecificEnergy {
+    public function specificEnergy() {
         return new SpecificEnergy($this);
     }
 }

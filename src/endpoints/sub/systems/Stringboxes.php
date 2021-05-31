@@ -20,7 +20,7 @@ class Stringboxes extends SubEndpoint {
     /**
      * Stringbox[]
      */
-    public function get(): array {
+    public function get() {
         $json = $this->api->run($this->getUri());
         return Stringbox::deserializeArray($this->jsonDecode($json, true)['data']);
     }
@@ -28,7 +28,7 @@ class Stringboxes extends SubEndpoint {
     /**
      * @return Bulk
      */
-    public function bulk(): Bulk {
+    public function bulk() {
         return new Bulk($this);
     }
 }

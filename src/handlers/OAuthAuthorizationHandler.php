@@ -26,10 +26,9 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
     /**
      * @param ClientException $ex
      * @param Client $client
-     * @return void
      * @throws UnauthorizedException
      */
-    public function handleUnauthorizedException(ClientException $ex, Client $client): void {
+    public function handleUnauthorizedException(ClientException $ex, Client $client) {
         try {
             $this->doOAuthRefresh($client);
         } catch (UnauthorizedException $ex) {
@@ -45,7 +44,7 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
      * @param array $options
      * @return array
      */
-    public function appendAuthorizationHeader(Client $client, array $options): array {
+    public function appendAuthorizationHeader(Client $client, array $options) {
         if (empty($this->accessToken) && !$this->parseCredentials()) {
             $this->doOAuthGrant($client);
         }
@@ -55,10 +54,9 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
 
     /**
      * @param Client $client
-     * @return void
      * @throws UnauthorizedException
      */
-    private function doOAuthGrant(Client $client): void {
+    private function doOAuthGrant(Client $client) {
         try {
             $response = $client->post(
                 sprintf('%s/login', $this->config->getApiUrl()),
@@ -88,10 +86,9 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
 
     /**
      * @param Client $client
-     * @return void
      * @throws UnauthorizedException
      */
-    private function doOAuthRefresh(Client $client): void {
+    private function doOAuthRefresh(Client $client) {
         try {
             $response = $client->post(
                 sprintf('%s/login', $this->config->getApiUrl()),
@@ -118,10 +115,7 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
         }
     }
 
-    /**
-     * @return bool
-     */
-    private function parseCredentials(): bool {
+    private function parseCredentials() {
         $tokenAccessCallable = $this->config->getTokenAccessCallable();
         $credentials = call_user_func_array($tokenAccessCallable, []);
         if (!$credentials || !isset($credentials['access_token'], $credentials['refresh_token'])) {
@@ -136,9 +130,8 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
 
     /**
      * @param array $credentials
-     * @return void
      */
-    private function storeCredentials(array $credentials): void {
+    private function storeCredentials(array $credentials) {
         $tokenRefreshCallable = $this->config->getTokenRefreshCallable();
         call_user_func_array($tokenRefreshCallable, [$credentials]);
     }

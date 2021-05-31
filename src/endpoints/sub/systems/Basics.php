@@ -21,7 +21,7 @@ class Basics extends SubEndpoint {
     /**
      * @return Abbreviations
      */
-    public function abbreviations(): Abbreviations {
+    public function abbreviations() {
         return new Abbreviations($this);
     }
 
@@ -29,7 +29,7 @@ class Basics extends SubEndpoint {
      * @param string|array $abbreviationId
      * @return DeviceAbbreviation
      */
-    public function abbreviation($abbreviationId): DeviceAbbreviation {
+    public function abbreviation($abbreviationId) {
         $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
@@ -39,7 +39,7 @@ class Basics extends SubEndpoint {
     /**
      * @return Bulk
      */
-    public function bulk(): Bulk {
+    public function bulk() {
         return new Bulk($this);
     }
 }
