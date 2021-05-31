@@ -25,7 +25,7 @@ class CmmsSystem extends BaseModel {
      * @param array $data
      * @return $this
      */
-    public static function deserialize(array $data) {
+    public static function deserialize(array $data): self {
         $object = new static();
 
         foreach ($data as $key => $value) {
@@ -43,7 +43,7 @@ class CmmsSystem extends BaseModel {
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(DateTime $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTime $dateTime, string $key = null): string {
         if (in_array($key, ['activeUntil', 'activeSince'])) {
             return $dateTime->format('Y-m-d');
         }

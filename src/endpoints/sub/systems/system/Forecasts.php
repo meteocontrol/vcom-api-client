@@ -20,7 +20,7 @@ class Forecasts extends SubEndpoint {
     /**
      * @return ForecastsYield
      */
-    public function forecastsYield() {
+    public function forecastsYield(): ForecastsYield {
         return new ForecastsYield($this);
     }
 }

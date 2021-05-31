@@ -22,7 +22,6 @@ class Users extends SubEndpoint {
     /**
      * @param UserCriteria|null $criteria
      * @return User[] | UserDetail
-     * @throws \meteocontrol\client\vcomapi\ApiClientException
      */
     public function get(UserCriteria $criteria = null) {
         if (is_null($criteria)) {

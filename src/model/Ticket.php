@@ -2,6 +2,8 @@
 
 namespace meteocontrol\vcomapi\model;
 
+use DateTime;
+
 class Ticket extends BaseModel {
 
     const REPORT_TYPE_NO = 'no';
@@ -35,13 +37,13 @@ class Ticket extends BaseModel {
     /** @var string */
     public $summary;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     public $createdAt;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     public $lastChangedAt;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     public $rectifiedAt;
 
     /** @var string */
@@ -74,13 +76,18 @@ class Ticket extends BaseModel {
     /**
      * @return bool
      */
-    public function isValid() {
+    public function isValid(): bool {
         return !empty($this->systemKey)
             && !empty($this->designation)
             && !empty($this->createdAt);
     }
 
-    public static function deserialize(array $data, $name = null) {
+    /**
+     * @param array $data
+     * @param null|string $name
+     * @return $this
+     */
+    public static function deserialize(array $data, string $name = null): self {
         $object = new static();
 
         foreach ($data as $key => $value) {

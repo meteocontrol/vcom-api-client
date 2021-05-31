@@ -22,7 +22,7 @@ class SpecificEnergy extends SubEndpoint {
      * @param MeasurementsCriteria $measurementCriteria
      * @return array
      */
-    public function get(MeasurementsCriteria $measurementCriteria) {
+    public function get(MeasurementsCriteria $measurementCriteria): array {
         $valueJson = $this->api->run($this->getUri(), $measurementCriteria->generateQueryString());
         $decodedJson = json_decode($valueJson, true);
         return MeasurementValue::deserializeArray($decodedJson['data']);
