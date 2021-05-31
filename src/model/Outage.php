@@ -2,12 +2,14 @@
 
 namespace meteocontrol\vcomapi\model;
 
+use DateTime;
+
 class Outage extends BaseModel {
 
-    /** @var \DateTime */
+    /** @var DateTime */
     public $startedAt;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     public $endedAt;
 
     /** @var float */

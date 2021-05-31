@@ -2,7 +2,10 @@
 
 namespace meteocontrol\vcomapi\model;
 
-class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
+use ArrayAccess;
+use Countable;
+
+class DevicesMeasurement extends BaseModel implements ArrayAccess, Countable {
 
     /** @var MeasurementValue[] */
     protected $values = [];
@@ -12,7 +15,7 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
      * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, $name = null) {
+    public static function deserialize(array $data, string $name = null) {
         $object = new static();
 
         foreach ($data as $deviceId => $abbreviationMeasurements) {
@@ -26,78 +29,41 @@ class DevicesMeasurement extends BaseModel implements \ArrayAccess, \Countable {
     }
 
     /**
-     * Whether a offset exists
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset <p>
-     * An offset to check for.
-     * </p>
-     * @return bool true on success or false on failure.
-     * </p>
-     * <p>
-     * The return value will be casted to boolean if non-boolean was returned.
-     * @since 5.0.0
+     * @param mixed $offset
+     * @return bool
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset): bool {
         return array_key_exists($offset, $this->values);
     }
 
     /**
-     * Offset to retrieve
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset <p>
-     * The offset to retrieve.
-     * </p>
-     * @return MeasurementValue[]
-     * @since 5.0.0
+     * @param mixed $offset
      */
     public function offsetGet($offset) {
         return $this->values[$offset];
     }
 
     /**
-     * Offset to set
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset <p>
-     * The offset to assign the value to.
-     * </p>
-     * @param mixed $value <p>
-     * The value to set.
-     * </p>
+     * @param mixed $offset
+     * @param mixed $value
      * @return void
-     * @since 5.0.0
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value): void {
         $this->values[$offset] = $value;
     }
 
     /**
-     * Offset to unset
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     * The offset to unset.
-     * </p>
+     * @param mixed $offset
      * @return void
-     * @since 5.0.0
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset): void {
         unset($this->values[$offset]);
     }
 
     /**
-     * Count elements of an object
-     *
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an int.
-     * </p>
-     * <p>
-     * The return value is cast to an int.
-     * @since 5.1.0
+     * @return int
      */
-    public function count() {
+    public function count(): int {
         return count($this->values);
     }
 }

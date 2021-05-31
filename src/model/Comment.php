@@ -2,11 +2,13 @@
 
 namespace meteocontrol\vcomapi\model;
 
+use DateTime;
+
 class Comment extends BaseModel {
 
     /** @var int */
     public $commentId;
-    /** @var \DateTime */
+    /** @var DateTime */
     public $createdAt;
     /** @var string */
     public $comment;

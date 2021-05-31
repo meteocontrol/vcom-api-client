@@ -19,7 +19,7 @@ class Abbreviation extends SubEndpoint {
     /**
      * @return Measurements
      */
-    public function measurements() {
+    public function measurements(): Measurements {
         return new Measurements($this);
     }
 }
