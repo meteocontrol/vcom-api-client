@@ -22,7 +22,7 @@ class WorkOrders extends SubEndpoint {
      * @param SystemCriteria|null $systemCriteria
      * @return WorkOrderModel[]
      */
-    public function get(SystemCriteria $systemCriteria = null): array {
+    public function get(SystemCriteria $systemCriteria = null) {
         $systemCriteria = $systemCriteria ?? new SystemCriteria();
         $workorderJson = $this->api->run($this->getUri(), $systemCriteria->generateQueryString());
         $decodedJson = json_decode($workorderJson, true);

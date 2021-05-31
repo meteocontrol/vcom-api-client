@@ -20,7 +20,7 @@ class Bulk extends SubEndpoint {
     /**
      * @return BulkMeasurements
      */
-    public function measurements(): BulkMeasurements {
+    public function measurements() {
         return new BulkMeasurements($this);
     }
 }

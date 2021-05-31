@@ -9,10 +9,10 @@ interface EndpointInterface {
     /**
      * @return string
      */
-    public function getUri(): string;
+    public function getUri();
 
     /**
      * @return ApiClient
      */
-    public function getApiClient(): ApiClient;
+    public function getApiClient();
 }

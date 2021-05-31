@@ -2,9 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\filters;
 
-use DateTime;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
-use UnexpectedValueException;
 
 class MeasurementsCriteria {
 
@@ -21,34 +19,34 @@ class MeasurementsCriteria {
     private $filters;
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
-    public function getDateFrom(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['from']);
+    public function getDateFrom() {
+        return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['from']);
     }
 
     /**
-     * @param DateTime $from
+     * @param \DateTime $from
      * @return MeasurementsCriteria
      */
-    public function withDateFrom(DateTime $from): self {
-        $this->filters['from'] = $from->format(DateTime::RFC3339);
+    public function withDateFrom(\DateTime $from) {
+        $this->filters['from'] = $from->format(\DateTime::RFC3339);
         return $this;
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
-    public function getDateTo(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['to']);
+    public function getDateTo() {
+        return \DateTime::createFromFormat(\DateTime::RFC3339, $this->filters['to']);
     }
 
     /**
-     * @param DateTime $to
+     * @param \DateTime $to
      * @return MeasurementsCriteria
      */
-    public function withDateTo(DateTime $to): self {
-        $this->filters['to'] = $to->format(DateTime::RFC3339);
+    public function withDateTo(\DateTime $to) {
+        $this->filters['to'] = $to->format(\DateTime::RFC3339);
         return $this;
     }
 
@@ -63,8 +61,8 @@ class MeasurementsCriteria {
      *              | MeasurementsCriteria::RESOLUTION_YEAR
      *              | null
      */
-    public function getResolution(): ?string {
-        return $this->filters['resolution'] ?? null;
+    public function getResolution() {
+        return isset($this->filters['resolution']) ? $this->filters['resolution'] : null;
     }
 
     /**
@@ -78,7 +76,7 @@ class MeasurementsCriteria {
      *              | MeasurementsCriteria::RESOLUTION_YEAR
      * @return MeasurementsCriteria
      */
-    public function withResolution(string $resolution): self {
+    public function withResolution(string $resolution) {
         $this->filters['resolution'] = $resolution;
         return $this;
     }
@@ -86,15 +84,15 @@ class MeasurementsCriteria {
     /**
      * @return string
      */
-    public function getFormat(): string {
-        return $this->filters['format'] ?? CsvFormat::FORMAT_JSON;
+    public function getFormat() {
+        return isset($this->filters['format']) ? $this->filters['format'] : CsvFormat::FORMAT_JSON;
     }
 
     /**
      * @param string $format
      * @return MeasurementsCriteria
      */
-    public function withFormat(string $format): self {
+    public function withFormat(string $format) {
         $this->filters['format'] = $format;
         return $this;
     }
@@ -102,15 +100,15 @@ class MeasurementsCriteria {
     /**
      * @return string
      */
-    public function getLineBreak(): string {
-        return $this->filters['lineBreak'] ?? CsvFormat::LINE_BREAK_LF;
+    public function getLineBreak() {
+        return isset($this->filters['lineBreak']) ? $this->filters['lineBreak'] : CsvFormat::LINE_BREAK_LF;
     }
 
     /**
      * @param string $breakSymbol
      * @return MeasurementsCriteria
      */
-    public function withLineBreak(string $breakSymbol): self {
+    public function withLineBreak(string $breakSymbol) {
         $this->filters['lineBreak'] = $breakSymbol;
         return $this;
     }
@@ -118,15 +116,15 @@ class MeasurementsCriteria {
     /**
      * @return string
      */
-    public function getDelimiter(): string {
-        return $this->filters['delimiter'] ?? CsvFormat::DELIMITER_COMMA;
+    public function getDelimiter() {
+        return isset($this->filters['delimiter']) ? $this->filters['delimiter'] : CsvFormat::DELIMITER_COMMA;
     }
 
     /**
      * @param string $delimiter
      * @return MeasurementsCriteria
      */
-    public function withDelimiter(string $delimiter): self {
+    public function withDelimiter(string $delimiter) {
         $this->filters['delimiter'] = $delimiter;
         return $this;
     }
@@ -134,15 +132,17 @@ class MeasurementsCriteria {
     /**
      * @return string
      */
-    public function getDecimalPoint(): string {
-        return $this->filters['decimalPoint'] ?? CsvFormat::DECIMAL_POINT_DOT;
+    public function getDecimalPoint() {
+        return isset($this->filters['decimalPoint']) ?
+            $this->filters['decimalPoint'] :
+            CsvFormat::DECIMAL_POINT_DOT;
     }
 
     /**
      * @param string $decimalPoint
      * @return MeasurementsCriteria
      */
-    public function withDecimalPoint(string $decimalPoint): self {
+    public function withDecimalPoint(string $decimalPoint) {
         $this->filters['decimalPoint'] = $decimalPoint;
         return $this;
     }
@@ -150,15 +150,17 @@ class MeasurementsCriteria {
     /**
      * @return string
      */
-    public function getEmptyPlaceholder(): string {
-        return $this->filters['emptyPlaceholder'] ?? CsvFormat::EMPTY_PLACE_HOLDER_EMPTY;
+    public function getEmptyPlaceholder() {
+        return isset($this->filters['emptyPlaceholder']) ?
+            $this->filters['emptyPlaceholder'] :
+            CsvFormat::EMPTY_PLACE_HOLDER_EMPTY;
     }
 
     /**
      * @param string $emptyPlaceholder
      * @return MeasurementsCriteria
      */
-    public function withEmptyPlaceholder(string $emptyPlaceholder): self {
+    public function withEmptyPlaceholder(string $emptyPlaceholder) {
         $this->filters['emptyPlaceholder'] = $emptyPlaceholder;
         return $this;
     }
@@ -166,15 +168,15 @@ class MeasurementsCriteria {
     /**
      * @return int
      */
-    public function getPrecision(): int {
-        return $this->filters['precision'] ?? CsvFormat::PRECISION_2;
+    public function getPrecision() {
+        return isset($this->filters['precision']) ? $this->filters['precision'] : CsvFormat::PRECISION_2;
     }
 
     /**
      * @param int $precision
      * @return MeasurementsCriteria
      */
-    public function withPrecision(int $precision): self {
+    public function withPrecision(int $precision) {
         $this->filters['precision'] = $precision;
         return $this;
     }
@@ -182,14 +184,14 @@ class MeasurementsCriteria {
     /**
      * @return bool
      */
-    public function getIntervalIncluded(): bool {
+    public function getIntervalIncluded() {
         return isset($this->filters['includeInterval']);
     }
 
     /**
      * @return MeasurementsCriteria
      */
-    public function withIntervalIncluded(): self {
+    public function withIntervalIncluded() {
         $this->filters['includeInterval'] = '1';
         return $this;
     }
@@ -197,14 +199,14 @@ class MeasurementsCriteria {
     /**
      * @return bool
      */
-    public function getActiveOnly(): bool {
+    public function getActiveOnly() {
         return isset($this->filters['activeOnly']);
     }
 
     /**
      * @return MeasurementsCriteria
      */
-    public function withActiveOnly(): self {
+    public function withActiveOnly() {
         $this->filters['activeOnly'] = '1';
         return $this;
     }
@@ -220,7 +222,7 @@ class MeasurementsCriteria {
      * @param array $deviceIds
      * @return $this
      */
-    public function withDeviceIds(array $deviceIds): self {
+    public function withDeviceIds(array $deviceIds) {
         $this->filters['deviceIds'] = implode(',', $deviceIds);
         return $this;
     }
@@ -236,7 +238,7 @@ class MeasurementsCriteria {
      * @param array $abbreviations
      * @return $this
      */
-    public function withAbbreviation(array $abbreviations): self {
+    public function withAbbreviation(array $abbreviations) {
         $this->filters['abbreviations'] = implode(',', $abbreviations);
         return $this;
     }
@@ -244,19 +246,18 @@ class MeasurementsCriteria {
     /**
      * @return string
      */
-    public function generateQueryString(): string {
+    public function generateQueryString() {
         $this->validateCriteriaSettings();
         return http_build_query($this->filters);
     }
 
     /**
-     * @return void
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
-    private function validateCriteriaSettings(): void {
+    private function validateCriteriaSettings() {
         if ($this->getFormat() == CsvFormat::FORMAT_CSV) {
             if ($this->getDelimiter() == $this->getDecimalPoint()) {
-                throw new UnexpectedValueException("Delimiter and decimal point symbols can't be the same");
+                throw new \UnexpectedValueException("Delimiter and decimal point symbols can't be the same");
             }
         }
     }

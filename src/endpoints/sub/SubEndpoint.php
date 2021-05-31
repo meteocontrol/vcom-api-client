@@ -8,7 +8,7 @@ abstract class SubEndpoint extends Endpoint {
     /**
      * @return string
      */
-    public function getUri(): string {
+    public function getUri() {
         return $this->parent->getUri() . $this->uri;
     }
 }

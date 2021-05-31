@@ -10,7 +10,7 @@ class UserCriteria {
     /**
      * @return string
      */
-    public function getUsername(): string {
+    public function getUsername() {
         return $this->filters['username'];
     }
 
@@ -18,7 +18,7 @@ class UserCriteria {
      * @param string $username
      * @return $this
      */
-    public function withUsername(string $username): self {
+    public function withUsername(string $username) {
         $this->filters['username'] = $username;
         return $this;
     }
@@ -26,7 +26,7 @@ class UserCriteria {
     /**
      * @return string
      */
-    public function generateQueryString(): string {
+    public function generateQueryString() {
         return http_build_query($this->filters);
     }
 }

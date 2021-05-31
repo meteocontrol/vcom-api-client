@@ -37,7 +37,7 @@ class ApiClient {
      * @param string $apiKey
      * @return ApiClient
      */
-    public static function get(string $username, string $password, string $apiKey): self {
+    public static function get(string $username, string $password, string $apiKey) {
         $config = new Config();
         $config->setApiUsername($username);
         $config->setApiPassword($password);
@@ -54,7 +54,7 @@ class ApiClient {
     /**
      * @return Systems
      */
-    public function systems(): Systems {
+    public function systems() {
         return new Systems($this);
     }
 
@@ -62,7 +62,7 @@ class ApiClient {
      * @param string $systemKey
      * @return System
      */
-    public function system(string $systemKey): System {
+    public function system(string $systemKey) {
         $systems = new Systems($this);
         $systemIdEndpoint = new SystemId($systems, $systemKey);
         $systemEndpoint = new System($systemIdEndpoint);
@@ -73,15 +73,15 @@ class ApiClient {
     /**
      * @return Tickets
      */
-    public function tickets(): Tickets {
+    public function tickets() {
         return new Tickets($this);
     }
 
     /**
      * @param string $ticketId
-     * @return Ticket
+     * @return endpoints\sub\tickets\Ticket
      */
-    public function ticket(string $ticketId): Ticket {
+    public function ticket(string $ticketId) {
         $tickets = new Tickets($this);
         $ticketIdEndpoint = new TicketId($tickets, $ticketId);
         return new Ticket($ticketIdEndpoint);
@@ -90,14 +90,14 @@ class ApiClient {
     /**
      * @return Session
      */
-    public function session(): Session {
+    public function session() {
         return new Session($this);
     }
 
     /**
      * @return Cmms
      */
-    public function cmms(): Cmms {
+    public function cmms() {
         return new Cmms($this);
     }
 
@@ -142,7 +142,7 @@ class ApiClient {
      * @param string|null $body
      * @return array
      */
-    private function getRequestOptions(?string $queryString, ?string $body): array {
+    private function getRequestOptions($queryString, $body) {
         $options = [
             'query' => $queryString ?: null,
             'body' => $body ?: null,
@@ -162,7 +162,7 @@ class ApiClient {
      * @return ResponseInterface
      * @throws ApiClientException
      */
-    private function sendRequest(string $uri, string $method, array $options): ResponseInterface {
+    private function sendRequest(string $uri, string $method, array $options) {
         switch (strtoupper($method)) {
             case 'GET':
                 $response = $this->client->get($uri, $options);
@@ -195,7 +195,7 @@ class ApiClient {
         string $method,
         string $body = null,
         string $queryString = null
-    ): ResponseInterface {
+    ) {
         $options = $this->getRequestOptions($queryString, $body);
         try {
             return $this->sendRequest($uri, $method, $options);

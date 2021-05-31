@@ -2,8 +2,6 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
-use DateTime;
-use InvalidArgumentException;
 use meteocontrol\vcomapi\model\TicketOverview;
 use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\client\vcomapi\ApiClient;
@@ -23,25 +21,24 @@ class Tickets extends MainEndpoint {
      * @param TicketsCriteria $criteria
      * @return TicketOverview[]
      */
-    public function find(TicketsCriteria $criteria): array {
+    public function find(TicketsCriteria $criteria) {
         $ticketsJson = $this->api->run($this->uri, $criteria->generateQueryString());
         return TicketOverview::deserializeArray($this->jsonDecode($ticketsJson, true)['data']);
     }
 
     /**
      * @param Ticket $ticket
-     * @return int
-     * @throws InvalidArgumentException
+     * @return int ticketId
      */
-    public function create(Ticket $ticket): int {
+    public function create(Ticket $ticket) {
         if (!$ticket || !$ticket->isValid()) {
-            throw new InvalidArgumentException('Ticket is invalid!');
+            throw new \InvalidArgumentException('Ticket is invalid!');
         }
 
         $fields = [
             'systemKey' => $ticket->systemKey,
             'designation' => $ticket->designation,
-            'createdAt' => $ticket->createdAt->format(DateTime::RFC3339)
+            'createdAt' => $ticket->createdAt->format(\DateTime::RFC3339)
         ];
         empty($ticket->summary) ?: $fields['summary'] = $ticket->summary;
         empty($ticket->description) ?: $fields['description'] = $ticket->description;

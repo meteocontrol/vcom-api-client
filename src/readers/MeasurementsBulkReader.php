@@ -17,7 +17,6 @@ class MeasurementsBulkReader {
 
     /** @var string */
     private $rawData;
-
     /** @var MeasurementsCriteria */
     private $criteria;
 
@@ -33,32 +32,32 @@ class MeasurementsBulkReader {
     /**
      * @return string
      */
-    public function getAsString(): string {
+    public function getAsString() {
         return $this->rawData;
     }
 
     /**
      * @return array
      */
-    public function getAsArray(): array {
+    public function getAsArray() {
         if ($this->isReturnCsvFormat()) {
             return str_getcsv($this->rawData, $this->getDelimiterSymbol($this->criteria->getDelimiter()));
+        } else {
+            return json_decode($this->rawData, true);
         }
-        return json_decode($this->rawData, true);
     }
 
     /**
      * @param Writer $writer
-     * @return void
      */
-    public function write(Writer $writer): void {
+    public function write(Writer $writer) {
         $writer->write($this->getAsString());
     }
 
     /**
      * @return bool
      */
-    private function isReturnCsvFormat(): bool {
+    private function isReturnCsvFormat() {
         return !is_null($this->criteria)
         && $this->criteria->getFormat() == CsvFormat::FORMAT_CSV;
     }
@@ -67,7 +66,7 @@ class MeasurementsBulkReader {
      * @param string $delimiterName
      * @return string
      */
-    private function getDelimiterSymbol(string $delimiterName): string {
+    private function getDelimiterSymbol(string $delimiterName) {
         return $this->delimiterMapping[$delimiterName];
     }
 }

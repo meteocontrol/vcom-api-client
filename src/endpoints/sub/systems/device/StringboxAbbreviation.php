@@ -2,16 +2,15 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\device;
 
-use meteocontrol\vcomapi\model\Abbreviation as AbbreviationModel;
-use meteocontrol\vcomapi\model\StringboxAbbreviation as StringboxAbbreviationModel;
+use meteocontrol\vcomapi\model\StringboxAbbreviation as AbbreviationModel;
 
 class StringboxAbbreviation extends Abbreviation {
 
     /**
-     * @return StringboxAbbreviationModel
+     * @return AbbreviationModel
      */
-    public function get(): AbbreviationModel {
+    public function get() {
         $abbreviationJson = $this->api->run($this->getUri());
-        return StringboxAbbreviationModel::deserialize($this->jsonDecode($abbreviationJson, true)['data']);
+        return AbbreviationModel::deserialize($this->jsonDecode($abbreviationJson, true)['data']);
     }
 }

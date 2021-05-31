@@ -2,7 +2,6 @@
 
 namespace meteocontrol\client\vcomapi\endpoints;
 
-use InvalidArgumentException;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\ApiClientException;
 
@@ -20,12 +19,12 @@ abstract class Endpoint implements EndpointInterface {
     /**
      * @return string
      */
-    abstract public function getUri(): string;
+    abstract public function getUri();
 
     /**
      * @return ApiClient
      */
-    final public function getApiClient(): ApiClient {
+    final public function getApiClient() {
         return $this->api;
     }
 
@@ -33,13 +32,12 @@ abstract class Endpoint implements EndpointInterface {
      * @param array $filters
      * @param object $source
      * @return array
-     * @throws InvalidArgumentException
      */
-    final protected function applyFilter(array $filters, $source): array {
+    final protected function applyFilter(array $filters, $source) {
         $returns = [];
         foreach ($filters as $filter) {
             if (!isset($source->$filter)) {
-                throw new InvalidArgumentException("No property: [$filter] found!");
+                throw new \InvalidArgumentException("No property: [$filter] found!");
             }
             $returns[$filter] = $this->getStringValue($source->$filter);
         }
@@ -50,7 +48,6 @@ abstract class Endpoint implements EndpointInterface {
      * @param mixed $json
      * @param bool $assoc
      * @return mixed
-     * @throws ApiClientException
      */
     final protected function jsonDecode($json, bool $assoc = false) {
         $decoded = json_decode($json, $assoc);
@@ -65,7 +62,7 @@ abstract class Endpoint implements EndpointInterface {
      * @param mixed $value
      * @return string
      */
-    private function getStringValue($value): string {
+    private function getStringValue($value) {
         if ($value instanceof \DateTime) {
             return $value->format(\DateTime::RFC3339);
         }

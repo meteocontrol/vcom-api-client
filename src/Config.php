@@ -2,8 +2,6 @@
 
 namespace meteocontrol\client\vcomapi;
 
-use InvalidArgumentException;
-
 class Config {
 
     private const DEFAULT_AUTH_MODE = 'oauth';
@@ -51,112 +49,102 @@ class Config {
     /**
      * @return string
      */
-    public function getApiUrl(): string {
+    public function getApiUrl() {
         return $this->config['API_URL'];
     }
 
     /**
      * @param string $url
-     * @return void
      */
-    public function setApiUrl(string $url): void {
+    public function setApiUrl(string $url) {
         $this->config['API_URL'] = $url;
     }
 
     /**
      * @return string
      */
-    public function getApiKey(): string {
+    public function getApiKey() {
         return $this->config['API_KEY'];
     }
 
     /**
      * @param string $apiKey
-     * @return void
      */
-    public function setApiKey(string $apiKey): void {
+    public function setApiKey(string $apiKey) {
         $this->config['API_KEY'] = $apiKey;
     }
 
     /**
      * @return string
      */
-    public function getApiUsername(): string {
+    public function getApiUsername() {
         return $this->config['API_USERNAME'];
     }
 
     /**
      * @param string $username
-     * @return void
      */
-    public function setApiUsername(string $username): void {
+    public function setApiUsername(string $username) {
         $this->config['API_USERNAME'] = $username;
     }
 
     /**
      * @return string
      */
-    public function getApiPassword(): string {
+    public function getApiPassword() {
         return $this->config['API_PASSWORD'];
     }
 
     /**
      * @param string $password
-     * @return void
      */
-    public function setApiPassword(string $password): void {
+    public function setApiPassword(string $password) {
         $this->config['API_PASSWORD'] = $password;
     }
 
     /**
      * @return string
      */
-    public function getApiAuthorizationMode(): string {
+    public function getApiAuthorizationMode() {
         return $this->config['API_AUTH_MODE'] ?? self::DEFAULT_AUTH_MODE;
     }
 
     /**
      * @param string $authorizationMode
-     * @return void
      */
-    public function setApiAuthorizationMode(string $authorizationMode): void {
+    public function setApiAuthorizationMode(string $authorizationMode) {
         $this->config['API_AUTH_MODE'] = $authorizationMode;
     }
 
     /**
      * @return callable|null
      */
-    public function getTokenRefreshCallable(): ?callable {
+    public function getTokenRefreshCallable() {
         return $this->tokenRefreshCallable;
     }
 
     /**
      * @param callable $tokenRefreshCallable
-     * @return void
      */
-    public function setTokenRefreshCallable(callable $tokenRefreshCallable): void {
+    public function setTokenRefreshCallable(callable $tokenRefreshCallable) {
         $this->tokenRefreshCallable = $tokenRefreshCallable;
     }
 
     /**
      * @return callable|null
      */
-    public function getTokenAccessCallable(): ?callable {
+    public function getTokenAccessCallable() {
         return $this->tokenAccessCallable;
     }
 
     /**
      * @param callable $tokenAccessCallable
-     * @return void
      */
-    public function setTokenAccessCallable(callable $tokenAccessCallable): void {
+    public function setTokenAccessCallable(callable $tokenAccessCallable) {
         $this->tokenAccessCallable = $tokenAccessCallable;
     }
 
-    /**
-     * @return void
-     */
-    public function deleteTokenAccessFile(): void {
+    public function deleteTokenAccessFile() {
         $filename = $this->getTokenAccessFilename();
         if (file_exists(self::TOKEN_ACCESS_DIR . $filename)) {
             unlink(self::TOKEN_ACCESS_DIR . $filename);
@@ -164,9 +152,9 @@ class Config {
     }
 
     /**
-     * @return void
+     * @throws \InvalidArgumentException
      */
-    public function validate(): void {
+    public function validate() {
         foreach ($this->config as $key => $value) {
             $this->checkForUnexpectedKeys($key);
         }
@@ -175,12 +163,10 @@ class Config {
 
     /**
      * @param string $path
-     * @return void
-     * @throws InvalidArgumentException
      */
-    private function readConfigurationFile(string $path): void {
+    private function readConfigurationFile(string $path) {
         if (!file_exists($path)) {
-            throw new InvalidArgumentException("config file '$path' not found");
+            throw new \InvalidArgumentException("config file '$path' not found");
         }
         $this->config = parse_ini_file($path);
 
@@ -211,12 +197,10 @@ class Config {
 
     /**
      * @param string $key
-     * @return void
-     * @throws InvalidArgumentException
      */
-    private function checkForUnexpectedKeys(string $key): void {
+    private function checkForUnexpectedKeys(string $key) {
         if (!in_array($key, $this->acceptableKeys, true)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "wrong config file provided - unexpected key '$key' found"
             );
         }
@@ -224,13 +208,11 @@ class Config {
 
     /**
      * @param array $config
-     * @return void
-     * @throws InvalidArgumentException
      */
-    private function checkForMissingKeys(array $config): void {
+    private function checkForMissingKeys(array $config) {
         foreach ($this->expectedKeys as $key) {
             if (!array_key_exists($key, $config)) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "wrong config file provided - expected key '$key' not found"
                 );
             }
@@ -240,14 +222,11 @@ class Config {
     /**
      * @return string
      */
-    private function getTokenAccessFilename(): string {
+    private function getTokenAccessFilename() {
         return md5($this->getApiUsername() . $this->getApiPassword());
     }
 
-    /**
-     * @return void
-     */
-    private static function createTokenDir(): void {
+    private static function createTokenDir() {
         !is_dir(self::TOKEN_ACCESS_DIR) &&
         !mkdir(self::TOKEN_ACCESS_DIR) &&
         !is_dir(self::TOKEN_ACCESS_DIR);

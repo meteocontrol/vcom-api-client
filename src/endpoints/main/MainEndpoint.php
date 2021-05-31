@@ -9,7 +9,7 @@ abstract class MainEndpoint extends Endpoint {
     /**
      * @return string
      */
-    final public function getUri(): string {
+    final public function getUri() {
         return $this->uri;
     }
 }

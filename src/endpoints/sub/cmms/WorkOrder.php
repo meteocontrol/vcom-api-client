@@ -20,7 +20,7 @@ class WorkOrder extends SubEndpoint {
     /**
      * @return WorkOrderDetail
      */
-    public function get(): WorkOrderDetail {
+    public function get() {
         $workorderJson = $this->api->run($this->getUri());
         $decodedJson = json_decode($workorderJson, true);
         return WorkOrderDetail::deserialize($decodedJson['data']);
@@ -29,7 +29,7 @@ class WorkOrder extends SubEndpoint {
     /**
      * @return WorkOrderForms
      */
-    public function forms(): WorkOrderForms {
+    public function forms() {
         return new WorkOrderForms($this);
     }
 
@@ -37,7 +37,7 @@ class WorkOrder extends SubEndpoint {
      * @param int $formId
      * @return WorkOrderForm
      */
-    public function form(int $formId): WorkOrderForm {
+    public function form(int $formId) {
         $workOrderForms = new WorkOrderForms($this);
         $formIdEndpoint = new FormId($workOrderForms, $formId);
         return new WorkOrderForm($formIdEndpoint);

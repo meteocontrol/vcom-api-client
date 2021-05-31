@@ -21,7 +21,7 @@ class System extends SubEndpoint {
     /**
      * @return SystemDetail
      */
-    public function get(): SystemDetail {
+    public function get() {
         $systemJson = $this->api->run(
             $this->getUri()
         );
@@ -31,28 +31,28 @@ class System extends SubEndpoint {
     /**
      * @return Basics
      */
-    public function basics(): Basics {
+    public function basics() {
         return new Basics($this);
     }
 
     /**
      * @return Calculations
      */
-    public function calculations(): Calculations {
+    public function calculations() {
         return new Calculations($this);
     }
 
     /**
      * @return Forecasts
      */
-    public function forecasts(): Forecasts {
+    public function forecasts() {
         return new Forecasts($this);
     }
 
     /**
      * @return Inverters
      */
-    public function inverters(): Inverters {
+    public function inverters() {
         return new Inverters($this);
     }
 
@@ -60,7 +60,7 @@ class System extends SubEndpoint {
      * @param string|array $deviceId
      * @return Inverter
      */
-    public function inverter($deviceId): Inverter {
+    public function inverter($deviceId) {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $inverters = new Inverters($this);
         $inverterIdEndpoint = new DeviceId($inverters, $deviceId);
@@ -70,7 +70,7 @@ class System extends SubEndpoint {
     /**
      * @return Meters
      */
-    public function meters(): Meters {
+    public function meters() {
         return new Meters($this);
     }
 
@@ -78,7 +78,7 @@ class System extends SubEndpoint {
      * @param string|array $deviceId
      * @return Meter
      */
-    public function meter($deviceId): Meter {
+    public function meter($deviceId) {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $meters = new Meters($this);
         $meterIdEndpoint = new DeviceId($meters, $deviceId);
@@ -88,7 +88,7 @@ class System extends SubEndpoint {
     /**
      * @return Sensors
      */
-    public function sensors(): Sensors {
+    public function sensors() {
         return new Sensors($this);
     }
 
@@ -96,7 +96,7 @@ class System extends SubEndpoint {
      * @param string|array $deviceId
      * @return Sensor
      */
-    public function sensor($deviceId): Sensor {
+    public function sensor($deviceId) {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $sensors = new Sensors($this);
         $sensorIdEndpoint = new DeviceId($sensors, $deviceId);
@@ -106,7 +106,7 @@ class System extends SubEndpoint {
     /**
      * @return Batteries
      */
-    public function batteries(): Batteries {
+    public function batteries() {
         return new Batteries($this);
     }
 
@@ -114,7 +114,7 @@ class System extends SubEndpoint {
      * @param string|array $deviceId
      * @return Battery
      */
-    public function battery($deviceId): Battery {
+    public function battery($deviceId) {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $batteries = new Batteries($this);
         $batteryIdEndpoint = new DeviceId($batteries, $deviceId);
@@ -124,7 +124,7 @@ class System extends SubEndpoint {
     /**
      * @return PowerPlantControllers
      */
-    public function powerPlantControllers(): PowerPlantControllers {
+    public function powerPlantControllers() {
         return new PowerPlantControllers($this);
     }
 
@@ -132,7 +132,7 @@ class System extends SubEndpoint {
      * @param string|array $deviceId
      * @return PowerPlantController
      */
-    public function powerPlantController($deviceId): PowerPlantController {
+    public function powerPlantController($deviceId) {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $powerPlantControllers = new PowerPlantControllers($this);
         $powerPlantControllerIdEndpoint = new DeviceId($powerPlantControllers, $deviceId);
@@ -142,7 +142,7 @@ class System extends SubEndpoint {
     /**
      * @return Stringboxes
      */
-    public function stringboxes(): Stringboxes {
+    public function stringboxes() {
         return new Stringboxes($this);
     }
 
@@ -150,7 +150,7 @@ class System extends SubEndpoint {
      * @param string|array $deviceId
      * @return StringBox
      */
-    public function stringbox($deviceId): StringBox {
+    public function stringbox($deviceId) {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $stringboxes = new Stringboxes($this);
         $stringboxIdEndpoint = new DeviceId($stringboxes, $deviceId);
@@ -160,7 +160,7 @@ class System extends SubEndpoint {
     /**
      * @return Trackers
      */
-    public function trackers(): Trackers {
+    public function trackers() {
         return new Trackers($this);
     }
 
@@ -168,7 +168,7 @@ class System extends SubEndpoint {
      * @param string|array $deviceId
      * @return Tracker
      */
-    public function tracker($deviceId): Tracker {
+    public function tracker($deviceId) {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $trackers = new Trackers($this);
         $trackerIdEndpoint = new DeviceId($trackers, $deviceId);
@@ -178,7 +178,7 @@ class System extends SubEndpoint {
     /**
      * @return Statuses
      */
-    public function statuses(): Statuses {
+    public function statuses() {
         return new Statuses($this);
     }
 
@@ -186,7 +186,7 @@ class System extends SubEndpoint {
      * @param string|array $deviceId
      * @return Status
      */
-    public function status($deviceId): Status {
+    public function status($deviceId) {
         $deviceId = is_array($deviceId) ? implode(',', $deviceId) : $deviceId;
         $statuses = new Statuses($this);
         $statusIdEndpoint = new DeviceId($statuses, $deviceId);
@@ -196,28 +196,28 @@ class System extends SubEndpoint {
     /**
      * @return TechnicalData
      */
-    public function technicalData(): TechnicalData {
+    public function technicalData() {
         return new TechnicalData($this);
     }
 
     /**
      * @return Bulk
      */
-    public function bulk(): Bulk {
+    public function bulk() {
         return new Bulk($this);
     }
 
     /**
      * @return Users
      */
-    public function users(): Users {
+    public function users() {
         return new Users($this);
     }
 
     /**
      * @return Responsibilities
      */
-    public function responsibilities(): Responsibilities {
+    public function responsibilities() {
         return new Responsibilities($this);
     }
 
@@ -225,7 +225,7 @@ class System extends SubEndpoint {
      * @param string $userId
      * @return User
      */
-    public function user(string $userId): User {
+    public function user(string $userId) {
         $users = new Users($this);
         $userIdEndpoint = new UserId($users, $userId);
         return new User($userIdEndpoint);
@@ -233,14 +233,14 @@ class System extends SubEndpoint {
     /**
      * @return Picture
      */
-    public function picture(): Picture {
+    public function picture() {
         return new Picture($this);
     }
 
     /**
      * @return VirtualMeters
      */
-    public function virtualMeters(): VirtualMeters {
+    public function virtualMeters() {
         return new VirtualMeters($this);
     }
 
@@ -248,7 +248,7 @@ class System extends SubEndpoint {
      * @param string $virtualMeterId
      * @return VirtualMeter
      */
-    public function virtualMeter(string $virtualMeterId): VirtualMeter {
+    public function virtualMeter(string $virtualMeterId) {
         $virtualMeters = new VirtualMeters($this);
         $virtualMeterIdEndpoint = new DeviceId($virtualMeters, $virtualMeterId);
         return new VirtualMeter($virtualMeterIdEndpoint);

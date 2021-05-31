@@ -20,7 +20,7 @@ class System extends SubEndpoint {
     /**
      * @return CmmsSystem[]
      */
-    public function get(): array {
+    public function get() {
         $systemJson = $this->api->run($this->getUri());
         $decodedJson = json_decode($systemJson, true);
         return CmmsSystem::deserializeArray($decodedJson['data']);

@@ -20,7 +20,7 @@ class Inverters extends SubEndpoint {
     /**
      * @return Inverter[]
      */
-    public function get(): array {
+    public function get() {
         $json = $this->api->run($this->getUri());
         return Inverter::deserializeArray($this->jsonDecode($json, true)['data']);
     }
@@ -28,7 +28,7 @@ class Inverters extends SubEndpoint {
     /**
      * @return Bulk
      */
-    public function bulk(): Bulk {
+    public function bulk() {
         return new Bulk($this);
     }
 }

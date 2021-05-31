@@ -20,7 +20,7 @@ class Statuses extends SubEndpoint {
     /**
      * @return Status[]
      */
-    public function get(): array {
+    public function get() {
         $json = $this->api->run($this->getUri());
         return Status::deserializeArray($this->jsonDecode($json, true)['data']);
     }
@@ -28,7 +28,7 @@ class Statuses extends SubEndpoint {
     /**
      * @return Bulk
      */
-    public function bulk(): Bulk {
+    public function bulk() {
         return new Bulk($this);
     }
 }

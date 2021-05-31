@@ -2,8 +2,6 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
-use DateTime;
-use InvalidArgumentException;
 use meteocontrol\vcomapi\model\Comment;
 use meteocontrol\vcomapi\model\CommentDetail;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
@@ -23,25 +21,24 @@ class Comments extends SubEndpoint {
     /**
      * @return Comment[]
      */
-    public function get(): array {
+    public function get() {
         $commentsJson = $this->api->run($this->getUri());
         return Comment::deserializeArray($this->jsonDecode($commentsJson, true)['data']);
     }
 
     /**
      * @param CommentDetail $commentDetail
-     * @return int
-     * @throws InvalidArgumentException
+     * @return int commentId
      */
-    public function create(CommentDetail $commentDetail): int {
+    public function create(CommentDetail $commentDetail) {
         if (!$commentDetail || !$commentDetail->isValid()) {
-            throw new InvalidArgumentException('Comment is invalid!');
+            throw new \InvalidArgumentException('Comment is invalid!');
         }
         $createdAt = $commentDetail->createdAt;
         $body = ['comment' => $commentDetail->comment];
 
         if ($createdAt !== null) {
-            $body['createdAt'] = $createdAt->format(DateTime::ATOM);
+            $body['createdAt'] = $createdAt->format(\DateTime::ATOM);
         }
 
         $responseBody = $this->api->run(

@@ -2,6 +2,8 @@
 
 namespace meteocontrol\vcomapi\model;
 
+use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
+
 class Measurement extends BaseModel {
 
     /** @var string */
@@ -11,7 +13,7 @@ class Measurement extends BaseModel {
      * @param array $data
      * @return $this
      */
-    public static function deserialize(array $data): self {
+    public static function deserialize(array $data) {
         $object = new static();
 
         foreach ($data as $key => $value) {
@@ -28,7 +30,7 @@ class Measurement extends BaseModel {
      * @param array $decodedJsonArray
      * @return array
      */
-    public static function deserializeArray(array $decodedJsonArray): array {
+    public static function deserializeArray(array $decodedJsonArray) {
         $objects = [];
         foreach ($decodedJsonArray as $item) {
             $objects[] = self::deserialize($item);

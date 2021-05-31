@@ -2,13 +2,11 @@
 
 namespace meteocontrol\vcomapi\model;
 
-use DateTime;
-
 class CommentDetail extends BaseModel {
 
     /** @var int */
     public $commentId;
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
     /** @var string */
     public $comment;
@@ -22,7 +20,7 @@ class CommentDetail extends BaseModel {
     /**
      * @return bool
      */
-    public function isValid(): bool {
+    public function isValid() {
         return !empty($this->comment);
     }
 }

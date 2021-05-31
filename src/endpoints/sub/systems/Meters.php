@@ -20,7 +20,7 @@ class Meters extends SubEndpoint {
     /**
      * @return Meter[]
      */
-    public function get(): array {
+    public function get() {
         $json = $this->api->run($this->getUri());
         return Meter::deserializeArray($this->jsonDecode($json, true)['data']);
     }
@@ -28,7 +28,7 @@ class Meters extends SubEndpoint {
     /**
      * @return Bulk
      */
-    public function bulk(): Bulk {
+    public function bulk() {
         return new Bulk($this);
     }
 }
