@@ -39,7 +39,7 @@ class VirtualMeterDetail extends BaseModel {
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(DateTime $dateTime, string $key = null): string {
+    protected function serializeDateTime(DateTime $dateTime, $key = null): string {
         return $dateTime->format('Y-m-d');
     }
 
