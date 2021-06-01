@@ -2,6 +2,8 @@
 
 namespace meteocontrol\vcomapi\model;
 
+use DateTime;
+
 class AttachmentFile extends BaseModel {
 
     /** @var int */
@@ -14,7 +16,7 @@ class AttachmentFile extends BaseModel {
     public $description;
     /** @var int */
     public $creatorId;
-    /** @var \DateTime */
+    /** @var DateTime */
     public $createdAt;
     /** @var string */
     public $metaData;

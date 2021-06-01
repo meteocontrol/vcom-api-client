@@ -2,6 +2,7 @@
 
 namespace meteocontrol\vcomapi\model;
 
+use DateTime;
 use JsonSerializable;
 
 abstract class BaseModel implements JsonSerializable {
@@ -24,7 +25,7 @@ abstract class BaseModel implements JsonSerializable {
      * @param array $decodedJsonArray
      * @return array
      */
-    public static function deserializeArray(array $decodedJsonArray) {
+    public static function deserializeArray(array $decodedJsonArray): array {
         $objects = [];
         foreach ($decodedJsonArray as $item) {
             $objects[] = static::deserialize($item);
@@ -35,11 +36,11 @@ abstract class BaseModel implements JsonSerializable {
     /**
      * @return array
      */
-    public function jsonSerialize() {
+    public function jsonSerialize(): array {
         $values = get_object_vars($this);
 
         foreach ($values as $key => $value) {
-            if ($value instanceof \DateTime) {
+            if ($value instanceof DateTime) {
                 $values[$key] = $this->serializeDateTime($value, $key);
             }
         }
@@ -48,21 +49,21 @@ abstract class BaseModel implements JsonSerializable {
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param DateTime $dateTime
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(\DateTime $dateTime, $key = null) {
-        return $dateTime->format(\DateTime::ATOM);
+    protected function serializeDateTime(DateTime $dateTime, string $key = null): string {
+        return $dateTime->format(DateTime::ATOM);
     }
 
     /**
      * @param array | string | int | float | null $value
-     * @return \DateTime | string | int | float | null
+     * @return DateTime | string | int | float | null
      */
     protected static function getPhpValue($value) {
         if (self::isRFC3339DateString($value)) {
-            return \DateTime::createFromFormat(\DateTime::RFC3339, $value);
+            return DateTime::createFromFormat(DateTime::RFC3339, $value);
         } else {
             return $value;
         }
@@ -70,9 +71,9 @@ abstract class BaseModel implements JsonSerializable {
 
     /**
      * @param array|string|null $dateString
-     * @return bool|\DateTime
+     * @return bool|DateTime
      */
     private static function isRFC3339DateString($dateString) {
-        return is_string($dateString) && \DateTime::createFromFormat(\DateTime::RFC3339, $dateString);
+        return is_string($dateString) && DateTime::createFromFormat(DateTime::RFC3339, $dateString);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace meteocontrol\vcomapi\model;
 
-use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-
 class DevicesMeasurementWithInterval extends DevicesMeasurement {
 
     /**
@@ -11,7 +9,7 @@ class DevicesMeasurementWithInterval extends DevicesMeasurement {
      * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, $name = null) {
+    public static function deserialize(array $data, string $name = null): self {
         $object = new static();
 
         foreach ($data as $deviceId => $abbreviationMeasurements) {

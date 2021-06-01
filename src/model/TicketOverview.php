@@ -2,6 +2,8 @@
 
 namespace meteocontrol\vcomapi\model;
 
+use DateTime;
+
 class TicketOverview extends BaseModel {
 
     const STATUS_OPEN = 'open';
@@ -31,13 +33,13 @@ class TicketOverview extends BaseModel {
     /** @var string */
     public $summary;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     public $createdAt;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     public $lastChangedAt;
 
-    /** @var \DateTime */
+    /** @var DateTime */
     public $rectifiedAt;
 
     /** @var string */
@@ -58,20 +60,9 @@ class TicketOverview extends BaseModel {
     /**
      * @return bool
      */
-    public function isValid() {
+    public function isValid(): bool {
         return !empty($this->systemKey)
             && !empty($this->designation)
             && !empty($this->createdAt);
-    }
-
-    public static function deserialize(array $data, $name = null) {
-        $object = new static();
-
-        foreach ($data as $key => $value) {
-            if (property_exists($object, $key)) {
-                $object->{$key} = self::getPhpValue($value);
-            }
-        }
-        return $object;
     }
 }

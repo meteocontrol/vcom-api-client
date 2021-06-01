@@ -21,9 +21,10 @@ class BasicAuthorizationHandler implements AuthorizationHandlerInterface {
     /**
      * @param ClientException $ex
      * @param Client $client
+     * @return void
      * @throws UnauthorizedException
      */
-    public function handleUnauthorizedException(ClientException $ex, Client $client) {
+    public function handleUnauthorizedException(ClientException $ex, Client $client): void {
         throw new UnauthorizedException(
             $ex->getResponse()->getBody()->getContents(),
             $ex->getResponse()->getStatusCode()
@@ -35,7 +36,7 @@ class BasicAuthorizationHandler implements AuthorizationHandlerInterface {
      * @param array $options
      * @return array
      */
-    public function appendAuthorizationHeader(Client $client, array $options) {
+    public function appendAuthorizationHeader(Client $client, array $options): array {
         $options['headers']['Authorization'] = $this->getBasicAuthString($this->config);
         return $options;
     }
@@ -44,7 +45,7 @@ class BasicAuthorizationHandler implements AuthorizationHandlerInterface {
      * @param Config $config
      * @return string
      */
-    private function getBasicAuthString(Config $config) {
+    private function getBasicAuthString(Config $config): string {
         return 'Basic ' . base64_encode($config->getApiUsername() . ':' . $config->getApiPassword());
     }
 }

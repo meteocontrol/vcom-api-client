@@ -19,9 +19,8 @@ class Picture extends SubEndpoint {
 
     /**
      * @return PictureFile
-     * @throws \meteocontrol\client\vcomapi\ApiClientException
      */
-    public function get() {
+    public function get(): PictureFile {
         $pictureJson = $this->api->run($this->getUri());
         return PictureFile::deserialize($this->jsonDecode($pictureJson, true)['data']);
     }

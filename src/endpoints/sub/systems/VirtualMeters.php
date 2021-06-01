@@ -20,7 +20,7 @@ class VirtualMeters extends SubEndpoint {
     /**
      * @return VirtualMeter[]
      */
-    public function get() {
+    public function get(): array {
         $json = $this->api->run($this->getUri());
         return VirtualMeterData::deserializeArray($this->jsonDecode($json, true)['data']);
     }

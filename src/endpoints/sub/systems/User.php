@@ -19,9 +19,8 @@ class User extends SubEndpoint {
 
     /**
      * @return UserDetail
-     * @throws \meteocontrol\client\vcomapi\ApiClientException
      */
-    public function get() {
+    public function get(): UserDetail {
         $userDetailJson = $this->api->run($this->getUri());
         return UserDetail::deserialize($this->jsonDecode($userDetailJson, true)['data']);
     }

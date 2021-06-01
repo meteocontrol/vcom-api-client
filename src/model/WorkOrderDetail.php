@@ -43,7 +43,7 @@ class WorkOrderDetail extends BaseModel {
      * @param array $data
      * @return $this
      */
-    public static function deserialize(array $data) {
+    public static function deserialize(array $data): self {
         $object = new static();
 
         foreach ($data as $key => $value) {
@@ -63,7 +63,7 @@ class WorkOrderDetail extends BaseModel {
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(DateTime $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTime $dateTime, string $key = null): string {
         if (in_array($key, ['dueAt', 'createdAt', 'completedAt', 'lastChangedAt'])) {
             return $dateTime->format(DATE_ATOM);
         }

@@ -20,7 +20,7 @@ class Abbreviation extends SubEndpoint {
     /**
      * @return AbbreviationModel
      */
-    public function get() {
+    public function get(): AbbreviationModel {
         $abbreviationJson = $this->api->run($this->getUri());
         return AbbreviationModel::deserialize($this->jsonDecode($abbreviationJson, true)['data']);
     }
@@ -28,7 +28,7 @@ class Abbreviation extends SubEndpoint {
     /**
      * @return Measurements
      */
-    public function measurements() {
+    public function measurements(): Measurements {
         return new Measurements($this);
     }
 }
