@@ -5,7 +5,7 @@ interface Writer {
 
     /**
      * @param string $data
-     * @return mixed
+     * @return void
      */
-    public function write(string $data);
+    public function write(string $data): void;
 }

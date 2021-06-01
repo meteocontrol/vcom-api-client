@@ -20,7 +20,7 @@ class PowerPlantControllers extends SubEndpoint {
     /**
      * @return PowerPlantController[]
      */
-    public function get() {
+    public function get(): array {
         $json = $this->api->run($this->getUri());
         return PowerPlantController::deserializeArray($this->jsonDecode($json, true)['data']);
     }
