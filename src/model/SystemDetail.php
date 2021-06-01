@@ -31,7 +31,7 @@ class SystemDetail extends BaseModel {
      * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, string $name = null): self {
+    public static function deserialize(array $data, $name = null): self {
         $object = new static();
 
         foreach ($data as $key => $value) {
@@ -55,7 +55,7 @@ class SystemDetail extends BaseModel {
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(DateTime $dateTime, string $key = null): string {
+    protected function serializeDateTime(DateTime $dateTime, $key = null): string {
         if ($key === 'commissionDate') {
             return $dateTime->format('Y-m-d');
         }

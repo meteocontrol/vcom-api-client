@@ -18,7 +18,7 @@ class TechnicalData extends BaseModel {
      * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, string $name = null): self {
+    public static function deserialize(array $data, $name = null): self {
         $object = new static();
 
         foreach ($data as $key => $value) {
