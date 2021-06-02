@@ -20,7 +20,7 @@ class Responsibilities extends BaseModel {
      * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, $name = null) {
+    public static function deserialize(array $data, $name = null): self {
         $object = new static();
 
         foreach ($data as $key => $value) {

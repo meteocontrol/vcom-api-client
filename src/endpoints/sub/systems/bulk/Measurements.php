@@ -22,7 +22,7 @@ class Measurements extends SubEndpoint {
      * @param MeasurementsCriteria $criteria
      * @return MeasurementsBulkReader
      */
-    public function get(MeasurementsCriteria $criteria) {
+    public function get(MeasurementsCriteria $criteria): MeasurementsBulkReader {
         return new MeasurementsBulkReader(
             $this->api->run($this->getUri(), $criteria->generateQueryString()),
             $criteria

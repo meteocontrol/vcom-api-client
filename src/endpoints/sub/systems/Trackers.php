@@ -20,7 +20,7 @@ class Trackers extends SubEndpoint {
     /**
      * @return Tracker[]
      */
-    public function get() {
+    public function get(): array {
         $json = $this->api->run($this->getUri());
         return Tracker::deserializeArray($this->jsonDecode($json, true)['data']);
     }
@@ -28,7 +28,7 @@ class Trackers extends SubEndpoint {
     /**
      * @return Bulk
      */
-    public function bulk() {
+    public function bulk(): Bulk {
         return new Bulk($this);
     }
 }

@@ -22,7 +22,7 @@ class WorkOrderForms extends SubEndpoint {
      * @param SystemCriteria|null $systemCriteria
      * @return WorkOrderFormModel[]
      */
-    public function get(SystemCriteria $systemCriteria = null) {
+    public function get(SystemCriteria $systemCriteria = null): array {
         $systemCriteria = $systemCriteria ?? new SystemCriteria();
         $formJson = $this->api->run($this->getUri(), $systemCriteria->generateQueryString());
         $decodedJson = json_decode($formJson, true);

@@ -2,6 +2,8 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
+use DateTime;
+use InvalidArgumentException;
 use meteocontrol\vcomapi\model\Ticket as TicketModel;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
@@ -20,7 +22,7 @@ class Ticket extends SubEndpoint {
     /**
      * @return TicketModel
      */
-    public function get() {
+    public function get(): TicketModel {
         $ticketJson = $this->api->run($this->getUri());
         return TicketModel::deserialize($this->jsonDecode($ticketJson, true)['data']);
     }
@@ -28,10 +30,12 @@ class Ticket extends SubEndpoint {
     /**
      * @param TicketModel $ticket
      * @param array | null $updateFilter Properties to update. Update all if nothing given.
+     * @return void
+     * @throws InvalidArgumentException
      */
-    public function update(TicketModel $ticket, array $updateFilter = null) {
+    public function update(TicketModel $ticket, array $updateFilter = null): void {
         if (!$ticket || !$ticket->isValid()) {
-            throw new \InvalidArgumentException('Ticket is invalid!');
+            throw new InvalidArgumentException('Ticket is invalid!');
         }
         if (!$updateFilter) {
             $fields = [
@@ -41,10 +45,10 @@ class Ticket extends SubEndpoint {
                 'status' => $ticket->status,
                 'priority' => $ticket->priority,
                 'description' => $ticket->description,
-                'assignee' => $ticket->assignee
+                'assignee' => $ticket->assignee,
             ];
             if ($ticket->rectifiedAt) {
-                $fields['rectifiedAt'] = $ticket->rectifiedAt->format(\DateTime::RFC3339);
+                $fields['rectifiedAt'] = $ticket->rectifiedAt->format(DateTime::RFC3339);
             }
         } else {
             $fields = $this->applyFilter($updateFilter, $ticket);
@@ -59,9 +63,9 @@ class Ticket extends SubEndpoint {
     }
 
     /**
-     *
+     * @return void
      */
-    public function delete() {
+    public function delete(): void {
         $this->api->run(
             $this->getUri(),
             null,
@@ -73,7 +77,7 @@ class Ticket extends SubEndpoint {
     /**
      * @return Comments
      */
-    public function comments() {
+    public function comments(): Comments {
         return new Comments($this);
     }
 
@@ -81,17 +85,16 @@ class Ticket extends SubEndpoint {
      * @param int $commentId
      * @return Comment
      */
-    public function comment(int $commentId) {
+    public function comment(int $commentId): Comment {
         $comments = new Comments($this);
         $commentIdEndpoint = new CommentId($comments, $commentId);
-        $commentEndpoint = new Comment($commentIdEndpoint);
-        return $commentEndpoint;
+        return new Comment($commentIdEndpoint);
     }
 
     /**
      * @return Attachments
      */
-    public function attachments() {
+    public function attachments(): Attachments {
         return new Attachments($this);
     }
 
@@ -99,7 +102,7 @@ class Ticket extends SubEndpoint {
      * @param int $attachmentId
      * @return Attachment
      */
-    public function attachment(int $attachmentId) {
+    public function attachment(int $attachmentId): Attachment {
         $attachments = new Attachments($this);
         $attachmentIdEndpoint = new AttachmentId($attachments, (string)$attachmentId);
         return new Attachment($attachmentIdEndpoint);
@@ -108,7 +111,7 @@ class Ticket extends SubEndpoint {
     /**
      * @return Histories
      */
-    public function histories() {
+    public function histories(): Histories {
         return new Histories($this);
     }
 }

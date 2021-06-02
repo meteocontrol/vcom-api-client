@@ -52,7 +52,7 @@ class WorkOrderFormDetail extends BaseModel {
      * @param array $data
      * @return $this
      */
-    public static function deserialize(array $data) {
+    public static function deserialize(array $data): self {
         $object = new static();
 
         foreach ($data as $key => $value) {

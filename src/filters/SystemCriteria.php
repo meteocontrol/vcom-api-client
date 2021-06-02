@@ -18,7 +18,7 @@ class SystemCriteria {
      * @param string $systemKey
      * @return $this
      */
-    public function withSystemKey(string $systemKey) {
+    public function withSystemKey(string $systemKey): self {
         $this->filters['systemKey'] = $systemKey;
         return $this;
     }
@@ -26,7 +26,7 @@ class SystemCriteria {
     /**
      * @return string
      */
-    public function generateQueryString() {
+    public function generateQueryString(): string {
         return http_build_query($this->filters);
     }
 }
