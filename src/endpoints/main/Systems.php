@@ -21,7 +21,7 @@ class Systems extends MainEndpoint {
     /**
      * @return SystemModel[]
      */
-    public function get() {
+    public function get(): array {
         $systemsJson = $this->api->run($this->getUri());
         return SystemModel::deserializeArray($this->jsonDecode($systemsJson, true)['data']);
     }
@@ -29,7 +29,7 @@ class Systems extends MainEndpoint {
     /**
      * @return SystemsAbbreviations
      */
-    public function abbreviations() {
+    public function abbreviations(): SystemsAbbreviations {
         return new SystemsAbbreviations($this);
     }
 
@@ -37,11 +37,10 @@ class Systems extends MainEndpoint {
      * @param string|array $abbreviationId
      * @return SystemsAbbreviation
      */
-    public function abbreviation($abbreviationId) {
+    public function abbreviation($abbreviationId): SystemsAbbreviation {
         $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new SystemsAbbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);
-        $abbreviationEndpoint = new SystemsAbbreviation($abbreviationIdEndpoint);
-        return $abbreviationEndpoint;
+        return new SystemsAbbreviation($abbreviationIdEndpoint);
     }
 }

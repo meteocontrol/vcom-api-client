@@ -38,7 +38,7 @@ class Meter extends SubEndpoint {
      * @param string|array $abbreviationId
      * @return DeviceAbbreviation
      */
-    public function abbreviation($abbreviationId) {
+    public function abbreviation($abbreviationId): DeviceAbbreviation {
         $abbreviationId = is_array($abbreviationId) ? implode(',', $abbreviationId) : $abbreviationId;
         $abbreviations = new Abbreviations($this);
         $abbreviationIdEndpoint = new AbbreviationId($abbreviations, $abbreviationId);

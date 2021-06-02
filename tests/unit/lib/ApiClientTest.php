@@ -9,6 +9,8 @@ use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 function usleep($us) {
     ApiClientTest::$us = $us;
@@ -193,17 +195,14 @@ class ApiClientTest extends TestCase {
         $config = new Config();
         $config->setApiAuthorizationMode('basic');
 
-        $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
-            ->disableOriginalConstructor()
-            ->setMethods(['getContents'])
+        $streamMock = $this->getMockBuilder(StreamInterface::class)
             ->getMock();
         $streamMock->expects($this->once())
             ->method('getContents')
             ->willReturn('123');
 
         $request = new Request('GET', 'url');
-        $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
-            ->disableOriginalConstructor()
+        $responseMock = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $responseMock->expects($this->exactly(3))
             ->method('getStatusCode')
@@ -234,16 +233,12 @@ class ApiClientTest extends TestCase {
 
         $responseMockRefreshGrant = $this->getResponseMockForOAuthRefreshGrant();
 
-        $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
-            ->disableOriginalConstructor()
-            ->setMethods(['getContents'])
+        $streamMock = $this->getMockBuilder(StreamInterface::class)
             ->getMock();
         $streamMock->expects($this->once())
             ->method('getContents')
             ->willReturn('123');
-        $responseMock = $this->getMockBuilder('Guzzle\Http\Message\Response')
-            ->disableOriginalConstructor()
-            ->setMethods(['getHeaderLine', 'getBody'])
+        $responseMock = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $responseMock->expects($this->once())
             ->method('getBody')
@@ -263,8 +258,7 @@ class ApiClientTest extends TestCase {
             ->willReturnOnConsecutiveCalls(
                 $this->returnCallback(function () {
                     $request = new Request('GET', 'url');
-                    $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
-                        ->disableOriginalConstructor()
+                    $responseMock = $this->getMockBuilder(ResponseInterface::class)
                         ->getMock();
                     $responseMock->expects($this->exactly(2))
                         ->method('getStatusCode')
@@ -307,8 +301,7 @@ class ApiClientTest extends TestCase {
         $config = new Config(__DIR__ . '/_files/config.ini');
 
         $request = new Request('GET', 'url');
-        $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
-            ->disableOriginalConstructor()
+        $responseMock = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $responseMock->expects($this->exactly(2))
             ->method('getStatusCode')
@@ -358,15 +351,12 @@ class ApiClientTest extends TestCase {
             ->willReturnOnConsecutiveCalls(
                 $this->getResponseMockForOAuthPasswordGrant(),
                 $this->returnCallback(function () {
-                    $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
-                        ->disableOriginalConstructor()
-                        ->setMethods(['getContents'])
+                    $streamMock = $this->getMockBuilder(StreamInterface::class)
                         ->getMock();
                     $streamMock->expects($this->once())
                         ->method('getContents')
                         ->willReturn(json_encode(['hint' => 'refresh token is revoked']));
-                    $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
-                        ->disableOriginalConstructor()
+                    $responseMock = $this->getMockBuilder(ResponseInterface::class)
                         ->getMock();
                     $responseMock->expects($this->exactly(3))
                         ->method('getStatusCode')
@@ -404,16 +394,12 @@ class ApiClientTest extends TestCase {
     }
 
     public function testRateLimitHandling() {
-        $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
-            ->disableOriginalConstructor()
-            ->setMethods(['getContents'])
+        $streamMock = $this->getMockBuilder(StreamInterface::class)
             ->getMock();
         $streamMock->expects($this->once())
             ->method('getContents')
             ->willReturn('json string response');
-        $responseMock = $this->getMockBuilder('Guzzle\Http\Message\Response')
-            ->disableOriginalConstructor()
-            ->setMethods(['getHeaderLine', 'getBody'])
+        $responseMock = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $responseMock->expects($this->once())
             ->method('getBody')
@@ -442,16 +428,12 @@ class ApiClientTest extends TestCase {
     }
 
     private function getResponseMock() {
-        $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
-            ->disableOriginalConstructor()
-            ->setMethods(['getContents'])
+        $streamMock = $this->getMockBuilder(StreamInterface::class)
             ->getMock();
         $streamMock->expects($this->once())
             ->method('getContents')
             ->willReturn('json string response');
-        $responseMock = $this->getMockBuilder('Guzzle\Http\Message\Response')
-            ->disableOriginalConstructor()
-            ->setMethods(['getHeaderLine', 'getBody'])
+        $responseMock = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $responseMock->expects($this->once())
             ->method('getBody')
@@ -467,16 +449,12 @@ class ApiClientTest extends TestCase {
      * @return MockObject
      */
     private function getResponseMockForOAuthPasswordGrant() {
-        $streamMockPasswordGrant = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
-            ->disableOriginalConstructor()
-            ->setMethods(['getContents'])
+        $streamMockPasswordGrant = $this->getMockBuilder(StreamInterface::class)
             ->getMock();
         $streamMockPasswordGrant->expects($this->once())
             ->method('getContents')
             ->willReturn(json_encode(['access_token' => 'accessToken', 'refresh_token' => 'refreshToken']));
-        $responseMockPasswordGrant = $this->getMockBuilder('Guzzle\Http\Message\Response')
-            ->disableOriginalConstructor()
-            ->setMethods(['getHeaderLine', 'getBody'])
+        $responseMockPasswordGrant = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $responseMockPasswordGrant->expects($this->once())
             ->method('getBody')
@@ -488,16 +466,12 @@ class ApiClientTest extends TestCase {
      * @return MockObject
      */
     private function getResponseMockForOAuthRefreshGrant() {
-        $streamMockRefreshGrant = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
-            ->disableOriginalConstructor()
-            ->setMethods(['getContents'])
+        $streamMockRefreshGrant = $this->getMockBuilder(StreamInterface::class)
             ->getMock();
         $streamMockRefreshGrant->expects($this->once())
             ->method('getContents')
             ->willReturn(json_encode(['access_token' => 'accessToken1', 'refresh_token' => 'refreshToken1']));
-        $responseMockRefreshGrant = $this->getMockBuilder('Guzzle\Http\Message\Response')
-            ->disableOriginalConstructor()
-            ->setMethods(['getHeaderLine', 'getBody'])
+        $responseMockRefreshGrant = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $responseMockRefreshGrant->expects($this->once())
             ->method('getBody')
@@ -516,8 +490,7 @@ class ApiClientTest extends TestCase {
     ) {
         $responseMockPasswordGrant = $this->getResponseMockForOAuthPasswordGrant();
 
-        $responseMock = $this->getMockBuilder('GuzzleHttp\Psr7\Response')
-            ->disableOriginalConstructor()
+        $responseMock = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $responseMock->expects($this->exactly(2))
             ->method('getStatusCode')
@@ -563,18 +536,14 @@ class ApiClientTest extends TestCase {
      * @return MockObject
      */
     private function getMockedResponseFromRefresh(): MockObject {
-        $streamMock = $this->getMockBuilder('GuzzleHttp\Psr7\BufferStream')
-            ->disableOriginalConstructor()
-            ->setMethods(['getContents'])
+        $streamMock = $this->getMockBuilder(StreamInterface::class)
             ->getMock();
 
         $streamMock->expects($this->once())
             ->method('getContents')
             ->willReturn('{"access_token": "123",  "refresh_token": "1234"}');
 
-        $refreshResponseMock = $this->getMockBuilder('Guzzle\Http\Message\Response')
-            ->disableOriginalConstructor()
-            ->setMethods(['getBody'])
+        $refreshResponseMock = $this->getMockBuilder(ResponseInterface::class)
             ->getMock();
         $refreshResponseMock->expects($this->once())
             ->method('getBody')
