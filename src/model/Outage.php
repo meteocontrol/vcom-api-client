@@ -9,7 +9,7 @@ class Outage extends BaseModel {
     /** @var DateTime */
     public $startedAt;
 
-    /** @var DateTime */
+    /** @var DateTime|null */
     public $endedAt;
 
     /** @var float */
