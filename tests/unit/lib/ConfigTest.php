@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit;
 
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\Config;
 use PHPUnit\Framework\TestCase;
 
@@ -10,7 +11,7 @@ class ConfigTest extends TestCase {
     /** @var Config */
     private $config;
 
-    public function setup() {
+    public function setup(): void {
         $this->config = new Config(__DIR__ . '/_files/config.ini');
         $this->config->validate();
     }
@@ -63,11 +64,11 @@ class ConfigTest extends TestCase {
         $this->assertEquals('basic', $this->config->getApiAuthorizationMode());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testCreateWrongConfig() {
         $this->config = new Config(__DIR__);
+
+        $this->expectException(InvalidArgumentException::class);
+
         $this->config->validate();
     }
 }

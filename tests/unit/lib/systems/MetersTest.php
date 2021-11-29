@@ -12,6 +12,8 @@ use meteocontrol\client\vcomapi\model\MeterDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
+use PHPUnit\Framework\Error\Notice;
+use UnexpectedValueException;
 
 class MetersTest extends TestCase {
 
@@ -178,9 +180,6 @@ class MetersTest extends TestCase {
         $this->assertEquals(300, $values[1]->interval);
     }
 
-    /**
-     * @expectedException \PHPUnit\Framework\Error\Notice
-     */
     public function testGetMeterMeasurementsWithIntervalIncludedButWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');
         $this->api->expects($this->once())
@@ -201,6 +200,8 @@ class MetersTest extends TestCase {
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
+
+        $this>$this->expectException(Notice::class);
 
         /** @var DevicesMeasurement $measurements */
         $this->api->system('ABCDE')->meter('12345,67890')->abbreviation(['E_INT', 'M_AC_F'])
@@ -320,10 +321,6 @@ class MetersTest extends TestCase {
         $this->assertEquals($cvsRawData, $bulkReader->getAsString());
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
-     */
     public function testGetMetersBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
@@ -332,6 +329,10 @@ class MetersTest extends TestCase {
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
+
+        $this>$this->expectException(UnexpectedValueException::class);
+        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+
         $this->api->system('ABCDE')->meters()->bulk()->measurements()->get($criteria);
     }
 }

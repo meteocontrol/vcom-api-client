@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\model\AttachmentFile;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
@@ -58,27 +59,27 @@ class AttachmentsTest extends TestCase {
         $this->assertEquals("test.jpg", $actual['filename']);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid attachment - empty file name.
-     */
     public function testCreateAttachmentButFilenameIsInvalid() {
         $this->api->expects($this->never())
             ->method('run');
         $attachment = new AttachmentFile();
         $attachment->content = $this->getEncodedTestAttachment();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid attachment - empty file name.');
+
         $this->api->ticket('123')->attachments()->create($attachment);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid attachment - empty file content.
-     */
     public function testCreateAttachmentButContentIsInvalid() {
         $this->api->expects($this->never())
             ->method('run');
         $attachment = new AttachmentFile();
         $attachment->filename  = "test.jpg";
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid attachment - empty file content.');
+
         $this->api->ticket('123')->attachments()->create($attachment);
     }
 

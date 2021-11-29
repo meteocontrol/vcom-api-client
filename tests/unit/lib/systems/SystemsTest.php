@@ -8,6 +8,7 @@ use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
+use UnexpectedValueException;
 
 class SystemsTest extends TestCase {
 
@@ -149,10 +150,6 @@ class SystemsTest extends TestCase {
         $this->assertEquals($cvsRawData, $bulkReader->getAsString());
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
-     */
     public function testGetSystemBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
@@ -161,6 +158,10 @@ class SystemsTest extends TestCase {
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
+
+        $this>$this->expectException(UnexpectedValueException::class);
+        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+
         $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
     }
 }

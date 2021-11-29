@@ -24,7 +24,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     /** @var string */
     private $tokenAccessFile;
 
-    public function setup() {
+    public function setup(): void {
         $this->config = new Config(__DIR__ . '/../_files/config.ini');
         $this->tokenAccessFile = __DIR__ . '/../../../../.tokenAccess/' .
             md5($this->config->getApiUsername() . $this->config->getApiPassword());
