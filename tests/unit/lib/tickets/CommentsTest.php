@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\model\Comment;
 use meteocontrol\client\vcomapi\model\CommentDetail;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
@@ -68,15 +69,14 @@ class CommentsTest extends TestCase {
         $this->api->ticket('123')->comment(661288)->update($commentDetail);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Comment is invalid!
-     */
     public function testUpdateCommentWithEmptyText() {
         $commentDetail = $this->getCommentDetail();
         $commentDetail->comment = '';
-        $this->api->expects($this->never())
-            ->method('run');
+        $this->api->expects($this->never())->method('run');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Comment is invalid!');
+
         $this->api->ticket('123')->comment(661288)->update($commentDetail);
     }
 
@@ -122,14 +122,13 @@ class CommentsTest extends TestCase {
         $this->assertEquals('454548', $commentId);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Comment is invalid!
-     */
     public function testCreateTicketWithoutRequiredValue() {
         $comment = new CommentDetail();
-        $this->api->expects($this->never())
-            ->method('run');
+        $this->api->expects($this->never())->method('run');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Comment is invalid!');
+
         $this->api->ticket('123')->comments()->create($comment);
     }
 

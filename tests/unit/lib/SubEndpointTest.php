@@ -34,7 +34,7 @@ class SubEndpointTest extends TestCase {
     /** @var MainEndpoint */
     private $mainEndpoint;
 
-    public function setUp() {
+    public function setup(): void {
         $this->apiClient = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
             ->disableOriginalConstructor()
             ->getMock();

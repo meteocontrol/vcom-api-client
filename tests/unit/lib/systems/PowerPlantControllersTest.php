@@ -11,6 +11,7 @@ use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\vcomapi\model\Abbreviation;
 use meteocontrol\vcomapi\model\PowerPlantController;
 use meteocontrol\vcomapi\model\PowerPlantControllerDetail;
+use UnexpectedValueException;
 
 class PowerPlantControllersTest extends TestCase {
 
@@ -195,10 +196,6 @@ class PowerPlantControllersTest extends TestCase {
         $this->assertEquals($cvsRawData, $bulkReader->getAsString());
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
-     */
     public function testGetPowerPlantControllersBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
@@ -207,6 +204,10 @@ class PowerPlantControllersTest extends TestCase {
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
+
+        $this>$this->expectException(UnexpectedValueException::class);
+        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+
         $this->api->system('ABCDE')->powerPlantControllers()->bulk()->measurements()->get($criteria);
     }
 }

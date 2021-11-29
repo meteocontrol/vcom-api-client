@@ -12,6 +12,8 @@ use meteocontrol\client\vcomapi\model\SensorDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
+use PHPUnit\Framework\Error\Notice;
+use UnexpectedValueException;
 
 class SensorsTest extends TestCase {
 
@@ -166,9 +168,6 @@ class SensorsTest extends TestCase {
         $this->assertEquals(300, $values[1]->interval);
     }
 
-    /**
-     * @expectedException \PHPUnit\Framework\Error\Notice
-     */
     public function testGetSensorMeasurementsWithIntervalIncludedWithWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurements.json');
         $this->api->expects($this->once())
@@ -189,6 +188,8 @@ class SensorsTest extends TestCase {
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-02T23:59:59+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
+
+        $this>$this->expectException(Notice::class);
 
         $this->api->system('ABCDE')->sensor('123')->abbreviation('T_M1,G_M3')->measurements()
             ->get($criteria);
@@ -308,10 +309,6 @@ class SensorsTest extends TestCase {
         $this->assertEquals($cvsRawData, $bulkReader->getAsString());
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
-     */
     public function testGetSensorsBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
@@ -320,6 +317,10 @@ class SensorsTest extends TestCase {
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
+
+        $this>$this->expectException(UnexpectedValueException::class);
+        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+
         $this->api->system('ABCDE')->sensors()->bulk()->measurements()->get($criteria);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit;
 
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\Factory;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +12,7 @@ class FactoryTest extends TestCase {
     /** @var Factory */
     private $factory;
 
-    public function setup() {
+    public function setup(): void {
         $this->factory = new Factory();
     }
 
@@ -25,11 +26,11 @@ class FactoryTest extends TestCase {
         $this->assertInstanceOf('meteocontrol\client\vcomapi\ApiClient', $apiClient);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetApiClientWithWrongConfig() {
         $config = new Config(__DIR__);
+
+        $this->expectException(InvalidArgumentException::class);
+
         $this->factory->getApiClient($config);
     }
 

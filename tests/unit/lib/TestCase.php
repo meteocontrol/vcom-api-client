@@ -13,7 +13,7 @@ class TestCase extends \PHPUnit\Framework\TestCase {
     /** @var MockObject | ApiClient */
     protected $api;
 
-    public function setup() {
+    public function setup(): void {
         $this->api = $this->getMockedApiClient();
     }
 
