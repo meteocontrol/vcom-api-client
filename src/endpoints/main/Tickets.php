@@ -4,6 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\main;
 
 use DateTime;
 use InvalidArgumentException;
+use meteocontrol\client\vcomapi\endpoints\sub\tickets\Causes;
 use meteocontrol\vcomapi\model\TicketOverview;
 use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\client\vcomapi\ApiClient;
@@ -57,5 +58,12 @@ class Tickets extends MainEndpoint {
             'POST'
         );
         return $this->jsonDecode($responseBody)->data->ticketId;
+    }
+
+    /**
+     * @return Causes
+     */
+    public function causes(): Causes {
+        return new Causes($this);
     }
 }
