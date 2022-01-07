@@ -52,8 +52,11 @@ class Ticket extends BaseModel {
     /** @var string */
     public $status;
 
-    /** @var int */
+    /** @var int|null */
     public $causeId;
+
+    /** @var string */
+    public $cause;
 
     /** @var string */
     public $priority;

@@ -58,6 +58,7 @@ class ModelTest extends TestCase {
         $ticket = new Ticket();
         $ticket->id = (string)$intValue;
         $ticket->causeId = $intValue;
+        $ticket->cause = $stringValue;
         $ticket->systemKey = $ticket->designation = $ticket->summary = $ticket->assignee =
         $ticket->status = $ticket->priority = $ticket->includeInReports = $ticket->severity =
         $ticket->description = $stringValue;
