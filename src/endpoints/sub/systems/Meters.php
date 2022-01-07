@@ -2,9 +2,9 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
-use meteocontrol\vcomapi\model\Meter;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\vcomapi\model\Meter;
 
 class Meters extends SubEndpoint {
 

@@ -2,11 +2,11 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
-use meteocontrol\vcomapi\model\User;
-use meteocontrol\vcomapi\model\UserDetail;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\UserCriteria;
+use meteocontrol\vcomapi\model\User;
+use meteocontrol\vcomapi\model\UserDetail;
 
 class Users extends SubEndpoint {
 

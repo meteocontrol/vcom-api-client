@@ -4,9 +4,9 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
 use DateTime;
 use InvalidArgumentException;
-use meteocontrol\vcomapi\model\Ticket as TicketModel;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\vcomapi\model\Ticket as TicketModel;
 
 class Ticket extends SubEndpoint {
 

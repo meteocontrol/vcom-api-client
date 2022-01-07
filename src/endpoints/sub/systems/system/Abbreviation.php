@@ -2,9 +2,9 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system;
 
-use meteocontrol\vcomapi\model\Abbreviation as AbbreviationModel;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\vcomapi\model\Abbreviation as AbbreviationModel;
 
 class Abbreviation extends SubEndpoint {
 
