@@ -2,11 +2,11 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
-use meteocontrol\vcomapi\model\System as SystemModel;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\endpoints\sub\AbbreviationId;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Abbreviation as SystemsAbbreviation;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Abbreviations as SystemsAbbreviations;
+use meteocontrol\vcomapi\model\System as SystemModel;
 
 class Systems extends MainEndpoint {
 

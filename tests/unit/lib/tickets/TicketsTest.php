@@ -196,7 +196,8 @@ class TicketsTest extends TestCase {
                             'status' => 'closed',
                             'priority' => 'urgent',
                             'description' => 'description',
-                            'assignee' => 9823
+                            'assignee' => 9823,
+                            'cause' => 'Unknown',
                         ]
                     ),
                     'PATCH'
@@ -208,7 +209,7 @@ class TicketsTest extends TestCase {
                         [
                             'designation' => 'abc',
                             'createdAt' => '2016-01-01T00:00:00+00:00',
-                            'includeInReports' => 'detail'
+                            'includeInReports' => 'detail',
                         ]
                     ),
                     'PATCH'
@@ -347,6 +348,7 @@ class TicketsTest extends TestCase {
         $ticket->priority = Ticket::PRIORITY_URGENT;
         $ticket->description = 'description';
         $ticket->assignee = 9823;
+        $ticket->cause = 'Unknown';
         return $ticket;
     }
 }

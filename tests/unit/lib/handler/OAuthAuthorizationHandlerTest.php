@@ -8,10 +8,8 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
-use meteocontrol\client\vcomapi\UnauthorizedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\StreamInterface;
 
 class OAuthAuthorizationHandlerTest extends TestCase {
 
