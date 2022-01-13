@@ -2,8 +2,8 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
-use meteocontrol\vcomapi\model\Session as SessionModel;
 use meteocontrol\client\vcomapi\ApiClient;
+use meteocontrol\vcomapi\model\Session as SessionModel;
 
 class Session extends MainEndpoint {
 

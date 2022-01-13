@@ -11,6 +11,8 @@ use meteocontrol\client\vcomapi\model\StringboxDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
+use PHPUnit\Framework\Error\Notice;
+use UnexpectedValueException;
 
 class StringboxesTest extends TestCase {
 
@@ -106,29 +108,29 @@ class StringboxesTest extends TestCase {
         $abbreviationsMeasurements = $measurements['816639'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4512, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4512, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(0.6075, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6075, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $values = $abbreviationsMeasurements['I2'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4668, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4668, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(0.6237, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6237, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
 
         $abbreviationsMeasurements = $measurements['816640'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4382, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4382, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(0.6149, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6149, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $values = $abbreviationsMeasurements['I2'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4226, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4226, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(0.5962, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.5962, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
     }
 
@@ -159,43 +161,40 @@ class StringboxesTest extends TestCase {
         $abbreviationsMeasurements = $measurements['816639'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4512, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4512, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
-        $this->assertEquals(0.6075, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6075, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $values = $abbreviationsMeasurements['I2'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4668, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4668, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
-        $this->assertEquals(0.6237, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6237, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
 
         $abbreviationsMeasurements = $measurements['816640'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4382, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4382, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
-        $this->assertEquals(0.6149, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6149, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
         $values = $abbreviationsMeasurements['I2'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4226, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4226, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
-        $this->assertEquals(0.5962, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.5962, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
     }
 
-    /**
-     * @expectedException \PHPUnit\Framework\Error\Notice
-     */
     public function testGetStringboxMeasurementsWithIntervalIncludedWithWrongResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurements.json');
         $this->api->expects($this->once())
@@ -216,6 +215,8 @@ class StringboxesTest extends TestCase {
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-31T15:15:00+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
+
+        $this>$this->expectException(Notice::class);
 
         $this->api->system('ABCDE')->stringbox('816639,816640')
             ->abbreviation(['I1', 'I2'])
@@ -251,36 +252,36 @@ class StringboxesTest extends TestCase {
         $abbreviationsMeasurements = $measurements['816639'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4512, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4512, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
-        $this->assertEquals(0.6075, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6075, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $values = $abbreviationsMeasurements['I2'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4668, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4668, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
-        $this->assertEquals(0.6237, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6237, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
 
         $abbreviationsMeasurements = $measurements['816640'];
         $values = $abbreviationsMeasurements['I1'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4382, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4382, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
-        $this->assertEquals(0.6149, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.6149, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
         $values = $abbreviationsMeasurements['I2'];
         $this->assertCount(2, $values);
-        $this->assertEquals(0.4226, $values[0]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.4226, $values[0]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:10:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
-        $this->assertEquals(0.5962, $values[1]->value, '', 0.0001);
+        $this->assertEqualsWithDelta(0.5962, $values[1]->value, 0.0001);
         $this->assertEquals('2016-10-31T15:15:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
     }
@@ -372,10 +373,6 @@ class StringboxesTest extends TestCase {
         $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage Delimiter and decimal point symbols can't be the same
-     */
     public function testGetStringboxesBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
@@ -384,6 +381,10 @@ class StringboxesTest extends TestCase {
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
+
+        $this>$this->expectException(UnexpectedValueException::class);
+        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+
         $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
     }
 

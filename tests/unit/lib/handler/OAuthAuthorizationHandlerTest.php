@@ -8,10 +8,8 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
-use meteocontrol\client\vcomapi\UnauthorizedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\StreamInterface;
 
 class OAuthAuthorizationHandlerTest extends TestCase {
 
@@ -24,7 +22,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     /** @var string */
     private $tokenAccessFile;
 
-    public function setup() {
+    public function setup(): void {
         $this->config = new Config(__DIR__ . '/../_files/config.ini');
         $this->tokenAccessFile = __DIR__ . '/../../../../.tokenAccess/' .
             md5($this->config->getApiUsername() . $this->config->getApiPassword());

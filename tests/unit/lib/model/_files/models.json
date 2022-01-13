@@ -58,6 +58,7 @@
     "assignee": "string",
     "status": "string",
     "causeId": 1,
+    "cause": "string",
     "priority": "string",
     "includeInReports": "string",
     "fieldService": true,

@@ -4,6 +4,7 @@
     backupStaticAttributes="false"
     verbose="true"
     colors="true"
+    cacheResult="false"
     bootstrap="vendor/autoload.php">
 
     <testsuites>

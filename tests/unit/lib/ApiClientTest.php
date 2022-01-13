@@ -21,7 +21,7 @@ class ApiClientTest extends TestCase {
     /** @var float */
     public static $us;
 
-    public function tearDown() {
+    public function tearDown(): void {
         $tokenAccess = __DIR__ . '/../../../.tokenAccess/706eace5d3a3dbb56f141547162dc636';
         if (file_exists($tokenAccess)) {
             unlink($tokenAccess);
@@ -175,22 +175,18 @@ class ApiClientTest extends TestCase {
         $apiClient->run('url', $this->getQueryString(), 'patch body', 'PATCH');
     }
 
-    /**
-     * @expectedException \meteocontrol\client\vcomapi\ApiClientException
-     * @expectedExceptionMessage Unacceptable HTTP method UNKNOWN
-     */
     public function testRunUnknownMethod() {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn([]);
         $client = $this->getMockBuilder('\GuzzleHttp\Client')->getMock();
         $apiClient = new ApiClient($client, $authHandler);
+
+        $this->expectException(ApiClientException::class);
+        $this->expectExceptionMessage('Unacceptable HTTP method UNKNOWN');
+
         $apiClient->run('url', $this->getQueryString(), 'patch body', 'UNKNOWN');
     }
 
-    /**
-     * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
-     * @expectedExceptionMessage 123
-     */
     public function testRunWithBasicAuthenticationUnauthorized() {
         $config = new Config();
         $config->setApiAuthorizationMode('basic');
@@ -223,6 +219,10 @@ class ApiClientTest extends TestCase {
 
         $authHandler = new BasicAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
+
+        $this->expectException(UnauthorizedException::class);
+        $this->expectExceptionMessage('123');
+
         $apiClient->run('url');
     }
 
@@ -375,9 +375,6 @@ class ApiClientTest extends TestCase {
         $apiClient->run('url');
     }
 
-    /**
-     * @expectedException \meteocontrol\client\vcomapi\UnauthorizedException
-     */
     public function testRunWithOAuthUnauthorizedAndTokenRefreshingIsFailed() {
         $config = new Config(__DIR__ . '/_files/config.ini');
 
@@ -389,6 +386,8 @@ class ApiClientTest extends TestCase {
 
         $authHandler = new OAuthAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
+
+        $this->expectException(UnauthorizedException::class);
 
         $apiClient->run('url');
     }

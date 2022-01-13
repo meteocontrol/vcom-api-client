@@ -4,13 +4,13 @@ namespace meteocontrol\client\vcomapi;
 
 use DateTime;
 use DateTimeZone;
-use meteocontrol\vcomapi\model\Outage;
 use meteocontrol\vcomapi\model\AttachmentFile;
 use meteocontrol\vcomapi\model\Comment;
 use meteocontrol\vcomapi\model\CommentDetail;
 use meteocontrol\vcomapi\model\Coordinates;
 use meteocontrol\vcomapi\model\MeasurementValue;
 use meteocontrol\vcomapi\model\MeasurementValueWithInterval;
+use meteocontrol\vcomapi\model\Outage;
 use meteocontrol\vcomapi\model\SystemDetail;
 use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\vcomapi\model\TicketHistory;
@@ -58,6 +58,7 @@ class ModelTest extends TestCase {
         $ticket = new Ticket();
         $ticket->id = (string)$intValue;
         $ticket->causeId = $intValue;
+        $ticket->cause = $stringValue;
         $ticket->systemKey = $ticket->designation = $ticket->summary = $ticket->assignee =
         $ticket->status = $ticket->priority = $ticket->includeInReports = $ticket->severity =
         $ticket->description = $stringValue;

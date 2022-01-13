@@ -4,10 +4,11 @@ namespace meteocontrol\client\vcomapi\endpoints\main;
 
 use DateTime;
 use InvalidArgumentException;
-use meteocontrol\vcomapi\model\TicketOverview;
-use meteocontrol\vcomapi\model\Ticket;
 use meteocontrol\client\vcomapi\ApiClient;
+use meteocontrol\client\vcomapi\endpoints\sub\tickets\Causes;
 use meteocontrol\client\vcomapi\filters\TicketsCriteria;
+use meteocontrol\vcomapi\model\Ticket;
+use meteocontrol\vcomapi\model\TicketOverview;
 
 class Tickets extends MainEndpoint {
 
@@ -49,6 +50,7 @@ class Tickets extends MainEndpoint {
         empty($ticket->priority) ?: $fields['priority'] = $ticket->priority;
         empty($ticket->includeInReports) ?: $fields['includeInReports'] = $ticket->includeInReports;
         empty($ticket->assignee) ?: $fields['assignee'] = $ticket->assignee;
+        empty($ticket->cause) ?: $fields['cause'] = $ticket->cause;
 
         $responseBody = $this->api->run(
             $this->uri,
@@ -57,5 +59,12 @@ class Tickets extends MainEndpoint {
             'POST'
         );
         return $this->jsonDecode($responseBody)->data->ticketId;
+    }
+
+    /**
+     * @return Causes
+     */
+    public function causes(): Causes {
+        return new Causes($this);
     }
 }
