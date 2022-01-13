@@ -13,8 +13,8 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\Calculations;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\DeviceId;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Inverters;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Measurements;
-use meteocontrol\client\vcomapi\endpoints\sub\systems\Sensors;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Meters;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\Sensors;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Forecasts;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\SystemId;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\TechnicalData;
@@ -34,7 +34,7 @@ class SubEndpointTest extends TestCase {
     /** @var MainEndpoint */
     private $mainEndpoint;
 
-    public function setUp() {
+    public function setup(): void {
         $this->apiClient = $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
             ->disableOriginalConstructor()
             ->getMock();

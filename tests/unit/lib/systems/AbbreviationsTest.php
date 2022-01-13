@@ -15,7 +15,7 @@ class AbbreviationsTest extends TestCase {
     /** @var \meteocontrol\client\vcomapi\endpoints\sub\systems\System */
     private $systemEndpoint;
 
-    public function setup() {
+    public function setup(): void {
         parent::setup();
 
         $this->systemsEndpoint = $this->api->systems();

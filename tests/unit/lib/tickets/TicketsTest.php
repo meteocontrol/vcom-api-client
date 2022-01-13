@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\model\Ticket;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
@@ -195,7 +196,8 @@ class TicketsTest extends TestCase {
                             'status' => 'closed',
                             'priority' => 'urgent',
                             'description' => 'description',
-                            'assignee' => 9823
+                            'assignee' => 9823,
+                            'cause' => 'Unknown',
                         ]
                     ),
                     'PATCH'
@@ -207,7 +209,7 @@ class TicketsTest extends TestCase {
                         [
                             'designation' => 'abc',
                             'createdAt' => '2016-01-01T00:00:00+00:00',
-                            'includeInReports' => 'detail'
+                            'includeInReports' => 'detail',
                         ]
                     ),
                     'PATCH'
@@ -217,16 +219,15 @@ class TicketsTest extends TestCase {
         $this->api->ticket($ticket->id)->update($ticket, ['designation', 'createdAt', 'includeInReports']);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Ticket is invalid!
-     */
     public function testUpdateTicketWithWrongFilter() {
         $ticket = $this->getTicket();
         unset($ticket->createdAt);
 
-        $this->api->expects($this->never())
-            ->method('run');
+        $this->api->expects($this->never())->method('run');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Ticket is invalid!');
+
         $this->api->ticket($ticket->id)->update($ticket, ['designation', 'createdAt', 'reportType']);
     }
 
@@ -264,16 +265,15 @@ class TicketsTest extends TestCase {
         $this->assertEquals('123', $ticketId);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Ticket is invalid!
-     */
     public function testCreateTicketWithoutRequiredValue() {
         $ticket = new Ticket();
         $ticket->designation = 'designation';
         $ticket->createdAt = DateTime::createFromFormat(DateTime::RFC3339, '2016-07-01T02:02:10+00:00');
         $ticket->status = Ticket::STATUS_OPEN;
         $ticket->priority = Ticket::PRIORITY_HIGH;
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Ticket is invalid!');
 
         $this->api->tickets()->create($ticket);
     }
@@ -348,6 +348,7 @@ class TicketsTest extends TestCase {
         $ticket->priority = Ticket::PRIORITY_URGENT;
         $ticket->description = 'description';
         $ticket->assignee = 9823;
+        $ticket->cause = 'Unknown';
         return $ticket;
     }
 }
