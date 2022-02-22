@@ -18,7 +18,7 @@ class MeasurementsCriteria {
     const RESOLUTION_YEAR = 'year';
 
     /** @var string[] */
-    private $filters;
+    protected $filters;
 
     /**
      * @return DateTime
