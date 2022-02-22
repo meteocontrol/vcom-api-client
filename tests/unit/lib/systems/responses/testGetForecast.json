@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "systemKey": "ABCDE",
+      "timestamp": "2021-11-06T12:30:00+01:00",
+      "calculation_timestamp": "2021-11-05T12:30:00+01:00",
+      "power": 35.31
+    },
+    {
+      "systemKey": "ABCDE",
+      "timestamp": "2021-11-06T12:45:00+01:00",
+      "calculation_timestamp": "2021-11-05T12:30:00+01:00",
+      "power": 40.31
+    },
+    {
+      "systemKey": "ABCDE",
+      "timestamp": "2021-11-06T13:00:00+01:00",
+      "calculation_timestamp": "2021-11-05T12:30:00+01:00",
+      "power": 50.0
+    },
+    {
+      "systemKey": "ABCDE",
+      "timestamp": "2021-11-06T13:15:00+01:00",
+      "calculation_timestamp": "2021-11-05T12:30:00+01:00",
+      "power": 0
+    }
+  ]
+}
