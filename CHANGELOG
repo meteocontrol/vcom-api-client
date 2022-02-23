@@ -28,3 +28,4 @@
 2021-02-09: Add simulation endpoint
 2021-06-02: Declare return type
 2022-01-13: Add cause property for ticket and ability to manipulate ticket cause
+2022-02-23: Add forecast endpoint
