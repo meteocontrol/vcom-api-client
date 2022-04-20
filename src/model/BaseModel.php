@@ -3,6 +3,7 @@
 namespace meteocontrol\vcomapi\model;
 
 use DateTime;
+use DateTimeInterface;
 use JsonSerializable;
 
 abstract class BaseModel implements JsonSerializable {
@@ -40,7 +41,7 @@ abstract class BaseModel implements JsonSerializable {
         $values = get_object_vars($this);
 
         foreach ($values as $key => $value) {
-            if ($value instanceof DateTime) {
+            if ($value instanceof DateTimeInterface) {
                 $values[$key] = $this->serializeDateTime($value, $key);
             }
         }
@@ -49,11 +50,11 @@ abstract class BaseModel implements JsonSerializable {
     }
 
     /**
-     * @param DateTime $dateTime
+     * @param DateTimeInterface $dateTime
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(DateTime $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
         return $dateTime->format(DateTime::ATOM);
     }
 

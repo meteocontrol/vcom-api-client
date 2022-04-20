@@ -3,6 +3,7 @@
 namespace meteocontrol\vcomapi\model;
 
 use DateTime;
+use DateTimeInterface;
 
 class WorkOrderFormDetail extends BaseModel {
 
@@ -66,11 +67,11 @@ class WorkOrderFormDetail extends BaseModel {
     }
 
     /**
-     * @param DateTime $dateTime
+     * @param DateTimeInterface $dateTime
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(DateTime $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
         if (in_array($key, ['savedAt', 'createdAt', 'completedAt', 'lastChangedAt'])) {
             return $dateTime->format(DATE_ATOM);
         }

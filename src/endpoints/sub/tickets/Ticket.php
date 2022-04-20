@@ -53,6 +53,9 @@ class Ticket extends SubEndpoint {
             if ($ticket->cause) {
                 $fields['cause'] = $ticket->cause;
             }
+            if (is_bool($ticket->fieldService)) {
+                $fields['fieldService'] = $ticket->fieldService;
+            }
         } else {
             $fields = $this->applyFilter($updateFilter, $ticket);
         }

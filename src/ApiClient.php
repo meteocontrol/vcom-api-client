@@ -4,9 +4,11 @@ namespace meteocontrol\client\vcomapi;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use meteocontrol\client\vcomapi\endpoints\main\Alarms;
 use meteocontrol\client\vcomapi\endpoints\main\Session;
 use meteocontrol\client\vcomapi\endpoints\main\Systems;
 use meteocontrol\client\vcomapi\endpoints\main\Tickets;
+use meteocontrol\client\vcomapi\endpoints\sub\alarms\Alarm;
 use meteocontrol\client\vcomapi\endpoints\sub\cmms\Cmms;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\System;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\SystemId;
@@ -85,6 +87,21 @@ class ApiClient {
         $tickets = new Tickets($this);
         $ticketIdEndpoint = new TicketId($tickets, $ticketId);
         return new Ticket($ticketIdEndpoint);
+    }
+
+    /**
+     * @return Alarms
+     */
+    public function alarms(): Alarms {
+        return new Alarms($this);
+    }
+
+    /**
+     * @param int $alarmId
+     * @return Alarm
+     */
+    public function alarm(int $alarmId): Alarm {
+        return new Alarm($this->alarms(), $alarmId);
     }
 
     /**

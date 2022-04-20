@@ -3,6 +3,7 @@
 namespace meteocontrol\vcomapi\model;
 
 use DateTime;
+use DateTimeInterface;
 use DateTimeZone;
 
 class SystemDetail extends BaseModel {
@@ -51,11 +52,11 @@ class SystemDetail extends BaseModel {
     }
 
     /**
-     * @param DateTime $dateTime
+     * @param DateTimeInterface $dateTime
      * @param null|string $key
      * @return string
      */
-    protected function serializeDateTime(DateTime $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
         if ($key === 'commissionDate') {
             return $dateTime->format('Y-m-d');
         }
