@@ -4,6 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\system\EnvironmentalSavings;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Forecasts;
 use meteocontrol\vcomapi\model\SystemDetail;
 
@@ -40,6 +41,10 @@ class System extends SubEndpoint {
      */
     public function calculations(): Calculations {
         return new Calculations($this);
+    }
+
+    public function environmentalSavings(): EnvironmentalSavings {
+        return new EnvironmentalSavings($this);
     }
 
     /**

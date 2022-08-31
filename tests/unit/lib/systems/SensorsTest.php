@@ -91,8 +91,8 @@ class SensorsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=interval'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval'
                 )
             )
             ->willReturn($json);
@@ -130,9 +130,8 @@ class SensorsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
-                    . '&resolution=interval&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -176,9 +175,8 @@ class SensorsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -203,9 +201,8 @@ class SensorsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -247,7 +244,7 @@ class SensorsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/sensors/bulk/measurements'),
-                $this->identicalTo('from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00')
+                $this->identicalToUrl('from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00')
             )
             ->willReturn($json);
 
@@ -268,9 +265,8 @@ class SensorsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/sensors/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00'
-                    . '&abbreviations=E_AH_ABS'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=E_AH_ABS'
                 )
             )
             ->willReturn($json);
@@ -293,8 +289,8 @@ class SensorsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/sensors/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&format=csv'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);

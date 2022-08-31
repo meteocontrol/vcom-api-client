@@ -91,8 +91,8 @@ class BatteriesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/batteries/145103,145104/abbreviations/B_CHARGE_LEVEL,B_E_EXP/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A15%3A00%2B02%3A00'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00'
                 )
             )
             ->willReturn($json);
@@ -159,8 +159,8 @@ class BatteriesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/batteries/145103,145104/abbreviations/B_CHARGE_LEVEL,B_E_EXP/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A15%3A00%2B02%3A00&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -247,9 +247,8 @@ class BatteriesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/batteries/145103,145104/abbreviations/B_CHARGE_LEVEL,B_E_EXP/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A15%3A00%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -275,9 +274,8 @@ class BatteriesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/batteries/145103,145104/abbreviations/B_CHARGE_LEVEL,B_E_EXP/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A15%3A00%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -363,7 +361,7 @@ class BatteriesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/batteries/bulk/measurements'),
-                $this->identicalTo('from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A15%3A00%2B02%3A00')
+                $this->identicalToUrl('from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00')
             )
             ->willReturn($json);
 
@@ -384,9 +382,8 @@ class BatteriesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/batteries/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A15%3A00%2B02%3A00'
-                    . '&abbreviations=B_CHARGE_LEVEL%2CT1'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&abbreviations=B_CHARGE_LEVEL,T1'
                 )
             )
             ->willReturn($json);
@@ -409,8 +406,8 @@ class BatteriesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/batteries/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&format=csv'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);

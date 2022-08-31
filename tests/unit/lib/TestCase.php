@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\Config;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
+use PHPUnit\Framework\Constraint\IsIdentical;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class TestCase extends \PHPUnit\Framework\TestCase {
@@ -15,6 +16,13 @@ class TestCase extends \PHPUnit\Framework\TestCase {
 
     public function setup(): void {
         $this->api = $this->getMockedApiClient();
+    }
+
+    protected function identicalToUrl($url): IsIdentical {
+        $decode = ["+", ",", "/", ":", "[", "]"];
+        $encode = ["%2B", "%2C", "%2F", "%3A", "%5B", "%5D"];
+
+        return $this->identicalTo(str_replace($decode, $encode, $url));
     }
 
     /**

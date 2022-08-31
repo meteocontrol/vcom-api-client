@@ -8,6 +8,9 @@
     </rule>
     <rule ref="Generic.Classes.OpeningBraceSameLine"/>
     <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
 
     <rule ref="meteocontrol.Commenting.FunctionComment.EmptyThrows">
         <exclude-pattern>*</exclude-pattern>

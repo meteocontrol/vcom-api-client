@@ -62,7 +62,7 @@ class SystemsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalTo('from=2016-11-01T11%3A00%3A00%2B02%3A00&to=2016-11-01T11%3A05%3A00%2B02%3A00')
+                $this->identicalToUrl('from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00')
             )
             ->willReturn($json);
 
@@ -83,9 +83,8 @@ class SystemsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-11-01T11%3A00%3A00%2B02%3A00&to=2016-11-01T11%3A05%3A00%2B02%3A00'
-                    . '&abbreviations=G_M2%2CAREA%2CE_DAY%2CE_INT%2CSRAD%2CD_IN1'
+                $this->identicalToUrl(
+                    'from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00&abbreviations=G_M2,AREA,E_DAY,E_INT,SRAD,D_IN1'
                 )
             )
             ->willReturn($json);
@@ -108,9 +107,8 @@ class SystemsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-11-01T11%3A00%3A00%2B02%3A00&to=2016-11-01T11%3A05%3A00%2B02%3A00'
-                    . '&deviceIds=Id73872.1%2C118045&abbreviations=E_DAY%2CE_INT'
+                $this->identicalToUrl(
+                    'from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00&deviceIds=Id73872.1,118045&abbreviations=E_DAY,E_INT'
                 )
             )
             ->willReturn($json);
@@ -134,8 +132,8 @@ class SystemsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A15%3A00%2B02%3A00&to=2016-09-01T10%3A30%3A00%2B02%3A00&format=csv'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:15:00+02:00&to=2016-09-01T10:30:00+02:00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);

@@ -98,8 +98,8 @@ class PowerPlantControllersTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/power-plant-controllers/163784/abbreviations/PPC_P_AC_AVAIL,PPC_P_AC/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00'
+                $this->identicalToUrl(
+                    'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00'
                 )
             )
             ->willReturn($json);
@@ -134,7 +134,7 @@ class PowerPlantControllersTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/power-plant-controllers/bulk/measurements'),
-                $this->identicalTo('from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00')
+                $this->identicalToUrl('from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00')
             )
             ->willReturn($json);
 
@@ -155,9 +155,8 @@ class PowerPlantControllersTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/power-plant-controllers/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00'
-                    . '&abbreviations=PPC_P_AC_INV%2CPPC_Q_AC_AVAIL%2CPPC_Q_SET_REL'
+                $this->identicalToUrl(
+                    'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00&abbreviations=PPC_P_AC_INV,PPC_Q_AC_AVAIL,PPC_Q_SET_REL'
                 )
             )
             ->willReturn($json);
@@ -180,8 +179,8 @@ class PowerPlantControllersTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/power-plant-controllers/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-10-29T12%3A00%3A00%2B02%3A00&to=2016-10-29T12%3A05%3A00%2B02%3A00&format=csv'
+                $this->identicalToUrl(
+                    'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);

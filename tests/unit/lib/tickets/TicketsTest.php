@@ -24,12 +24,14 @@ class TicketsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('tickets'),
-                'createdAt%5Bfrom%5D=2016-01-01T00%3A00%3A00%2B00%3A00' .
-                '&createdAt%5Bto%5D=2016-03-01T01%3A00%3A00%2B00%3A00' .
-                '&lastChangedAt%5Bfrom%5D=2016-01-01T12%3A00%3A00%2B00%3A00' .
-                '&lastChangedAt%5Bto%5D=2016-02-21T12%3A00%3A00%2B00%3A00' .
-                '&rectifiedAt%5Bfrom%5D=2016-01-01T14%3A00%3A00%2B00%3A00' .
-                '&rectifiedAt%5Bto%5D=2016-02-20T14%3A00%3A00%2B00%3A00'
+                $this->identicalToUrl(
+                    'createdAt[from]=2016-01-01T00:00:00+00:00' .
+                    '&createdAt[to]=2016-03-01T01:00:00+00:00' .
+                    '&lastChangedAt[from]=2016-01-01T12:00:00+00:00' .
+                    '&lastChangedAt[to]=2016-02-21T12:00:00+00:00' .
+                    '&rectifiedAt[from]=2016-01-01T14:00:00+00:00' .
+                    '&rectifiedAt[to]=2016-02-20T14:00:00+00:00'
+                )
             )
             ->willReturn($json);
 
@@ -79,16 +81,16 @@ class TicketsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('tickets'),
-                'createdAt%5Bfrom%5D=2016-01-01T00%3A00%3A00%2B00%3A00' .
-                '&createdAt%5Bto%5D=2016-03-01T01%3A00%3A00%2B00%3A00' .
-                '&lastChangedAt%5Bfrom%5D=2016-01-01T12%3A00%3A00%2B00%3A00' .
-                '&lastChangedAt%5Bto%5D=2016-02-21T12%3A00%3A00%2B00%3A00' .
-                '&rectifiedAt%5Bfrom%5D=2016-01-01T14%3A00%3A00%2B00%3A00' .
-                '&rectifiedAt%5Bto%5D=2016-02-20T14%3A00%3A00%2B00%3A00' .
-                '&status=closed%2CinProgress' .
-                '&priority=normal%2Chigh' .
-                '&severity=normal%2Chigh' .
-                '&systemKey=ABCDE%2CFGHIJ'
+                $this->identicalToUrl(
+                    'createdAt[from]=2016-01-01T00:00:00+00:00' .
+                    '&createdAt[to]=2016-03-01T01:00:00+00:00' .
+                    '&lastChangedAt[from]=2016-01-01T12:00:00+00:00' .
+                    '&lastChangedAt[to]=2016-02-21T12:00:00+00:00' .
+                    '&rectifiedAt[from]=2016-01-01T14:00:00+00:00' .
+                    '&rectifiedAt[to]=2016-02-20T14:00:00+00:00' .
+                    '&status=closed,inProgress&priority=normal,high' .
+                    '&severity=normal,high&systemKey=ABCDE,FGHIJ'
+                )
             )
             ->willReturn($json);
 

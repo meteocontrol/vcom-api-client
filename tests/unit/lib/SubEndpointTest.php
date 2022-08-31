@@ -15,6 +15,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\Inverters;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Measurements;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Meters;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Sensors;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\system\EnvironmentalSavings;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Forecasts;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\SystemId;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\TechnicalData;
@@ -86,5 +87,8 @@ class SubEndpointTest extends TestCase {
 
         $this->subEndpoint = new TicketId($this->mainEndpoint, '1');
         $this->assertEquals('systems/1', $this->subEndpoint->getUri());
+
+        $this->subEndpoint = new EnvironmentalSavings($this->mainEndpoint, '1');
+        $this->assertEquals('systems/environmental-savings', $this->subEndpoint->getUri());
     }
 }

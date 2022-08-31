@@ -119,7 +119,7 @@ class VirtualMeterTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'),
-                $this->identicalTo('from=2018-02-28T00%3A00%3A00%2B02%3A00&to=2018-05-01T00%3A00%3A00%2B01%3A00')
+                $this->identicalToUrl('from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00')
             )->willReturn($json);
 
         $criteria = new MeterReadingCriteria();
@@ -152,8 +152,8 @@ class VirtualMeterTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'),
-                $this->identicalTo(
-                    'from=2018-02-28T00%3A00%3A00%2B02%3A00&to=2018-05-01T00%3A00%3A00%2B01%3A00&type=AUTO'
+                $this->identicalToUrl(
+                    'from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00&type=AUTO'
                 )
             )->willReturn($json);
 
@@ -178,8 +178,8 @@ class VirtualMeterTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'),
-                $this->identicalTo(
-                    'from=2018-02-28T00%3A00%3A00%2B02%3A00&to=2018-05-01T00%3A00%3A00%2B01%3A00&type=MANUAL'
+                $this->identicalToUrl(
+                    'from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00&type=MANUAL'
                 )
             )->willReturn($json);
 

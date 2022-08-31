@@ -30,3 +30,4 @@
 2022-01-13: Add cause property for ticket and ability to manipulate ticket cause
 2022-02-23: Add forecast endpoint
 2022-04-20: Add ability to manipulate ticket fieldService property
+2022-08-31: Add environmental-savings endpoints

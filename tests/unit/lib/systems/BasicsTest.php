@@ -55,9 +55,8 @@ class BasicsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
-                    . '&resolution=interval'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
                 )
             )
             ->willReturn($json);
@@ -84,9 +83,8 @@ class BasicsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT,wr.G_M0/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
-                    . '&resolution=interval'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
                 )
             )
             ->willReturn($json);
@@ -124,9 +122,8 @@ class BasicsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT,wr.G_M0/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
-                    . '&resolution=interval&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -170,9 +167,8 @@ class BasicsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -196,9 +192,8 @@ class BasicsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-01T00%3A15%3A00%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -233,7 +228,7 @@ class BasicsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/basics/bulk/measurements'),
-                $this->identicalTo('from=2016-11-01T10%3A00%3A00%2B02%3A00&to=2016-11-01T10%3A15%3A00%2B02%3A00')
+                $this->identicalToUrl('from=2016-11-01T10:00:00+02:00&to=2016-11-01T10:15:00+02:00')
             )
             ->willReturn($json);
 
@@ -254,9 +249,8 @@ class BasicsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/basics/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-11-01T10%3A00%3A00%2B02%3A00&to=2016-11-01T10%3A15%3A00%2B02%3A00'
-                    . '&abbreviations=G_M2%2CH_ON'
+                $this->identicalToUrl(
+                    'from=2016-11-01T10:00:00+02:00&to=2016-11-01T10:15:00+02:00&abbreviations=G_M2,H_ON'
                 )
             )
             ->willReturn($json);
@@ -279,8 +273,8 @@ class BasicsTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/basics/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&format=csv'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);

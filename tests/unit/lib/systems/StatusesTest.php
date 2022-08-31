@@ -73,8 +73,8 @@ class StatusesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/statuses/10001/abbreviations/STATE1,STATE2/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=interval'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval'
                 )
             )
             ->willReturn($json);
@@ -112,9 +112,8 @@ class StatusesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/statuses/10001/abbreviations/STATE1,STATE2/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00'
-                    . '&resolution=interval&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -156,7 +155,7 @@ class StatusesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/statuses/bulk/measurements'),
-                $this->identicalTo('from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00')
+                $this->identicalToUrl('from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00')
             )
             ->willReturn($json);
 
@@ -177,9 +176,8 @@ class StatusesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/statuses/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00'
-                    . '&abbreviations=STATE1'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=STATE1'
                 )
             )
             ->willReturn($json);
@@ -202,8 +200,8 @@ class StatusesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/statuses/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&format=csv'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);

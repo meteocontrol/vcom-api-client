@@ -90,8 +90,8 @@ class StringboxesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-31T15%3A10%3A00%2B02%3A00&to=2016-10-31T15%3A15%3A00%2B02%3A00'
+                $this->identicalToUrl(
+                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00'
                 )
             )
             ->willReturn($json);
@@ -142,8 +142,8 @@ class StringboxesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-31T15%3A10%3A00%2B02%3A00&to=2016-10-31T15%3A15%3A00%2B02%3A00&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -203,9 +203,8 @@ class StringboxesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-31T15%3A10%3A00%2B02%3A00&to=2016-10-31T15%3A15%3A00%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -231,9 +230,8 @@ class StringboxesTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-31T15%3A10%3A00%2B02%3A00&to=2016-10-31T15%3A15%3A00%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -292,7 +290,7 @@ class StringboxesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
-                $this->identicalTo('from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00')
+                $this->identicalToUrl('from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00')
             )
             ->willReturn($json);
 
@@ -313,9 +311,8 @@ class StringboxesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00'
-                    . '&abbreviations=I1%2CI8_N'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=I1,I8_N'
                 )
             )
             ->willReturn($json);
@@ -338,8 +335,8 @@ class StringboxesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&format=csv'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);
@@ -359,8 +356,8 @@ class StringboxesTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A15%3A00%2B02%3A00&activeOnly=1'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&activeOnly=1'
                 )
             )
             ->willReturn('');

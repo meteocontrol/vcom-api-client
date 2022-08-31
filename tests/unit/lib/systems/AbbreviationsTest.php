@@ -48,8 +48,8 @@ class AbbreviationsTest extends TestCase {
                 $this->identicalTo(
                     'systems/abbreviations/E_Z_EVU/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
                 )
             )
             ->willReturn($json);
@@ -85,8 +85,8 @@ class AbbreviationsTest extends TestCase {
                 $this->identicalTo(
                     'systems/abbreviations/E_Z_EVU,PR/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-01-01T00%3A00%3A00%2B02%3A00&to=2016-01-02T23%3A59%3A59%2B02%3A00&resolution=day'
+                $this->identicalToUrl(
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
                 )
             )
             ->willReturn($json);

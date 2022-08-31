@@ -18,8 +18,8 @@ class ForecastsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/forecasts/yield/specific-energy'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-01T00%3A00%3A00%2B02%3A00&to=2016-12-31T23%3A59%3A59%2B01%3A00'
+                $this->identicalToUrl(
+                    'from=2016-10-01T00:00:00+02:00&to=2016-12-31T23:59:59+01:00'
                 )
             )
             ->willReturn($json);
@@ -47,8 +47,8 @@ class ForecastsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/forecasts/forecast'
                 ),
-                $this->identicalTo(
-                    'hours_to_future=1&timezone=Europe%2FBerlin&resolution=fifteen-minutes&format=json'
+                $this->identicalToUrl(
+                    'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&format=json'
                 )
             )
             ->willReturn($json);
@@ -90,8 +90,8 @@ class ForecastsTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/forecasts/forecast'
                 ),
-                $this->identicalTo(
-                    'hours_to_future=1&timezone=Europe%2FBerlin&resolution=fifteen-minutes&format=csv'
+                $this->identicalToUrl(
+                    'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&format=csv'
                 )
             )
             ->willReturn($csvContent);

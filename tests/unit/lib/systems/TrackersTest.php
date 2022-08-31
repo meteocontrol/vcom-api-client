@@ -93,8 +93,8 @@ class TrackersTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/trackers/30001,30002/abbreviations/AZIMUTH,ELEVATION/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A05%3A00%2B02%3A00'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00'
                 )
             )
             ->willReturn($json);
@@ -146,8 +146,8 @@ class TrackersTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/trackers/30001,30002/abbreviations/AZIMUTH,ELEVATION/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A05%3A00%2B02%3A00&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -211,9 +211,8 @@ class TrackersTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/trackers/30001/abbreviations/AZIMUTH/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A15%3A00%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -239,9 +238,8 @@ class TrackersTest extends TestCase {
                 $this->identicalTo(
                     'systems/ABCDE/trackers/30001,30002/abbreviations/AZIMUTH,ELEVATION/measurements'
                 ),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A05%3A00%2B02%3A00'
-                    . '&resolution=day&includeInterval=1'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&resolution=day&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -304,7 +302,7 @@ class TrackersTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/trackers/bulk/measurements'),
-                $this->identicalTo('from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A05%3A00%2B02%3A00')
+                $this->identicalToUrl('from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00')
             )
             ->willReturn($json);
 
@@ -325,9 +323,8 @@ class TrackersTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/trackers/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-10-10T11%3A00%3A00%2B02%3A00&to=2016-10-10T11%3A05%3A00%2B02%3A00'
-                    . '&abbreviations=AZIMUTH%2CSTATE'
+                $this->identicalToUrl(
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&abbreviations=AZIMUTH,STATE'
                 )
             )
             ->willReturn($json);
@@ -350,8 +347,8 @@ class TrackersTest extends TestCase {
             ->method('run')
             ->with(
                 $this->identicalTo('systems/ABCDE/trackers/bulk/measurements'),
-                $this->identicalTo(
-                    'from=2016-09-01T10%3A00%3A00%2B02%3A00&to=2016-09-01T10%3A05%3A00%2B02%3A00&format=csv'
+                $this->identicalToUrl(
+                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:05:00+02:00&format=csv'
                 )
             )
             ->willReturn($cvsRawData);
