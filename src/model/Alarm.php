@@ -72,6 +72,9 @@ class Alarm extends BaseModel {
     /** @var float|null */
     public $losses;
 
+    /** @var DateTime */
+    public $startedAt;
+
     /**
      * @param array $data
      * @return static
