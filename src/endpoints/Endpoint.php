@@ -38,10 +38,10 @@ abstract class Endpoint implements EndpointInterface {
     final protected function applyFilter(array $filters, $source): array {
         $returns = [];
         foreach ($filters as $filter) {
-            if (!isset($source->$filter)) {
+            if (!property_exists($source, $filter)) {
                 throw new InvalidArgumentException("No property: [$filter] found!");
             }
-            $returns[$filter] = $this->getStringValue($source->$filter);
+            $returns[$filter] = $this->getValue($source->$filter);
         }
         return $returns;
     }
@@ -63,9 +63,9 @@ abstract class Endpoint implements EndpointInterface {
 
     /**
      * @param mixed $value
-     * @return string
+     * @return mixed
      */
-    private function getStringValue($value): string {
+    private function getValue($value) {
         if ($value instanceof \DateTime) {
             return $value->format(\DateTime::RFC3339);
         }

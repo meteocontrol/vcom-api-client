@@ -4,6 +4,7 @@ namespace meteocontrol\vcomapi\model;
 
 use DateTime;
 use DateTimeInterface;
+use DateTimeZone;
 
 class WorkOrderDetail extends BaseModel {
 
@@ -25,8 +26,14 @@ class WorkOrderDetail extends BaseModel {
     /** @var string */
     public $status;
 
-    /** @var DateTime */
+    /**
+     * @var DateTime
+     * @deprecated deprecated
+     */
     public $dueAt;
+
+    /** @var DateTime */
+    public $dueDate;
 
     /** @var DateTime */
     public $createdAt;
@@ -50,6 +57,8 @@ class WorkOrderDetail extends BaseModel {
         foreach ($data as $key => $value) {
             if (in_array($key, ['dueAt', 'createdAt', 'completedAt', 'lastChangedAt'])) {
                 $object->{$key} = self::parseTimestamp($value);
+            } elseif ($key === "dueDate") {
+                $object->{$key} = self::parseDate($value);
             } elseif (is_array($value) && $key === "assignee") {
                 $object->assignee = CmmsAssignee::deserialize($value);
             } elseif (property_exists($object, $key)) {
@@ -67,6 +76,8 @@ class WorkOrderDetail extends BaseModel {
     protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
         if (in_array($key, ['dueAt', 'createdAt', 'completedAt', 'lastChangedAt'])) {
             return $dateTime->format(DATE_ATOM);
+        } elseif ($key === 'dueDate') {
+            return $dateTime->format('Y-m-d');
         }
         return parent::serializeDateTime($dateTime);
     }
@@ -77,5 +88,13 @@ class WorkOrderDetail extends BaseModel {
      */
     private static function parseTimestamp(?string $value): ?DateTime {
         return $value ? DateTime::createFromFormat(DATE_ATOM, $value) : null;
+    }
+
+    /**
+     * @param string|null $value
+     * @return DateTime|null
+     */
+    private static function parseDate(?string $value): ?DateTime {
+        return $value ? DateTime::createFromFormat('Y-m-d', $value, new DateTimeZone('UTC')) : null;
     }
 }

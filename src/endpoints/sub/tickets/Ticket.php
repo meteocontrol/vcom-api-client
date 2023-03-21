@@ -120,4 +120,11 @@ class Ticket extends SubEndpoint {
     public function histories(): Histories {
         return new Histories($this);
     }
+
+    /**
+     * @return YieldLosses
+     */
+    public function yieldLosses(): YieldLosses {
+        return new YieldLosses($this);
+    }
 }
