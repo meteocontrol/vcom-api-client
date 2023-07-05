@@ -17,6 +17,8 @@ class Alarm extends BaseModel {
     public const ALARM_TYPE_MISPRODUCTION = "misproduction";
     public const ALARM_TYPE_STRING_OUTAGE = "string-outage";
     public const ALARM_TYPE_SENSOR_OUTAGE = "sensor-outage";
+
+    public const ALARM_TYPE_BATTERY_CHARGE_LEVEL = "battery-charge-level";
     public const ALARM_TYPE_CUSTOM = "custom";
 
     public const COMPONENT_TYPE_SYSTEM = "system";

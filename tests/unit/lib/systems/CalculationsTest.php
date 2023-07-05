@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
 use meteocontrol\client\vcomapi\model\MeasurementValue;
@@ -10,7 +11,6 @@ use meteocontrol\client\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use PHPUnit\Framework\Error\Notice;
 use UnexpectedValueException;
 
 class CalculationsTest extends TestCase {
@@ -119,13 +119,14 @@ class CalculationsTest extends TestCase {
     }
 
     public function testGetCalculationMeasurementsWithIntervalIncluded() {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"includeInterval" is not supported for calculations.');
+
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
-
-        $this>$this->expectException(Notice::class);
 
         $this->api->system('ABCDE')
             ->calculations()
@@ -134,7 +135,7 @@ class CalculationsTest extends TestCase {
             ->get($criteria);
     }
 
-    public function testGetCalculationMeasurementsWithIntervalIncluded2() {
+    public function testGetCalculationMeasurements2() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
@@ -143,7 +144,7 @@ class CalculationsTest extends TestCase {
                     'systems/ABCDE/calculations/abbreviations/berechnet.WR/measurements'
                 ),
                 $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval&includeInterval=1'
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
                 )
             )
             ->willReturn($json);
@@ -151,8 +152,7 @@ class CalculationsTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
-            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
-            ->withIntervalIncluded();
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL);
 
         /** @var MeasurementValueWithInterval[] $measurements */
         @$measurements = $this->api
@@ -166,10 +166,8 @@ class CalculationsTest extends TestCase {
         $measurement = $measurements['WR'];
         $this->assertEquals(0, $measurement[0]->value);
         $this->assertEquals('2016-01-01T00:00:00+02:00', $measurement[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(null, $measurement[0]->interval);
         $this->assertEquals(0, $measurement[1]->value);
         $this->assertEquals('2016-01-02T00:00:00+02:00', $measurement[1]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(null, $measurement[1]->interval);
     }
 
     public function testGetCalculationBulkData() {
@@ -248,8 +246,8 @@ class CalculationsTest extends TestCase {
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
 
-        $this>$this->expectException(UnexpectedValueException::class);
-        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
 
         $this->api->system('ABCDE')->calculations()->bulk()->measurements()->get($criteria);
     }

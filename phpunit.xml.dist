@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit backupGlobals="false"
-    backupStaticAttributes="false"
-    verbose="true"
-    colors="true"
-    cacheResult="false"
-    bootstrap="vendor/autoload.php">
+<phpunit bootstrap="vendor/autoload.php"
+         convertDeprecationsToExceptions="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         failOnWarning="true">
 
     <testsuites>
         <testsuite name="unit-tests">

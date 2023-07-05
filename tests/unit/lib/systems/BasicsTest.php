@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
 use meteocontrol\client\vcomapi\model\MeasurementValue;
@@ -10,7 +11,6 @@ use meteocontrol\client\vcomapi\model\MeasurementValueWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use PHPUnit\Framework\Error\Notice;
 use UnexpectedValueException;
 
 class BasicsTest extends TestCase {
@@ -160,6 +160,9 @@ class BasicsTest extends TestCase {
     }
 
     public function testGetBasicsMeasurementsWithIntervalIncludedWithWrongResolution() {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"includeInterval" is only accepted with interval resolution');
+
         $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
@@ -179,12 +182,10 @@ class BasicsTest extends TestCase {
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
 
-        $this->expectException(Notice::class);
-
         $this->api->system('ABCDE')->basics()->abbreviation('wr.E_INT')->measurements()->get($criteria);
     }
 
-    public function testGetBasicsMeasurementsWithIntervalIncludedWithWrongResolution2() {
+    public function testGetBasicsMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
@@ -193,7 +194,7 @@ class BasicsTest extends TestCase {
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
                 $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=day&includeInterval=1'
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -201,7 +202,7 @@ class BasicsTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:15:00+02:00'))
-            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
 
 

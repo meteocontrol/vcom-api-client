@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
@@ -12,7 +13,6 @@ use meteocontrol\vcomapi\model\Abbreviation;
 use meteocontrol\vcomapi\model\DevicesMeasurement;
 use meteocontrol\vcomapi\model\Tracker;
 use meteocontrol\vcomapi\model\TrackerDetail;
-use PHPUnit\Framework\Error\Notice;
 use UnexpectedValueException;
 
 class TrackersTest extends TestCase {
@@ -112,29 +112,29 @@ class TrackersTest extends TestCase {
         $abbreviationsMeasurements = $measurements['30001'];
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
-        $this->assertEquals(80.762, $values[0]->value);
+        $this->assertEqualsWithDelta(80.762, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(80.782, $values[1]->value);
+        $this->assertEqualsWithDelta(80.782, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
-        $this->assertEquals(134.762, $values[0]->value);
+        $this->assertEqualsWithDelta(134.762, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(134.782, $values[1]->value);
+        $this->assertEqualsWithDelta(134.782, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
 
         $abbreviationsMeasurements = $measurements['30002'];
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
-        $this->assertEquals(80.772, $values[0]->value);
+        $this->assertEqualsWithDelta(80.772, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(80.792, $values[1]->value);
+        $this->assertEqualsWithDelta(80.792, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
-        $this->assertEquals(134.772, $values[0]->value);
+        $this->assertEqualsWithDelta(134.772, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
-        $this->assertEquals(134.792, $values[1]->value);
+        $this->assertEqualsWithDelta(134.792, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
     }
 
@@ -166,19 +166,19 @@ class TrackersTest extends TestCase {
         $abbreviationsMeasurements = $measurements['30001'];
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
-        $this->assertEquals(80.762, $values[0]->value);
+        $this->assertEqualsWithDelta(80.762, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
-        $this->assertEquals(80.782, $values[1]->value);
+        $this->assertEqualsWithDelta(80.782, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
 
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
-        $this->assertEquals(134.762, $values[0]->value);
+        $this->assertEqualsWithDelta(134.762, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
-        $this->assertEquals(134.782, $values[1]->value);
+        $this->assertEqualsWithDelta(134.782, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
 
@@ -186,51 +186,24 @@ class TrackersTest extends TestCase {
         $abbreviationsMeasurements = $measurements['30002'];
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
-        $this->assertEquals(80.772, $values[0]->value);
+        $this->assertEqualsWithDelta(80.772, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
-        $this->assertEquals(80.792, $values[1]->value);
+        $this->assertEqualsWithDelta(80.792, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
 
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
-        $this->assertEquals(134.772, $values[0]->value);
+        $this->assertEqualsWithDelta(134.772, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[0]->interval);
-        $this->assertEquals(134.792, $values[1]->value);
+        $this->assertEqualsWithDelta(134.792, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(300, $values[1]->interval);
     }
 
-    public function testGetTrackerMeasurementsWithIntervalIncludedWithWrongResolution() {
-        $json = file_get_contents(__DIR__ . '/responses/getTrackerMeasurements.json');
-        $this->api->expects($this->once())
-            ->method('run')
-            ->with(
-                $this->identicalTo(
-                    'systems/ABCDE/trackers/30001/abbreviations/AZIMUTH/measurements'
-                ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&resolution=day&includeInterval=1'
-                )
-            )
-            ->willReturn($json);
-
-        $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:15:00+02:00'))
-            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
-            ->withIntervalIncluded();
-
-        $this>$this->expectException(Notice::class);
-
-        $this->api->system('ABCDE')->tracker('30001')
-            ->abbreviation('AZIMUTH')
-            ->measurements()->get($criteria);
-    }
-
-    public function testGetTrackerMeasurementsWithIntervalIncludedWithWrongResolution2() {
+    public function testGetTrackerMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackerMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
@@ -239,7 +212,7 @@ class TrackersTest extends TestCase {
                     'systems/ABCDE/trackers/30001,30002/abbreviations/AZIMUTH,ELEVATION/measurements'
                 ),
                 $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&resolution=day&includeInterval=1'
+                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&resolution=interval&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -247,7 +220,7 @@ class TrackersTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:05:00+02:00'))
-            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
 
         /** @var DevicesMeasurementWithInterval $measurements */
@@ -259,19 +232,19 @@ class TrackersTest extends TestCase {
         $abbreviationsMeasurements = $measurements['30001'];
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
-        $this->assertEquals(80.762, $values[0]->value);
+        $this->assertEqualsWithDelta(80.762, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
-        $this->assertEquals(80.782, $values[1]->value);
+        $this->assertEqualsWithDelta(80.782, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
 
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
-        $this->assertEquals(134.762, $values[0]->value);
+        $this->assertEqualsWithDelta(134.762, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
-        $this->assertEquals(134.782, $values[1]->value);
+        $this->assertEqualsWithDelta(134.782, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
 
@@ -279,19 +252,19 @@ class TrackersTest extends TestCase {
         $abbreviationsMeasurements = $measurements['30002'];
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
-        $this->assertEquals(80.772, $values[0]->value);
+        $this->assertEqualsWithDelta(80.772, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
-        $this->assertEquals(80.792, $values[1]->value);
+        $this->assertEqualsWithDelta(80.792, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
 
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
-        $this->assertEquals(134.772, $values[0]->value);
+        $this->assertEqualsWithDelta(134.772, $values[0]->value, 0.001);
         $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[0]->interval);
-        $this->assertEquals(134.792, $values[1]->value);
+        $this->assertEqualsWithDelta(134.792, $values[1]->value, 0.001);
         $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
         $this->assertEquals(null, $values[1]->interval);
     }
@@ -372,8 +345,8 @@ class TrackersTest extends TestCase {
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
 
-        $this>$this->expectException(UnexpectedValueException::class);
-        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
 
         $this->api->system('ABCDE')->trackers()->bulk()->measurements()->get($criteria);
     }

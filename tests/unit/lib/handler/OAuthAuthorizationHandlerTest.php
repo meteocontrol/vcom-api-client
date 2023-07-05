@@ -111,7 +111,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
 
         $this->config->deleteTokenAccessFile();
 
-        $this->assertFileNotExists($this->tokenAccessFile);
+        $this->assertFileDoesNotExist($this->tokenAccessFile);
     }
 
     public function testHandleUnauthorizedException() {
@@ -235,7 +235,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         $actualOptions = $handler->appendAuthorizationHeader($this->mockedClient, []);
 
         $this->assertEquals($expectedAccessToken, $actualOptions['headers']['Authorization']);
-        $this->assertFileNotExists($this->tokenAccessFile);
+        $this->assertFileDoesNotExist($this->tokenAccessFile);
     }
 
     private function createMockedSteam($mockedJson) {

@@ -204,8 +204,8 @@ class PowerPlantControllersTest extends TestCase {
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
 
-        $this>$this->expectException(UnexpectedValueException::class);
-        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
 
         $this->api->system('ABCDE')->powerPlantControllers()->bulk()->measurements()->get($criteria);
     }

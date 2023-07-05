@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
@@ -12,7 +13,6 @@ use meteocontrol\client\vcomapi\model\MeterDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use PHPUnit\Framework\Error\Notice;
 use UnexpectedValueException;
 
 class MetersTest extends TestCase {
@@ -179,7 +179,10 @@ class MetersTest extends TestCase {
         $this->assertEquals(300, $values[1]->interval);
     }
 
-    public function testGetMeterMeasurementsWithIntervalIncludedButWrongResolution() {
+    public function testGetMeterMeasurementsWithIntervalIncludedWithWrongResolution() {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"includeInterval" is only accepted with interval resolution');
+
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
@@ -199,14 +202,12 @@ class MetersTest extends TestCase {
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
 
-        $this>$this->expectException(Notice::class);
-
         /** @var DevicesMeasurement $measurements */
         $this->api->system('ABCDE')->meter('12345,67890')->abbreviation(['E_INT', 'M_AC_F'])
             ->measurements()->get($criteria);
     }
 
-    public function testGetMeterMeasurementsWithIntervalIncludedButWrongResolution2() {
+    public function testGetMeterMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
@@ -215,7 +216,7 @@ class MetersTest extends TestCase {
                     'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
                 ),
                 $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=day&includeInterval=1'
+                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=interval&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -223,7 +224,7 @@ class MetersTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T00:00:00+02:00'))
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-01-01T23:59:59+02:00'))
-            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
 
         /** @var DevicesMeasurementWithInterval $measurements */
@@ -326,8 +327,8 @@ class MetersTest extends TestCase {
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
 
-        $this>$this->expectException(UnexpectedValueException::class);
-        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
 
         $this->api->system('ABCDE')->meters()->bulk()->measurements()->get($criteria);
     }

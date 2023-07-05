@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
@@ -11,7 +12,6 @@ use meteocontrol\client\vcomapi\model\StringboxDetail;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use PHPUnit\Framework\Error\Notice;
 use UnexpectedValueException;
 
 class StringboxesTest extends TestCase {
@@ -196,6 +196,9 @@ class StringboxesTest extends TestCase {
     }
 
     public function testGetStringboxMeasurementsWithIntervalIncludedWithWrongResolution() {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"includeInterval" is only accepted with interval resolution');
+
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
@@ -215,14 +218,12 @@ class StringboxesTest extends TestCase {
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
             ->withIntervalIncluded();
 
-        $this>$this->expectException(Notice::class);
-
         $this->api->system('ABCDE')->stringbox('816639,816640')
             ->abbreviation(['I1', 'I2'])
             ->measurements()->get($criteria);
     }
 
-    public function testGetStringboxMeasurementsWithIntervalIncludedWithWrongResolution2() {
+    public function testGetStringboxMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurements.json');
         $this->api->expects($this->once())
             ->method('run')
@@ -231,7 +232,7 @@ class StringboxesTest extends TestCase {
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
                 $this->identicalToUrl(
-                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&resolution=day&includeInterval=1'
+                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&resolution=interval&includeInterval=1'
                 )
             )
             ->willReturn($json);
@@ -239,7 +240,7 @@ class StringboxesTest extends TestCase {
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-31T15:10:00+02:00'))
             ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-31T15:15:00+02:00'))
-            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
 
         /** @var DevicesMeasurementWithInterval $measurements */
@@ -379,8 +380,8 @@ class StringboxesTest extends TestCase {
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)
             ->withPrecision(CsvFormat::PRECISION_2);
 
-        $this>$this->expectException(UnexpectedValueException::class);
-        $this>$this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
 
         $this->api->system('ABCDE')->stringboxes()->bulk()->measurements()->get($criteria);
     }

@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system;
 
+use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
@@ -29,7 +30,7 @@ class Measurements extends SubEndpoint {
             if ($criteria->getResolution() !== null
                 && $criteria->getResolution() !== MeasurementsCriteria::RESOLUTION_INTERVAL
             ) {
-                trigger_error('"includeInterval" is only accepted with interval resolution.');
+                throw new InvalidArgumentException('"includeInterval" is only accepted with interval resolution.');
             }
             return $this->deserializeIntervalData($measurementsJson);
         }
