@@ -6,7 +6,7 @@ use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\vcomapi\model\CmmsSystem;
 
-class System extends SubEndpoint {
+class Systems extends SubEndpoint {
 
     /**
      * @param EndpointInterface $parent

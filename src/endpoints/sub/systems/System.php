@@ -6,6 +6,7 @@ use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\EnvironmentalSavings;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Forecasts;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Satellite;
 use meteocontrol\vcomapi\model\SystemDetail;
 
 class System extends SubEndpoint {
@@ -257,5 +258,12 @@ class System extends SubEndpoint {
         $virtualMeters = new VirtualMeters($this);
         $virtualMeterIdEndpoint = new DeviceId($virtualMeters, $virtualMeterId);
         return new VirtualMeter($virtualMeterIdEndpoint);
+    }
+
+    /**
+     * @return Satellite
+     */
+    public function satellite(): Satellite {
+        return new Satellite($this);
     }
 }

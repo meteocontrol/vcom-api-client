@@ -5,8 +5,9 @@ namespace meteocontrol\vcomapi\model;
 use DateTime;
 use DateTimeInterface;
 use JsonSerializable;
+use stdClass;
 
-abstract class BaseModel implements JsonSerializable {
+abstract class BaseModel extends stdClass implements JsonSerializable {
 
     /**
      * @param array $data

@@ -29,39 +29,36 @@ class DevicesMeasurement extends BaseModel implements ArrayAccess, Countable {
     }
 
     /**
-     * @param mixed $offset
-     * @return bool
+     * {@inheritdoc}
      */
     public function offsetExists($offset): bool {
         return array_key_exists($offset, $this->values);
     }
 
     /**
-     * @param mixed $offset
+     * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset) {
         return $this->values[$offset];
     }
 
     /**
-     * @param mixed $offset
-     * @param mixed $value
-     * @return void
+     * {@inheritdoc}
      */
     public function offsetSet($offset, $value): void {
         $this->values[$offset] = $value;
     }
 
     /**
-     * @param mixed $offset
-     * @return void
+     * {@inheritdoc}
      */
     public function offsetUnset($offset): void {
         unset($this->values[$offset]);
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function count(): int {
         return count($this->values);

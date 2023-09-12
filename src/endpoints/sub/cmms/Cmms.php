@@ -16,10 +16,10 @@ class Cmms extends MainEndpoint {
     }
 
     /**
-     * @return System
+     * @return Systems
      */
-    public function systems(): System {
-        return new System($this);
+    public function systems(): Systems {
+        return new Systems($this);
     }
 
     /**
