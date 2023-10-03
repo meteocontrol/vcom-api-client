@@ -48,7 +48,7 @@ class Ticket extends SubEndpoint {
                 'assignee' => $ticket->assignee,
             ];
             if ($ticket->rectifiedAt) {
-                $fields['rectifiedAt'] = $ticket->rectifiedAt->format(DateTime::RFC3339);
+                $fields['rectifiedAt'] = $ticket->rectifiedAt->format(DATE_ATOM);
             }
             if ($ticket->cause) {
                 $fields['cause'] = $ticket->cause;

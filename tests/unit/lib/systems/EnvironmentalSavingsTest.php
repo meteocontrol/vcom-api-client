@@ -24,17 +24,17 @@ class EnvironmentalSavingsTest extends TestCase {
 
         $criteria = new MeasurementsCriteria();
         $criteria
-            ->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T00:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-12T00:00:00+02:00'))
+            ->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-10-12T00:00:00+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
 
         $co2 = $this->api->system('ABCDE')->environmentalSavings()->co2()->get($criteria);
         $this->assertCount(3, $co2);
-        $this->assertEquals('2016-10-10T00:00:00+01:00', $co2[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T00:00:00+01:00', $co2[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(10, $co2[0]->value);
-        $this->assertEquals('2016-10-11T00:00:00+01:00', $co2[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-11T00:00:00+01:00', $co2[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(20, $co2[1]->value);
-        $this->assertEquals('2016-10-12T00:00:00+01:00', $co2[2]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-12T00:00:00+01:00', $co2[2]->timestamp->format(DATE_ATOM));
         $this->assertEquals(30, $co2[2]->value);
     }
 
@@ -54,16 +54,16 @@ class EnvironmentalSavingsTest extends TestCase {
 
         $criteria = new MeasurementsCriteria();
         $criteria
-            ->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2018-12-12T00:00:00+01:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2018-12-14T00:00:00+01:00'))
+            ->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2018-12-12T00:00:00+01:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2018-12-14T00:00:00+01:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_DAY);
 
         $tree = $this->api->system('ABCDE')->environmentalSavings()->treeEquivalents()->get($criteria);
-        $this->assertEquals('2018-12-12T00:00:00+01:00', $tree[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2018-12-12T00:00:00+01:00', $tree[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(20, $tree[0]->value);
-        $this->assertEquals('2018-12-13T00:00:00+01:00', $tree[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2018-12-13T00:00:00+01:00', $tree[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(40, $tree[1]->value);
-        $this->assertEquals('2018-12-14T00:00:00+01:00', $tree[2]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2018-12-14T00:00:00+01:00', $tree[2]->timestamp->format(DATE_ATOM));
         $this->assertEquals(60, $tree[2]->value);
     }
 }

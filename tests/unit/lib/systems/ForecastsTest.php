@@ -25,17 +25,17 @@ class ForecastsTest extends TestCase {
             ->willReturn($json);
 
         $measurementsCriteria = (new MeasurementsCriteria())
-            ->withDateFrom(DateTime::createFromFormat(DateTime::ATOM, '2016-10-01T00:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::ATOM, '2016-12-31T23:59:59+01:00'));
+            ->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-10-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-12-31T23:59:59+01:00'));
 
         $yields = $this->api->system('ABCDE')
             ->forecasts()->forecastsYield()->specificEnergy()->get($measurementsCriteria);
 
-        $this->assertEquals('2016-10-01T00:00:00+02:00', $yields[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-01T00:00:00+02:00', $yields[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(59.759999999999998, $yields[0]->value);
-        $this->assertEquals('2016-11-01T00:00:00+01:00', $yields[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-11-01T00:00:00+01:00', $yields[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(33.709620000000001, $yields[1]->value);
-        $this->assertEquals('2016-12-01T00:00:00+01:00', $yields[2]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-12-01T00:00:00+01:00', $yields[2]->timestamp->format(DATE_ATOM));
         $this->assertEquals(24.437856, $yields[2]->value);
     }
 

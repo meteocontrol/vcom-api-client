@@ -70,7 +70,7 @@ class AlarmsCriteria {
      * @return $this
      */
     public function withLastChangedAtFrom(DateTime $from): self {
-        $this->filters["lastChangedAt[from]"] = $from->format(DateTime::RFC3339);
+        $this->filters["lastChangedAt[from]"] = $from->format(DATE_ATOM);
         return $this;
     }
 
@@ -79,7 +79,7 @@ class AlarmsCriteria {
      * @return $this
      */
     public function withLastChangedAtTo(DateTime $to): self {
-        $this->filters["lastChangedAt[to]"] = $to->format(DateTime::RFC3339);
+        $this->filters["lastChangedAt[to]"] = $to->format(DATE_ATOM);
         return $this;
     }
 
@@ -88,7 +88,7 @@ class AlarmsCriteria {
      * @return $this
      */
     public function withCreatedAtFrom(DateTime $from): self {
-        $this->filters["createdAt[from]"] = $from->format(DateTime::RFC3339);
+        $this->filters["createdAt[from]"] = $from->format(DATE_ATOM);
         return $this;
     }
 
@@ -97,7 +97,7 @@ class AlarmsCriteria {
      * @return $this
      */
     public function withCreatedAtTo(DateTime $to): self {
-        $this->filters["createdAt[to]"] = $to->format(DateTime::RFC3339);
+        $this->filters["createdAt[to]"] = $to->format(DATE_ATOM);
         return $this;
     }
 

@@ -67,8 +67,8 @@ class SystemsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:05:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-11-01T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-01T11:05:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
@@ -90,8 +90,8 @@ class SystemsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-11-01T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-01T11:05:00+02:00'))
             ->withAbbreviation(['G_M2', 'AREA', 'E_DAY', 'E_INT', 'SRAD', 'D_IN1']);
 
         /** @var MeasurementsBulkReader $bulkReader */
@@ -114,8 +114,8 @@ class SystemsTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-01T11:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-11-01T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-01T11:05:00+02:00'))
             ->withDeviceIds(['Id73872.1', '118045'])
             ->withAbbreviation(['E_DAY', 'E_INT']);
 
@@ -139,8 +139,8 @@ class SystemsTest extends TestCase {
             ->willReturn($cvsRawData);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:30:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-09-01T10:15:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-09-01T10:30:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV);
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->bulk()->measurements()->get($criteria);
@@ -150,8 +150,8 @@ class SystemsTest extends TestCase {
 
     public function testGetSystemBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:30:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-09-01T10:15:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-09-01T10:30:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)

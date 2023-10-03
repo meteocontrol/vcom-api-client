@@ -12,8 +12,8 @@ class ReferenceComponentTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getReferenceComponentCalculationResult.json');
 
         $criteria = new ReferenceComponentCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-15T10:00:00+00:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-15T10:59:59+00:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-11-15T10:00:00+00:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-15T10:59:59+00:00'))
             ->withAffectedInverterId('Id86460.4')
             ->withReferenceInverterIds('Id86460.1,Id86460.2');
 

@@ -42,7 +42,7 @@ class Tickets extends MainEndpoint {
         $fields = [
             'systemKey' => $ticket->systemKey,
             'designation' => $ticket->designation,
-            'createdAt' => $ticket->createdAt->format(DateTime::RFC3339)
+            'createdAt' => $ticket->createdAt->format(DATE_ATOM)
         ];
         empty($ticket->summary) ?: $fields['summary'] = $ticket->summary;
         empty($ticket->description) ?: $fields['description'] = $ticket->description;

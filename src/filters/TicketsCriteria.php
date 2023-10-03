@@ -14,7 +14,7 @@ class TicketsCriteria {
      * @return DateTime
      */
     public function getLastChangedAtFrom(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['lastChangedAt[from]']);
+        return DateTime::createFromFormat(DATE_ATOM, $this->filters['lastChangedAt[from]']);
     }
 
     /**
@@ -22,7 +22,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withLastChangedAtFrom(DateTime $from): self {
-        $this->filters['lastChangedAt[from]'] = $from->format(DateTime::RFC3339);
+        $this->filters['lastChangedAt[from]'] = $from->format(DATE_ATOM);
         return $this;
     }
 
@@ -30,7 +30,7 @@ class TicketsCriteria {
      * @return DateTime
      */
     public function getLastChangedAtTo(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['lastChangedAt[to]']);
+        return DateTime::createFromFormat(DATE_ATOM, $this->filters['lastChangedAt[to]']);
     }
 
     /**
@@ -38,7 +38,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withLastChangedAtTo(DateTime $to): self {
-        $this->filters['lastChangedAt[to]'] = $to->format(DateTime::RFC3339);
+        $this->filters['lastChangedAt[to]'] = $to->format(DATE_ATOM);
         return $this;
     }
 
@@ -46,7 +46,7 @@ class TicketsCriteria {
      * @return DateTime
      */
     public function getCreatedAtFrom(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['createdAt[from]']);
+        return DateTime::createFromFormat(DATE_ATOM, $this->filters['createdAt[from]']);
     }
 
     /**
@@ -54,7 +54,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withCreatedAtFrom(DateTime $from): self {
-        $this->filters['createdAt[from]'] = $from->format(DateTime::RFC3339);
+        $this->filters['createdAt[from]'] = $from->format(DATE_ATOM);
         return $this;
     }
 
@@ -62,7 +62,7 @@ class TicketsCriteria {
      * @return DateTime
      */
     public function getCreatedAtTo(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['createdAt[to]']);
+        return DateTime::createFromFormat(DATE_ATOM, $this->filters['createdAt[to]']);
     }
 
     /**
@@ -70,7 +70,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withCreatedAtTo(DateTime $to): self {
-        $this->filters['createdAt[to]'] = $to->format(DateTime::RFC3339);
+        $this->filters['createdAt[to]'] = $to->format(DATE_ATOM);
         return $this;
     }
 
@@ -78,7 +78,7 @@ class TicketsCriteria {
      * @return DateTime
      */
     public function getRectifiedAtFrom(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['rectifiedAt[from]']);
+        return DateTime::createFromFormat(DATE_ATOM, $this->filters['rectifiedAt[from]']);
     }
 
     /**
@@ -86,7 +86,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withRectifiedAtFrom(DateTime $from): self {
-        $this->filters['rectifiedAt[from]'] = $from->format(DateTime::RFC3339);
+        $this->filters['rectifiedAt[from]'] = $from->format(DATE_ATOM);
         return $this;
     }
 
@@ -94,7 +94,7 @@ class TicketsCriteria {
      * @return DateTime
      */
     public function getRectifiedAtTo(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['rectifiedAt[to]']);
+        return DateTime::createFromFormat(DATE_ATOM, $this->filters['rectifiedAt[to]']);
     }
 
     /**
@@ -102,7 +102,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withRectifiedAtTo(DateTime $to): self {
-        $this->filters['rectifiedAt[to]'] = $to->format(DateTime::RFC3339);
+        $this->filters['rectifiedAt[to]'] = $to->format(DATE_ATOM);
         return $this;
     }
 

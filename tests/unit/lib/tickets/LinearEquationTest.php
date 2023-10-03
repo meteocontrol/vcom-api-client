@@ -12,10 +12,10 @@ class LinearEquationTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getLinearEquationCalculationResult.json');
 
         $criteria = new LinearEquationCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-15T10:00:00+00:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-15T10:59:59+00:00'))
-            ->withDateReferenceFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-15T14:50:00+00:00'))
-            ->withDateReferenceTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-11-15T15:50:00+00:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-11-15T10:00:00+00:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-15T10:59:59+00:00'))
+            ->withDateReferenceFrom(DateTime::createFromFormat(DATE_ATOM, '2016-11-15T14:50:00+00:00'))
+            ->withDateReferenceTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-15T15:50:00+00:00'));
 
         $this->api->expects($this->once())
             ->method('run')

@@ -15,8 +15,19 @@ class Peak extends SubEndpoint {
         $this->parent = $parent;
     }
 
+    /**
+     * @deprecated It is scheduled to be removed on 2023-10-31.
+     */
     public function get(YieldLossesCriteria $criteria): YieldLoss {
         $json = $this->api->run($this->getUri(), $criteria->generateQueryString());
         return YieldLoss::deserialize($this->jsonDecode($json, true)['data']);
+    }
+
+    public function gridOperator(): GridOperator {
+        return new GridOperator($this);
+    }
+
+    public function directMarketing(): DirectMarketing {
+        return new DirectMarketing($this);
     }
 }

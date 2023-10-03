@@ -11,7 +11,7 @@ class LinearEquationCriteria extends YieldLossesCriteria {
      * @return LinearEquationCriteria
      */
     public function withDateReferenceFrom(DateTime $referenceFrom): self {
-        $this->filters['referenceFrom'] = $referenceFrom->format(DateTime::RFC3339);
+        $this->filters['referenceFrom'] = $referenceFrom->format(DATE_ATOM);
         return $this;
     }
 
@@ -19,7 +19,7 @@ class LinearEquationCriteria extends YieldLossesCriteria {
      * @return DateTime
      */
     public function getDateReferenceFrom(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['referenceFrom']);
+        return DateTime::createFromFormat(DATE_ATOM, $this->filters['referenceFrom']);
     }
 
     /**
@@ -27,7 +27,7 @@ class LinearEquationCriteria extends YieldLossesCriteria {
      * @return LinearEquationCriteria
      */
     public function withDateReferenceTo(DateTime $referenceTo): self {
-        $this->filters['referenceTo'] = $referenceTo->format(DateTime::RFC3339);
+        $this->filters['referenceTo'] = $referenceTo->format(DATE_ATOM);
         return $this;
     }
 
@@ -35,6 +35,6 @@ class LinearEquationCriteria extends YieldLossesCriteria {
      * @return DateTime
      */
     public function getDateReferenceTo(): DateTime {
-        return DateTime::createFromFormat(DateTime::RFC3339, $this->filters['referenceTo']);
+        return DateTime::createFromFormat(DATE_ATOM, $this->filters['referenceTo']);
     }
 }

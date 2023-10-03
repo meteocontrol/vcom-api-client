@@ -35,3 +35,4 @@
 2022-12-08: Add Yield lose endpoints
 2023-03-21: Add new property DueDate to work order
 2023-09-07: Add satellite irradiance endpoint
+2023-10-04: Add endpoints with different power control sources for yield loss calculation

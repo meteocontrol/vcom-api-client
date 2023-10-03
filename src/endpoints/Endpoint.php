@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints;
 
+use DateTime;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\ApiClientException;
@@ -66,8 +67,8 @@ abstract class Endpoint implements EndpointInterface {
      * @return mixed
      */
     private function getValue($value) {
-        if ($value instanceof \DateTime) {
-            return $value->format(\DateTime::RFC3339);
+        if ($value instanceof DateTime) {
+            return $value->format(DATE_ATOM);
         }
         return $value;
     }

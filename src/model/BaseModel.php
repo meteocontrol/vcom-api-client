@@ -56,7 +56,7 @@ abstract class BaseModel extends stdClass implements JsonSerializable {
      * @return string
      */
     protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
-        return $dateTime->format(DateTime::ATOM);
+        return $dateTime->format(DATE_ATOM);
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class BaseModel extends stdClass implements JsonSerializable {
      */
     protected static function getPhpValue($value) {
         if (self::isRFC3339DateString($value)) {
-            return DateTime::createFromFormat(DateTime::RFC3339, $value);
+            return DateTime::createFromFormat(DATE_ATOM, $value);
         } else {
             return $value;
         }
@@ -76,6 +76,6 @@ abstract class BaseModel extends stdClass implements JsonSerializable {
      * @return bool|DateTime
      */
     private static function isRFC3339DateString($dateString) {
-        return is_string($dateString) && DateTime::createFromFormat(DateTime::RFC3339, $dateString);
+        return is_string($dateString) && DateTime::createFromFormat(DATE_ATOM, $dateString);
     }
 }

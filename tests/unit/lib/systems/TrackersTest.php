@@ -100,8 +100,8 @@ class TrackersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:05:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:05:00+02:00'));
 
         /** @var DevicesMeasurement $measurements */
         $measurements = $this->api->system('ABCDE')->tracker('30001,30002')
@@ -113,29 +113,29 @@ class TrackersTest extends TestCase {
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(80.762, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEqualsWithDelta(80.782, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(134.762, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEqualsWithDelta(134.782, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
 
         $abbreviationsMeasurements = $measurements['30002'];
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(80.772, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEqualsWithDelta(80.792, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(134.772, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEqualsWithDelta(134.792, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
     }
 
     public function testGetTrackerMeasurementsWithIntervalIncluded() {
@@ -153,8 +153,8 @@ class TrackersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:05:00+02:00'))
             ->withIntervalIncluded();
 
         /** @var DevicesMeasurementWithInterval $measurements */
@@ -167,19 +167,19 @@ class TrackersTest extends TestCase {
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(80.762, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEqualsWithDelta(80.782, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(300, $values[1]->interval);
 
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(134.762, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEqualsWithDelta(134.782, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(300, $values[1]->interval);
 
 
@@ -187,19 +187,19 @@ class TrackersTest extends TestCase {
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(80.772, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEqualsWithDelta(80.792, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(300, $values[1]->interval);
 
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(134.772, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(300, $values[0]->interval);
         $this->assertEqualsWithDelta(134.792, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(300, $values[1]->interval);
     }
 
@@ -218,8 +218,8 @@ class TrackersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:05:00+02:00'))
             ->withResolution(MeasurementsCriteria::RESOLUTION_INTERVAL)
             ->withIntervalIncluded();
 
@@ -233,19 +233,19 @@ class TrackersTest extends TestCase {
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(80.762, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEqualsWithDelta(80.782, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(null, $values[1]->interval);
 
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(134.762, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEqualsWithDelta(134.782, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(null, $values[1]->interval);
 
 
@@ -253,19 +253,19 @@ class TrackersTest extends TestCase {
         $values = $abbreviationsMeasurements['AZIMUTH'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(80.772, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEqualsWithDelta(80.792, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(null, $values[1]->interval);
 
         $values = $abbreviationsMeasurements['ELEVATION'];
         $this->assertCount(2, $values);
         $this->assertEqualsWithDelta(134.772, $values[0]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:00:00+02:00', $values[0]->timestamp->format(DATE_ATOM));
         $this->assertEquals(null, $values[0]->interval);
         $this->assertEqualsWithDelta(134.792, $values[1]->value, 0.001);
-        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DateTime::RFC3339));
+        $this->assertEquals('2016-10-10T11:05:00+02:00', $values[1]->timestamp->format(DATE_ATOM));
         $this->assertEquals(null, $values[1]->interval);
     }
 
@@ -280,8 +280,8 @@ class TrackersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:05:00+02:00'));
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:05:00+02:00'));
 
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->trackers()->bulk()->measurements()->get($criteria);
@@ -303,8 +303,8 @@ class TrackersTest extends TestCase {
             ->willReturn($json);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-10-10T11:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-10-10T11:05:00+02:00'))
             ->withAbbreviation(['AZIMUTH', 'STATE']);
 
         /** @var MeasurementsBulkReader $bulkReader */
@@ -327,8 +327,8 @@ class TrackersTest extends TestCase {
             ->willReturn($cvsRawData);
 
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:05:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-09-01T10:05:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV);
         /** @var MeasurementsBulkReader $bulkReader */
         $bulkReader = $this->api->system('ABCDE')->trackers()->bulk()->measurements()->get($criteria);
@@ -338,8 +338,8 @@ class TrackersTest extends TestCase {
 
     public function testGetTrackersBulkDataWithCsvFormatWithWrongParameter() {
         $criteria = new MeasurementsCriteria();
-        $criteria->withDateFrom(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:00:00+02:00'))
-            ->withDateTo(DateTime::createFromFormat(DateTime::RFC3339, '2016-09-01T10:15:00+02:00'))
+        $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-09-01T10:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-09-01T10:15:00+02:00'))
             ->withFormat(CsvFormat::FORMAT_CSV)
             ->withDelimiter(CsvFormat::DELIMITER_COMMA)
             ->withDecimalPoint(CsvFormat::DECIMAL_POINT_COMMA)

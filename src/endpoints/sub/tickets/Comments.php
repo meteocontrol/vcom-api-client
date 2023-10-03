@@ -41,7 +41,7 @@ class Comments extends SubEndpoint {
         $body = ['comment' => $commentDetail->comment];
 
         if ($createdAt !== null) {
-            $body['createdAt'] = $createdAt->format(DateTime::ATOM);
+            $body['createdAt'] = $createdAt->format(DATE_ATOM);
         }
 
         $responseBody = $this->api->run(
