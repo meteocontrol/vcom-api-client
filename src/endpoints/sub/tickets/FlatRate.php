@@ -4,8 +4,6 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\client\vcomapi\filters\YieldLossesCriteria;
-use meteocontrol\client\vcomapi\model\YieldLoss;
 
 class FlatRate extends SubEndpoint {
 
@@ -13,14 +11,6 @@ class FlatRate extends SubEndpoint {
         $this->uri = '/flat-rate';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
-    }
-
-    /**
-     * @deprecated It is scheduled to be removed on 2023-10-31.
-     */
-    public function get(YieldLossesCriteria $criteria): YieldLoss {
-        $json = $this->api->run($this->getUri(), $criteria->generateQueryString());
-        return YieldLoss::deserialize($this->jsonDecode($json, true)['data']);
     }
 
     public function gridOperator(): GridOperator {
