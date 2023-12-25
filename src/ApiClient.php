@@ -193,6 +193,9 @@ class ApiClient {
             case 'POST':
                 $response = $this->client->post($uri, $options);
                 break;
+            case 'PUT':
+                $response = $this->client->put($uri, $options);
+                break;
             default:
                 throw new ApiClientException('Unacceptable HTTP method ' . $method);
         }

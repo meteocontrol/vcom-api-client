@@ -6,6 +6,7 @@ use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\EnvironmentalSavings;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Forecasts;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\system\KpiTargets;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Satellite;
 use meteocontrol\vcomapi\model\SystemDetail;
 
@@ -265,5 +266,12 @@ class System extends SubEndpoint {
      */
     public function satellite(): Satellite {
         return new Satellite($this);
+    }
+
+    /**
+     * @return KpiTargets
+     */
+    public function kpiTargets(): KpiTargets {
+        return new KpiTargets($this);
     }
 }
