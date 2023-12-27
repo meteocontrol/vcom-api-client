@@ -29,7 +29,25 @@ class YieldLosses extends SubEndpoint {
         return new FlatRate($this);
     }
 
+    /**
+     * @deprecated It is scheduled to be removed on 2024-06-30.
+     */
+    public function flatRateBefore2021(): FlatRateBefore2021 {
+        return new FlatRateBefore2021($this);
+    }
+
     public function peak(): Peak {
         return new Peak($this);
+    }
+
+    /**
+     * @deprecated It is scheduled to be removed on 2024-06-30.
+     */
+    public function peakBefore2021(): PeakBefore2021 {
+        return new PeakBefore2021($this);
+    }
+
+    public function simplifiedPeak(): SimplifiedPeak {
+        return new SimplifiedPeak($this);
     }
 }

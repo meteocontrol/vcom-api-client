@@ -5,10 +5,10 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 
-class FlatRate extends SubEndpoint {
+class SimplifiedPeak extends SubEndpoint {
 
     public function __construct(EndpointInterface $parent) {
-        $this->uri = '/flat-rate';
+        $this->uri = '/simplified-peak';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
@@ -19,12 +19,5 @@ class FlatRate extends SubEndpoint {
 
     public function energyTrader(): EnergyTrader {
         return new EnergyTrader($this);
-    }
-
-    /**
-     * @deprecated It is scheduled to be removed on 2024-06-30.
-     */
-    public function directMarketing(): DirectMarketing {
-        return new DirectMarketing($this);
     }
 }

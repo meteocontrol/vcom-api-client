@@ -9,13 +9,10 @@ use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\YieldLossesCriteria;
 use meteocontrol\client\vcomapi\model\YieldLoss;
 
-/**
- * @deprecated It is scheduled to be removed on 2024-06-30.
- */
-class DirectMarketing extends SubEndpoint {
+class EnergyTrader extends SubEndpoint {
 
     public function __construct(EndpointInterface $parent) {
-        $this->uri = '/direct-marketing';
+        $this->uri = '/energy-trader';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }

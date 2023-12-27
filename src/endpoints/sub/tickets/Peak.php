@@ -17,6 +17,13 @@ class Peak extends SubEndpoint {
         return new GridOperator($this);
     }
 
+    public function energyTrader(): EnergyTrader {
+        return new EnergyTrader($this);
+    }
+
+    /**
+     * @deprecated It is scheduled to be removed on 2024-06-30.
+     */
     public function directMarketing(): DirectMarketing {
         return new DirectMarketing($this);
     }

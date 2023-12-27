@@ -38,3 +38,4 @@
 2023-10-04: Add endpoints with different power control sources for yield loss calculation
 2023-10-31: Remove the yield loss calculation endpoints that didn't specify the power control sources
 2023-12-25: Add kpi targets endpoints
+2023-12-27: Support the yield loss calculation formulas defined by Bundesnetzagentur in 2020 and deprecate the 2017 formulas
