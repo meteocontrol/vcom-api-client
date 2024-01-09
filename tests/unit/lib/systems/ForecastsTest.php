@@ -48,7 +48,7 @@ class ForecastsTest extends TestCase {
                     'systems/ABCDE/forecasts/forecast'
                 ),
                 $this->identicalToUrl(
-                    'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&format=json'
+                    'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=json'
                 )
             )
             ->willReturn($json);
@@ -57,6 +57,7 @@ class ForecastsTest extends TestCase {
             ->withHoursToFuture(1)
             ->withTimezone('Europe/Berlin')
             ->withResolution(ForecastCriteria::RESOLUTION_FIFTEEN_MINUTES)
+            ->withCategory(ForecastCriteria::CATEGORY_DAY_AHEAD)
             ->withFormat(CsvFormat::FORMAT_JSON);
 
         $forecasts = $this->api->system('ABCDE')->forecasts()->forecast()->get($forecastCriteria);
@@ -91,7 +92,7 @@ class ForecastsTest extends TestCase {
                     'systems/ABCDE/forecasts/forecast'
                 ),
                 $this->identicalToUrl(
-                    'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&format=csv'
+                    'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=csv'
                 )
             )
             ->willReturn($csvContent);
@@ -100,6 +101,7 @@ class ForecastsTest extends TestCase {
             ->withHoursToFuture(1)
             ->withTimezone('Europe/Berlin')
             ->withResolution(ForecastCriteria::RESOLUTION_FIFTEEN_MINUTES)
+            ->withCategory(ForecastCriteria::CATEGORY_DAY_AHEAD)
             ->withFormat(CsvFormat::FORMAT_CSV);
 
         $forecasts = $this->api->system('ABCDE')->forecasts()->forecast()->get($forecastCriteria);
