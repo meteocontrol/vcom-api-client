@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi\handlers;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use meteocontrol\client\vcomapi\Config;
+use meteocontrol\client\vcomapi\Factory;
 use meteocontrol\client\vcomapi\UnauthorizedException;
 
 class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
@@ -59,9 +60,10 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
      * @throws UnauthorizedException
      */
     private function doOAuthGrant(Client $client): void {
+        $loginUri = sprintf('%s/%s/login', $this->config->getApiUrl(), Factory::API_VERSION);
         try {
             $response = $client->post(
-                sprintf('%s/login', $this->config->getApiUrl()),
+                $loginUri,
                 [
                     'form_params' => [
                         'grant_type' => 'password',
@@ -92,9 +94,10 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
      * @throws UnauthorizedException
      */
     private function doOAuthRefresh(Client $client): void {
+        $loginUri = sprintf('%s/%s/login', $this->config->getApiUrl(), Factory::API_VERSION);
         try {
             $response = $client->post(
-                sprintf('%s/login', $this->config->getApiUrl()),
+                $loginUri,
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',

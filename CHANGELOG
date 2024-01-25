@@ -40,3 +40,4 @@
 2023-12-25: Add kpi targets endpoints
 2023-12-27: Support the yield loss calculation formulas defined by Bundesnetzagentur in 2020 and deprecate the 2017 formulas
 2024-01-10: Add category parameter to the forecast endpoint
+2024-01-25: Apply /v2 to login path

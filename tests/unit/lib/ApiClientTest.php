@@ -58,6 +58,34 @@ class ApiClientTest extends TestCase {
         $apiClient->run('url');
     }
 
+    public function testWithHeader() {
+        $responseMock = $this->getResponseMock();
+
+        /** @var Client|MockObject $client */
+        $client = $this->getMockBuilder('\GuzzleHttp\Client')
+            ->setMethods(['get'])
+            ->getMock();
+        $client->expects($this->once())
+            ->method('get')
+            ->with(
+                'url',
+                $this->callback(function (array $options) {
+                    $this->assertEquals('test-VALUE', $options['headers']['test-header']);
+                    return true;
+                }),
+            )->willReturn($responseMock);
+
+        $config = new Config(__DIR__ . '/_files/config.ini');
+        $config->setTokenAccessCallable(function () {
+            return ['access_token' => 'access_token', 'refresh_token' => 'refresh_token'];
+        });
+        $authHandler = new OAuthAuthorizationHandler($config);
+
+        $apiClient = new ApiClient($client, $authHandler);
+        $apiClient->withHeader('test-HEADER', 'test-VALUE');
+        $apiClient->run('url');
+    }
+
     public function testRunGetWithParameters() {
         $responseMock = $this->getResponseMock();
         $expectedOption = [
@@ -270,7 +298,7 @@ class ApiClientTest extends TestCase {
         $client->expects($this->exactly(2))
             ->method('post')
             ->withConsecutive([
-                'https://test.meteocontrol.api/login',
+                'https://test.meteocontrol.api/v2/login',
                 [
                     'form_params' => [
                         'grant_type' => 'password',
@@ -279,7 +307,7 @@ class ApiClientTest extends TestCase {
                     ]
                 ]
             ], [
-                'https://test.meteocontrol.api/login',
+                'https://test.meteocontrol.api/v2/login',
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',
@@ -322,7 +350,7 @@ class ApiClientTest extends TestCase {
         $client->expects($this->exactly(3))
             ->method('post')
             ->withConsecutive([
-                'https://test.meteocontrol.api/login',
+                'https://test.meteocontrol.api/v2/login',
                 [
                     'form_params' => [
                         'grant_type' => 'password',
@@ -331,7 +359,7 @@ class ApiClientTest extends TestCase {
                     ]
                 ]
             ], [
-                'https://test.meteocontrol.api/login',
+                'https://test.meteocontrol.api/v2/login',
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',
@@ -339,7 +367,7 @@ class ApiClientTest extends TestCase {
                     ]
                 ]
             ], [
-                'https://test.meteocontrol.api/login',
+                'https://test.meteocontrol.api/v2/login',
                 [
                     'form_params' => [
                         'grant_type' => 'password',
@@ -507,7 +535,7 @@ class ApiClientTest extends TestCase {
         $client->expects($this->exactly(2))
             ->method('post')
             ->withConsecutive([
-                'https://test.meteocontrol.api/login',
+                'https://test.meteocontrol.api/v2/login',
                 [
                     'form_params' => [
                         'grant_type' => 'password',
@@ -516,7 +544,7 @@ class ApiClientTest extends TestCase {
                     ]
                 ]
             ], [
-                'https://test.meteocontrol.api/login',
+                'https://test.meteocontrol.api/v2/login',
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',

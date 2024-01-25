@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use meteocontrol\client\vcomapi\Config;
+use meteocontrol\client\vcomapi\Factory;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -22,8 +23,12 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     /** @var string */
     private $tokenAccessFile;
 
+    /** @var string */
+    private $loginUrl;
+
     public function setup(): void {
         $this->config = new Config(__DIR__ . '/../_files/config.ini');
+        $this->loginUrl = sprintf('%s/%s/login', $this->config->getApiUrl(), Factory::API_VERSION);
         $this->tokenAccessFile = __DIR__ . '/../../../../.tokenAccess/' .
             md5($this->config->getApiUsername() . $this->config->getApiPassword());
 
@@ -43,7 +48,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         $this->mockedClient->expects($this->once())
             ->method('post')
             ->with(
-                sprintf('%s/login', $this->config->getApiUrl()),
+                $this->loginUrl,
                 [
                     'form_params' => [
                         'grant_type' => 'password',
@@ -92,7 +97,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         $this->mockedClient->expects($this->once())
             ->method('post')
             ->with(
-                sprintf('%s/login', $this->config->getApiUrl()),
+                $this->loginUrl,
                 [
                     'form_params' => [
                         'grant_type' => 'password',
@@ -127,7 +132,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
             ->method('post')
             ->withConsecutive(
                 [
-                    sprintf('%s/login', $this->config->getApiUrl()),
+                    $this->loginUrl,
                     [
                         'form_params' => [
                             'grant_type' => 'password',
@@ -137,7 +142,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
                     ]
                 ],
                 [
-                    sprintf('%s/login', $this->config->getApiUrl()),
+                    $this->loginUrl,
                     [
                         'form_params' => [
                             'grant_type' => 'refresh_token',
@@ -172,7 +177,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         $this->mockedClient->expects($this->once())
             ->method('post')
             ->with(
-                sprintf('%s/login', $this->config->getApiUrl()),
+                $this->loginUrl,
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',
@@ -205,7 +210,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
         $this->mockedClient->expects($this->once())
             ->method('post')
             ->with(
-                sprintf('%s/login', $this->config->getApiUrl()),
+                $this->loginUrl,
                 [
                     'form_params' => [
                         'grant_type' => 'refresh_token',

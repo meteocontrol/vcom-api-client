@@ -23,6 +23,8 @@ class ApiClient {
     private $client;
     /** @var AuthorizationHandlerInterface */
     private $authorizationHandler;
+    /** @var array  */
+    private $headers = [];
 
     /**
      * @param Client $client
@@ -154,19 +156,27 @@ class ApiClient {
         return $response->getBody()->getContents();
     }
 
+    public function withHeader(string $header, string $value): void {
+        $this->headers[strtolower($header)] = $value;
+    }
+
     /**
      * @param string|null $queryString
      * @param string|null $body
      * @return array
      */
     private function getRequestOptions(?string $queryString, ?string $body): array {
-        $options = [
-            'query' => $queryString ?: null,
-            'body' => $body ?: null,
-            'headers' => [
+        $headers = array_merge(
+            [
                 'Accept-Encoding' => 'gzip, deflate',
                 'Content-Type' => 'application/json'
             ],
+            $this->headers,
+        );
+        $options = [
+            'query' => $queryString ?: null,
+            'body' => $body ?: null,
+            'headers' => $headers,
         ];
 
         return $this->authorizationHandler->appendAuthorizationHeader($this->client, $options);

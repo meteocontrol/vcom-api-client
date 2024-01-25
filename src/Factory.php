@@ -10,7 +10,7 @@ use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 
 class Factory {
 
-    private const API_VERSION = 'v2';
+    public const API_VERSION = 'v2';
 
     /**
      * @param Config|null $config
