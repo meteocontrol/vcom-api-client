@@ -7,10 +7,10 @@ use DateTimeInterface;
 
 class CmmsSystem extends BaseModel {
 
-    /** @var DateTime */
+    /** @var DateTime|null */
     public $activeUntil;
 
-    /** @var DateTime */
+    /** @var DateTime|null */
     public $activeSince;
 
     /** @var string */
@@ -19,7 +19,7 @@ class CmmsSystem extends BaseModel {
     /** @var string */
     public $name;
 
-    /** @var int */
+    /** @var int|null */
     public $renew;
 
     /**
