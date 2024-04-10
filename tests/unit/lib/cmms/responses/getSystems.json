@@ -13,6 +13,13 @@
             "key": "4DC11",
             "name": "VCOM API E2E Test",
             "renew": 1
+        },
+        {
+            "activeUntil": null,
+            "activeSince": null,
+            "key": "VUS56",
+            "name": "Test partner system",
+            "renew": null
         }
     ]
 }

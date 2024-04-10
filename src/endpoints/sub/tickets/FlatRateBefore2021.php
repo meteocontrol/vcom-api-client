@@ -16,11 +16,11 @@ class FlatRateBefore2021 extends SubEndpoint {
         $this->parent = $parent;
     }
 
-    public function gridOperator(): GridOperator {
-        return new GridOperator($this);
+    public function gridOperator(): GridOperatorReadOnly {
+        return new GridOperatorReadOnly($this);
     }
 
-    public function energyTrader(): EnergyTrader {
-        return new EnergyTrader($this);
+    public function energyTrader(): EnergyTraderReadOnly {
+        return new EnergyTraderReadOnly($this);
     }
 }

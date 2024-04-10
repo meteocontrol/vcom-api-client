@@ -13,6 +13,13 @@ class YieldLoss extends BaseModel {
     /** @var float */
     public $totalCompensation;
 
-    /** @var string */
+    /** @var string|null */
     public $comment;
+
+    /**
+     * @return bool
+     */
+    public function isValid(): bool {
+        return !empty($this->realLostYield) || !empty($this->comment);
+    }
 }

@@ -36,6 +36,11 @@ class SystemTest extends TestCase {
         $system2->key = "4DC11";
         $system2->name = "VCOM API E2E Test";
         $system2->renew = 1;
-        return [$system1, $system2];
+
+        $system3 = new CmmsSystem();
+        $system3->key = "VUS56";
+        $system3->name = "Test partner system";
+
+        return [$system1, $system2, $system3];
     }
 }

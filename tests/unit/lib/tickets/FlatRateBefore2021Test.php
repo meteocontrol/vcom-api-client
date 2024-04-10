@@ -8,7 +8,9 @@ use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
 class FlatRateBefore2021Test extends TestCase {
 
-    public function testGridOperator(): void {
+    private int $ticketId = 457564;
+
+    public function testGetCalculationResultUsingGridOperatorSource(): void {
         $json = file_get_contents(__DIR__ . '/responses/getFlatRateBefore2021GridOperator.json');
 
         $criteria = new YieldLossesCriteria();
@@ -26,7 +28,7 @@ class FlatRateBefore2021Test extends TestCase {
             )
             ->willReturn($json);
 
-        $calculationResult = $this->api->ticket(457564)->yieldLosses()->flatRateBefore2021()->gridOperator()
+        $calculationResult = $this->api->ticket($this->ticketId)->yieldLosses()->flatRateBefore2021()->gridOperator()
             ->get($criteria);
 
         $this->assertEquals(1852.42, $calculationResult->result);
@@ -35,7 +37,7 @@ class FlatRateBefore2021Test extends TestCase {
         $this->assertEquals(136.52, $calculationResult->totalCompensation);
     }
 
-    public function testEnergyTrader(): void {
+    public function testGetCalculationResultUsingEnergyTraderSource(): void {
         $json = file_get_contents(__DIR__ . '/responses/getFlatRateBefore2021EnergyTrader.json');
 
         $criteria = new YieldLossesCriteria();
@@ -53,7 +55,7 @@ class FlatRateBefore2021Test extends TestCase {
             )
             ->willReturn($json);
 
-        $calculationResult = $this->api->ticket(457564)->yieldLosses()->flatRateBefore2021()->energyTrader()
+        $calculationResult = $this->api->ticket($this->ticketId)->yieldLosses()->flatRateBefore2021()->energyTrader()
             ->get($criteria);
 
         $this->assertEquals(1852.42, $calculationResult->result);
