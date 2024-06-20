@@ -27,6 +27,7 @@ class ModelTest extends TestCase {
         $booleanValue = true;
         $intervalValue = 300;
         $expectedData = json_decode(file_get_contents(__DIR__ . '/_files/models.json'), true);
+        $components = ['Id86460.1', 'Id86460.2', 'Id86460.3', 'Id86460.4'];
 
         $attachmentFile = new AttachmentFile();
         $attachmentFile->attachmentId = $attachmentFile->creatorId = $intValue;
@@ -68,6 +69,7 @@ class ModelTest extends TestCase {
         $ticket->outage->startedAt = $ticket->outage->endedAt = $dateTime;
         $ticket->outage->shouldInfluenceAvailability = $ticket->outage->shouldInfluencePr = $booleanValue;
         $ticket->outage->affectedPower = $floatValue;
+        $ticket->outage->components = $components;
 
         $ticketHistory = new TicketHistory();
         $ticketHistory->action = $ticketHistory->personInCharge = $ticketHistory->from =

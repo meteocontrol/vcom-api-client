@@ -20,4 +20,7 @@ class Outage extends BaseModel {
 
     /** @var bool */
     public $shouldInfluencePr;
+
+    /** @var string[] */
+    public $components;
 }

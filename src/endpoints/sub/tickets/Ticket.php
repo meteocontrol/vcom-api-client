@@ -97,6 +97,10 @@ class Ticket extends SubEndpoint {
         return new Comment($commentIdEndpoint);
     }
 
+    public function outage(): Outage {
+        return new Outage($this);
+    }
+
     /**
      * @return Attachments
      */

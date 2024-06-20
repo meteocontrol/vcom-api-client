@@ -1,0 +1,10 @@
+{
+  "data": {
+    "startedAt": "2024-06-01T12:00:00+02:00",
+    "endedAt": null,
+    "affectedPower": 123.45,
+    "shouldInfluenceAvailability": true,
+    "shouldInfluencePr": false,
+    "components": ["Id56789.1", "Id56789.2"]
+  }
+}

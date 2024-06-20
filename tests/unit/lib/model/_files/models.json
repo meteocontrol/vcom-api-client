@@ -69,7 +69,13 @@
       "endedAt": "2018-01-02T03:04:01+00:00",
       "affectedPower": 0.1,
       "shouldInfluenceAvailability": true,
-      "shouldInfluencePr": true
+      "shouldInfluencePr": true,
+      "components": [
+        "Id86460.1",
+        "Id86460.2",
+        "Id86460.3",
+        "Id86460.4"
+      ]
     }
   },
   "systemDetail":

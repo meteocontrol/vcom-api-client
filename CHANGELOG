@@ -42,3 +42,4 @@
 2024-01-10: Add category parameter to the forecast endpoint
 2024-01-25: Apply /v2 to login path
 2024-04-10: Implement the replace action for all yield loss calculation endpoints
+2024-06-12: Add ticket outage endpoints
