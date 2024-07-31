@@ -44,3 +44,4 @@
 2024-04-10: Implement the replace action for all yield loss calculation endpoints
 2024-06-12: Add ticket outage endpoints
 2024-06-30: Remove the deprecated yield loss calculation endpoints that use the 2017 formulas
+2024-07-25: Add single alarm endpoints

@@ -27,4 +27,22 @@ class Alarm extends SubEndpoint {
         $alarmJson = $this->api->run($this->getUri());
         return AlarmModel::deserialize($this->jsonDecode($alarmJson, true)['data']);
     }
+
+    public function close(): void {
+        $this->api->run(
+            $this->getUri() . '/close',
+            null,
+            null,
+            'POST',
+        );
+    }
+
+    public function update(AlarmModel $alarm): void {
+        $this->api->run(
+            $this->getUri(),
+            null,
+            json_encode(['ticketId' => $alarm->ticketId]),
+            'PATCH',
+        );
+    }
 }
