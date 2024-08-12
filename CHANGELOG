@@ -46,3 +46,4 @@
 2024-06-30: Remove the deprecated yield loss calculation endpoints that use the 2017 formulas
 2024-07-25: Add single alarm endpoints
 2024-08-01: Add new calculation options for yield losses
+2024-08-07: Add last data input endpoint

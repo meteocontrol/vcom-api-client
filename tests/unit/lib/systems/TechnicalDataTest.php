@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
+use DateTime;
 use meteocontrol\client\vcomapi\model\TechnicalData;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
@@ -30,5 +31,17 @@ class TechnicalDataTest extends TestCase {
         $this->assertEquals('KACO new energy', $technicalData->inverters[1]->vendor);
         $this->assertEquals('Powador 3500xi', $technicalData->inverters[1]->model);
         $this->assertEquals(1, $technicalData->inverters[1]->count);
+    }
+
+    public function testGetLastDataInput() {
+        $json = file_get_contents(__DIR__ . '/responses/getLastDataInput.json');
+        $this->api->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo('systems/ABCDE/technical-data/last-data-input'))
+            ->willReturn($json);
+
+        $lastDataInput = $this->api->system('ABCDE')->technicalData()->lastDataInput()->get();
+
+        $this->assertEquals(new DateTime('2024-08-06T12:59:59+00:00'), $lastDataInput->timestamp);
     }
 }
