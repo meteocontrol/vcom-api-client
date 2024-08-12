@@ -6,9 +6,9 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 
-class EnergyTrader extends YieldLossesSetpointEndpoint {
+class ManualSetpoint extends YieldLossesSetpointEndpoint {
 
     public function __construct(EndpointInterface $parent) {
-        parent::__construct($parent, '/energy-trader');
+        parent::__construct($parent, '/manual');
     }
 }

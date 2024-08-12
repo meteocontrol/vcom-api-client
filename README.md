@@ -9,5 +9,5 @@ The full documentation for the VCOM API and this HTTP Client can be found <a hre
 ```sh
 composer install
 ./vendor/bin/phpunit
-./vendor/bin/phpcs --extensions=php --ignore=vendor,phpcs --report-full -p .
+./vendor/bin/phpcs --extensions=php --ignore=vendor,phpcs --report-full -p --standard=phpcs/meteocontrol/ruleset.xml .
 ```

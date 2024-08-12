@@ -20,4 +20,12 @@ class Peak extends SubEndpoint {
     public function energyTrader(): EnergyTrader {
         return new EnergyTrader($this);
     }
+
+    public function manual(): ManualSetpoint {
+        return new ManualSetpoint($this);
+    }
+
+    public function static(): StaticSetpoint {
+        return new StaticSetpoint($this);
+    }
 }
