@@ -81,6 +81,7 @@ class ModelTest extends TestCase {
         $systemDetail->name = $systemDetail->currency = $systemDetail->simulationMethod = $stringValue;
         $systemDetail->commissionDate = $dateTime;
         $systemDetail->hasSolarForecast = $booleanValue;
+        $systemDetail->additionalInformation = $stringValue;
 
         $coordinates = new Coordinates();
         $coordinates->latitude = $coordinates->longitude = $floatValue;

@@ -16,6 +16,7 @@
     "timezone": {
       "name": "Europe/Berlin",
       "utcOffset": "+01:00"
-    }
+    },
+    "additionalInformation": "additional information"
   }
 }

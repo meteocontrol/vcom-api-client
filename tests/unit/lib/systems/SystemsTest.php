@@ -54,6 +54,7 @@ class SystemsTest extends TestCase {
         $this->assertEquals(10.8681, $system->coordinates->longitude);
         $this->assertEquals('Europe/Berlin', $system->timezone->name);
         $this->assertEquals('+01:00', $system->timezone->utcOffset);
+        $this->assertEquals('additional information', $system->additionalInformation);
     }
 
     public function testGetSystemBulkData() {

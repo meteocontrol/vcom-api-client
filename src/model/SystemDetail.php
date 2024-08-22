@@ -26,6 +26,8 @@ class SystemDetail extends BaseModel {
     public $hasSolarForecast;
     /** @var string */
     public $simulationMethod;
+    /** @var string|null */
+    public $additionalInformation;
 
     /**
      * @param array $data
