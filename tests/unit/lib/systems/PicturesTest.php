@@ -10,7 +10,7 @@ class PicturesTest extends TestCase {
     public function testGetPicture() {
         $json = file_get_contents(__DIR__ . '/responses/getSinglePicture.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/picture'))
             ->willReturn($json);
         /** @var PictureFile $picture */

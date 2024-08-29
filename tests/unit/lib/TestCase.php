@@ -34,7 +34,7 @@ class TestCase extends \PHPUnit\Framework\TestCase {
         $authHandler = new OAuthAuthorizationHandler($config);
         return $this->getMockBuilder('\meteocontrol\client\vcomapi\ApiClient')
             ->setConstructorArgs([$client, $authHandler])
-            ->setMethods(['run'])
+            ->onlyMethods(['get', 'put', 'post', 'patch', 'delete'])
             ->getMock();
     }
 }

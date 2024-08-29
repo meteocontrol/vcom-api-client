@@ -11,7 +11,7 @@ class SystemTest extends TestCase {
     public function testGetSystems() {
         $json = file_get_contents(__DIR__ . "/responses/getSystems.json");
         $this->api->expects($this->once())
-            ->method("run")
+            ->method("get")
             ->with($this->identicalTo("cmms/systems"))
             ->willReturn($json);
 

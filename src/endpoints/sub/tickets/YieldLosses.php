@@ -4,6 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\model\YieldLossCalculation;
 
 class YieldLosses extends SubEndpoint {
 
@@ -11,6 +12,11 @@ class YieldLosses extends SubEndpoint {
         $this->uri = '/yield-losses';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
+    }
+
+    public function get(): YieldLossCalculation {
+        $json = $this->api->get($this->getUri());
+        return YieldLossCalculation::deserialize($this->jsonDecode($json, true)['data']);
     }
 
     public function referenceSystem(): ReferenceSystem {

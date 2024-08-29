@@ -21,7 +21,7 @@ class WorkOrder extends SubEndpoint {
      * @return WorkOrderDetail
      */
     public function get(): WorkOrderDetail {
-        $workorderJson = $this->api->run($this->getUri());
+        $workorderJson = $this->api->get($this->getUri());
         $decodedJson = json_decode($workorderJson, true);
         return WorkOrderDetail::deserialize($decodedJson['data']);
     }

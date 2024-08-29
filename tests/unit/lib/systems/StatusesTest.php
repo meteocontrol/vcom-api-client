@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Statuses;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
@@ -18,7 +19,7 @@ class StatusesTest extends TestCase {
     public function testGetStatuses() {
         $json = file_get_contents(__DIR__ . '/responses/getStatuses.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/statuses'))
             ->willReturn($json);
 
@@ -35,7 +36,7 @@ class StatusesTest extends TestCase {
     public function testGetSingleStatus() {
         $json = file_get_contents(__DIR__ . '/responses/getStatus.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/statuses/10001'))
             ->willReturn($json);
 
@@ -53,7 +54,7 @@ class StatusesTest extends TestCase {
     public function testGetStatusAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getStatusAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/statuses/10001/abbreviations'))
             ->willReturn($json);
 
@@ -68,14 +69,14 @@ class StatusesTest extends TestCase {
     public function testGetStatusMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getStatusMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/statuses/10001/abbreviations/STATE1,STATE2/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval'
+                ])
             )
             ->willReturn($json);
 
@@ -107,14 +108,14 @@ class StatusesTest extends TestCase {
     public function testGetStatusMeasurementsWithIntervalIncluded() {
         $json = file_get_contents(__DIR__ . '/responses/getStatusMeasurementsIncludeInterval.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/statuses/10001/abbreviations/STATE1,STATE2/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -152,10 +153,12 @@ class StatusesTest extends TestCase {
     public function testGetStatusesBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getStatusBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/statuses/bulk/measurements'),
-                $this->identicalToUrl('from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -173,12 +176,12 @@ class StatusesTest extends TestCase {
     public function testGetStatusesBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getStatusBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/statuses/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=STATE1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=STATE1'
+                ])
             )
             ->willReturn($json);
 
@@ -197,12 +200,12 @@ class StatusesTest extends TestCase {
     public function testGetStatusesBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getStatusBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/statuses/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

@@ -21,7 +21,7 @@ class Sensors extends SubEndpoint {
      * @return Sensor[]
      */
     public function get(): array {
-        $json = $this->api->run($this->getUri());
+        $json = $this->api->get($this->getUri());
         return Sensor::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 

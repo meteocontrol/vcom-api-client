@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\bulk;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
@@ -24,7 +25,7 @@ class Measurements extends SubEndpoint {
      */
     public function get(MeasurementsCriteria $criteria): MeasurementsBulkReader {
         return new MeasurementsBulkReader(
-            $this->api->run($this->getUri(), $criteria->generateQueryString()),
+            $this->api->get($this->getUri(), [RequestOptions::QUERY => $criteria->generateQueryString()]),
             $criteria
         );
     }

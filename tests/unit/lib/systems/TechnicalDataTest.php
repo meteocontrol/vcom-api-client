@@ -11,7 +11,7 @@ class TechnicalDataTest extends TestCase {
     public function testGetTechnicalData() {
         $json = file_get_contents(__DIR__ . '/responses/getTechnicalData.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/technical-data'))
             ->willReturn($json);
 
@@ -36,7 +36,7 @@ class TechnicalDataTest extends TestCase {
     public function testGetLastDataInput() {
         $json = file_get_contents(__DIR__ . '/responses/getLastDataInput.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/technical-data/last-data-input'))
             ->willReturn($json);
 

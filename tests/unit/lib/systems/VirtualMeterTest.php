@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeterReadingCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\vcomapi\model\VirtualMeter;
@@ -14,7 +15,7 @@ class VirtualMeterTest extends TestCase {
     public function testGetVirtualMeters() {
         $json = file_get_contents(__DIR__ . '/responses/getVirtualMeters.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/virtual-meters'))
             ->willReturn($json);
 
@@ -33,7 +34,7 @@ class VirtualMeterTest extends TestCase {
     public function testGetSingleVirtualMeter() {
         $json = file_get_contents(__DIR__ . '/responses/getVirtualMeter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/virtual-meters/81297'))
             ->willReturn($json);
 
@@ -53,7 +54,7 @@ class VirtualMeterTest extends TestCase {
     public function testGetLatestVirtualMeterReading() {
         $json = file_get_contents(__DIR__ . '/responses/getVirtualMeterLatestReading.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'))
             ->willReturn($json);
 
@@ -72,10 +73,10 @@ class VirtualMeterTest extends TestCase {
     public function testGetLatestAutoVirtualMeterReading() {
         $json = file_get_contents(__DIR__ . '/responses/getVirtualMeterLatestAutoReading.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'),
-                $this->identicalTo('type=AUTO')
+                $this->identicalToUrl([RequestOptions::QUERY => 'type=AUTO'])
             )->willReturn($json);
 
         $criteria = new MeterReadingCriteria();
@@ -94,10 +95,10 @@ class VirtualMeterTest extends TestCase {
     public function testGetLatestManualVirtualMeterReading() {
         $json = file_get_contents(__DIR__ . '/responses/getVirtualMeterLatestManualReading.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'),
-                $this->identicalTo('type=MANUAL')
+                $this->identicalToUrl([RequestOptions::QUERY => 'type=MANUAL'])
             )->willReturn($json);
 
         $criteria = new MeterReadingCriteria();
@@ -116,10 +117,12 @@ class VirtualMeterTest extends TestCase {
     public function testGetVirtualMeterReading() {
         $json = file_get_contents(__DIR__ . '/responses/getVirtualMeterReading.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'),
-                $this->identicalToUrl('from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00'
+                ])
             )->willReturn($json);
 
         $criteria = new MeterReadingCriteria();
@@ -149,12 +152,12 @@ class VirtualMeterTest extends TestCase {
     public function testGetAutoVirtualMeterReading() {
         $json = file_get_contents(__DIR__ . '/responses/getVirtualMeterAutoReading.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'),
-                $this->identicalToUrl(
-                    'from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00&type=AUTO'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00&type=AUTO'
+                ])
             )->willReturn($json);
 
         $criteria = new MeterReadingCriteria();
@@ -175,12 +178,12 @@ class VirtualMeterTest extends TestCase {
     public function testGetManualVirtualMeterReading() {
         $json = file_get_contents(__DIR__ . '/responses/getVirtualMeterManualReading.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/virtual-meters/81297/readings'),
-                $this->identicalToUrl(
-                    'from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00&type=MANUAL'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2018-02-28T00:00:00+02:00&to=2018-05-01T00:00:00+01:00&type=MANUAL'
+                ])
             )->willReturn($json);
 
         $criteria = new MeterReadingCriteria();

@@ -19,7 +19,7 @@ class Session extends MainEndpoint {
      * @return SessionModel
      */
     public function get(): SessionModel {
-        $sessionJson = $this->api->run($this->getUri());
+        $sessionJson = $this->api->get($this->getUri());
         return SessionModel::deserialize($this->jsonDecode($sessionJson, true)['data']);
     }
 }

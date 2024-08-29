@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\Causes;
@@ -25,7 +26,7 @@ class Tickets extends MainEndpoint {
      * @return TicketOverview[]
      */
     public function find(TicketsCriteria $criteria): array {
-        $ticketsJson = $this->api->run($this->uri, $criteria->generateQueryString());
+        $ticketsJson = $this->api->get($this->uri, [RequestOptions::QUERY => $criteria->generateQueryString()]);
         return TicketOverview::deserializeArray($this->jsonDecode($ticketsJson, true)['data']);
     }
 
@@ -53,12 +54,7 @@ class Tickets extends MainEndpoint {
         empty($ticket->cause) ?: $fields['cause'] = $ticket->cause;
         $ticket->fieldService === null || ($fields['fieldService'] = $ticket->fieldService);
 
-        $responseBody = $this->api->run(
-            $this->uri,
-            null,
-            json_encode($fields),
-            'POST'
-        );
+        $responseBody = $this->api->post($this->getUri(), [RequestOptions::JSON => $fields]);
         return $this->jsonDecode($responseBody)->data->ticketId;
     }
 

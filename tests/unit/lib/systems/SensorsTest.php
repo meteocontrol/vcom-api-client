@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\Sensors;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
@@ -20,7 +21,7 @@ class SensorsTest extends TestCase {
     public function testGetSensors() {
         $json = file_get_contents(__DIR__ . '/responses/getSensors.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/sensors'))
             ->willReturn($json);
 
@@ -39,7 +40,7 @@ class SensorsTest extends TestCase {
     public function testGetSingleSensor() {
         $json = file_get_contents(__DIR__ . '/responses/getSensor.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/sensors/126222'))
             ->willReturn($json);
 
@@ -55,7 +56,7 @@ class SensorsTest extends TestCase {
     public function testGetSensorAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/sensors/126222/abbreviations'))
             ->willReturn($json);
 
@@ -70,7 +71,7 @@ class SensorsTest extends TestCase {
     public function testGetSensorSingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorSingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/sensors/126222/abbreviations/GM_3'))
             ->willReturn($json);
 
@@ -86,14 +87,14 @@ class SensorsTest extends TestCase {
     public function testGetSensorMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval'
+                ])
             )
             ->willReturn($json);
 
@@ -125,14 +126,14 @@ class SensorsTest extends TestCase {
     public function testGetSensorMeasurementsWithIntervalIncluded() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurementsIncludeInterval.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -173,14 +174,14 @@ class SensorsTest extends TestCase {
 
         $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -197,14 +198,14 @@ class SensorsTest extends TestCase {
     public function testGetSensorMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/sensors/123/abbreviations/T_M1,G_M3/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -242,10 +243,12 @@ class SensorsTest extends TestCase {
     public function testGetSensorsBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/sensors/bulk/measurements'),
-                $this->identicalToUrl('from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -263,12 +266,12 @@ class SensorsTest extends TestCase {
     public function testGetSensorsBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getSensorBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/sensors/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=E_AH_ABS'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=E_AH_ABS'
+                ])
             )
             ->willReturn($json);
 
@@ -287,12 +290,12 @@ class SensorsTest extends TestCase {
     public function testGetSensorsBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getSensorBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/sensors/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

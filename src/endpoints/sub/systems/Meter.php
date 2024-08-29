@@ -23,7 +23,7 @@ class Meter extends SubEndpoint {
      * @return MeterDetail
      */
     public function get() {
-        $json = $this->api->run($this->getUri());
+        $json = $this->api->get($this->getUri());
         return MeterDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 

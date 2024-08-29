@@ -11,7 +11,7 @@ class StringboxAbbreviation extends Abbreviation {
      * @return StringboxAbbreviationModel
      */
     public function get(): AbbreviationModel {
-        $abbreviationJson = $this->api->run($this->getUri());
+        $abbreviationJson = $this->api->get($this->getUri());
         return StringboxAbbreviationModel::deserialize($this->jsonDecode($abbreviationJson, true)['data']);
     }
 }

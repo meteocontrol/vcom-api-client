@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\model\AttachmentFile;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
@@ -12,7 +13,7 @@ class AttachmentsTest extends TestCase {
     public function testGetAttachments() {
         $json = file_get_contents($this->getExpectedAttachments());
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('tickets/123/attachments'))
             ->willReturn($json);
         $actual = $this->api->ticket('123')->attachments()->get();
@@ -26,7 +27,7 @@ class AttachmentsTest extends TestCase {
     public function testGetAttachment() {
         $json = file_get_contents($this->getExpectedAttachment());
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('tickets/123/attachments/1234'))
             ->willReturn($json);
         $actual = $this->api->ticket('123')->attachment(1234)->get();
@@ -42,12 +43,10 @@ class AttachmentsTest extends TestCase {
     public function testCreateAttachment() {
         $json = file_get_contents($this->getExpectedResultOfPostAttachment());
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('post')
             ->with(
                 $this->identicalTo('tickets/123/attachments'),
-                null,
-                $this->getPostAttachmentRequestBody(),
-                'POST'
+                [RequestOptions::BODY => $this->getPostAttachmentRequestBody()],
             )->willReturn($json);
         $attachment = new AttachmentFile();
         $attachment->description = "test attachment";
@@ -61,7 +60,7 @@ class AttachmentsTest extends TestCase {
 
     public function testCreateAttachmentButFilenameIsInvalid() {
         $this->api->expects($this->never())
-            ->method('run');
+            ->method('post');
         $attachment = new AttachmentFile();
         $attachment->content = $this->getEncodedTestAttachment();
 
@@ -73,7 +72,7 @@ class AttachmentsTest extends TestCase {
 
     public function testCreateAttachmentButContentIsInvalid() {
         $this->api->expects($this->never())
-            ->method('run');
+            ->method('post');
         $attachment = new AttachmentFile();
         $attachment->filename  = "test.jpg";
 
@@ -115,13 +114,15 @@ class AttachmentsTest extends TestCase {
      * @return string
      */
     private function getPostAttachmentRequestBody() {
-        $data = [
-            "filename" => "test.jpg",
-            "content" => $this->getEncodedTestAttachment(),
-            "description" => "test attachment",
-            "metaData" => '{ "location": { "lat": 40, "lon": 20 } }'
-        ];
-        return json_encode($data, 79);
+        return json_encode(
+            [
+                "filename" => "test.jpg",
+                "content" => $this->getEncodedTestAttachment(),
+                "description" => "test attachment",
+                "metaData" => '{ "location": { "lat": 40, "lon": 20 } }'
+            ],
+            JSON_UNESCAPED_SLASHES | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS,
+        );
     }
 
     /**

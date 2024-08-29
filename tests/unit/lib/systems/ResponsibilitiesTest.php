@@ -13,7 +13,7 @@ class ResponsibilitiesTest extends TestCase {
     public function testGetResponsibilities() {
         $json = file_get_contents(__DIR__ . '/responses/getResponsibilities.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/responsibilities'))
             ->willReturn($json);
 

@@ -2,8 +2,10 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\filters\CausesCriteria;
 
 class Causes extends SubEndpoint {
 
@@ -19,8 +21,8 @@ class Causes extends SubEndpoint {
     /**
      * @return string[]
      */
-    public function get(): array {
-        $causesJson = $this->api->run($this->getUri());
+    public function get(CausesCriteria $causesCriteria): array {
+        $causesJson = $this->api->get($this->getUri(), [RequestOptions::HEADERS => $causesCriteria->getHeaders()]);
         return $this->jsonDecode($causesJson, true)['data'];
     }
 }

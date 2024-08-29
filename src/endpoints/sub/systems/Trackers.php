@@ -21,7 +21,7 @@ class Trackers extends SubEndpoint {
      * @return Tracker[]
      */
     public function get(): array {
-        $json = $this->api->run($this->getUri());
+        $json = $this->api->get($this->getUri());
         return Tracker::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 

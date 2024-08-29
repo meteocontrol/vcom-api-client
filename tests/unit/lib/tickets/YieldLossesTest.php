@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\YieldLossesCriteria;
 use meteocontrol\client\vcomapi\model\YieldLoss;
@@ -11,6 +12,23 @@ use meteocontrol\client\vcomapi\tests\unit\TestCase;
 class YieldLossesTest extends TestCase {
 
     private int $ticketId = 12345;
+
+    public function testGetSavedCalculationResult(): void {
+        $json = file_get_contents(__DIR__ . '/responses/getYieldLosses.json');
+
+        $this->api->expects($this->once())
+            ->method('get')
+            ->with($this->identicalTo('tickets/12345/yield-losses'))
+            ->willReturn($json);
+
+        $yieldLosses = $this->api->ticket($this->ticketId)->yieldLosses()->get();
+
+        $this->assertEquals('linear-equation', $yieldLosses->model);
+        $this->assertEquals(69.32, $yieldLosses->result);
+        $this->assertEquals(41.29, $yieldLosses->realLostYield);
+        $this->assertEquals(7.34962, $yieldLosses->totalCompensation);
+        $this->assertEquals('', $yieldLosses->comment);
+    }
 
     /**
      * @dataProvider getSourceProvider
@@ -28,13 +46,13 @@ class YieldLossesTest extends TestCase {
         $criteria = $this->getCriteria();
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo("tickets/12345/yield-losses/{$modelEndpoint}/{$sourceEndpoint}"),
-                $this->identicalToUrl(
-                    'from=2022-05-25T00:00:00+00:00' .
-                    '&to=2022-05-31T23:59:59+00:00'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2022-05-25T00:00:00+00:00' .
+                        '&to=2022-05-31T23:59:59+00:00',
+                ]),
             )
             ->willReturn($json);
 
@@ -62,13 +80,21 @@ class YieldLossesTest extends TestCase {
         $yieldLoss->comment = 'Test comment';
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('put')
             ->with(
                 $this->identicalTo("tickets/12345/yield-losses/{$modelEndpoint}/{$sourceEndpoint}"),
-                $this->identicalToUrl(
-                    'from=2022-05-25T00:00:00+00:00' .
-                    '&to=2022-05-31T23:59:59+00:00'
-                )
+                [
+                    RequestOptions::JSON => [
+                        'realLostYield' => $yieldLoss->realLostYield,
+                        'comment' => $yieldLoss->comment,
+                    ],
+                    RequestOptions::QUERY => http_build_query(
+                        [
+                            'from' => '2022-05-25T00:00:00+00:00',
+                            'to' => '2022-05-31T23:59:59+00:00',
+                        ],
+                    ),
+                ],
             );
 
         $this->api->ticket($this->ticketId)->yieldLosses()->{$model}()->{$source}()->replace($criteria, $yieldLoss);

@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\cmms;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\SystemCriteria;
@@ -24,7 +25,10 @@ class WorkOrders extends SubEndpoint {
      */
     public function get(SystemCriteria $systemCriteria = null): array {
         $systemCriteria = $systemCriteria ?? new SystemCriteria();
-        $workorderJson = $this->api->run($this->getUri(), $systemCriteria->generateQueryString());
+        $workorderJson = $this->api->get(
+            $this->getUri(),
+            [RequestOptions::QUERY => $systemCriteria->generateQueryString()]
+        );
         $decodedJson = json_decode($workorderJson, true);
         return WorkOrderModel::deserializeArray($decodedJson['data']);
     }

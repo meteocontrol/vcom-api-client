@@ -23,7 +23,7 @@ class PowerPlantController extends SubEndpoint {
      * @return PowerPlantControllerDetail
      */
     public function get(): PowerPlantControllerDetail {
-        $json = $this->api->run($this->getUri());
+        $json = $this->api->get($this->getUri());
         return PowerPlantControllerDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 

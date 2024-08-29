@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
@@ -20,7 +21,7 @@ class MetersTest extends TestCase {
     public function testGetMeters() {
         $json = file_get_contents(__DIR__ . '/responses/getMeters.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/meters'))
             ->willReturn($json);
 
@@ -35,7 +36,7 @@ class MetersTest extends TestCase {
     public function testGetSingleMeter() {
         $json = file_get_contents(__DIR__ . '/responses/getMeter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/meters/0773'))
             ->willReturn($json);
 
@@ -51,7 +52,7 @@ class MetersTest extends TestCase {
     public function testGetMeterAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/meters/0773/abbreviations'))
             ->willReturn($json);
 
@@ -66,7 +67,7 @@ class MetersTest extends TestCase {
     public function testGetMeterSingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterSingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/meters/0773/abbreviations/E_INT'))
             ->willReturn($json);
 
@@ -82,14 +83,14 @@ class MetersTest extends TestCase {
     public function testGetMeterMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');
         $this->api->expects($this->exactly(2))
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
+                ])
             )
             ->willReturn($json);
 
@@ -138,14 +139,14 @@ class MetersTest extends TestCase {
     public function testGetMeterMeasurementsWithIntervalIncluded() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurementsIncludeInterval.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -185,14 +186,14 @@ class MetersTest extends TestCase {
 
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=day&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=day&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -210,14 +211,14 @@ class MetersTest extends TestCase {
     public function testGetMeterMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/meters/12345,67890/abbreviations/E_INT,M_AC_F/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -254,10 +255,12 @@ class MetersTest extends TestCase {
     public function testGetMetersBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/meters/bulk/measurements'),
-                $this->identicalToUrl('from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -275,12 +278,12 @@ class MetersTest extends TestCase {
     public function testGetMetersBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getMeterBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/meters/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=E_INT'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=E_INT'
+                ])
             )
             ->willReturn($json);
 
@@ -299,12 +302,12 @@ class MetersTest extends TestCase {
     public function testGetMetersBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getMeterBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/meters/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

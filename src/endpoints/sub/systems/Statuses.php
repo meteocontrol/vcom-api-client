@@ -21,7 +21,7 @@ class Statuses extends SubEndpoint {
      * @return Status[]
      */
     public function get(): array {
-        $json = $this->api->run($this->getUri());
+        $json = $this->api->get($this->getUri());
         return Status::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 

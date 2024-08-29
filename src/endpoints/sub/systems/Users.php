@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\UserCriteria;
@@ -25,10 +26,13 @@ class Users extends SubEndpoint {
      */
     public function get(UserCriteria $criteria = null) {
         if (is_null($criteria)) {
-            $userListJson = $this->api->run($this->getUri());
+            $userListJson = $this->api->get($this->getUri());
             return User::deserializeArray($this->jsonDecode($userListJson, true)['data']);
         } else {
-            $userDetailJson = $this->api->run($this->getUri(), $criteria->generateQueryString());
+            $userDetailJson = $this->api->get(
+                $this->getUri(),
+                [RequestOptions::QUERY => $criteria->generateQueryString()]
+            );
             return UserDetail::deserialize($this->jsonDecode($userDetailJson, true)['data']);
         }
     }

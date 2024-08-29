@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\model\Ticket;
@@ -21,17 +22,17 @@ class TicketsTest extends TestCase {
             ->withRectifiedAtTo(DateTime::createFromFormat(DATE_ATOM, '2016-02-20T14:00:00+00:00'));
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('tickets'),
-                $this->identicalToUrl(
-                    'createdAt[from]=2016-01-01T00:00:00+00:00' .
-                    '&createdAt[to]=2016-03-01T01:00:00+00:00' .
-                    '&lastChangedAt[from]=2016-01-01T12:00:00+00:00' .
-                    '&lastChangedAt[to]=2016-02-21T12:00:00+00:00' .
-                    '&rectifiedAt[from]=2016-01-01T14:00:00+00:00' .
-                    '&rectifiedAt[to]=2016-02-20T14:00:00+00:00'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'createdAt[from]=2016-01-01T00:00:00+00:00' .
+                        '&createdAt[to]=2016-03-01T01:00:00+00:00' .
+                        '&lastChangedAt[from]=2016-01-01T12:00:00+00:00' .
+                        '&lastChangedAt[to]=2016-02-21T12:00:00+00:00' .
+                        '&rectifiedAt[from]=2016-01-01T14:00:00+00:00' .
+                        '&rectifiedAt[to]=2016-02-20T14:00:00+00:00',
+                ]),
             )
             ->willReturn($json);
 
@@ -78,19 +79,19 @@ class TicketsTest extends TestCase {
             ->withSystemKey(['ABCDE', 'FGHIJ']);
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('tickets'),
-                $this->identicalToUrl(
-                    'createdAt[from]=2016-01-01T00:00:00+00:00' .
-                    '&createdAt[to]=2016-03-01T01:00:00+00:00' .
-                    '&lastChangedAt[from]=2016-01-01T12:00:00+00:00' .
-                    '&lastChangedAt[to]=2016-02-21T12:00:00+00:00' .
-                    '&rectifiedAt[from]=2016-01-01T14:00:00+00:00' .
-                    '&rectifiedAt[to]=2016-02-20T14:00:00+00:00' .
-                    '&status=closed,inProgress&priority=normal,high' .
-                    '&severity=normal,high&systemKey=ABCDE,FGHIJ'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'createdAt[from]=2016-01-01T00:00:00+00:00' .
+                        '&createdAt[to]=2016-03-01T01:00:00+00:00' .
+                        '&lastChangedAt[from]=2016-01-01T12:00:00+00:00' .
+                        '&lastChangedAt[to]=2016-02-21T12:00:00+00:00' .
+                        '&rectifiedAt[from]=2016-01-01T14:00:00+00:00' .
+                        '&rectifiedAt[to]=2016-02-20T14:00:00+00:00' .
+                        '&status=closed,inProgress&priority=normal,high' .
+                        '&severity=normal,high&systemKey=ABCDE,FGHIJ',
+                ]),
             )
             ->willReturn($json);
 
@@ -125,7 +126,7 @@ class TicketsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getTicket.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('tickets/123'))
             ->willReturn($json);
 
@@ -153,7 +154,7 @@ class TicketsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getTicketWithOutage.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('tickets/123'))
             ->willReturn($json);
 
@@ -184,38 +185,40 @@ class TicketsTest extends TestCase {
     public function testUpdateTicket() {
         $ticket = $this->getTicket();
 
-        $this->api->expects($this->exactly(2))
-            ->method('run')
-            ->withConsecutive(
-                [
-                    $this->identicalTo('tickets/123'),
-                    null,
-                    json_encode(
-                        [
-                            'designation' => 'abc',
-                            'summary' => 'summary',
-                            'includeInReports' => 'detail',
-                            'status' => 'closed',
-                            'priority' => 'urgent',
-                            'description' => 'description',
-                            'assignee' => 9823,
-                            'cause' => 'Unknown',
-                        ]
-                    ),
-                    'PATCH'
-                ],
-                [
-                    $this->identicalTo('tickets/123'),
-                    null,
-                    json_encode(
-                        [
-                            'designation' => 'abc',
-                            'createdAt' => '2016-01-01T00:00:00+00:00',
-                            'includeInReports' => 'detail',
-                        ]
-                    ),
-                    'PATCH'
-                ]
+        $matcher = $this->exactly(2);
+        $this->api->expects($matcher)
+            ->method('patch')
+            ->willReturnCallback(
+                function (string $uri, array $options) use ($matcher) {
+                    $this->assertEquals('tickets/123', $uri);
+                    match ($matcher->getInvocationCount()) {
+                        1 => $this->assertEquals(
+                            [
+                                RequestOptions::JSON => [
+                                    'designation' => 'abc',
+                                    'summary' => 'summary',
+                                    'includeInReports' => 'detail',
+                                    'status' => 'closed',
+                                    'priority' => 'urgent',
+                                    'description' => 'description',
+                                    'assignee' => 9823,
+                                    'cause' => 'Unknown',
+                                ],
+                            ],
+                            $options,
+                        ),
+                        2 => $this->assertEquals(
+                            [
+                                RequestOptions::JSON => [
+                                    'designation' => 'abc',
+                                    'createdAt' => '2016-01-01T00:00:00+00:00',
+                                    'includeInReports' => 'detail',
+                                ],
+                            ],
+                            $options,
+                        ),
+                    };
+                }
             );
         $this->api->ticket($ticket->id)->update($ticket);
         $this->api->ticket($ticket->id)->update($ticket, ['designation', 'createdAt', 'includeInReports']);
@@ -225,7 +228,7 @@ class TicketsTest extends TestCase {
         $ticket = $this->getTicket();
         unset($ticket->createdAt);
 
-        $this->api->expects($this->never())->method('run');
+        $this->api->expects($this->never())->method('patch');
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Ticket is invalid!');
@@ -244,21 +247,19 @@ class TicketsTest extends TestCase {
 
         $expectedResponse = file_get_contents(__DIR__ . '/responses/createTicket.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('post')
             ->with(
                 $this->identicalTo('tickets'),
-                null,
-                json_encode(
-                    [
+                [
+                    RequestOptions::JSON => [
                         'systemKey' => 'ABCDE',
                         'designation' => 'designation',
                         'createdAt' => '2016-07-01T02:02:10+00:00',
                         'status' => 'open',
                         'priority' => 'high',
                         'includeInReports' => 'summary'
-                    ]
-                ),
-                'POST'
+                    ],
+                ],
             )
             ->willReturn(
                 $expectedResponse
@@ -282,13 +283,9 @@ class TicketsTest extends TestCase {
 
     public function testDeleteTicket() {
         $this->api->expects($this->once())
-            ->method('run')
-            ->with(
-                $this->identicalTo('tickets/123'),
-                null,
-                null,
-                'DELETE'
-            );
+            ->method('delete')
+            ->with($this->identicalTo('tickets/123'));
+
         $this->api->ticket('123')->delete();
     }
 
@@ -296,7 +293,7 @@ class TicketsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getTicketHistories.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('tickets/123/histories'))
             ->willReturn($json);
 

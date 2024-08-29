@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\handlers\BasicAuthorizationHandler;
 use meteocontrol\client\vcomapi\handlers\OAuthAuthorizationHandler;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -36,7 +37,7 @@ class ApiClientTest extends TestCase {
     }
 
     public function testIsInstantiableUsingStaticMethodToInstantiate() {
-        $apiClient = ApiClient::get("username", "clientName", "Key");
+        $apiClient = ApiClient::make('username', 'clientName', 'Key');
         $this->assertInstanceOf('meteocontrol\client\vcomapi\ApiClient', $apiClient);
     }
 
@@ -55,10 +56,10 @@ class ApiClientTest extends TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn([]);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url');
+        $apiClient->get('url');
     }
 
-    public function testWithHeader() {
+    public function testCustomHeader() {
         $responseMock = $this->getResponseMock();
 
         /** @var Client|MockObject $client */
@@ -82,15 +83,13 @@ class ApiClientTest extends TestCase {
         $authHandler = new OAuthAuthorizationHandler($config);
 
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->withHeader('test-HEADER', 'test-VALUE');
-        $apiClient->run('url');
+        $apiClient->get('url', [RequestOptions::HEADERS => ['test-HEADER' => 'test-VALUE']]);
     }
 
     public function testRunGetWithParameters() {
         $responseMock = $this->getResponseMock();
         $expectedOption = [
             'query' => ['name' => 'aa', 'value' => 'bb'],
-            'body' => null,
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept-Encoding' => 'gzip, deflate',
@@ -112,14 +111,13 @@ class ApiClientTest extends TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', $this->getQueryString());
+        $apiClient->get('url', [RequestOptions::QUERY => $this->getQueryString()]);
     }
 
     public function testRunDeleteWithParameters() {
         $responseMock = $this->getResponseMock();
         $expectedOption = [
             'query' => ['name' => 'aa', 'value' => 'bb'],
-            'body' => null,
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept-Encoding' => 'gzip, deflate',
@@ -141,7 +139,7 @@ class ApiClientTest extends TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', $this->getQueryString(), null, 'DELETE');
+        $apiClient->delete('url', [RequestOptions::QUERY => $this->getQueryString()]);
     }
 
     public function testRunPostWithParameters() {
@@ -170,7 +168,7 @@ class ApiClientTest extends TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', $this->getQueryString(), 'post body', 'POST');
+        $apiClient->post('url', [RequestOptions::BODY => 'post body', RequestOptions::QUERY => $this->getQueryString()]);
     }
 
     public function testRunPatchWithParameters() {
@@ -200,19 +198,7 @@ class ApiClientTest extends TestCase {
         $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
         $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn($expectedOption);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url', $this->getQueryString(), 'patch body', 'PATCH');
-    }
-
-    public function testRunUnknownMethod() {
-        $authHandler = $this->getMockBuilder(OAuthAuthorizationHandler::class)->disableOriginalConstructor()->getMock();
-        $authHandler->expects($this->once())->method('appendAuthorizationHeader')->willReturn([]);
-        $client = $this->getMockBuilder('\GuzzleHttp\Client')->getMock();
-        $apiClient = new ApiClient($client, $authHandler);
-
-        $this->expectException(ApiClientException::class);
-        $this->expectExceptionMessage('Unacceptable HTTP method UNKNOWN');
-
-        $apiClient->run('url', $this->getQueryString(), 'patch body', 'UNKNOWN');
+        $apiClient->patch('url', [RequestOptions::BODY => 'patch body', RequestOptions::QUERY => $this->getQueryString()]);
     }
 
     public function testRunWithBasicAuthenticationUnauthorized() {
@@ -251,7 +237,7 @@ class ApiClientTest extends TestCase {
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage('123');
 
-        $apiClient->run('url');
+        $apiClient->get('url');
     }
 
     public function testRunWithOAuthUnauthorizedAndRefreshTokenIsValid() {
@@ -322,7 +308,7 @@ class ApiClientTest extends TestCase {
 
         $authHandler = new OAuthAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $this->assertEquals('123', $apiClient->run('url'));
+        $this->assertEquals('123', $apiClient->get('url'));
     }
 
     public function testRunWithOAuthUnauthorizedAndRefreshTokenIsInvalid() {
@@ -400,7 +386,7 @@ class ApiClientTest extends TestCase {
 
         $authHandler = new OAuthAuthorizationHandler($config);
         $apiClient = new ApiClient($client, $authHandler);
-        $apiClient->run('url');
+        $apiClient->get('url');
     }
 
     public function testRunWithOAuthUnauthorizedAndTokenRefreshingIsFailed() {
@@ -417,7 +403,7 @@ class ApiClientTest extends TestCase {
 
         $this->expectException(UnauthorizedException::class);
 
-        $apiClient->run('url');
+        $apiClient->get('url');
     }
 
     public function testRateLimitHandling() {
@@ -450,7 +436,7 @@ class ApiClientTest extends TestCase {
         $apiClient = new ApiClient($client, $authHandler);
 
         self::$us = 0;
-        $apiClient->run('url');
+        $apiClient->get('url');
         $this->assertEquals(4000000, self::$us);
     }
 

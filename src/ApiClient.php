@@ -4,6 +4,7 @@ namespace meteocontrol\client\vcomapi;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\main\Alarms;
 use meteocontrol\client\vcomapi\endpoints\main\Session;
 use meteocontrol\client\vcomapi\endpoints\main\Systems;
@@ -23,8 +24,6 @@ class ApiClient {
     private $client;
     /** @var AuthorizationHandlerInterface */
     private $authorizationHandler;
-    /** @var array  */
-    private $headers = [];
 
     /**
      * @param Client $client
@@ -41,7 +40,7 @@ class ApiClient {
      * @param string $apiKey
      * @return ApiClient
      */
-    public static function get(string $username, string $password, string $apiKey): self {
+    public static function make(string $username, string $password, string $apiKey): self {
         $config = new Config();
         $config->setApiUsername($username);
         $config->setApiPassword($password);
@@ -120,25 +119,45 @@ class ApiClient {
         return new Cmms($this);
     }
 
+    public function get(string $uri, array $options = []): ?string {
+        return $this->run($uri, 'GET', $options);
+    }
+
+    public function put(string $uri, array $options = []): ?string {
+        return $this->run($uri, 'PUT', $options);
+    }
+
+    public function post(string $uri, array $options = []): ?string {
+        return $this->run($uri, 'POST', $options);
+    }
+
+    public function patch(string $uri, array $options = []): ?string {
+        return $this->run($uri, 'PATCH', $options);
+    }
+
+    public function delete(string $uri, array $options = []): ?string {
+        return $this->run($uri, 'DELETE', $options);
+    }
+
     /**
      * @param string $uri
-     * @param null|string $queryString
-     * @param null|string $body
      * @param string $method
-     * @return mixed
+     * @param array $options
+     * @return string|null
      * @throws ApiClientException
+     * @throws UnauthorizedException
      */
-    public function run(string $uri, string $queryString = null, string $body = null, string $method = 'GET') {
+    private function run(string $uri, string $method, array $options): ?string {
         /** @var $response ResponseInterface */
         $response = null;
-        $options = $this->getRequestOptions($queryString, $body);
+        $requestOptions = $this->getRequestOptions($options);
 
         try {
-            $response = $this->sendRequest($uri, $method, $options);
+            $response = $this->sendRequest($uri, $method, $requestOptions);
         } catch (ClientException $ex) {
             if ($ex->getResponse()->getStatusCode() === 401 && $ex->getMessage() !== 'Invalid API key') {
                 $this->authorizationHandler->handleUnauthorizedException($ex, $this->client);
-                $response = $this->retryRequestWithNewToken($uri, $method, $body, $queryString);
+                $response = $this->retryRequestWithNewToken($uri, $method, $requestOptions);
             } else {
                 throw $ex;
             }
@@ -156,28 +175,19 @@ class ApiClient {
         return $response->getBody()->getContents();
     }
 
-    public function withHeader(string $header, string $value): void {
-        $this->headers[strtolower($header)] = $value;
-    }
-
     /**
-     * @param string|null $queryString
-     * @param string|null $body
+     * @param array $options
      * @return array
      */
-    private function getRequestOptions(?string $queryString, ?string $body): array {
-        $headers = array_merge(
-            [
-                'Accept-Encoding' => 'gzip, deflate',
-                'Content-Type' => 'application/json'
-            ],
-            $this->headers,
-        );
-        $options = [
-            'query' => $queryString ?: null,
-            'body' => $body ?: null,
-            'headers' => $headers,
+    private function getRequestOptions(array $options): array {
+        $headers = [
+            'accept-encoding' => 'gzip, deflate',
+            'content-type' => 'application/json',
         ];
+
+        $options[RequestOptions::HEADERS] = isset($options[RequestOptions::HEADERS])
+            ? array_merge($headers, array_change_key_case($options[RequestOptions::HEADERS]))
+            : $headers;
 
         return $this->authorizationHandler->appendAuthorizationHeader($this->client, $options);
     }
@@ -187,46 +197,25 @@ class ApiClient {
      * @param string $method
      * @param array $options
      * @return ResponseInterface
-     * @throws ApiClientException
      */
     private function sendRequest(string $uri, string $method, array $options): ResponseInterface {
-        switch (strtoupper($method)) {
-            case 'GET':
-                $response = $this->client->get($uri, $options);
-                break;
-            case 'DELETE':
-                $response = $this->client->delete($uri, $options);
-                break;
-            case 'PATCH':
-                $response = $this->client->patch($uri, $options);
-                break;
-            case 'POST':
-                $response = $this->client->post($uri, $options);
-                break;
-            case 'PUT':
-                $response = $this->client->put($uri, $options);
-                break;
-            default:
-                throw new ApiClientException('Unacceptable HTTP method ' . $method);
-        }
-        return $response;
+        return match ($method) {
+            'GET' => $this->client->get($uri, $options),
+            'PUT' => $this->client->put($uri, $options),
+            'POST' => $this->client->post($uri, $options),
+            'PATCH' => $this->client->patch($uri, $options),
+            'DELETE' => $this->client->delete($uri, $options),
+        };
     }
 
     /**
      * @param string $uri
      * @param string $method
-     * @param string|null $body
-     * @param string|null $queryString
+     * @param array $options
      * @return ResponseInterface
      * @throws UnauthorizedException
      */
-    private function retryRequestWithNewToken(
-        string $uri,
-        string $method,
-        string $body = null,
-        string $queryString = null
-    ): ResponseInterface {
-        $options = $this->getRequestOptions($queryString, $body);
+    private function retryRequestWithNewToken(string $uri, string $method, array $options): ResponseInterface {
         try {
             return $this->sendRequest($uri, $method, $options);
         } catch (ClientException $ex) {

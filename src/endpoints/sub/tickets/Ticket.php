@@ -2,7 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
-use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
@@ -23,7 +23,7 @@ class Ticket extends SubEndpoint {
      * @return TicketModel
      */
     public function get(): TicketModel {
-        $ticketJson = $this->api->run($this->getUri());
+        $ticketJson = $this->api->get($this->getUri());
         return TicketModel::deserialize($this->jsonDecode($ticketJson, true)['data']);
     }
 
@@ -60,24 +60,14 @@ class Ticket extends SubEndpoint {
             $fields = $this->applyFilter($updateFilter, $ticket);
         }
 
-        $this->api->run(
-            $this->getUri(),
-            null,
-            json_encode($fields),
-            'PATCH'
-        );
+        $this->api->patch($this->getUri(), [RequestOptions::JSON => $fields]);
     }
 
     /**
      * @return void
      */
     public function delete(): void {
-        $this->api->run(
-            $this->getUri(),
-            null,
-            null,
-            'DELETE'
-        );
+        $this->api->delete($this->getUri());
     }
 
     /**

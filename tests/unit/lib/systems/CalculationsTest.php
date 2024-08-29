@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
@@ -18,7 +19,7 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/calculations/abbreviations'))
             ->willReturn($json);
 
@@ -32,7 +33,7 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationSingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsSingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/calculations/abbreviations/PR'))
             ->willReturn($json);
 
@@ -48,14 +49,14 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/calculations/abbreviations/berechnet.WR/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
+                ])
             )
             ->willReturn($json);
 
@@ -82,14 +83,14 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationMeasurementsWithMultipleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsMeasurements2.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/calculations/abbreviations/berechnet.WR,berechnet.PR/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
+                ])
             )
             ->willReturn($json);
 
@@ -138,14 +139,14 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationMeasurements2() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/calculations/abbreviations/berechnet.WR/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
+                ])
             )
             ->willReturn($json);
 
@@ -173,10 +174,12 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/calculations/bulk/measurements'),
-                $this->identicalToUrl('from=2016-09-01T00:00:00+02:00&to=2016-09-01T00:15:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T00:00:00+02:00&to=2016-09-01T00:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -194,12 +197,12 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/calculations/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T00:00:00+02:00&to=2016-09-01T00:15:00+02:00&abbreviations=AREA,VFG'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T00:00:00+02:00&to=2016-09-01T00:15:00+02:00&abbreviations=AREA,VFG'
+                ])
             )
             ->willReturn($json);
 
@@ -218,12 +221,12 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationsBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getCalculationBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/calculations/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T00:00:00+02:00&to=2016-09-01T00:15:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T00:00:00+02:00&to=2016-09-01T00:15:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 
@@ -255,7 +258,7 @@ class CalculationsTest extends TestCase {
     public function testGetCalculationsSimulation() {
         $json = file_get_contents(__DIR__ . '/responses/getCalculationsSimulation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/calculations/simulation'))
             ->willReturn($json);
 

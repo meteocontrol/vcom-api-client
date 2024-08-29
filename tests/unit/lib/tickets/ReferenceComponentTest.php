@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\ReferenceComponentCriteria;
 use meteocontrol\client\vcomapi\model\YieldLoss;
@@ -26,15 +27,15 @@ class ReferenceComponentTest extends TestCase {
             ->withReferenceInverterIds($this->referenceInverterIds);
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('tickets/457564/yield-losses/reference-component'),
-                $this->identicalToUrl(
-                    'from=2016-11-15T10:00:00+00:00' .
-                    '&to=2016-11-15T10:59:59+00:00' .
-                    '&affectedInverterId=Id86460.4' .
-                    '&referenceInverterIds=Id86460.1,Id86460.2'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-11-15T10:00:00+00:00' .
+                        '&to=2016-11-15T10:59:59+00:00' .
+                        '&affectedInverterId=Id86460.4' .
+                        '&referenceInverterIds=Id86460.1,Id86460.2',
+                ]),
             )
             ->willReturn($json);
 
@@ -59,15 +60,21 @@ class ReferenceComponentTest extends TestCase {
         $yieldLoss->comment = 'Test comment';
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('put')
             ->with(
                 $this->identicalTo('tickets/457564/yield-losses/reference-component'),
-                $this->identicalToUrl(
-                    'from=2016-11-15T10:00:00+00:00' .
-                    '&to=2016-11-15T10:59:59+00:00' .
-                    '&affectedInverterId=Id86460.4' .
-                    '&referenceInverterIds=Id86460.1,Id86460.2'
-                )
+                [
+                    RequestOptions::JSON => [
+                        'realLostYield' => $yieldLoss->realLostYield,
+                        'comment' => $yieldLoss->comment,
+                    ],
+                    RequestOptions::QUERY => http_build_query([
+                        'from' => '2016-11-15T10:00:00+00:00',
+                        'to' => '2016-11-15T10:59:59+00:00',
+                        'affectedInverterId' => 'Id86460.4',
+                        'referenceInverterIds' => 'Id86460.1,Id86460.2',
+                    ]),
+                ],
             );
 
         $this->api->ticket($this->ticketId)->yieldLosses()->referenceComponent()->replace($criteria, $yieldLoss);

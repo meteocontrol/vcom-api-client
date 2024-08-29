@@ -4,6 +4,7 @@ namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
 use DateTimeZone;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
@@ -16,7 +17,7 @@ class SystemsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getSystems.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems'))
             ->willReturn($json);
 
@@ -33,7 +34,7 @@ class SystemsTest extends TestCase {
     public function testGetSystem() {
         $json = file_get_contents(__DIR__ . '/responses/getSystem.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE'))
             ->willReturn($json);
 
@@ -60,10 +61,12 @@ class SystemsTest extends TestCase {
     public function testGetSystemBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getSystemBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalToUrl('from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -81,12 +84,12 @@ class SystemsTest extends TestCase {
     public function testGetSystemBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getSystemBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00&abbreviations=G_M2,AREA,E_DAY,E_INT,SRAD,D_IN1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00&abbreviations=G_M2,AREA,E_DAY,E_INT,SRAD,D_IN1'
+                ])
             )
             ->willReturn($json);
 
@@ -105,12 +108,12 @@ class SystemsTest extends TestCase {
     public function testGetSystemBulkDataWithDeviceIdsAndAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getSystemBulkWithDeviceIdsAndAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00&deviceIds=Id73872.1,118045&abbreviations=E_DAY,E_INT'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-11-01T11:00:00+02:00&to=2016-11-01T11:05:00+02:00&deviceIds=Id73872.1,118045&abbreviations=E_DAY,E_INT'
+                ])
             )
             ->willReturn($json);
 
@@ -130,12 +133,12 @@ class SystemsTest extends TestCase {
     public function testGetSystemBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getSuperBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:15:00+02:00&to=2016-09-01T10:30:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:15:00+02:00&to=2016-09-01T10:30:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

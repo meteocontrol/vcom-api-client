@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\LinearEquationCriteria;
 use meteocontrol\client\vcomapi\model\YieldLoss;
@@ -22,15 +23,17 @@ class LinearEquationTest extends TestCase {
             ->withDateReferenceTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-15T15:50:00+00:00'));
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('tickets/457564/yield-losses/linear-equation'),
                 $this->identicalToUrl(
-                    'from=2016-11-15T10:00:00+00:00' .
-                    '&to=2016-11-15T10:59:59+00:00' .
-                    '&referenceFrom=2016-11-15T14:50:00+00:00' .
-                    '&referenceTo=2016-11-15T15:50:00+00:00'
-                )
+                    [
+                        RequestOptions::QUERY => 'from=2016-11-15T10:00:00+00:00' .
+                            '&to=2016-11-15T10:59:59+00:00' .
+                            '&referenceFrom=2016-11-15T14:50:00+00:00' .
+                            '&referenceTo=2016-11-15T15:50:00+00:00',
+                    ],
+                ),
             )
             ->willReturn($json);
 
@@ -54,15 +57,21 @@ class LinearEquationTest extends TestCase {
         $yieldLoss->comment = 'Test comment';
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('put')
             ->with(
                 $this->identicalTo('tickets/457564/yield-losses/linear-equation'),
-                $this->identicalToUrl(
-                    'from=2016-11-15T10:00:00+00:00' .
-                    '&to=2016-11-15T10:59:59+00:00' .
-                    '&referenceFrom=2016-11-15T14:50:00+00:00' .
-                    '&referenceTo=2016-11-15T15:50:00+00:00'
-                )
+                [
+                    RequestOptions::JSON => [
+                        'realLostYield' => $yieldLoss->realLostYield,
+                        'comment' => $yieldLoss->comment,
+                    ],
+                    RequestOptions::QUERY => http_build_query([
+                        'from' => '2016-11-15T10:00:00+00:00',
+                        'to' => '2016-11-15T10:59:59+00:00',
+                        'referenceFrom' => '2016-11-15T14:50:00+00:00',
+                        'referenceTo' => '2016-11-15T15:50:00+00:00',
+                    ]),
+                ],
             );
 
         $this->api->ticket($this->ticketId)->yieldLosses()->linearEquation()->replace($criteria, $yieldLoss);

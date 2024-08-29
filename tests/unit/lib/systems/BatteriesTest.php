@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
@@ -20,7 +21,7 @@ class BatteriesTest extends TestCase {
     public function testGetBatteries() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteries.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/batteries'))
             ->willReturn($json);
 
@@ -37,7 +38,7 @@ class BatteriesTest extends TestCase {
     public function testGetSingleBattery() {
         $json = file_get_contents(__DIR__ . '/responses/getBattery.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/batteries/145103'))
             ->willReturn($json);
 
@@ -53,7 +54,7 @@ class BatteriesTest extends TestCase {
     public function testGetBatteryAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/batteries/145103/abbreviations'))
             ->willReturn($json);
 
@@ -70,7 +71,7 @@ class BatteriesTest extends TestCase {
     public function testGetBatterySingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getBatterySingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/batteries/145103/abbreviations/B_CHARGE_LEVEL'))
             ->willReturn($json);
 
@@ -86,14 +87,14 @@ class BatteriesTest extends TestCase {
     public function testGetBatteryMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/batteries/145103,145104/abbreviations/B_CHARGE_LEVEL,B_E_EXP/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -154,14 +155,14 @@ class BatteriesTest extends TestCase {
     public function testGetBatteryMeasurementsWithIntervalIncluded() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurementsIncludeInterval.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/batteries/145103,145104/abbreviations/B_CHARGE_LEVEL,B_E_EXP/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -245,14 +246,14 @@ class BatteriesTest extends TestCase {
 
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/batteries/145103,145104/abbreviations/B_CHARGE_LEVEL,B_E_EXP/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&resolution=day&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&resolution=day&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -270,14 +271,14 @@ class BatteriesTest extends TestCase {
     public function testGetBatteryMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/batteries/145103,145104/abbreviations/B_CHARGE_LEVEL,B_E_EXP/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -359,10 +360,12 @@ class BatteriesTest extends TestCase {
     public function testGetBatteriesBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/batteries/bulk/measurements'),
-                $this->identicalToUrl('from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -380,12 +383,12 @@ class BatteriesTest extends TestCase {
     public function testGetBatteriesBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getBatteryBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/batteries/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&abbreviations=B_CHARGE_LEVEL,T1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:15:00+02:00&abbreviations=B_CHARGE_LEVEL,T1'
+                ])
             )
             ->willReturn($json);
 
@@ -404,12 +407,12 @@ class BatteriesTest extends TestCase {
     public function testGetBatteriesBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getBatteryBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/batteries/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

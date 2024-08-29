@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\ReferenceSystemCriteria;
 use meteocontrol\client\vcomapi\model\YieldLoss;
@@ -23,14 +24,14 @@ class ReferenceSystemTest extends TestCase {
             ->withReferenceSystemKey($this->referenceSystemKey);
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('tickets/457564/yield-losses/reference-system'),
-                $this->identicalToUrl(
-                    'from=2016-11-15T10:00:00+00:00' .
-                    '&to=2016-11-15T10:59:59+00:00' .
-                    '&referenceSystemKey=4DC11'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-11-15T10:00:00+00:00' .
+                        '&to=2016-11-15T10:59:59+00:00' .
+                        '&referenceSystemKey=4DC11',
+                ]),
             )
             ->willReturn($json);
 
@@ -54,14 +55,20 @@ class ReferenceSystemTest extends TestCase {
         $yieldLoss->comment = 'Test comment';
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('put')
             ->with(
                 $this->identicalTo('tickets/457564/yield-losses/reference-system'),
-                $this->identicalToUrl(
-                    'from=2016-11-15T10:00:00+00:00' .
-                    '&to=2016-11-15T10:59:59+00:00' .
-                    '&referenceSystemKey=4DC11'
-                )
+                [
+                    RequestOptions::JSON => [
+                        'realLostYield' => $yieldLoss->realLostYield,
+                        'comment' => $yieldLoss->comment,
+                    ],
+                    RequestOptions::QUERY => http_build_query([
+                        'from' => '2016-11-15T10:00:00+00:00',
+                        'to' => '2016-11-15T10:59:59+00:00',
+                        'referenceSystemKey' => '4DC11',
+                    ]),
+                ],
             );
 
         $this->api->ticket($this->ticketId)->yieldLosses()->referenceSystem()->replace($criteria, $yieldLoss);

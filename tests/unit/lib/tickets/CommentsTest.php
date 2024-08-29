@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\model\Comment;
 use meteocontrol\client\vcomapi\model\CommentDetail;
@@ -14,7 +15,7 @@ class CommentsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getComments.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('tickets/123/comments'))
             ->willReturn($json);
 
@@ -40,7 +41,7 @@ class CommentsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getComment.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('tickets/123/comments/661288'))
             ->willReturn($json);
 
@@ -59,12 +60,10 @@ class CommentsTest extends TestCase {
         $commentDetail = $this->getCommentDetail();
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('patch')
             ->with(
                 $this->identicalTo('tickets/123/comments/661288'),
-                null,
-                json_encode(['comment' => 'New Comment']),
-                'PATCH'
+                [RequestOptions::JSON => ['comment' => 'New Comment']],
             );
         $this->api->ticket('123')->comment(661288)->update($commentDetail);
     }
@@ -72,7 +71,8 @@ class CommentsTest extends TestCase {
     public function testUpdateCommentWithEmptyText() {
         $commentDetail = $this->getCommentDetail();
         $commentDetail->comment = '';
-        $this->api->expects($this->never())->method('run');
+        $this->api->expects($this->never())
+            ->method('get');
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Comment is invalid!');
@@ -85,12 +85,10 @@ class CommentsTest extends TestCase {
 
         $expectedResponse = file_get_contents(__DIR__ . '/responses/createComment.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('post')
             ->with(
                 $this->identicalTo('tickets/123/comments'),
-                null,
-                json_encode(['comment' => 'New Comment']),
-                'POST'
+                [RequestOptions::JSON => ['comment' => 'New Comment']],
             )
             ->willReturn(
                 $expectedResponse
@@ -105,15 +103,15 @@ class CommentsTest extends TestCase {
 
         $expectedResponse = file_get_contents(__DIR__ . '/responses/createComment.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('post')
             ->with(
                 $this->identicalTo('tickets/123/comments'),
-                null,
-                json_encode([
-                    'comment' => 'New Comment 2',
-                    'createdAt' => '2017-10-01T00:00:00+03:00',
-                ]),
-                'POST'
+                [
+                    RequestOptions::JSON => [
+                        'comment' => 'New Comment 2',
+                        'createdAt' => '2017-10-01T00:00:00+03:00',
+                    ],
+                ],
             )
             ->willReturn(
                 $expectedResponse
@@ -124,7 +122,8 @@ class CommentsTest extends TestCase {
 
     public function testCreateTicketWithoutRequiredValue() {
         $comment = new CommentDetail();
-        $this->api->expects($this->never())->method('run');
+        $this->api->expects($this->never())
+            ->method('post');
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Comment is invalid!');
@@ -134,13 +133,8 @@ class CommentsTest extends TestCase {
 
     public function testDeleteComment() {
         $this->api->expects($this->once())
-            ->method('run')
-            ->with(
-                $this->identicalTo('tickets/123/comments/454548'),
-                null,
-                null,
-                'DELETE'
-            );
+            ->method('delete')
+            ->with($this->identicalTo('tickets/123/comments/454548'));
         $this->api->ticket('123')->comment(454548)->delete();
     }
 

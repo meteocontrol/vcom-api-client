@@ -22,7 +22,7 @@ class Systems extends MainEndpoint {
      * @return SystemModel[]
      */
     public function get(): array {
-        $systemsJson = $this->api->run($this->getUri());
+        $systemsJson = $this->api->get($this->getUri());
         return SystemModel::deserializeArray($this->jsonDecode($systemsJson, true)['data']);
     }
 

@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system\kpiTargets;
 
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
@@ -18,7 +19,7 @@ class KpiTarget extends SubEndpoint {
      * @return float[]
      */
     public function get(): array {
-        $json = $this->api->run($this->getUri());
+        $json = $this->api->get($this->getUri());
         return $this->jsonDecode($json, true)['data'];
     }
 
@@ -36,10 +37,10 @@ class KpiTarget extends SubEndpoint {
         if (min(...$monthlyTargetValues) < 0.0) {
             throw new InvalidArgumentException('Minimum allowed target is 0.00');
         }
-        $this->api->run($this->getUri(), null, json_encode($monthlyTargetValues), 'PUT');
+        $this->api->put($this->getUri(), [RequestOptions::JSON => $monthlyTargetValues]);
     }
 
     public function delete(): void {
-        $this->api->run($this->getUri(), null, null, 'DELETE');
+        $this->api->delete($this->getUri());
     }
 }

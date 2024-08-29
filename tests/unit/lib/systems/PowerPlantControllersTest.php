@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
@@ -18,7 +19,7 @@ class PowerPlantControllersTest extends TestCase {
     public function testGetPowerPlantControllers() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllers.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/power-plant-controllers'))
             ->willReturn($json);
 
@@ -33,7 +34,7 @@ class PowerPlantControllersTest extends TestCase {
     public function testGetSinglePowerPlantController() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantController.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/power-plant-controllers/163784'))
             ->willReturn($json);
 
@@ -49,7 +50,7 @@ class PowerPlantControllersTest extends TestCase {
     public function testGetPowerPlantControllerAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/power-plant-controllers/163784/abbreviations'))
             ->willReturn($json);
 
@@ -77,7 +78,7 @@ class PowerPlantControllersTest extends TestCase {
     public function testGetPowerPlantControllerSingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerSingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/power-plant-controllers/163784/abbreviations/PPC_P_AC'))
             ->willReturn($json);
 
@@ -93,14 +94,14 @@ class PowerPlantControllersTest extends TestCase {
     public function testGetPowerPlantControllerMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/power-plant-controllers/163784/abbreviations/PPC_P_AC_AVAIL,PPC_P_AC/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -131,10 +132,12 @@ class PowerPlantControllersTest extends TestCase {
     public function testGetPowerPlantControllersBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/power-plant-controllers/bulk/measurements'),
-                $this->identicalToUrl('from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -152,12 +155,12 @@ class PowerPlantControllersTest extends TestCase {
     public function testGetPowerPlantControllersBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getPowerPlantControllerBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/power-plant-controllers/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00&abbreviations=PPC_P_AC_INV,PPC_Q_AC_AVAIL,PPC_Q_SET_REL'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00&abbreviations=PPC_P_AC_INV,PPC_Q_AC_AVAIL,PPC_Q_SET_REL'
+                ])
             )
             ->willReturn($json);
 
@@ -176,12 +179,12 @@ class PowerPlantControllersTest extends TestCase {
     public function testGetPowerPlantControllersBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getPowerPlantControllerBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/power-plant-controllers/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-29T12:00:00+02:00&to=2016-10-29T12:05:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

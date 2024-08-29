@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
@@ -11,14 +12,14 @@ class EnvironmentalSavingsTest extends TestCase {
     public function testGetCO2() {
         $json = file_get_contents(__DIR__ . '/responses/getCO2.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/environmental-savings/co2'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T00:00:00+02:00&to=2016-10-12T00:00:00+02:00&resolution=day'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T00:00:00+02:00&to=2016-10-12T00:00:00+02:00&resolution=day'
+                ])
             )
             ->willReturn($json);
 
@@ -41,14 +42,14 @@ class EnvironmentalSavingsTest extends TestCase {
     public function testGetTreeEquivalents() {
         $json = file_get_contents(__DIR__ . '/responses/getTreeEquivalents.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/environmental-savings/tree'
                 ),
-                $this->identicalToUrl(
-                    'from=2018-12-12T00:00:00+01:00&to=2018-12-14T00:00:00+01:00&resolution=day'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2018-12-12T00:00:00+01:00&to=2018-12-14T00:00:00+01:00&resolution=day'
+                ])
             )
             ->willReturn($json);
 

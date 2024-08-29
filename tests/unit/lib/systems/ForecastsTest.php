@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\ForecastCriteria;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
@@ -13,14 +14,14 @@ class ForecastsTest extends TestCase {
     public function testGetForecastsYield() {
         $json = file_get_contents(__DIR__ . '/responses/testGetForecastsYield.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/forecasts/yield/specific-energy'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-01T00:00:00+02:00&to=2016-12-31T23:59:59+01:00'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-01T00:00:00+02:00&to=2016-12-31T23:59:59+01:00'
+                ])
             )
             ->willReturn($json);
 
@@ -42,14 +43,14 @@ class ForecastsTest extends TestCase {
     public function testGetForecastInJson() {
         $json = file_get_contents(__DIR__ . '/responses/testGetForecast.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/forecasts/forecast'
                 ),
-                $this->identicalToUrl(
-                    'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=json'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=json'
+                ])
             )
             ->willReturn($json);
 
@@ -86,14 +87,14 @@ class ForecastsTest extends TestCase {
     public function testGetForecastInCsv() {
         $csvContent = file_get_contents(__DIR__ . '/responses/testGetForecast.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/forecasts/forecast'
                 ),
-                $this->identicalToUrl(
-                    'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=csv'
+                ])
             )
             ->willReturn($csvContent);
 

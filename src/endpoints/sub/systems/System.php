@@ -25,9 +25,7 @@ class System extends SubEndpoint {
      * @return SystemDetail
      */
     public function get(): SystemDetail {
-        $systemJson = $this->api->run(
-            $this->getUri()
-        );
+        $systemJson = $this->api->get($this->getUri());
         return SystemDetail::deserialize($this->jsonDecode($systemJson, true)['data']);
     }
 

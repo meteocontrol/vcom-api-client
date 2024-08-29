@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
@@ -19,10 +20,8 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxDevices() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxes.json');
         $this->api->expects($this->once())
-            ->method('run')
-            ->with(
-                $this->identicalTo('systems/ABCDE/stringboxes')
-            )
+            ->method('get')
+            ->with($this->identicalTo('systems/ABCDE/stringboxes'))
             ->willReturn($json);
         $expectedDevices = $this->getExpectedStringBoxDevices();
         $actualDevices = $this->api->system('ABCDE')->stringboxes()->get();
@@ -32,10 +31,8 @@ class StringboxesTest extends TestCase {
     public function testGetSingleStringboxDevice() {
         $json = file_get_contents(__DIR__ . '/responses/getStringbox.json');
         $this->api->expects($this->once())
-            ->method('run')
-            ->with(
-                $this->identicalTo('systems/ABCDE/stringboxes/816639')
-            )
+            ->method('get')
+            ->with($this->identicalTo('systems/ABCDE/stringboxes/816639'))
             ->willReturn($json);
         $expectedDevice = $this->getExpectedStringBoxDevice();
         $actualDevice = $this->api->system('ABCDE')->stringbox("816639")->get();
@@ -45,7 +42,7 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/stringboxes/816639/abbreviations'))
             ->willReturn($json);
 
@@ -68,7 +65,7 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxSingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxSingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/stringboxes/816639/abbreviations/I1'))
             ->willReturn($json);
 
@@ -85,14 +82,14 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -137,14 +134,14 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxMeasurementsWithIntervalIncluded() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurementsIncludeInterval.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -201,14 +198,14 @@ class StringboxesTest extends TestCase {
 
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&resolution=day&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&resolution=day&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -226,14 +223,14 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/stringboxes/816639,816640/abbreviations/I1,I2/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-31T15:10:00+02:00&to=2016-10-31T15:15:00+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -288,10 +285,12 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxesBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
-                $this->identicalToUrl('from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -309,12 +308,12 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxesBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getStringboxBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=I1,I8_N'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=I1,I8_N'
+                ])
             )
             ->willReturn($json);
 
@@ -333,12 +332,12 @@ class StringboxesTest extends TestCase {
     public function testGetStringboxesBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getStringboxesBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 
@@ -354,12 +353,12 @@ class StringboxesTest extends TestCase {
 
     public function testGetStringboxesBulkDataWithActiveOnlyOption() {
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/stringboxes/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&activeOnly=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&activeOnly=1'
+                ])
             )
             ->willReturn('');
 

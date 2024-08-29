@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\alarms;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\Endpoint;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\vcomapi\model\Alarm as AlarmModel;
@@ -24,25 +25,15 @@ class Alarm extends SubEndpoint {
      * @return AlarmModel
      */
     public function get(): AlarmModel {
-        $alarmJson = $this->api->run($this->getUri());
+        $alarmJson = $this->api->get($this->getUri());
         return AlarmModel::deserialize($this->jsonDecode($alarmJson, true)['data']);
     }
 
     public function close(): void {
-        $this->api->run(
-            $this->getUri() . '/close',
-            null,
-            null,
-            'POST',
-        );
+        $this->api->post($this->getUri() . '/close');
     }
 
     public function update(AlarmModel $alarm): void {
-        $this->api->run(
-            $this->getUri(),
-            null,
-            json_encode(['ticketId' => $alarm->ticketId]),
-            'PATCH',
-        );
+        $this->api->patch($this->getUri(), [RequestOptions::JSON => ['ticketId' => $alarm->ticketId]]);
     }
 }

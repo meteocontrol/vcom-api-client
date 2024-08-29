@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
@@ -17,7 +18,7 @@ class YieldLossesSetpointEndpoint extends SubEndpoint {
     }
 
     public function get(YieldLossesCriteria $criteria): YieldLoss {
-        $json = $this->api->run($this->getUri(), $criteria->generateQueryString());
+        $json = $this->api->get($this->getUri(), [RequestOptions::QUERY => $criteria->generateQueryString()]);
         return YieldLoss::deserialize($this->jsonDecode($json, true)['data']);
     }
 
@@ -29,6 +30,12 @@ class YieldLossesSetpointEndpoint extends SubEndpoint {
             'realLostYield' => $yieldLoss->realLostYield,
             'comment' => $yieldLoss->comment,
         ];
-        $this->api->run($this->getUri(), $criteria->generateQueryString(), json_encode($fields), 'PUT');
+        $this->api->put(
+            $this->getUri(),
+            [
+                RequestOptions::JSON => $fields,
+                RequestOptions::QUERY => $criteria->generateQueryString(),
+            ],
+        );
     }
 }

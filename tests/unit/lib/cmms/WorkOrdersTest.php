@@ -12,7 +12,7 @@ class WorkOrdersTest extends TestCase {
         $json = file_get_contents(__DIR__ . "/responses/getWorkorders.json");
 
         $this->api->expects($this->once())
-            ->method("run")
+            ->method("get")
             ->with($this->identicalTo("cmms/workorders"))
             ->willReturn($json);
         $actualResults = $this->api->cmms()->workOrders()->get();

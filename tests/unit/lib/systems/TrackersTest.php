@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
@@ -20,7 +21,7 @@ class TrackersTest extends TestCase {
     public function testGetTrackers() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackers.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/trackers'))
             ->willReturn($json);
 
@@ -37,7 +38,7 @@ class TrackersTest extends TestCase {
     public function testGetSingleTracker() {
         $json = file_get_contents(__DIR__ . '/responses/getTracker.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/trackers/30001'))
             ->willReturn($json);
 
@@ -55,7 +56,7 @@ class TrackersTest extends TestCase {
     public function testGetTrackerAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackerAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/trackers/30001/abbreviations'))
             ->willReturn($json);
 
@@ -72,7 +73,7 @@ class TrackersTest extends TestCase {
     public function testGetTrackerSingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackerSingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/trackers/30001/abbreviations/ELEVATION'))
             ->willReturn($json);
 
@@ -88,14 +89,14 @@ class TrackersTest extends TestCase {
     public function testGetTrackerMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackerMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/trackers/30001,30002/abbreviations/AZIMUTH,ELEVATION/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -141,14 +142,14 @@ class TrackersTest extends TestCase {
     public function testGetTrackerMeasurementsWithIntervalIncluded() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackerMeasurementsIncludeInterval.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/trackers/30001,30002/abbreviations/AZIMUTH,ELEVATION/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -206,14 +207,14 @@ class TrackersTest extends TestCase {
     public function testGetTrackerMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackerMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/trackers/30001,30002/abbreviations/AZIMUTH,ELEVATION/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -272,10 +273,12 @@ class TrackersTest extends TestCase {
     public function testGetTrackersBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackerBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/trackers/bulk/measurements'),
-                $this->identicalToUrl('from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -293,12 +296,12 @@ class TrackersTest extends TestCase {
     public function testGetTrackersBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getTrackerBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/trackers/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&abbreviations=AZIMUTH,STATE'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-10T11:00:00+02:00&to=2016-10-10T11:05:00+02:00&abbreviations=AZIMUTH,STATE'
+                ])
             )
             ->willReturn($json);
 
@@ -317,12 +320,12 @@ class TrackersTest extends TestCase {
     public function testGetTrackersBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getTrackerBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/trackers/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:05:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:05:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace unit\lib\alarms;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\vcomapi\model\Alarm;
 
@@ -14,13 +15,8 @@ class AlarmTest extends TestCase {
         $alarm->id = 12345;
 
         $this->api->expects($this->once())
-            ->method("run")
-            ->with(
-                $this->identicalTo("alarms/12345/close"),
-                null,
-                null,
-                "POST"
-            );
+            ->method('post')
+            ->with($this->identicalTo('alarms/12345/close'));
         $this->api->alarm($alarm->id)->close();
     }
 
@@ -30,12 +26,10 @@ class AlarmTest extends TestCase {
         $alarm->ticketId = null;
 
         $this->api->expects($this->once())
-            ->method("run")
+            ->method('patch')
             ->with(
-                $this->identicalTo("alarms/12345"),
-                null,
-                json_encode(["ticketId" => null]),
-                "PATCH"
+                $this->identicalTo('alarms/12345'),
+                [RequestOptions::JSON => ['ticketId' => null]],
             );
         $this->api->alarm($alarm->id)->update($alarm);
     }

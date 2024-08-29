@@ -23,7 +23,7 @@ class Status extends SubEndpoint {
      * @return StatusDetail
      */
     public function get(): StatusDetail {
-        $json = $this->api->run($this->getUri());
+        $json = $this->api->get($this->getUri());
         return StatusDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 

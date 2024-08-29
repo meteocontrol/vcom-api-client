@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
-use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
-use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
 class KpiTargetsTest extends TestCase {
@@ -17,7 +16,7 @@ class KpiTargetsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getKpiTargets.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/kpi-targets/pr'))
             ->willReturn($json);
 
@@ -28,12 +27,10 @@ class KpiTargetsTest extends TestCase {
 
     public function testSetPrTargets(): void {
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('put')
             ->with(
                 $this->identicalTo('systems/ABCDE/kpi-targets/pr'),
-                null,
-                json_encode(self::TARGETS),
-                'PUT',
+                [RequestOptions::JSON => self::TARGETS],
             );
 
         $this->api->system('ABCDE')->kpiTargets()->pr()->set(self::TARGETS);
@@ -41,13 +38,8 @@ class KpiTargetsTest extends TestCase {
 
     public function testDeletePrTargets(): void {
         $this->api->expects($this->once())
-            ->method('run')
-            ->with(
-                $this->identicalTo('systems/ABCDE/kpi-targets/pr'),
-                null,
-                null,
-                'DELETE',
-            );
+            ->method('delete')
+            ->with($this->identicalTo('systems/ABCDE/kpi-targets/pr'));
 
         $this->api->system('ABCDE')->kpiTargets()->pr()->delete();
     }
@@ -56,7 +48,7 @@ class KpiTargetsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getKpiTargets.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/kpi-targets/availability'))
             ->willReturn($json);
 
@@ -67,12 +59,10 @@ class KpiTargetsTest extends TestCase {
 
     public function testSetAvailabilityTargets(): void {
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('put')
             ->with(
                 $this->identicalTo('systems/ABCDE/kpi-targets/availability'),
-                null,
-                json_encode(self::TARGETS),
-                'PUT',
+                [RequestOptions::JSON => self::TARGETS],
             );
 
         $this->api->system('ABCDE')->kpiTargets()->availability()->set(self::TARGETS);
@@ -80,13 +70,8 @@ class KpiTargetsTest extends TestCase {
 
     public function testDeleteAvailabilityTargets(): void {
         $this->api->expects($this->once())
-            ->method('run')
-            ->with(
-                $this->identicalTo('systems/ABCDE/kpi-targets/availability'),
-                null,
-                null,
-                'DELETE',
-            );
+            ->method('delete')
+            ->with($this->identicalTo('systems/ABCDE/kpi-targets/availability'));
 
         $this->api->system('ABCDE')->kpiTargets()->availability()->delete();
     }

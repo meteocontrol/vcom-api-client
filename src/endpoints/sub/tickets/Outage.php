@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\vcomapi\model\Outage as OutageModel;
@@ -17,7 +18,7 @@ class Outage extends SubEndpoint {
     }
 
     public function get(): OutageModel {
-        $outageJson = $this->api->run($this->getUri());
+        $outageJson = $this->api->get($this->getUri());
         return OutageModel::deserialize(json_decode($outageJson, true)['data']);
     }
 
@@ -34,15 +35,14 @@ class Outage extends SubEndpoint {
         } else {
             $fields = $this->applyFilter($updateFilter, $outage);
         }
-        $this->api->run($this->getUri(), null, json_encode($fields), 'PATCH');
+        $this->api->patch($this->getUri(), [RequestOptions::JSON => $fields]);
     }
 
     public function replace(OutageModel $outage): void {
-        $this->api->run(
+        $this->api->put(
             $this->getUri(),
-            null,
-            json_encode(
-                [
+            [
+                RequestOptions::JSON => [
                     'startedAt' => $outage->startedAt->format(DATE_ATOM),
                     'endedAt' => is_null($outage->endedAt) ? null : $outage->endedAt->format(DATE_ATOM),
                     'affectedPower' => $outage->affectedPower,
@@ -50,12 +50,11 @@ class Outage extends SubEndpoint {
                     'shouldInfluencePr' => $outage->shouldInfluencePr,
                     'components' => $outage->components,
                 ],
-            ),
-            'PUT',
+            ],
         );
     }
 
     public function delete(): void {
-        $this->api->run($this->getUri(), null, null, 'DELETE');
+        $this->api->delete($this->getUri());
     }
 }

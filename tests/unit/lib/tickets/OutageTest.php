@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\vcomapi\model\Outage as OutageModel;
 
@@ -12,7 +13,7 @@ class OutageTest extends TestCase {
 
     public function testGetOutage(): void {
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('tickets/123/outage'))
             ->willReturn(file_get_contents(__DIR__ . '/responses/getOutage.json'));
         $outage = $this->api->ticket('123')->outage()->get();
@@ -28,12 +29,10 @@ class OutageTest extends TestCase {
     public function testUpdateOutage(): void {
         $outage = $this->getOutage();
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('patch')
             ->with(
                 $this->identicalTo('tickets/123/outage'),
-                null,
-                json_encode(['components' => ['Id56789.1', 'Id56789.2']]),
-                'PATCH'
+                [RequestOptions::JSON => ['components' => ['Id56789.1', 'Id56789.2']]],
             );
         $this->api->ticket('123')->outage()->update($outage, ['components']);
     }
@@ -41,27 +40,27 @@ class OutageTest extends TestCase {
     public function testReplaceOutage(): void {
         $outage = $this->getOutage();
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('put')
             ->with(
                 $this->identicalTo('tickets/123/outage'),
-                null,
-                json_encode([
-                    'startedAt' => '2024-06-01T12:00:00+02:00',
-                    'endedAt' => '2024-06-01T13:00:00+02:00',
-                    'affectedPower' => 123.67,
-                    'shouldInfluenceAvailability' => false,
-                    'shouldInfluencePr' => true,
-                    'components' => ['Id56789.1', 'Id56789.2']
-                ]),
-                'PUT'
+                [
+                    RequestOptions::JSON => [
+                        'startedAt' => '2024-06-01T12:00:00+02:00',
+                        'endedAt' => '2024-06-01T13:00:00+02:00',
+                        'affectedPower' => 123.67,
+                        'shouldInfluenceAvailability' => false,
+                        'shouldInfluencePr' => true,
+                        'components' => ['Id56789.1', 'Id56789.2'],
+                    ],
+                ],
             );
         $this->api->ticket('123')->outage()->replace($outage);
     }
 
     public function testDeleteOutage(): void {
         $this->api->expects($this->once())
-            ->method('run')
-            ->with($this->identicalTo('tickets/123/outage'), null, null, 'DELETE');
+            ->method('delete')
+            ->with($this->identicalTo('tickets/123/outage'));
         $this->api->ticket('123')->outage()->delete();
     }
 

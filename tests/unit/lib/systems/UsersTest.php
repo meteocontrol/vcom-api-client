@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\UserCriteria;
 use meteocontrol\client\vcomapi\model\User;
 use meteocontrol\client\vcomapi\model\UserDetail;
@@ -12,7 +13,7 @@ class UsersTest extends TestCase {
     public function testGetUsers() {
         $json = file_get_contents(__DIR__ . '/responses/getUsers.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/users'))
             ->willReturn($json);
         /** @var User[] $users */
@@ -32,7 +33,7 @@ class UsersTest extends TestCase {
     public function testGetSingleUserById() {
         $json = file_get_contents(__DIR__ . '/responses/getSingleUser.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/users/91366'))
             ->willReturn($json);
         /** @var UserDetail $userDetail */
@@ -61,10 +62,12 @@ class UsersTest extends TestCase {
     public function testGetSingleUserByName() {
         $json = file_get_contents(__DIR__ . '/responses/getSingleUser.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/users'),
-                $this->identicalTo('username=vcom-api-e2e-test-user')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'username=vcom-api-e2e-test-user'
+                ])
             )
             ->willReturn($json);
         $userCriteria = new UserCriteria();

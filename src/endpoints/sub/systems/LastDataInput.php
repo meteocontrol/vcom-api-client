@@ -15,7 +15,7 @@ class LastDataInput extends SubEndpoint {
     }
 
     public function get(): LastDataInputModel {
-        $json = $this->api->run($this->getUri());
+        $json = $this->api->get($this->getUri());
         return LastDataInputModel::deserialize($this->jsonDecode($json, true)['data']);
     }
 }

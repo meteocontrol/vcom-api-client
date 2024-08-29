@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
@@ -22,7 +23,7 @@ class Comment extends SubEndpoint {
      * @return CommentDetail
      */
     public function get(): CommentDetail {
-        $meterJson = $this->api->run($this->getUri());
+        $meterJson = $this->api->get($this->getUri());
         return CommentDetail::deserialize($this->jsonDecode($meterJson, true)['data']);
     }
 
@@ -35,23 +36,13 @@ class Comment extends SubEndpoint {
         if (!$commentDetail || !$commentDetail->isValid()) {
             throw new InvalidArgumentException('Comment is invalid!');
         }
-        $this->api->run(
-            $this->getUri(),
-            null,
-            json_encode(['comment' => $commentDetail->comment]),
-            'PATCH'
-        );
+        $this->api->patch($this->getUri(), [RequestOptions::JSON => ['comment' => $commentDetail->comment]]);
     }
 
     /**
      * @return void
      */
     public function delete(): void {
-        $this->api->run(
-            $this->getUri(),
-            null,
-            null,
-            'DELETE'
-        );
+        $this->api->delete($this->getUri());
     }
 }

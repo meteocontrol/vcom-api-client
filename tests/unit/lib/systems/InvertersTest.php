@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
@@ -20,7 +21,7 @@ class InvertersTest extends TestCase {
     public function testGetInverters() {
         $json = file_get_contents(__DIR__ . '/responses/getInverters.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/inverters'))
             ->willReturn($json);
 
@@ -36,7 +37,7 @@ class InvertersTest extends TestCase {
     public function testGetSingleInveter() {
         $json = file_get_contents(__DIR__ . '/responses/getInverter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/inverters/Id30773.25'))
             ->willReturn($json);
 
@@ -55,7 +56,7 @@ class InvertersTest extends TestCase {
     public function testGetInverterAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/inverters/Id30773.25/abbreviations'))
             ->willReturn($json);
 
@@ -70,7 +71,7 @@ class InvertersTest extends TestCase {
     public function testGetInverterSingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterSingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/inverters/Id30773.25/abbreviations/E_TOTAL'))
             ->willReturn($json);
 
@@ -86,14 +87,14 @@ class InvertersTest extends TestCase {
     public function testGetInverterMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/inverters/Id12345.1/abbreviations/E_INT/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
+                ])
             )
             ->willReturn($json);
 
@@ -125,14 +126,14 @@ class InvertersTest extends TestCase {
     public function testGetInverterMeasurementsWithIntervalIncluded() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterMeasurementsIncludeInterval.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/inverters/Id12345.1/abbreviations/E_INT/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T23:59:59+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -173,14 +174,14 @@ class InvertersTest extends TestCase {
 
         $json = file_get_contents(__DIR__ . '/responses/getInverterMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/inverters/Id12345.1/abbreviations/E_INT/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -197,14 +198,14 @@ class InvertersTest extends TestCase {
     public function testGetInverterMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/inverters/Id12345.1/abbreviations/E_INT/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -242,10 +243,12 @@ class InvertersTest extends TestCase {
     public function testGetInverterBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/inverters/bulk/measurements'),
-                $this->identicalToUrl('from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -263,12 +266,12 @@ class InvertersTest extends TestCase {
     public function testGetInverterBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getInverterBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/inverters/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=E_TOTAL'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&abbreviations=E_TOTAL'
+                ])
             )
             ->willReturn($json);
 
@@ -287,12 +290,12 @@ class InvertersTest extends TestCase {
     public function testGetInvertersBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getInverterBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/inverters/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

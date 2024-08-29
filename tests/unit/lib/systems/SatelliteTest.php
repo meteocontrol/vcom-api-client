@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
@@ -19,10 +20,12 @@ class SatelliteTest extends TestCase {
             ->withResolution(MeasurementsCriteria::RESOLUTION_HOUR);
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/satellite/irradiance'),
-                $this->identicalToUrl('from=2020-09-01T06:00:00+02:00&to=2020-09-01T08:59:59+02:00&resolution=hour')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2020-09-01T06:00:00+02:00&to=2020-09-01T08:59:59+02:00&resolution=hour'
+                ])
             )
             ->willReturn($json);
 

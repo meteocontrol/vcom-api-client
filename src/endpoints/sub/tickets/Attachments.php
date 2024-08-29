@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
@@ -22,7 +23,7 @@ class Attachments extends SubEndpoint {
      * @return AttachmentFile[]
      */
     public function get(): array {
-        $commentsJson = $this->api->run($this->getUri());
+        $commentsJson = $this->api->get($this->getUri());
         return AttachmentFile::deserializeArray($this->jsonDecode($commentsJson, true)['data']);
     }
 
@@ -38,19 +39,19 @@ class Attachments extends SubEndpoint {
         if (!$attachmentFile->content) {
             throw new InvalidArgumentException('Invalid attachment - empty file content.');
         }
-        $responseBody = $this->api->run(
+        $responseBody = $this->api->post(
             $this->getUri(),
-            null,
-            json_encode(
-                [
-                    'filename' => basename($attachmentFile->filename),
-                    'content' => $attachmentFile->content,
-                    'description' => $attachmentFile->description,
-                    'metaData' => $attachmentFile->metaData,
-                ],
-                79
-            ),
-            'POST'
+            [
+                RequestOptions::BODY => json_encode(
+                    [
+                        'filename' => basename($attachmentFile->filename),
+                        'content' => $attachmentFile->content,
+                        'description' => $attachmentFile->description,
+                        'metaData' => $attachmentFile->metaData,
+                    ],
+                    JSON_UNESCAPED_SLASHES | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS,
+                ),
+            ],
         );
         return $this->jsonDecode($responseBody, true)['data'];
     }

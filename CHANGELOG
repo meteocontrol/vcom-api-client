@@ -48,3 +48,4 @@
 2024-08-01: Add new calculation options for yield losses
 2024-08-07: Add last data input endpoint
 2024-08-22: Add new property additionalInformation to SystemDetail model
+2024-08-29: Add ticket yield-losses endpoint

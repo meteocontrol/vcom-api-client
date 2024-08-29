@@ -21,7 +21,7 @@ class User extends SubEndpoint {
      * @return UserDetail
      */
     public function get(): UserDetail {
-        $userDetailJson = $this->api->run($this->getUri());
+        $userDetailJson = $this->api->get($this->getUri());
         return UserDetail::deserialize($this->jsonDecode($userDetailJson, true)['data']);
     }
 }

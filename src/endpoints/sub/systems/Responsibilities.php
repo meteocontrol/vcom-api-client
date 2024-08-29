@@ -21,7 +21,7 @@ class Responsibilities extends SubEndpoint {
      * @return ResponsibilitiesModel
      */
     public function get(): ResponsibilitiesModel {
-        $responsibilitiesJson = $this->api->run($this->getUri());
+        $responsibilitiesJson = $this->api->get($this->getUri());
         return ResponsibilitiesModel::deserialize($this->jsonDecode($responsibilitiesJson, true)['data']);
     }
 }

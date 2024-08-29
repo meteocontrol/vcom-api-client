@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\vcomapi\model\Measurement;
@@ -26,7 +27,7 @@ class AbbreviationsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getAbbreviations.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/abbreviations'))
             ->willReturn($json);
 
@@ -43,14 +44,14 @@ class AbbreviationsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getMeasurements.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/abbreviations/E_Z_EVU/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
+                ])
             )
             ->willReturn($json);
 
@@ -80,14 +81,14 @@ class AbbreviationsTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getMeasurements2.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/abbreviations/E_Z_EVU,PR/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-02T23:59:59+02:00&resolution=day'
+                ])
             )
             ->willReturn($json);
 

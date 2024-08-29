@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeterReadingCriteria;
@@ -23,7 +24,7 @@ class VirtualMeterReadings extends SubEndpoint {
      * @return array
      */
     public function get(MeterReadingCriteria $criteria): array {
-        $json = $this->api->run($this->getUri(), $criteria->generateQueryString());
+        $json = $this->api->get($this->getUri(), [RequestOptions::QUERY => $criteria->generateQueryString()]);
         return VirtualMeterReading::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 }

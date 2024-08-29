@@ -21,7 +21,7 @@ class WorkOrderForm extends SubEndpoint {
      * @return WorkOrderFormDetail
      */
     public function get(): WorkOrderFormDetail {
-        $formJson = $this->api->run($this->getUri());
+        $formJson = $this->api->get($this->getUri());
         $decodedJson = json_decode($formJson, true);
         return WorkOrderFormDetail::deserialize($decodedJson['data']);
     }

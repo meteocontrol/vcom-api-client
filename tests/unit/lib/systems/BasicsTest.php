@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
@@ -18,7 +19,7 @@ class BasicsTest extends TestCase {
     public function testGetBasicsAbbreviations() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsAbbreviations.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/basics/abbreviations'))
             ->willReturn($json);
 
@@ -34,7 +35,7 @@ class BasicsTest extends TestCase {
     public function testGetBasicsSingleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsSingleAbbreviation.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('systems/ABCDE/basics/abbreviations/E_Z_EVU'))
             ->willReturn($json);
 
@@ -50,14 +51,14 @@ class BasicsTest extends TestCase {
     public function testGetBasicsMeasurements() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
+                ])
             )
             ->willReturn($json);
 
@@ -78,14 +79,14 @@ class BasicsTest extends TestCase {
     public function testGetBasicsMeasurementsWithMultipleAbbreviation() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements2.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT,wr.G_M0/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval'
+                ])
             )
             ->willReturn($json);
 
@@ -117,14 +118,14 @@ class BasicsTest extends TestCase {
     public function testGetBasicsMeasurementsWithMultipleAbbreviationAndIntervalData() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurementsIncludeIntervalVersion2.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT,wr.G_M0/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -165,14 +166,14 @@ class BasicsTest extends TestCase {
 
         $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=day&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=day&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -188,14 +189,14 @@ class BasicsTest extends TestCase {
     public function testGetBasicsMeasurementsWithIntervalIncludedWithResolution() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsMeasurements.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo(
                     'systems/ABCDE/basics/abbreviations/wr.E_INT/measurements'
                 ),
-                $this->identicalToUrl(
-                    'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval&includeInterval=1'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-01-01T00:00:00+02:00&to=2016-01-01T00:15:00+02:00&resolution=interval&includeInterval=1'
+                ])
             )
             ->willReturn($json);
 
@@ -226,10 +227,12 @@ class BasicsTest extends TestCase {
     public function testGetBasicsBulkData() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsBulk.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/basics/bulk/measurements'),
-                $this->identicalToUrl('from=2016-11-01T10:00:00+02:00&to=2016-11-01T10:15:00+02:00')
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-11-01T10:00:00+02:00&to=2016-11-01T10:15:00+02:00'
+                ])
             )
             ->willReturn($json);
 
@@ -247,12 +250,12 @@ class BasicsTest extends TestCase {
     public function testGetBasicsBulkDataWithAbbreviationsFilter() {
         $json = file_get_contents(__DIR__ . '/responses/getBasicsBulkWithAbbreviationsFilter.json');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/basics/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-11-01T10:00:00+02:00&to=2016-11-01T10:15:00+02:00&abbreviations=G_M2,H_ON'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-11-01T10:00:00+02:00&to=2016-11-01T10:15:00+02:00&abbreviations=G_M2,H_ON'
+                ])
             )
             ->willReturn($json);
 
@@ -271,12 +274,12 @@ class BasicsTest extends TestCase {
     public function testGetBasicsBulkDataWithCsvFormat() {
         $cvsRawData = file_get_contents(__DIR__ . '/responses/bulkCsv/getBasicBulk.csv');
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with(
                 $this->identicalTo('systems/ABCDE/basics/bulk/measurements'),
-                $this->identicalToUrl(
-                    'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
-                )
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01T10:00:00+02:00&to=2016-09-01T10:15:00+02:00&format=csv'
+                ])
             )
             ->willReturn($cvsRawData);
 

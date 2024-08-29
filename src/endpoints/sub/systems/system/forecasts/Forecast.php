@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system\forecasts;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\ForecastCriteria;
@@ -23,7 +24,7 @@ class Forecast extends SubEndpoint {
      */
     public function get(ForecastCriteria $forecastCriteria): MeasurementsBulkReader {
         return new MeasurementsBulkReader(
-            $this->api->run($this->getUri(), $forecastCriteria->generateQueryString()),
+            $this->api->get($this->getUri(), [RequestOptions::QUERY => $forecastCriteria->generateQueryString()]),
             $forecastCriteria
         );
     }

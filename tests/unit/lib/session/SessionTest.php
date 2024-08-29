@@ -10,7 +10,7 @@ class SessionTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/GetSession.json');
 
         $this->api->expects($this->once())
-            ->method('run')
+            ->method('get')
             ->with($this->identicalTo('session'))
             ->willReturn($json);
 

@@ -2,6 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system\environmentalSavings;
 
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
@@ -20,7 +21,7 @@ class CO2 extends SubEndpoint {
      * @return CO2Model[]
      */
     public function get(MeasurementsCriteria $criteria): array {
-        $json =  $this->api->run($this->getUri(), $criteria->generateQueryString());
+        $json =  $this->api->get($this->getUri(), [RequestOptions::QUERY => $criteria->generateQueryString()]);
         return CO2Model::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 }

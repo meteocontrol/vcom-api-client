@@ -2,7 +2,7 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
-use DateTime;
+use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
@@ -24,7 +24,7 @@ class Comments extends SubEndpoint {
      * @return Comment[]
      */
     public function get(): array {
-        $commentsJson = $this->api->run($this->getUri());
+        $commentsJson = $this->api->get($this->getUri());
         return Comment::deserializeArray($this->jsonDecode($commentsJson, true)['data']);
     }
 
@@ -44,12 +44,7 @@ class Comments extends SubEndpoint {
             $body['createdAt'] = $createdAt->format(DATE_ATOM);
         }
 
-        $responseBody = $this->api->run(
-            $this->getUri(),
-            null,
-            json_encode($body),
-            'POST'
-        );
+        $responseBody = $this->api->post($this->getUri(), [RequestOptions::JSON => $body]);
         return $this->jsonDecode($responseBody)->data->commentId;
     }
 }
