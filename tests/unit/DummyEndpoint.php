@@ -13,7 +13,7 @@ class DummyEndpoint extends Endpoint {
         return "/dummy";
     }
 
-    public function someActionThatGetsAJsonReponse() {
+    public function someActionThatGetsAJsonResponse() {
         return $this->jsonDecode("not a valid json string");
     }
 }

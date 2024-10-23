@@ -29,7 +29,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
     public function setup(): void {
         $this->config = new Config(__DIR__ . '/../_files/config.ini');
         $this->loginUrl = sprintf('%s/%s/login', $this->config->getApiUrl(), Factory::API_VERSION);
-        $this->tokenAccessFile = __DIR__ . '/../../../../.tokenAccess/' .
+        $this->tokenAccessFile = __DIR__ . '/../../../.tokenAccess/' .
             md5($this->config->getApiUsername() . $this->config->getApiPassword());
 
         $this->mockedClient = $this->getMockBuilder(Client::class)
@@ -87,7 +87,7 @@ class OAuthAuthorizationHandlerTest extends TestCase {
      */
     public function testGetAccessWithMultipleUserAndCredentialsFile() {
         $this->config->setApiUsername('guest-user');
-        $this->tokenAccessFile = __DIR__ . '/../../../../.tokenAccess/' .
+        $this->tokenAccessFile = __DIR__ . '/../../../.tokenAccess/' .
             md5($this->config->getApiUsername() . $this->config->getApiPassword());
 
         [$mockedJson, $expectedAccessToken] = $this->parseResponse(__DIR__ . '/_files/expectedRefreshResponse.json');

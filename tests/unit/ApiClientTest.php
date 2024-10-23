@@ -23,7 +23,7 @@ class ApiClientTest extends TestCase {
     public static $us;
 
     public function tearDown(): void {
-        $tokenAccess = __DIR__ . '/../../../.tokenAccess/706eace5d3a3dbb56f141547162dc636';
+        $tokenAccess = __DIR__ . '/../../.tokenAccess/706eace5d3a3dbb56f141547162dc636';
         if (file_exists($tokenAccess)) {
             unlink($tokenAccess);
         }

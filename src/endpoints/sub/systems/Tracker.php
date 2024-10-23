@@ -6,7 +6,7 @@ use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\AbbreviationId;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\device\Abbreviation as DeviceAbbreviation;
-use meteocontrol\vcomapi\model\TrackerDetail;
+use meteocontrol\client\vcomapi\model\TrackerDetail;
 
 class Tracker extends SubEndpoint {
 

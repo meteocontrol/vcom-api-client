@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\cmms;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\WorkOrderDetail;
+use meteocontrol\client\vcomapi\model\WorkOrderDetail;
 
 class WorkOrder extends SubEndpoint {
 

@@ -6,7 +6,7 @@ use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeterReadingCriteria;
-use meteocontrol\vcomapi\model\VirtualMeterReading;
+use meteocontrol\client\vcomapi\model\VirtualMeterReading;
 
 class VirtualMeterReadings extends SubEndpoint {
 

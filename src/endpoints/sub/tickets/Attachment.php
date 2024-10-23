@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\AttachmentFile;
+use meteocontrol\client\vcomapi\model\AttachmentFile;
 
 class Attachment extends SubEndpoint {
 

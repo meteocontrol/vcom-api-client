@@ -28,12 +28,10 @@
   },
   "autoload": {
     "files": [
-      "src/Model.php"
     ],
     "psr-4": {
       "meteocontrol\\client\\vcomapi\\": "src",
-      "meteocontrol\\vcomapi\\model\\": "src/model",
-      "meteocontrol\\client\\vcomapi\\tests\\unit\\": "tests/unit/lib"
+      "meteocontrol\\client\\vcomapi\\tests\\unit\\": "tests/unit"
     }
   },
   "config": {

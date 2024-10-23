@@ -6,7 +6,7 @@ use DateTime;
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use meteocontrol\vcomapi\model\Measurement;
+use meteocontrol\client\vcomapi\model\Measurement;
 
 class AbbreviationsTest extends TestCase {
 

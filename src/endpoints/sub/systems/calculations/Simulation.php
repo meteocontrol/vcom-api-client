@@ -6,7 +6,7 @@ use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\vcomapi\model\SimulationValue;
+use meteocontrol\client\vcomapi\model\SimulationValue;
 
 class Simulation extends SubEndpoint {
 

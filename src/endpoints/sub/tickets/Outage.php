@@ -7,7 +7,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\Outage as OutageModel;
+use meteocontrol\client\vcomapi\model\Outage as OutageModel;
 
 class Outage extends SubEndpoint {
 

@@ -6,9 +6,9 @@ use DateTime;
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeterReadingCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use meteocontrol\vcomapi\model\VirtualMeter;
-use meteocontrol\vcomapi\model\VirtualMeterDetail;
-use meteocontrol\vcomapi\model\VirtualMeterReading;
+use meteocontrol\client\vcomapi\model\VirtualMeter;
+use meteocontrol\client\vcomapi\model\VirtualMeterDetail;
+use meteocontrol\client\vcomapi\model\VirtualMeterReading;
 
 class VirtualMeterTest extends TestCase {
 

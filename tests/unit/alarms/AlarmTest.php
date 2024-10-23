@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace unit\lib\alarms;
+namespace meteocontrol\client\vcomapi\tests\unit\alarms;
 
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use meteocontrol\vcomapi\model\Alarm;
+use meteocontrol\client\vcomapi\model\Alarm;
 
 class AlarmTest extends TestCase {
 

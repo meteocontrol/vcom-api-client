@@ -6,8 +6,8 @@ use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\UserCriteria;
-use meteocontrol\vcomapi\model\User;
-use meteocontrol\vcomapi\model\UserDetail;
+use meteocontrol\client\vcomapi\model\User;
+use meteocontrol\client\vcomapi\model\UserDetail;
 
 class Users extends SubEndpoint {
 

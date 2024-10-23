@@ -7,7 +7,7 @@ namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 use DateTime;
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use meteocontrol\vcomapi\model\Outage as OutageModel;
+use meteocontrol\client\vcomapi\model\Outage as OutageModel;
 
 class OutageTest extends TestCase {
 

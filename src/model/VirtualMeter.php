@@ -1,5 +1,5 @@
 <?php
-namespace meteocontrol\vcomapi\model;
+namespace meteocontrol\client\vcomapi\model;
 
 class VirtualMeter extends BaseModel {
 

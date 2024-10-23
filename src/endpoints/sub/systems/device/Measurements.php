@@ -7,8 +7,8 @@ use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\vcomapi\model\DevicesMeasurement;
-use meteocontrol\vcomapi\model\DevicesMeasurementWithInterval;
+use meteocontrol\client\vcomapi\model\DevicesMeasurement;
+use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
 
 class Measurements extends SubEndpoint {
 

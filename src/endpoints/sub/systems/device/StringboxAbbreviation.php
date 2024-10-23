@@ -2,8 +2,8 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\sub\systems\device;
 
-use meteocontrol\vcomapi\model\Abbreviation as AbbreviationModel;
-use meteocontrol\vcomapi\model\StringboxAbbreviation as StringboxAbbreviationModel;
+use meteocontrol\client\vcomapi\model\Abbreviation as AbbreviationModel;
+use meteocontrol\client\vcomapi\model\StringboxAbbreviation as StringboxAbbreviationModel;
 
 class StringboxAbbreviation extends Abbreviation {
 

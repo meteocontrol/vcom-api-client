@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\TicketHistory;
+use meteocontrol\client\vcomapi\model\TicketHistory;
 
 class Histories extends SubEndpoint {
 

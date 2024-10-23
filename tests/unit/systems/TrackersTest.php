@@ -10,10 +10,10 @@ use meteocontrol\client\vcomapi\model\DevicesMeasurementWithInterval;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use meteocontrol\vcomapi\model\Abbreviation;
-use meteocontrol\vcomapi\model\DevicesMeasurement;
-use meteocontrol\vcomapi\model\Tracker;
-use meteocontrol\vcomapi\model\TrackerDetail;
+use meteocontrol\client\vcomapi\model\Abbreviation;
+use meteocontrol\client\vcomapi\model\DevicesMeasurement;
+use meteocontrol\client\vcomapi\model\Tracker;
+use meteocontrol\client\vcomapi\model\TrackerDetail;
 use UnexpectedValueException;
 
 class TrackersTest extends TestCase {

@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\Battery;
+use meteocontrol\client\vcomapi\model\Battery;
 
 class Batteries extends SubEndpoint {
 

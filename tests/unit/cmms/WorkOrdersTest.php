@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\tests\unit\cmms;
 
 use DateTime;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use meteocontrol\vcomapi\model\WorkOrder;
+use meteocontrol\client\vcomapi\model\WorkOrder;
 
 class WorkOrdersTest extends TestCase {
 

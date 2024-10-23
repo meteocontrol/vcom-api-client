@@ -6,7 +6,7 @@ use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\AttachmentFile;
+use meteocontrol\client\vcomapi\model\AttachmentFile;
 
 class Attachments extends SubEndpoint {
 

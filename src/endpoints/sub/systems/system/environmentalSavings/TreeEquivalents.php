@@ -6,7 +6,7 @@ use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\vcomapi\model\TreeEquivalent as TreeEquivalentsModel;
+use meteocontrol\client\vcomapi\model\TreeEquivalent as TreeEquivalentsModel;
 
 class TreeEquivalents extends SubEndpoint {
 

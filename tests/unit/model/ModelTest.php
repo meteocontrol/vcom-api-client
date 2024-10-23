@@ -4,16 +4,16 @@ namespace meteocontrol\client\vcomapi;
 
 use DateTime;
 use DateTimeZone;
-use meteocontrol\vcomapi\model\AttachmentFile;
-use meteocontrol\vcomapi\model\Comment;
-use meteocontrol\vcomapi\model\CommentDetail;
-use meteocontrol\vcomapi\model\Coordinates;
-use meteocontrol\vcomapi\model\MeasurementValue;
-use meteocontrol\vcomapi\model\MeasurementValueWithInterval;
-use meteocontrol\vcomapi\model\Outage;
-use meteocontrol\vcomapi\model\SystemDetail;
-use meteocontrol\vcomapi\model\Ticket;
-use meteocontrol\vcomapi\model\TicketHistory;
+use meteocontrol\client\vcomapi\model\AttachmentFile;
+use meteocontrol\client\vcomapi\model\Comment;
+use meteocontrol\client\vcomapi\model\CommentDetail;
+use meteocontrol\client\vcomapi\model\Coordinates;
+use meteocontrol\client\vcomapi\model\MeasurementValue;
+use meteocontrol\client\vcomapi\model\MeasurementValueWithInterval;
+use meteocontrol\client\vcomapi\model\Outage;
+use meteocontrol\client\vcomapi\model\SystemDetail;
+use meteocontrol\client\vcomapi\model\Ticket;
+use meteocontrol\client\vcomapi\model\TicketHistory;
 use PHPUnit\Framework\TestCase;
 
 class ModelTest extends TestCase {

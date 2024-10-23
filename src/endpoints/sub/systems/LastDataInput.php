@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\LastDataInput as LastDataInputModel;
+use meteocontrol\client\vcomapi\model\LastDataInput as LastDataInputModel;
 
 class LastDataInput extends SubEndpoint {
 

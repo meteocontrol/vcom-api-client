@@ -8,8 +8,8 @@ use InvalidArgumentException;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\endpoints\sub\tickets\Causes;
 use meteocontrol\client\vcomapi\filters\TicketsCriteria;
-use meteocontrol\vcomapi\model\Ticket;
-use meteocontrol\vcomapi\model\TicketOverview;
+use meteocontrol\client\vcomapi\model\Ticket;
+use meteocontrol\client\vcomapi\model\TicketOverview;
 
 class Tickets extends MainEndpoint {
 

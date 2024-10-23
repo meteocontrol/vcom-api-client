@@ -7,7 +7,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\alarms;
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\Endpoint;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\Alarm as AlarmModel;
+use meteocontrol\client\vcomapi\model\Alarm as AlarmModel;
 
 class Alarm extends SubEndpoint {
 

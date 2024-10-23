@@ -6,7 +6,7 @@ use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\filters\SystemCriteria;
-use meteocontrol\vcomapi\model\WorkOrderForm as WorkOrderFormModel;
+use meteocontrol\client\vcomapi\model\WorkOrderForm as WorkOrderFormModel;
 
 class WorkOrderForms extends SubEndpoint {
 

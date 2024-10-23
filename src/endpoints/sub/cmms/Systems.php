@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\cmms;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\CmmsSystem;
+use meteocontrol\client\vcomapi\model\CmmsSystem;
 
 class Systems extends SubEndpoint {
 

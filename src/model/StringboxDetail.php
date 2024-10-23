@@ -1,6 +1,6 @@
 <?php
 
-namespace meteocontrol\vcomapi\model;
+namespace meteocontrol\client\vcomapi\model;
 
 class StringboxDetail extends BaseModel {
 

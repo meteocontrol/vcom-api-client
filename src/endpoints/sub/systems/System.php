@@ -8,7 +8,7 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\system\EnvironmentalSaving
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Forecasts;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\KpiTargets;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Satellite;
-use meteocontrol\vcomapi\model\SystemDetail;
+use meteocontrol\client\vcomapi\model\SystemDetail;
 
 class System extends SubEndpoint {
 

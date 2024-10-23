@@ -5,7 +5,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system\calculations;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Measurements as DeviceMeasurements;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
-use meteocontrol\vcomapi\model\MeasurementValue;
+use meteocontrol\client\vcomapi\model\MeasurementValue;
 
 class Measurements extends DeviceMeasurements {
 

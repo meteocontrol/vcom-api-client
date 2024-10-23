@@ -6,8 +6,8 @@ use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\Comment;
-use meteocontrol\vcomapi\model\CommentDetail;
+use meteocontrol\client\vcomapi\model\Comment;
+use meteocontrol\client\vcomapi\model\CommentDetail;
 
 class Comments extends SubEndpoint {
 

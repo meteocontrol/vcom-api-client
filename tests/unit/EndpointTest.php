@@ -57,6 +57,6 @@ class EndpointTest extends TestCase {
 
         require_once __DIR__ . "/DummyEndpoint.php";
         $dummy = new DummyEndpoint();
-        $dummy->someActionThatGetsAJsonReponse();
+        $dummy->someActionThatGetsAJsonResponse();
     }
 }

@@ -9,9 +9,9 @@ use meteocontrol\client\vcomapi\model\DevicesMeasurement;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
-use meteocontrol\vcomapi\model\Abbreviation;
-use meteocontrol\vcomapi\model\PowerPlantController;
-use meteocontrol\vcomapi\model\PowerPlantControllerDetail;
+use meteocontrol\client\vcomapi\model\Abbreviation;
+use meteocontrol\client\vcomapi\model\PowerPlantController;
+use meteocontrol\client\vcomapi\model\PowerPlantControllerDetail;
 use UnexpectedValueException;
 
 class PowerPlantControllersTest extends TestCase {

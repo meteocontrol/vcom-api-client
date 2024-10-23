@@ -3,7 +3,7 @@
 namespace meteocontrol\client\vcomapi\filters;
 
 use DateTime;
-use meteocontrol\vcomapi\model\Ticket;
+use meteocontrol\client\vcomapi\model\Ticket;
 
 class TicketsCriteria {
 

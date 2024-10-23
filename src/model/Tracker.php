@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace meteocontrol\vcomapi\model;
+namespace meteocontrol\client\vcomapi\model;
 
 class Tracker extends BaseModel {
 

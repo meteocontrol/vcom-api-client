@@ -7,7 +7,7 @@ namespace meteocontrol\client\vcomapi\endpoints\main;
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\ApiClient;
 use meteocontrol\client\vcomapi\filters\AlarmsCriteria;
-use meteocontrol\vcomapi\model\Alarm as AlarmModel;
+use meteocontrol\client\vcomapi\model\Alarm as AlarmModel;
 
 class Alarms extends MainEndpoint {
 

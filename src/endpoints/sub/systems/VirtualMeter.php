@@ -4,7 +4,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems;
 
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
-use meteocontrol\vcomapi\model\VirtualMeterDetail;
+use meteocontrol\client\vcomapi\model\VirtualMeterDetail;
 
 class VirtualMeter extends SubEndpoint {
 
