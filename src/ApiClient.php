@@ -180,10 +180,7 @@ class ApiClient {
      * @return array
      */
     private function getRequestOptions(array $options): array {
-        $headers = [
-            'accept-encoding' => 'gzip, deflate',
-            'content-type' => 'application/json',
-        ];
+        $headers = ['accept-encoding' => 'gzip, deflate'];
 
         $options[RequestOptions::HEADERS] = isset($options[RequestOptions::HEADERS])
             ? array_merge($headers, array_change_key_case($options[RequestOptions::HEADERS]))

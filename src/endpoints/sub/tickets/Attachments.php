@@ -42,15 +42,12 @@ class Attachments extends SubEndpoint {
         $responseBody = $this->api->post(
             $this->getUri(),
             [
-                RequestOptions::BODY => json_encode(
-                    [
-                        'filename' => basename($attachmentFile->filename),
-                        'content' => $attachmentFile->content,
-                        'description' => $attachmentFile->description,
-                        'metaData' => $attachmentFile->metaData,
-                    ],
-                    JSON_UNESCAPED_SLASHES | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS,
-                ),
+                RequestOptions::JSON => [
+                    'filename' => basename($attachmentFile->filename),
+                    'content' => $attachmentFile->content,
+                    'description' => $attachmentFile->description,
+                    'metaData' => $attachmentFile->metaData,
+                ],
             ],
         );
         return $this->jsonDecode($responseBody, true)['data'];

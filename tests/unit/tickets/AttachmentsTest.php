@@ -46,7 +46,7 @@ class AttachmentsTest extends TestCase {
             ->method('post')
             ->with(
                 $this->identicalTo('tickets/123/attachments'),
-                [RequestOptions::BODY => $this->getPostAttachmentRequestBody()],
+                [RequestOptions::JSON => $this->getPostAttachmentRequestBody()],
             )->willReturn($json);
         $attachment = new AttachmentFile();
         $attachment->description = "test attachment";
@@ -111,18 +111,15 @@ class AttachmentsTest extends TestCase {
     }
 
     /**
-     * @return string
+     * @return array
      */
     private function getPostAttachmentRequestBody() {
-        return json_encode(
-            [
-                "filename" => "test.jpg",
-                "content" => $this->getEncodedTestAttachment(),
-                "description" => "test attachment",
-                "metaData" => '{ "location": { "lat": 40, "lon": 20 } }'
-            ],
-            JSON_UNESCAPED_SLASHES | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS,
-        );
+        return [
+            "filename" => "test.jpg",
+            "content" => $this->getEncodedTestAttachment(),
+            "description" => "test attachment",
+            "metaData" => '{ "location": { "lat": 40, "lon": 20 } }'
+        ];
     }
 
     /**

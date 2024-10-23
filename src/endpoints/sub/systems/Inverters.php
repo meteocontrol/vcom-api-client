@@ -31,4 +31,11 @@ class Inverters extends SubEndpoint {
     public function bulk(): Bulk {
         return new Bulk($this);
     }
+
+    /**
+     * @return Pr
+     */
+    public function pr(): Pr {
+        return new Pr($this);
+    }
 }

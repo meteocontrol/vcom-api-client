@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi\tests\unit\systems;
 use DateTime;
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
+use meteocontrol\client\vcomapi\filters\InverterPrCriteria;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\model\Abbreviation;
 use meteocontrol\client\vcomapi\model\DevicesMeasurement;
@@ -322,5 +323,28 @@ class InvertersTest extends TestCase {
         $this->expectExceptionMessage("Delimiter and decimal point symbols can't be the same");
 
         $this->api->system('ABCDE')->inverters()->bulk()->measurements()->get($criteria);
+    }
+
+    public function testGetInvertersPr() {
+        $json = file_get_contents(__DIR__ . '/responses/getInvertersPr.json');
+        $this->api->expects($this->once())
+            ->method('get')
+            ->with(
+                $this->identicalTo('systems/ABCDE/inverters/pr'),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-09-01&to=2016-09-03&resolution=day&deviceIds=Id123.4,Id123.5,Id123.6',
+                ]),
+            )
+            ->willReturn($json);
+
+        $criteria = new InverterPrCriteria();
+        $criteria->withDateFrom(DateTime::createFromFormat('Y-m-d', '2016-09-01'))
+            ->withDateTo(DateTime::createFromFormat('Y-m-d', '2016-09-03'))
+            ->withResolution(MeasurementsCriteria::RESOLUTION_DAY)
+            ->withDeviceIds(['Id123.4', 'Id123.5', 'Id123.6']);
+
+        $invertersPr = $this->api->system('ABCDE')->inverters()->pr()->get($criteria);
+
+        $this->assertEquals(json_decode($json, true)['data'], $invertersPr);
     }
 }
