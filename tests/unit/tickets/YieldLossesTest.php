@@ -76,7 +76,6 @@ class YieldLossesTest extends TestCase {
         $criteria = $this->getCriteria();
 
         $yieldLoss = new YieldLoss();
-        $yieldLoss->realLostYield = 1.1;
         $yieldLoss->comment = 'Test comment';
 
         $this->api->expects($this->once())
@@ -85,7 +84,6 @@ class YieldLossesTest extends TestCase {
                 $this->identicalTo("tickets/12345/yield-losses/{$modelEndpoint}/{$sourceEndpoint}"),
                 [
                     RequestOptions::JSON => [
-                        'realLostYield' => $yieldLoss->realLostYield,
                         'comment' => $yieldLoss->comment,
                     ],
                     RequestOptions::QUERY => http_build_query(
@@ -103,12 +101,13 @@ class YieldLossesTest extends TestCase {
     /**
      * @dataProvider getSourceProvider
      */
-    public function testReplaceCalculationResultWithoutRequiredFields(string $model, string $source): void {
+    public function testReplaceCalculationResultWithoutCommentField(string $model, string $source): void {
         $criteria = $this->getCriteria();
 
         $yieldLoss = new YieldLoss();
 
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The comment field is empty.');
 
         $this->api->ticket($this->ticketId)->yieldLosses()->{$model}()->{$source}()->replace($criteria, $yieldLoss);
     }

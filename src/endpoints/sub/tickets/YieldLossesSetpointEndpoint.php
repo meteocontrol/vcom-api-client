@@ -23,17 +23,13 @@ class YieldLossesSetpointEndpoint extends SubEndpoint {
     }
 
     public function replace(YieldLossesCriteria $criteria, YieldLoss $yieldLoss): void {
-        if (!$yieldLoss->isValid()) {
-            throw new InvalidArgumentException('Yield loss is invalid!');
+        if (empty($yieldLoss->comment)) {
+            throw new InvalidArgumentException('The comment field is empty.');
         }
-        $fields = [
-            'realLostYield' => $yieldLoss->realLostYield,
-            'comment' => $yieldLoss->comment,
-        ];
         $this->api->put(
             $this->getUri(),
             [
-                RequestOptions::JSON => $fields,
+                RequestOptions::JSON => ['comment' => $yieldLoss->comment],
                 RequestOptions::QUERY => $criteria->generateQueryString(),
             ],
         );

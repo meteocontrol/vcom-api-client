@@ -32,7 +32,7 @@
 2022-04-20: Add ability to manipulate ticket fieldService property
 2022-08-31: Add environmental-savings endpoints
 2022-11-30: Add startedAt property for Alarm
-2022-12-08: Add Yield lose endpoints
+2022-12-08: Add yield-losses endpoints
 2023-03-21: Add new property DueDate to work order
 2023-09-07: Add satellite irradiance endpoint
 2023-10-04: Add endpoints with different power control sources for yield loss calculation
@@ -41,12 +41,13 @@
 2023-12-27: Support the yield loss calculation formulas defined by Bundesnetzagentur in 2020 and deprecate the 2017 formulas
 2024-01-10: Add category parameter to the forecast endpoint
 2024-01-25: Apply /v2 to login path
-2024-04-10: Implement the replace action for all yield loss calculation endpoints
+2024-04-10: Implement the replace action for all yield-losses endpoints
 2024-06-12: Add ticket outage endpoints
-2024-06-30: Remove the deprecated yield loss calculation endpoints that use the 2017 formulas
+2024-06-30: Remove the deprecated yield-losses endpoints that use the 2017 formulas
 2024-07-25: Add single alarm endpoints
 2024-08-01: Add new calculation options for yield losses
 2024-08-07: Add last data input endpoint
 2024-08-22: Add new property additionalInformation to SystemDetail model
 2024-08-29: Add ticket yield-losses endpoint
 2024-10-18: Add inverter PR endpoint
+2024-11-05: Disallow users from changing the real yield loss values with the flat-rate, peak, and simplified peak yield-losses endpoints
