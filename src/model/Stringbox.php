@@ -8,4 +8,6 @@ class Stringbox extends BaseModel {
     public $id;
     /** @var string */
     public $name;
+    /** @var string */
+    public $serial;
 }

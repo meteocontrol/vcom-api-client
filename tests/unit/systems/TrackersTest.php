@@ -31,8 +31,10 @@ class TrackersTest extends TestCase {
         $this->assertCount(2, $trackers);
         $this->assertEquals('30001', $trackers[0]->id);
         $this->assertEquals('Tracker 1', $trackers[0]->name);
+        $this->assertEquals("123456789", $trackers[0]->uid);
         $this->assertEquals('30002', $trackers[1]->id);
         $this->assertEquals('Tracker 2', $trackers[1]->name);
+        $this->assertEquals(null, $trackers[1]->uid);
     }
 
     public function testGetSingleTracker() {
@@ -47,6 +49,7 @@ class TrackersTest extends TestCase {
 
         $this->assertEquals('30001', $tracker->id);
         $this->assertEquals('Tracker 1', $tracker->name);
+        $this->assertEquals('123456789', $tracker->uid);
         $this->assertEquals('10.80.67.101:502-1-1', $tracker->address);
         $this->assertEquals('IDEEMATEC', $tracker->vendor);
         $this->assertEquals('HORIZON 2', $tracker->model);

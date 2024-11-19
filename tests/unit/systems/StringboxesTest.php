@@ -392,9 +392,11 @@ class StringboxesTest extends TestCase {
         $device1 = new Stringbox();
         $device1->id = "816639";
         $device1->name = "E18.S01 A";
+        $device1->serial = "123456789";
         $device2 = new Stringbox();
         $device2->id = "816640";
         $device2->name = "E18.S02 B";
+        $device2->serial = "012345678";
         return [$device1, $device2];
     }
 

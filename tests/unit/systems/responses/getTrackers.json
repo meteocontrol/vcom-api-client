@@ -2,11 +2,13 @@
   "data": [
     {
       "id": "30001",
-      "name": "Tracker 1"
+      "name": "Tracker 1",
+      "uid": "123456789"
     },
     {
       "id": "30002",
-      "name": "Tracker 2"
+      "name": "Tracker 2",
+      "uid": null
     }
   ]
 }

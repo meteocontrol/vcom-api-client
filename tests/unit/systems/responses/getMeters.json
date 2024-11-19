@@ -2,7 +2,8 @@
   "data": [
     {
       "id": "0773",
-      "name": "Meter 1"
+      "name": "Meter 1",
+      "uid": "123456789"
     }
   ]
 }

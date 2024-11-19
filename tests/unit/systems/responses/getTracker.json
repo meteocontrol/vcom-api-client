@@ -2,6 +2,7 @@
   "data": {
     "id": "30001",
     "name": "Tracker 1",
+    "uid": "123456789",
     "address": "10.80.67.101:502-1-1",
     "vendor": "IDEEMATEC",
     "model": "HORIZON 2",

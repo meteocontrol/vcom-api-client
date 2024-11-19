@@ -31,10 +31,13 @@ class SensorsTest extends TestCase {
         $this->assertCount(3, $sensors);
         $this->assertEquals(126222, $sensors[0]->id);
         $this->assertEquals('Pyranometer SMPx (Modbus)', $sensors[0]->name);
+        $this->assertEquals('123456789', $sensors[0]->uid);
         $this->assertEquals(126312, $sensors[1]->id);
         $this->assertEquals('Irradiation sensor M&T / mc Si-420TC-T (4 - 20mA)', $sensors[1]->name);
+        $this->assertEquals('12345678', $sensors[1]->uid);
         $this->assertEquals(126313, $sensors[2]->id);
         $this->assertEquals('Temperature sensor PT1000 sensor with integrated converter (0 - 10V)', $sensors[2]->name);
+        $this->assertEquals(null, $sensors[2]->uid);
     }
 
     public function testGetSingleSensor() {
@@ -49,6 +52,7 @@ class SensorsTest extends TestCase {
 
         $this->assertEquals(126222, $sensor->id);
         $this->assertEquals('Pyranometer SMPx (Modbus)', $sensor->name);
+        $this->assertEquals('123456789', $sensor->uid);
         $this->assertEquals('7', $sensor->address);
         $this->assertEquals('1.0', $sensor->firmware);
     }

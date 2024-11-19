@@ -2,6 +2,7 @@
   "data": {
     "name": "Meter 1",
     "id": 773,
+    "uid": "123456789",
     "address": "12",
     "description": "Meter 1",
     "model": "Meter 1",

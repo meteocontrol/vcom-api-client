@@ -29,8 +29,10 @@ class StatusesTest extends TestCase {
         $this->assertCount(2, $statuses);
         $this->assertEquals(10001, $statuses[0]->id);
         $this->assertEquals('Meldung LS TST', $statuses[0]->name);
+        $this->assertEquals('123456789', $statuses[0]->uid);
         $this->assertEquals(10002, $statuses[1]->id);
         $this->assertEquals('Warnung Trafotemperatur', $statuses[1]->name);
+        $this->assertEquals('12345678', $statuses[1]->uid);
     }
 
     public function testGetSingleStatus() {
@@ -45,6 +47,7 @@ class StatusesTest extends TestCase {
 
         $this->assertEquals(10001, $status->id);
         $this->assertEquals('Meldung LS TST', $status->name);
+        $this->assertEquals(null, $status->uid);
         $this->assertEquals('BT1980004134-D_IN1', $status->address);
         $this->assertEquals('Huawei', $status->vendor);
         $this->assertEquals('SmartLogger 2000 DI Status', $status->model);

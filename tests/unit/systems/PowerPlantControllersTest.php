@@ -29,6 +29,7 @@ class PowerPlantControllersTest extends TestCase {
         $this->assertCount(1, $powerPlantControllers);
         $this->assertEquals('163784', $powerPlantControllers[0]->id);
         $this->assertEquals('ppc-5bbc370ddb808', $powerPlantControllers[0]->name);
+        $this->assertEquals('123456789', $powerPlantControllers[0]->uid);
     }
 
     public function testGetSinglePowerPlantController() {
@@ -43,6 +44,7 @@ class PowerPlantControllersTest extends TestCase {
 
         $this->assertEquals('163784', $powerPlantControllerDetail->id);
         $this->assertEquals('ppc-5bbc370ddb808', $powerPlantControllerDetail->name);
+        $this->assertEquals('123456789', $powerPlantControllerDetail->uid);
         $this->assertEquals('ppc-5bbc370ddb808', $powerPlantControllerDetail->address);
         $this->assertNull($powerPlantControllerDetail->firmware);
     }

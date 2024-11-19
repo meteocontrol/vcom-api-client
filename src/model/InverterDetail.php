@@ -10,7 +10,7 @@ class InverterDetail extends BaseModel {
     public $model;
     /** @var string */
     public $vendor;
-    /** @var string */
+    /** @var string|null */
     public $serial;
     /** @var string */
     public $name;

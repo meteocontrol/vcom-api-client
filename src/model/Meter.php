@@ -8,4 +8,6 @@ class Meter extends BaseModel {
     public $id;
     /** @var string */
     public $name;
+    /** @var string|null */
+    public $uid;
 }

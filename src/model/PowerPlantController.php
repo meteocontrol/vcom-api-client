@@ -9,4 +9,7 @@ class PowerPlantController extends BaseModel {
 
     /** @var string */
     public $name;
+
+    /** @var string|null */
+    public $uid;
 }

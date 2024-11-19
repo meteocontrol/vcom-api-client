@@ -8,7 +8,12 @@ class StatusDetail extends BaseModel {
     public $id;
     /** @var string */
     public $name;
-    /** @var string */
+    /** @var string|null */
+    public $uid;
+    /**
+     * @var string
+     * @deprecated
+     */
     public $address;
     /** @var string */
     public $vendor;

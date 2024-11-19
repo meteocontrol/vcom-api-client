@@ -8,6 +8,6 @@ class Inverter extends BaseModel {
     public $id;
     /** @var string */
     public $name;
-    /** @var string */
+    /** @var string|null */
     public $serial;
 }

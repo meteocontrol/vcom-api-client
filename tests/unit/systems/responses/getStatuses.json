@@ -2,11 +2,13 @@
   "data": [
     {
       "id": "10001",
-      "name": "Meldung LS TST"
+      "name": "Meldung LS TST",
+      "uid": "123456789"
     },
     {
       "id": "10002",
-      "name": "Warnung Trafotemperatur"
+      "name": "Warnung Trafotemperatur",
+      "uid": "12345678"
     }
   ]
 }

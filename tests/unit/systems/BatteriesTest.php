@@ -31,8 +31,10 @@ class BatteriesTest extends TestCase {
         $this->assertCount(2, $batteries);
         $this->assertEquals('145103', $batteries[0]->id);
         $this->assertEquals('', $batteries[0]->name);
+        $this->assertEquals('123456789', $batteries[0]->uid);
         $this->assertEquals('145104', $batteries[1]->id);
         $this->assertEquals('', $batteries[1]->name);
+        $this->assertEquals('12345678', $batteries[1]->uid);
     }
 
     public function testGetSingleBattery() {
@@ -47,6 +49,7 @@ class BatteriesTest extends TestCase {
 
         $this->assertEquals('145103', $battery->id);
         $this->assertEquals('', $battery->name);
+        $this->assertEquals('123456789', $battery->uid);
         $this->assertEquals('bat1', $battery->address);
         $this->assertEquals('1.0', $battery->firmware);
     }

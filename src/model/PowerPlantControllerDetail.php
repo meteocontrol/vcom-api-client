@@ -10,7 +10,13 @@ class PowerPlantControllerDetail extends BaseModel {
     /** @var string */
     public $name;
 
-    /** @var string */
+    /** @var string|null */
+    public $uid;
+
+    /**
+     * @var string
+     * @deprecated
+     */
     public $address;
 
     /** @var string */

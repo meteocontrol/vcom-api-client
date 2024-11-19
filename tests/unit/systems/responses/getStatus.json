@@ -2,6 +2,7 @@
   "data": {
     "id": "10001",
     "name": "Meldung LS TST",
+    "uid": null,
     "address": "BT1980004134-D_IN1",
     "vendor": "Huawei",
     "model": "SmartLogger 2000 DI Status",

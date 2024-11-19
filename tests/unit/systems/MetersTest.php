@@ -31,6 +31,7 @@ class MetersTest extends TestCase {
         $this->assertCount(1, $meters);
         $this->assertEquals('0773', $meters[0]->id);
         $this->assertEquals('Meter 1', $meters[0]->name);
+        $this->assertEquals('123456789', $meters[0]->uid);
     }
 
     public function testGetSingleMeter() {
@@ -45,6 +46,7 @@ class MetersTest extends TestCase {
 
         $this->assertEquals(773, $meter->id);
         $this->assertEquals('Meter 1', $meter->name);
+        $this->assertEquals('123456789', $meter->uid);
         $this->assertEquals('12', $meter->address);
         $this->assertEquals('1.0', $meter->firmware);
     }
