@@ -14,25 +14,11 @@ class ReferenceComponentCriteria extends YieldLossesCriteria {
     }
 
     /**
-     * @return string
-     */
-    public function getAffectedInverterId(): string {
-        return $this->filters['affectedInverterId'];
-    }
-
-    /**
      * @param string $referenceInverterIds
      * @return ReferenceComponentCriteria
      */
     public function withReferenceInverterIds(string $referenceInverterIds): self {
         $this->filters['referenceInverterIds'] = $referenceInverterIds;
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReferenceInverterIds(): string {
-        return $this->filters['referenceInverterIds'];
     }
 }

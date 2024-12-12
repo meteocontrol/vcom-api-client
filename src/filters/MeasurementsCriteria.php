@@ -100,13 +100,6 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return string
-     */
-    public function getLineBreak(): string {
-        return $this->filters['lineBreak'] ?? CsvFormat::LINE_BREAK_LF;
-    }
-
-    /**
      * @param string $breakSymbol
      * @return MeasurementsCriteria
      */
@@ -148,26 +141,12 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return string
-     */
-    public function getEmptyPlaceholder(): string {
-        return $this->filters['emptyPlaceholder'] ?? CsvFormat::EMPTY_PLACE_HOLDER_EMPTY;
-    }
-
-    /**
      * @param string $emptyPlaceholder
      * @return MeasurementsCriteria
      */
     public function withEmptyPlaceholder(string $emptyPlaceholder): self {
         $this->filters['emptyPlaceholder'] = $emptyPlaceholder;
         return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPrecision(): int {
-        return $this->filters['precision'] ?? CsvFormat::PRECISION_2;
     }
 
     /**
@@ -195,13 +174,6 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return bool
-     */
-    public function getActiveOnly(): bool {
-        return isset($this->filters['activeOnly']);
-    }
-
-    /**
      * @return MeasurementsCriteria
      */
     public function withActiveOnly(): self {
@@ -210,15 +182,8 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return string
-     */
-    public function getDeviceIds(): string {
-        return $this->filters['deviceIds'] ?? '';
-    }
-
-    /**
      * @param array $deviceIds
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withDeviceIds(array $deviceIds): self {
         $this->filters['deviceIds'] = implode(',', $deviceIds);
@@ -226,18 +191,20 @@ class MeasurementsCriteria {
     }
 
     /**
-     * @return string
-     */
-    public function getAbbreviations(): string {
-        return $this->filters['abbreviations'] ?? '';
-    }
-
-    /**
      * @param array $abbreviations
-     * @return $this
+     * @return MeasurementsCriteria
      */
     public function withAbbreviation(array $abbreviations): self {
         $this->filters['abbreviations'] = implode(',', $abbreviations);
+        return $this;
+    }
+
+    /**
+     * @param bool $considerPowerControl
+     * @return MeasurementsCriteria
+     */
+    public function withConsiderPowerControl(bool $considerPowerControl): self {
+        $this->filters['considerPowerControl'] = $considerPowerControl;
         return $this;
     }
 
@@ -246,7 +213,13 @@ class MeasurementsCriteria {
      */
     public function generateQueryString(): string {
         $this->validateCriteriaSettings();
-        return http_build_query($this->filters);
+        $data = array_map(function ($value) {
+            if (is_bool($value)) {
+                return $value ? 'true' : 'false';
+            }
+            return $value;
+        }, $this->filters);
+        return http_build_query($data);
     }
 
     /**

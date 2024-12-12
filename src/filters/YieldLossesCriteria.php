@@ -19,26 +19,12 @@ class YieldLossesCriteria {
     }
 
     /**
-     * @return DateTime
-     */
-    public function getDateFrom(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['from']);
-    }
-
-    /**
      * @param DateTime $to
      * @return YieldLossesCriteria
      */
     public function withDateTo(DateTime $to): self {
         $this->filters['to'] = $to->format(DATE_ATOM);
         return $this;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getDateTo(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['to']);
     }
 
     /**

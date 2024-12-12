@@ -11,13 +11,6 @@ class TicketsCriteria {
     private $filters;
 
     /**
-     * @return DateTime
-     */
-    public function getLastChangedAtFrom(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['lastChangedAt[from]']);
-    }
-
-    /**
      * @param DateTime $from
      * @return TicketsCriteria
      */
@@ -25,14 +18,6 @@ class TicketsCriteria {
         $this->filters['lastChangedAt[from]'] = $from->format(DATE_ATOM);
         return $this;
     }
-
-    /**
-     * @return DateTime
-     */
-    public function getLastChangedAtTo(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['lastChangedAt[to]']);
-    }
-
     /**
      * @param DateTime $to
      * @return TicketsCriteria
@@ -40,13 +25,6 @@ class TicketsCriteria {
     public function withLastChangedAtTo(DateTime $to): self {
         $this->filters['lastChangedAt[to]'] = $to->format(DATE_ATOM);
         return $this;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getCreatedAtFrom(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['createdAt[from]']);
     }
 
     /**
@@ -59,26 +37,12 @@ class TicketsCriteria {
     }
 
     /**
-     * @return DateTime
-     */
-    public function getCreatedAtTo(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['createdAt[to]']);
-    }
-
-    /**
      * @param DateTime $to
      * @return TicketsCriteria
      */
     public function withCreatedAtTo(DateTime $to): self {
         $this->filters['createdAt[to]'] = $to->format(DATE_ATOM);
         return $this;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getRectifiedAtFrom(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['rectifiedAt[from]']);
     }
 
     /**
@@ -91,13 +55,6 @@ class TicketsCriteria {
     }
 
     /**
-     * @return DateTime
-     */
-    public function getRectifiedAtTo(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['rectifiedAt[to]']);
-    }
-
-    /**
      * @param DateTime $to
      * @return TicketsCriteria
      */
@@ -107,27 +64,12 @@ class TicketsCriteria {
     }
 
     /**
-     * @return Ticket::REPORT_TYPE_NO | Ticket::REPORT_TYPE_DETAIL | Ticket::REPORT_TYPE_SUMMARY
-     */
-    public function getIncludeInReports(): string {
-        return $this->filters['includeInReports'];
-    }
-
-    /**
      * @param array | Ticket::REPORT_TYPE_NO | Ticket::REPORT_TYPE_DETAIL | Ticket::REPORT_TYPE_SUMMARY $type
      * @return TicketsCriteria
      */
     public function withIncludeInReports($type): self {
         $this->filters['includeInReports'] = is_array($type) ? implode(",", $type) : $type;
         return $this;
-    }
-
-    /**
-     * @return string Ticket::STATUS_OPEN | Ticket::STATUS_CLOSED | Ticket::STATUS_DELETED | Ticket::STATUS_ASSIGNED |
-     *                Ticket::STATUS_INPROGRESS
-     */
-    public function getStatus(): string {
-        return $this->filters['status'];
     }
 
     /**
@@ -141,13 +83,6 @@ class TicketsCriteria {
     }
 
     /**
-     * @return Ticket::SEVERITY_NORMAL | Ticket::SEVERITY_HIGH | Ticket::SEVERITY_CRITICAL
-     */
-    public function getSeverity(): string {
-        return $this->filters['severity'];
-    }
-
-    /**
      * @param array | string $severity Ticket::SEVERITY_NORMAL | Ticket::SEVERITY_HIGH |
      *                       Ticket::SEVERITY_CRITICAL $severity
      * @return TicketsCriteria
@@ -155,13 +90,6 @@ class TicketsCriteria {
     public function withSeverity($severity): self {
         $this->filters['severity'] = is_array($severity) ? implode(",", $severity) : $severity;
         return $this;
-    }
-
-    /**
-     * @return Ticket::PRIORITY_LOW | Ticket::PRIORITY_NORMAL | Ticket::PRIORITY_HIGH | Ticket::PRIORITY_URGENT
-     */
-    public function getPriority(): string {
-        return $this->filters['priority'];
     }
 
     /**
@@ -175,26 +103,12 @@ class TicketsCriteria {
     }
 
     /**
-     * @return string
-     */
-    public function getAssignee(): string {
-        return $this->filters['assignee'];
-    }
-
-    /**
      * @param array | string $assignee
      * @return TicketsCriteria
      */
     public function withAssignee($assignee): self {
         $this->filters['assignee'] = is_array($assignee) ? implode(",", $assignee) : $assignee;
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSystemKey(): string {
-        return $this->filters['systemKey'];
     }
 
     /**

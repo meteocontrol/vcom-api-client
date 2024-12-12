@@ -9,26 +9,12 @@ class ForecastCriteria extends MeasurementsCriteria {
     const CATEGORY_INTRADAY_OPTIMIZED = 'intradayOptimized';
 
     /**
-     * @return int
-     */
-    public function getHoursToFuture(): int {
-        return $this->filters['hours_to_future'] ?? 48;
-    }
-
-    /**
      * @param int $hours
      * @return $this
      */
     public function withHoursToFuture(int $hours): self {
         $this->filters['hours_to_future'] = $hours;
         return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTimezone(): ?string {
-        return $this->filters['timezone'] ?? null;
     }
 
     /**
@@ -44,7 +30,7 @@ class ForecastCriteria extends MeasurementsCriteria {
      * @return string
      */
     public function getResolution(): string {
-        return $this->filters['resolution'] ?? ForecastCriteria::RESOLUTION_FIFTEEN_MINUTES;
+        return parent::getResolution() ?? self::RESOLUTION_FIFTEEN_MINUTES;
     }
 
     /**
@@ -56,15 +42,5 @@ class ForecastCriteria extends MeasurementsCriteria {
     public function withCategory(string $category): self {
         $this->filters['category'] = $category;
         return $this;
-    }
-
-    /**
-     * @return string ForecastCriteria::CATEGORY_DAY_AHEAD
-     *              | ForecastCriteria::CATEGORY_INTRADAY
-     *              | ForecastCriteria::CATEGORY_INTRADAY_OPTIMIZED
-     *              | null
-     */
-    public function getCategory(): ?string {
-        return $this->filters['category'] ?? null;
     }
 }

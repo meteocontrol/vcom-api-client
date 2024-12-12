@@ -3,6 +3,7 @@
 namespace meteocontrol\client\vcomapi\tests\unit\cmms;
 
 use DateTime;
+use meteocontrol\client\vcomapi\filters\SystemCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\client\vcomapi\model\WorkOrder;
 
@@ -10,12 +11,16 @@ class WorkOrdersTest extends TestCase {
 
     public function testGetWorkorders() {
         $json = file_get_contents(__DIR__ . "/responses/getWorkorders.json");
+        $systemCriteria = (new SystemCriteria())
+            ->withSystemKey('ABCDE');
 
         $this->api->expects($this->once())
             ->method("get")
             ->with($this->identicalTo("cmms/workorders"))
             ->willReturn($json);
-        $actualResults = $this->api->cmms()->workOrders()->get();
+
+        $actualResults = $this->api->cmms()->workOrders()->get($systemCriteria);
+
         $this->assertEquals($this->getExpectedWorkorders(), $actualResults);
     }
 

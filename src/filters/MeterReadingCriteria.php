@@ -14,13 +14,6 @@ class MeterReadingCriteria {
     private $filters = [];
 
     /**
-     * @return DateTime
-     */
-    public function getDateFrom(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['from']);
-    }
-
-    /**
      * @param DateTime $from
      * @return MeterReadingCriteria
      */
@@ -30,26 +23,12 @@ class MeterReadingCriteria {
     }
 
     /**
-     * @return DateTime
-     */
-    public function getDateTo(): DateTime {
-        return DateTime::createFromFormat(DATE_ATOM, $this->filters['to']);
-    }
-
-    /**
      * @param DateTime $to
      * @return MeterReadingCriteria
      */
     public function withDateTo(DateTime $to) {
         $this->filters['to'] = $to->format(DATE_ATOM);
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType() {
-        return $this->filters['type'] ?? self::READING_TYPE_ALL;
     }
 
     /**

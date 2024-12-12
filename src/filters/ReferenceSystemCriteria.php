@@ -12,11 +12,4 @@ class ReferenceSystemCriteria extends YieldLossesCriteria {
         $this->filters['referenceSystemKey'] = $referenceSystemKey;
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getReferenceSystemKey(): string {
-        return $this->filters['referenceSystemKey'];
-    }
 }

@@ -264,7 +264,8 @@ class CalculationsTest extends TestCase {
 
         $criteria = new MeasurementsCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-11-01T00:00:00+01:00'))
-            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-02T23:59:59+01:00'));
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-11-02T23:59:59+01:00'))
+            ->withConsiderPowerControl(true);
 
         $simulationValues = $this->api->system('ABCDE')->calculations()->simulation()->get($criteria);
 
@@ -273,5 +274,9 @@ class CalculationsTest extends TestCase {
         $this->assertEquals(2.79430153178, $simulationValues[0]->max);
         $this->assertEquals(2.2862467078199997, $simulationValues[0]->min);
         $this->assertEquals(2.5402741198, $simulationValues[0]->expected);
+        $this->assertStringContainsString('considerPowerControl=true', $criteria->generateQueryString());
+
+        $criteria->withConsiderPowerControl(false);
+        $this->assertStringContainsString('considerPowerControl=false', $criteria->generateQueryString());
     }
 }

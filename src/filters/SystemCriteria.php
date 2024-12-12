@@ -8,13 +8,6 @@ class SystemCriteria {
     private $filters = [];
 
     /**
-     * @return string
-     */
-    public function getSystemKey(): string {
-        return $this->filters['systemKey'] ?? '';
-    }
-
-    /**
      * @param string $systemKey
      * @return $this
      */

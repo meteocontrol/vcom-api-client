@@ -8,13 +8,6 @@ class UserCriteria {
     private $filters;
 
     /**
-     * @return string
-     */
-    public function getUsername(): string {
-        return $this->filters['username'];
-    }
-
-    /**
      * @param string $username
      * @return $this
      */

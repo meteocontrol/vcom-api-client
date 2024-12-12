@@ -52,3 +52,4 @@
 2024-10-18: Add inverter PR endpoint
 2024-11-05: Disallow users from changing the real yield loss values with the flat-rate, peak, and simplified peak yield-losses endpoints
 2024-11-18: Add uid property and deprecate the address property for all device models
+2024-12-09: Add considerPowerControl query parameter in simulation endpoint
