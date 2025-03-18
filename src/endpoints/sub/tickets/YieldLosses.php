@@ -42,4 +42,8 @@ class YieldLosses extends SubEndpoint {
     public function simplifiedPeak(): SimplifiedPeak {
         return new SimplifiedPeak($this);
     }
+
+    public function simulation(): Simulation {
+        return new Simulation($this);
+    }
 }
