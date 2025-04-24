@@ -12,10 +12,9 @@ class DevicesMeasurement extends BaseModel implements ArrayAccess, Countable {
 
     /**
      * @param array $data
-     * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, $name = null) {
+    public static function deserialize(array $data) {
         $object = new static();
 
         foreach ($data as $deviceId => $abbreviationMeasurements) {

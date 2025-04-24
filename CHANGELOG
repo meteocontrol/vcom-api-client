@@ -54,3 +54,4 @@
 2024-11-18: Add uid property and deprecate the address property for all device models
 2024-12-09: Add considerPowerControl query parameter in simulation endpoint
 2025-03-12: Add simulation for yield-losses endpoint
+2025-04-15: Extend technical data endpoint to return systemConfigurations models

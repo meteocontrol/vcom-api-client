@@ -2,27 +2,11 @@
   "data": {
     "nominalPower": 79.24,
     "siteArea": 549.11,
-    "moduleTypes": [
-      {
-        "name": "Suntech STP280-24/Vb",
-        "count": 283
-      }
-    ],
     "panels": [
       {
         "vendor": "Suntech",
         "model": "STP280-24/Vb",
         "count": 283
-      }
-    ],
-    "inverterTypes": [
-      {
-        "name": "KACO new energy Powador 8000xi",
-        "count": 9
-      },
-      {
-        "name": "KACO new energy Powador 3500xi",
-        "count": 1
       }
     ],
     "inverters": [
@@ -35,6 +19,66 @@
         "vendor": "KACO new energy",
         "model": "Powador 3500xi",
         "count": 1
+      }
+    ],
+    "systemConfigurations": [
+      {
+        "inverter": {
+          "vendor": "KACO new energy",
+          "model": "Powador 8000xi",
+          "count": 3
+        },
+        "mpptCount": 3,
+        "numberOfModules": 230,
+        "mpptInputs": {
+          "1": {
+            "module": {
+              "vendor": "Suntech",
+              "model": "STP280-24/Vb"
+            },
+            "type": "facade",
+            "modulesPerString": 40,
+            "stringCount": 2
+          },
+          "2": {
+            "module": {
+              "vendor": "Suntech",
+              "model": "STP280-24/Vb"
+            },
+            "type": "facade",
+            "modulesPerString": 30,
+            "stringCount": 3
+          },
+          "3": {
+            "module": {
+              "vendor": "Suntech",
+              "model": "STP280-24/Vb"
+            },
+            "type": "facade",
+            "modulesPerString": 60,
+            "stringCount": 1
+          }
+        }
+      },
+      {
+        "inverter": {
+          "vendor": "KACO new energy",
+          "model": "Powador 3500xi",
+          "count": 1
+        },
+        "mpptCount": 1,
+        "numberOfModules": 43,
+        "mpptInputs": {
+          "5": {
+            "module": {
+              "vendor": "Suntech",
+              "model": "STP280-24/Vb"
+            },
+            "type": "ground",
+            "modulesPerString": 43,
+            "stringCount": 1
+          }
+        }
       }
     ]
   }

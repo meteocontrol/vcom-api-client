@@ -35,10 +35,9 @@ class UserDetail extends BaseModel {
 
     /**
      * @param array $data
-     * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, $name = null): self {
+    public static function deserialize(array $data): self {
         $object = new static();
 
         foreach ($data as $key => $value) {

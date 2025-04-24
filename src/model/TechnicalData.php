@@ -12,13 +12,14 @@ class TechnicalData extends BaseModel {
     public $panels;
     /** @var InverterType[] */
     public $inverters;
+    /** @var SystemConfiguration[] */
+    public $systemConfigurations;
 
     /**
      * @param array $data
-     * @param null|string $name
      * @return $this
      */
-    public static function deserialize(array $data, $name = null): self {
+    public static function deserialize(array $data): self {
         $object = new static();
 
         foreach ($data as $key => $value) {
@@ -26,6 +27,8 @@ class TechnicalData extends BaseModel {
                 $object->panels = Panel::deserializeArray($value);
             } elseif (is_array($value) && $key === "inverters") {
                 $object->inverters = InverterType::deserializeArray($value);
+            } elseif (is_array($value) && $key === "systemConfigurations") {
+                $object->systemConfigurations = SystemConfiguration::deserializeArray($value);
             } elseif (property_exists($object, $key)) {
                 $object->{$key} = self::getPhpValue($value);
             }
