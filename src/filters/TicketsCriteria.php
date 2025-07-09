@@ -68,7 +68,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withIncludeInReports($type): self {
-        $this->filters['includeInReports'] = is_array($type) ? implode(",", $type) : $type;
+        $this->filters['includeInReports'] = is_array($type) ? implode(',', $type) : $type;
         return $this;
     }
 
@@ -78,7 +78,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withStatus($status): self {
-        $this->filters['status'] = is_array($status) ? implode(",", $status) : $status;
+        $this->filters['status'] = is_array($status) ? implode(',', $status) : $status;
         return $this;
     }
 
@@ -88,7 +88,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withSeverity($severity): self {
-        $this->filters['severity'] = is_array($severity) ? implode(",", $severity) : $severity;
+        $this->filters['severity'] = is_array($severity) ? implode(',', $severity) : $severity;
         return $this;
     }
 
@@ -98,7 +98,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withPriority($priority): self {
-        $this->filters['priority'] = is_array($priority) ? implode(",", $priority) : $priority;
+        $this->filters['priority'] = is_array($priority) ? implode(',', $priority) : $priority;
         return $this;
     }
 
@@ -107,7 +107,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withAssignee($assignee): self {
-        $this->filters['assignee'] = is_array($assignee) ? implode(",", $assignee) : $assignee;
+        $this->filters['assignee'] = is_array($assignee) ? implode(',', $assignee) : $assignee;
         return $this;
     }
 
@@ -116,7 +116,7 @@ class TicketsCriteria {
      * @return TicketsCriteria
      */
     public function withSystemKey($systemKey): self {
-        $this->filters['systemKey'] = is_array($systemKey) ? implode(",", $systemKey) : $systemKey;
+        $this->filters['systemKey'] = is_array($systemKey) ? implode(',', $systemKey) : $systemKey;
         return $this;
     }
 

@@ -38,4 +38,11 @@ class Cmms extends MainEndpoint {
         $workOrderIdEndpoint = new WorkOrderId($workOrders, $workOrderId);
         return new WorkOrder($workOrderIdEndpoint);
     }
+
+    /**
+     * @return SiteAccess
+     */
+    public function siteAccess(): SiteAccess {
+        return new SiteAccess($this);
+    }
 }

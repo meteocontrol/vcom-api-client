@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "system": {
+        "key": "ABCDE",
+        "name": "System Name"
+      },
+      "name": "site access name",
+      "status": "unregistered",
+      "comment": "comment",
+      "checkIn": "2025-04-10T11:06:09+02:00",
+      "checkOut": "2025-04-16T11:06:09+02:00"
+    }
+  ]
+}

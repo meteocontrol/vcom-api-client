@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "system": {
+        "key": "ABCDE",
+        "name": "System Name1"
+      },
+      "name": "site access name",
+      "status": "unregistered",
+      "comment": null,
+      "checkIn": "2025-04-12T11:14:30+02:00",
+      "checkOut": "2025-04-16T11:14:30+02:00"
+    },
+    {
+      "system": {
+        "key": "FGHIJ",
+        "name": "System Name2"
+      },
+      "name": "site access name1",
+      "status": "registered",
+      "comment": "comment",
+      "checkIn": "2025-04-12T11:14:30+02:00",
+      "checkOut": "2025-04-16T11:14:30+02:00"
+    }
+  ]
+}

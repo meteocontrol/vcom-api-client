@@ -24,8 +24,8 @@ class Simulation extends SubEndpoint {
      * @return SimulationValue[]
      */
     public function get(MeasurementsCriteria $criteria): array {
-        $valueJson = $this->api->get($this->getUri(), [RequestOptions::QUERY => $criteria->generateQueryString()]);
-        $decodedJson = json_decode($valueJson, true);
+        $siteAccessJson = $this->api->get($this->getUri(), [RequestOptions::QUERY => $criteria->generateQueryString()]);
+        $decodedJson = json_decode($siteAccessJson, true);
         return SimulationValue::deserializeArray($decodedJson['data']);
     }
 }
