@@ -38,20 +38,25 @@ class YieldLossesTest extends TestCase {
         string $source,
         string $modelEndpoint,
         string $sourceEndpoint,
+        ?int $resolution = null,
         string $expectedResponse,
         array $expected,
     ): void {
         $json = file_get_contents(__DIR__ . "/responses/{$expectedResponse}");
 
-        $criteria = $this->getCriteria();
+        $criteria = $this->getCriteria($resolution);
+
+        $expectedQuery = 'from=2022-05-25T00:00:00+00:00&to=2022-05-31T23:59:59+00:00';
+        if ($resolution !== null) {
+            $expectedQuery .= "&resolution={$resolution}";
+        }
 
         $this->api->expects($this->once())
             ->method('get')
             ->with(
                 $this->identicalTo("tickets/12345/yield-losses/{$modelEndpoint}/{$sourceEndpoint}"),
                 $this->identicalToUrl([
-                    RequestOptions::QUERY => 'from=2022-05-25T00:00:00+00:00' .
-                        '&to=2022-05-31T23:59:59+00:00',
+                    RequestOptions::QUERY => $expectedQuery,
                 ]),
             )
             ->willReturn($json);
@@ -119,164 +124,179 @@ class YieldLossesTest extends TestCase {
                 'gridOperator',
                 'flat-rate',
                 'grid-operator',
+                900,
                 'getFlatRateGridOperator.json',
                 [
                     'result' => 1017.23,
                     'realLostYield' => 1017.23,
                     'comment' => '',
                     'totalCompensation' => 74.97,
-                ]
+                ],
             ],
             [
                 'flatRate',
                 'energyTrader',
                 'flat-rate',
                 'energy-trader',
+                900,
                 'getFlatRateEnergyTrader.json',
                 [
                     'result' => 1017.23,
                     'realLostYield' => 1017.23,
                     'comment' => '',
                     'totalCompensation' => 74.97,
-                ]
+                ],
             ],
             [
                 'flatRate',
                 'manual',
                 'flat-rate',
                 'manual',
+                null,
                 'getFlatRateManual.json',
                 [
                     'result' => 1017.23,
                     'realLostYield' => 1028.34,
                     'comment' => '',
                     'totalCompensation' => 74.97,
-                ]
+                ],
             ],
             [
                 'flatRate',
                 'static',
                 'flat-rate',
                 'static',
+                null,
                 'getFlatRateStatic.json',
                 [
                     'result' => 1017.23,
                     'realLostYield' => 1039.45,
                     'comment' => '',
                     'totalCompensation' => 74.97,
-                ]
+                ],
             ],
             [
                 'peak',
                 'gridOperator',
                 'peak',
                 'grid-operator',
+                900,
                 'getPeakGridOperator.json',
                 [
                     'result' => 1005.15,
                     'realLostYield' => 1005.15,
                     'comment' => '',
                     'totalCompensation' => 74.08,
-                ]
+                ],
             ],
             [
                 'peak',
                 'energyTrader',
                 'peak',
                 'energy-trader',
+                900,
                 'getPeakEnergyTrader.json',
                 [
                     'result' => 1005.15,
                     'realLostYield' => 1005.15,
                     'comment' => '',
                     'totalCompensation' => 74.08,
-                ]
+                ],
             ],
             [
                 'peak',
                 'manual',
                 'peak',
                 'manual',
+                null,
                 'getPeakManual.json',
                 [
                     'result' => 1682.19,
                     'realLostYield' => 1693.30,
                     'comment' => '',
                     'totalCompensation' => 123.98,
-                ]
+                ],
             ],
             [
                 'peak',
                 'static',
                 'peak',
                 'static',
+                null,
                 'getPeakStatic.json',
                 [
                     'result' => 1682.19,
                     'realLostYield' => 1704.41,
                     'comment' => '',
                     'totalCompensation' => 123.98,
-                ]
+                ],
             ],
             [
                 'simplifiedPeak',
                 'gridOperator',
                 'simplified-peak',
                 'grid-operator',
+                900,
                 'getPeakGridOperator.json',
                 [
                     'result' => 1005.15,
                     'realLostYield' => 1005.15,
                     'comment' => '',
                     'totalCompensation' => 74.08,
-                ]
+                ],
             ],
             [
                 'simplifiedPeak',
                 'energyTrader',
                 'simplified-peak',
                 'energy-trader',
+                900,
                 'getPeakEnergyTrader.json',
                 [
                     'result' => 1005.15,
                     'realLostYield' => 1005.15,
                     'comment' => '',
                     'totalCompensation' => 74.08,
-                ]
+                ],
             ],
             [
                 'simplifiedPeak',
                 'manual',
                 'simplified-peak',
                 'manual',
+                null,
                 'getSimplifiedPeakManual.json',
                 [
                     'result' => 697.70,
                     'realLostYield' => 708.81,
                     'comment' => '',
                     'totalCompensation' => 51.42
-                ]
+                ],
             ],
             [
                 'simplifiedPeak',
                 'static',
                 'simplified-peak',
                 'static',
+                null,
                 'getSimplifiedPeakStatic.json',
                 [
                     'result' => 697.70,
                     'realLostYield' => 719.92,
                     'comment' => '',
                     'totalCompensation' => 51.42
-                ]
+                ],
             ],
         ];
     }
 
-    private function getCriteria(): YieldLossesCriteria {
+    private function getCriteria(?int $resolution = null): YieldLossesCriteria {
         $criteria = new YieldLossesCriteria();
         $criteria->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2022-05-25T00:00:00+00:00'))
             ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2022-05-31T23:59:59+00:00'));
+        if ($resolution !== null) {
+            $criteria->withResolution($resolution);
+        }
         return $criteria;
     }
 }

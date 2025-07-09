@@ -56,3 +56,4 @@
 2025-03-12: Add simulation for yield-losses endpoint
 2025-04-15: Extend technical data endpoint to return systemConfigurations models
 2025-04-21: Add site-access for cmms endpoint
+2025-07-07: Add resolution parameter support for calculating yield losses

@@ -28,6 +28,15 @@ class YieldLossesCriteria {
     }
 
     /**
+     * @param int $resolution
+     * @return YieldLossesCriteria
+     */
+    public function withResolution(int $resolution): self {
+        $this->filters['resolution'] = $resolution;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function generateQueryString(): string {
