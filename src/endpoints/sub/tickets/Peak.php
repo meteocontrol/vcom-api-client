@@ -28,4 +28,8 @@ class Peak extends SubEndpoint {
     public function static(): StaticSetpoint {
         return new StaticSetpoint($this);
     }
+
+    public function undetermined(): UndeterminedSetpoint {
+        return new UndeterminedSetpoint($this);
+    }
 }

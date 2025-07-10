@@ -176,6 +176,20 @@ class YieldLossesTest extends TestCase {
                 ],
             ],
             [
+                'flatRate',
+                'undetermined',
+                'flat-rate',
+                'undetermined',
+                900,
+                'getFlatRateUndetermined.json',
+                [
+                    'result' => 20.56,
+                    'realLostYield' => 20.56,
+                    'comment' => '',
+                    'totalCompensation' => 1.51,
+                ],
+            ],
+            [
                 'peak',
                 'gridOperator',
                 'peak',
@@ -232,6 +246,20 @@ class YieldLossesTest extends TestCase {
                 ],
             ],
             [
+                'peak',
+                'undetermined',
+                'peak',
+                'undetermined',
+                900,
+                'getPeakUndetermined.json',
+                [
+                    'result' => 4.34,
+                    'realLostYield' => 4.34,
+                    'comment' => '',
+                    'totalCompensation' => 0.31,
+                ],
+            ],
+            [
                 'simplifiedPeak',
                 'gridOperator',
                 'simplified-peak',
@@ -285,6 +313,20 @@ class YieldLossesTest extends TestCase {
                     'realLostYield' => 719.92,
                     'comment' => '',
                     'totalCompensation' => 51.42
+                ],
+            ],
+            [
+                'simplifiedPeak',
+                'undetermined',
+                'simplified-peak',
+                'undetermined',
+                900,
+                'getSimplifiedPeakUndetermined.json',
+                [
+                    'result' => 23.83,
+                    'realLostYield' => 23.83,
+                    'comment' => '',
+                    'totalCompensation' => 1.75,
                 ],
             ],
         ];
