@@ -77,6 +77,12 @@ class Alarm extends BaseModel {
     /** @var DateTime */
     public $startedAt;
 
+    /** @var DateTime|null */
+    public $closedAt;
+
+    /** @var AlarmClosureInfo|null */
+    public $closedBy;
+
     /**
      * @param array $data
      * @return static
@@ -86,6 +92,8 @@ class Alarm extends BaseModel {
         foreach ($data as $key => $value) {
             if ($key === "component" && is_array($value)) {
                 $object->component = AlarmComponent::deserialize($value);
+            } elseif ($key === "closedBy" && is_array($value)) {
+                $object->closedBy = AlarmClosureInfo::deserialize($value);
             } elseif (property_exists($object, $key)) {
                 $object->{$key} = self::getPhpValue($value);
             }
