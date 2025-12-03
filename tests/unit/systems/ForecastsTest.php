@@ -49,13 +49,13 @@ class ForecastsTest extends TestCase {
                     'systems/ABCDE/forecasts/forecast'
                 ),
                 $this->identicalToUrl([
-                    RequestOptions::QUERY => 'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=json'
+                    RequestOptions::QUERY => 'hours_into_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=json'
                 ])
             )
             ->willReturn($json);
 
         $forecastCriteria = (new ForecastCriteria())
-            ->withHoursToFuture(1)
+            ->withHoursIntoFuture(1)
             ->withTimezone('Europe/Berlin')
             ->withResolution(ForecastCriteria::RESOLUTION_FIFTEEN_MINUTES)
             ->withCategory(ForecastCriteria::CATEGORY_DAY_AHEAD)
@@ -93,13 +93,13 @@ class ForecastsTest extends TestCase {
                     'systems/ABCDE/forecasts/forecast'
                 ),
                 $this->identicalToUrl([
-                    RequestOptions::QUERY => 'hours_to_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=csv'
+                    RequestOptions::QUERY => 'hours_into_future=1&timezone=Europe/Berlin&resolution=fifteen-minutes&category=dayAhead&format=csv'
                 ])
             )
             ->willReturn($csvContent);
 
         $forecastCriteria = (new ForecastCriteria())
-            ->withHoursToFuture(1)
+            ->withHoursIntoFuture(1)
             ->withTimezone('Europe/Berlin')
             ->withResolution(ForecastCriteria::RESOLUTION_FIFTEEN_MINUTES)
             ->withCategory(ForecastCriteria::CATEGORY_DAY_AHEAD)

@@ -12,8 +12,8 @@ class ForecastCriteria extends MeasurementsCriteria {
      * @param int $hours
      * @return $this
      */
-    public function withHoursToFuture(int $hours): self {
-        $this->filters['hours_to_future'] = $hours;
+    public function withHoursIntoFuture(int $hours): self {
+        $this->filters['hours_into_future'] = $hours;
         return $this;
     }
 
