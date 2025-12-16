@@ -9,6 +9,7 @@ class ForecastCriteria extends MeasurementsCriteria {
     const CATEGORY_INTRADAY_OPTIMIZED = 'intradayOptimized';
 
     /**
+     * @deprecated Use withDateFrom() and withDateTo() instead
      * @param int $hours
      * @return $this
      */

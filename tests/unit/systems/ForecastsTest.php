@@ -62,26 +62,10 @@ class ForecastsTest extends TestCase {
             ->withFormat(CsvFormat::FORMAT_JSON);
 
         $forecasts = $this->api->system('ABCDE')->forecasts()->forecast()->get($forecastCriteria);
-        $forecasts = $forecasts->getAsArray()['data'];
-        $this->assertEquals('2021-11-06T12:30:00+01:00', $forecasts[0]['timestamp']);
-        $this->assertEquals('2021-11-05T12:30:00+01:00', $forecasts[0]['calculation_timestamp']);
-        $this->assertEquals('ABCDE', $forecasts[0]['systemKey']);
-        $this->assertEquals(35.31, $forecasts[0]['power']);
-
-        $this->assertEquals('2021-11-06T12:45:00+01:00', $forecasts[1]['timestamp']);
-        $this->assertEquals('2021-11-05T12:30:00+01:00', $forecasts[1]['calculation_timestamp']);
-        $this->assertEquals('ABCDE', $forecasts[1]['systemKey']);
-        $this->assertEquals(40.31, $forecasts[1]['power']);
-
-        $this->assertEquals('2021-11-06T13:00:00+01:00', $forecasts[2]['timestamp']);
-        $this->assertEquals('2021-11-05T12:30:00+01:00', $forecasts[2]['calculation_timestamp']);
-        $this->assertEquals('ABCDE', $forecasts[2]['systemKey']);
-        $this->assertEquals(50.0, $forecasts[2]['power']);
-
-        $this->assertEquals('2021-11-06T13:15:00+01:00', $forecasts[3]['timestamp']);
-        $this->assertEquals('2021-11-05T12:30:00+01:00', $forecasts[3]['calculation_timestamp']);
-        $this->assertEquals('ABCDE', $forecasts[3]['systemKey']);
-        $this->assertEquals(0, $forecasts[3]['power']);
+        $this->assertJsonStringEqualsJsonFile(
+            __DIR__ . '/responses/testGetForecast.json',
+            $forecasts->getAsString()
+        );
     }
 
     public function testGetForecastInCsv() {
@@ -108,5 +92,33 @@ class ForecastsTest extends TestCase {
         $forecasts = $this->api->system('ABCDE')->forecasts()->forecast()->get($forecastCriteria);
 
         $this->assertStringEqualsFile(__DIR__ . '/responses/testGetForecast.csv', $forecasts->getAsString());
+    }
+
+    public function testGetForecastWithDateRange() {
+        $json = file_get_contents(__DIR__ . '/responses/testGetForecast.json');
+        $this->api->expects($this->once())
+            ->method('get')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/forecasts/forecast'
+                ),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2025-11-25T00:00:00+00:00&to=2025-12-05T00:00:00+00:00&timezone=UTC&resolution=hour&format=json'
+                ])
+            )
+            ->willReturn($json);
+
+        $forecastCriteria = (new ForecastCriteria())
+            ->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2025-11-25T00:00:00+00:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2025-12-05T00:00:00+00:00'))
+            ->withTimezone('UTC')
+            ->withResolution(ForecastCriteria::RESOLUTION_HOUR)
+            ->withFormat(CsvFormat::FORMAT_JSON);
+
+        $forecasts = $this->api->system('ABCDE')->forecasts()->forecast()->get($forecastCriteria);
+        $this->assertJsonStringEqualsJsonFile(
+            __DIR__ . '/responses/testGetForecast.json',
+            $forecasts->getAsString()
+        );
     }
 }

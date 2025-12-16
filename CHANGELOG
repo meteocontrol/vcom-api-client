@@ -59,3 +59,4 @@
 2025-07-02: Add undetermined yield loss calculation option to API
 2025-07-07: Add resolution parameter support for calculating yield losses
 2025-09-01: Add alarm closure reason
+2025-12-08: Add from/to date range parameters to forecast endpoint
