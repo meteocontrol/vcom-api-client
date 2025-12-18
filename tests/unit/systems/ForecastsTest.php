@@ -40,6 +40,35 @@ class ForecastsTest extends TestCase {
         $this->assertEquals(24.437856, $yields[2]->value);
     }
 
+    public function testGetAlternativeForecastsYield() {
+        $json = file_get_contents(__DIR__ . '/responses/testGetAlternativeForecastsYield.json');
+        $this->api->expects($this->once())
+            ->method('get')
+            ->with(
+                $this->identicalTo(
+                    'systems/ABCDE/forecasts/alternative-yield/specific-energy'
+                ),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'from=2016-10-01T00:00:00+02:00&to=2016-12-31T23:59:59+01:00'
+                ])
+            )
+            ->willReturn($json);
+
+        $measurementsCriteria = (new MeasurementsCriteria())
+            ->withDateFrom(DateTime::createFromFormat(DATE_ATOM, '2016-10-01T00:00:00+02:00'))
+            ->withDateTo(DateTime::createFromFormat(DATE_ATOM, '2016-12-31T23:59:59+01:00'));
+
+        $yields = $this->api->system('ABCDE')
+            ->forecasts()->forecastsAlternativeYield()->specificEnergy()->get($measurementsCriteria);
+
+        $this->assertEquals('2016-10-01T00:00:00+02:00', $yields[0]->timestamp->format(DATE_ATOM));
+        $this->assertEquals(64.54322355555556, $yields[0]->value);
+        $this->assertEquals('2016-11-01T00:00:00+01:00', $yields[1]->timestamp->format(DATE_ATOM));
+        $this->assertEquals(35.7391, $yields[1]->value);
+        $this->assertEquals('2016-12-01T00:00:00+01:00', $yields[2]->timestamp->format(DATE_ATOM));
+        $this->assertEquals(26.4548851, $yields[2]->value);
+    }
+
     public function testGetForecastInJson() {
         $json = file_get_contents(__DIR__ . '/responses/testGetForecast.json');
         $this->api->expects($this->once())

@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\systems\system;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\forecasts\Forecast;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\system\forecasts\ForecastsAlternativeYield;
 use meteocontrol\client\vcomapi\endpoints\sub\systems\system\forecasts\ForecastsYield;
 
 class Forecasts extends SubEndpoint {
@@ -23,6 +24,13 @@ class Forecasts extends SubEndpoint {
      */
     public function forecastsYield(): ForecastsYield {
         return new ForecastsYield($this);
+    }
+
+    /**
+     * @return ForecastsAlternativeYield
+     */
+    public function forecastsAlternativeYield(): ForecastsAlternativeYield {
+        return new ForecastsAlternativeYield($this);
     }
 
     /**
