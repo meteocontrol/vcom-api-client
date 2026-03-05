@@ -129,8 +129,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1017.23,
                     'realLostYield' => 1017.23,
-                    'comment' => '',
                     'totalCompensation' => 74.97,
+                    'comment' => '',
                 ],
             ],
             [
@@ -143,8 +143,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1017.23,
                     'realLostYield' => 1017.23,
-                    'comment' => '',
                     'totalCompensation' => 74.97,
+                    'comment' => '',
                 ],
             ],
             [
@@ -157,8 +157,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1017.23,
                     'realLostYield' => 1028.34,
-                    'comment' => '',
                     'totalCompensation' => 74.97,
+                    'comment' => '',
                 ],
             ],
             [
@@ -171,8 +171,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1017.23,
                     'realLostYield' => 1039.45,
-                    'comment' => '',
                     'totalCompensation' => 74.97,
+                    'comment' => '',
                 ],
             ],
             [
@@ -185,8 +185,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 20.56,
                     'realLostYield' => 20.56,
-                    'comment' => '',
                     'totalCompensation' => 1.51,
+                    'comment' => '',
                 ],
             ],
             [
@@ -199,8 +199,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1005.15,
                     'realLostYield' => 1005.15,
-                    'comment' => '',
                     'totalCompensation' => 74.08,
+                    'comment' => '',
                 ],
             ],
             [
@@ -213,8 +213,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1005.15,
                     'realLostYield' => 1005.15,
-                    'comment' => '',
                     'totalCompensation' => 74.08,
+                    'comment' => '',
                 ],
             ],
             [
@@ -227,8 +227,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1682.19,
                     'realLostYield' => 1693.30,
-                    'comment' => '',
                     'totalCompensation' => 123.98,
+                    'comment' => '',
                 ],
             ],
             [
@@ -241,8 +241,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1682.19,
                     'realLostYield' => 1704.41,
-                    'comment' => '',
                     'totalCompensation' => 123.98,
+                    'comment' => '',
                 ],
             ],
             [
@@ -255,8 +255,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 4.34,
                     'realLostYield' => 4.34,
-                    'comment' => '',
                     'totalCompensation' => 0.31,
+                    'comment' => '',
                 ],
             ],
             [
@@ -269,8 +269,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1005.15,
                     'realLostYield' => 1005.15,
-                    'comment' => '',
                     'totalCompensation' => 74.08,
+                    'comment' => '',
                 ],
             ],
             [
@@ -283,8 +283,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 1005.15,
                     'realLostYield' => 1005.15,
-                    'comment' => '',
                     'totalCompensation' => 74.08,
+                    'comment' => '',
                 ],
             ],
             [
@@ -297,8 +297,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 697.70,
                     'realLostYield' => 708.81,
+                    'totalCompensation' => 51.42,
                     'comment' => '',
-                    'totalCompensation' => 51.42
                 ],
             ],
             [
@@ -311,8 +311,8 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 697.70,
                     'realLostYield' => 719.92,
+                    'totalCompensation' => 51.42,
                     'comment' => '',
-                    'totalCompensation' => 51.42
                 ],
             ],
             [
@@ -325,8 +325,78 @@ class YieldLossesTest extends TestCase {
                 [
                     'result' => 23.83,
                     'realLostYield' => 23.83,
-                    'comment' => '',
                     'totalCompensation' => 1.75,
+                    'comment' => '',
+                ],
+            ],
+            [
+                'flatRateBillingLastMeasurement',
+                'gridOperator',
+                'flat-rate-billing-last-measurement',
+                'grid-operator',
+                900,
+                'getFlatRateBillingLastMeasurementGridOperator.json',
+                [
+                    'result' => 1017.23,
+                    'realLostYield' => 1017.23,
+                    'totalCompensation' => 74.97,
+                    'comment' => '',
+                ],
+            ],
+            [
+                'flatRateBillingLastMeasurement',
+                'energyTrader',
+                'flat-rate-billing-last-measurement',
+                'energy-trader',
+                900,
+                'getFlatRateBillingLastMeasurementEnergyTrader.json',
+                [
+                    'result' => 1017.23,
+                    'realLostYield' => 1017.23,
+                    'totalCompensation' => 74.97,
+                    'comment' => '',
+                ],
+            ],
+            [
+                'flatRateBillingLastMeasurement',
+                'manual',
+                'flat-rate-billing-last-measurement',
+                'manual',
+                null,
+                'getFlatRateBillingLastMeasurementManual.json',
+                [
+                    'result' => 1017.23,
+                    'realLostYield' => 1028.34,
+                    'totalCompensation' => 74.97,
+                    'comment' => '',
+                ],
+            ],
+            [
+                'flatRateBillingLastMeasurement',
+                'static',
+                'flat-rate-billing-last-measurement',
+                'static',
+                null,
+                'getFlatRateBillingLastMeasurementStatic.json',
+                [
+                    'result' => 1017.23,
+                    'realLostYield' => 1039.45,
+                    'totalCompensation' => 74.97,
+                    'comment' => '',
+                ],
+            ],
+            [
+                'flatRateBillingLastMeasurement',
+                'undetermined',
+                'flat-rate-billing-last-measurement',
+                'undetermined',
+                900,
+                'getFlatRateBillingLastMeasurementUndetermined.json',
+                [
+                    'result' => 20.56,
+                    'realLostYield' => 20.56,
+                    'totalCompensation' => 1.51,
+                    'comment' => '',
                 ],
             ],
         ];

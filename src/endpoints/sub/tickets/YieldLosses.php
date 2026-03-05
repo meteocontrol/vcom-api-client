@@ -46,4 +46,8 @@ class YieldLosses extends SubEndpoint {
     public function simulation(): Simulation {
         return new Simulation($this);
     }
+
+    public function flatRateBillingLastMeasurement(): FlatRateBillingLastMeasurement {
+        return new FlatRateBillingLastMeasurement($this);
+    }
 }
