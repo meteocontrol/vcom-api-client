@@ -7,9 +7,6 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Measurements as Dev
 
 class Abbreviation extends DeviceAbbreviation {
 
-    /**
-     * @return Measurements
-     */
     public function measurements(): DeviceMeasurements {
         return new Measurements($this);
     }

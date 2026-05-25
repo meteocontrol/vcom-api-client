@@ -83,10 +83,6 @@ class Alarm extends BaseModel {
     /** @var AlarmClosureInfo|null */
     public $closedBy;
 
-    /**
-     * @param array $data
-     * @return static
-     */
     public static function deserialize(array $data): self {
         $object = new static();
         foreach ($data as $key => $value) {

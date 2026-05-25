@@ -9,19 +9,13 @@ use meteocontrol\client\vcomapi\filters\ForecastCriteria;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 
 class Forecast extends SubEndpoint {
-    /**
-     * @param EndpointInterface $parent
-     */
+
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/forecast';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @param ForecastCriteria $forecastCriteria
-     * @return MeasurementsBulkReader
-     */
     public function get(ForecastCriteria $forecastCriteria): MeasurementsBulkReader {
         return new MeasurementsBulkReader(
             $this->api->get($this->getUri(), [RequestOptions::QUERY => $forecastCriteria->generateQueryString()]),

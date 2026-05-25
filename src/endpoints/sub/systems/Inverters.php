@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\Inverter;
 
 class Inverters extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/inverters';
         $this->api = $parent->getApiClient();
@@ -25,16 +22,10 @@ class Inverters extends SubEndpoint {
         return Inverter::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }
 
-    /**
-     * @return Pr
-     */
     public function pr(): Pr {
         return new Pr($this);
     }

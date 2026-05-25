@@ -17,9 +17,6 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
     /** @var Config */
     private $config;
 
-    /**
-     * @param Config $config
-     */
     public function __construct(Config $config) {
         $this->config = $config;
     }
@@ -41,11 +38,6 @@ class OAuthAuthorizationHandler implements AuthorizationHandlerInterface {
         }
     }
 
-    /**
-     * @param Client $client
-     * @param array $options
-     * @return array
-     */
     public function appendAuthorizationHeader(Client $client, array $options): array {
         if (empty($this->accessToken) && !$this->parseCredentials()) {
             $this->doOAuthGrant($client);

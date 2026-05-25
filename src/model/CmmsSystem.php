@@ -22,10 +22,6 @@ class CmmsSystem extends BaseModel {
     /** @var int|null */
     public $renew;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 
@@ -39,22 +35,13 @@ class CmmsSystem extends BaseModel {
         return $object;
     }
 
-    /**
-     * @param DateTimeInterface $dateTime
-     * @param null|string $key
-     * @return string
-     */
-    protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTimeInterface $dateTime, ?string $key = null): string {
         if (in_array($key, ['activeUntil', 'activeSince'])) {
             return $dateTime->format('Y-m-d');
         }
         return parent::serializeDateTime($dateTime);
     }
 
-    /**
-     * @param string|null $value
-     * @return DateTime|null
-     */
     private static function parseTimestamp(?string $value): ?DateTime {
         return $value ? DateTime::createFromFormat('Y-m-d H:i:s', $value . ' 00:00:00') : null;
     }

@@ -15,10 +15,5 @@ interface AuthorizationHandlerInterface {
      */
     public function handleUnauthorizedException(ClientException $ex, Client $client): void;
 
-    /**
-     * @param Client $client
-     * @param array $options
-     * @return array
-     */
     public function appendAuthorizationHeader(Client $client, array $options): array;
 }

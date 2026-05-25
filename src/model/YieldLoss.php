@@ -16,9 +16,6 @@ class YieldLoss extends BaseModel {
     /** @var string|null */
     public $comment;
 
-    /**
-     * @return bool
-     */
     public function isValid(): bool {
         return !empty($this->realLostYield) || !empty($this->comment);
     }

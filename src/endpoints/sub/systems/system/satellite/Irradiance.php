@@ -12,9 +12,6 @@ use meteocontrol\client\vcomapi\model\MeasurementValue;
 
 class Irradiance extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/irradiance';
         $this->api = $parent->getApiClient();

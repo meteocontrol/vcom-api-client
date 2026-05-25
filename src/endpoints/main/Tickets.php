@@ -2,7 +2,6 @@
 
 namespace meteocontrol\client\vcomapi\endpoints\main;
 
-use DateTime;
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\ApiClient;
@@ -13,9 +12,6 @@ use meteocontrol\client\vcomapi\model\TicketOverview;
 
 class Tickets extends MainEndpoint {
 
-    /**
-     * @param ApiClient $apiClient
-     */
     public function __construct(ApiClient $apiClient) {
         $this->uri = 'tickets';
         $this->api = $apiClient;
@@ -58,9 +54,6 @@ class Tickets extends MainEndpoint {
         return $this->jsonDecode($responseBody)->data->ticketId;
     }
 
-    /**
-     * @return Causes
-     */
     public function causes(): Causes {
         return new Causes($this);
     }

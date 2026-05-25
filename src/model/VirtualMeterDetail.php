@@ -8,19 +8,19 @@ class VirtualMeterDetail extends BaseModel {
 
     /** @var string */
     public $id;
+
     /** @var string */
     public $name;
+
     /** @var string */
     public $serial;
+
     /** @var DateTime */
     public $installationDate;
+
     /** @var string */
     public $unit;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
         foreach ($data as $key => $value) {
@@ -35,12 +35,7 @@ class VirtualMeterDetail extends BaseModel {
         return $object;
     }
 
-    /**
-     * @param DateTimeInterface $dateTime
-     * @param null|string $key
-     * @return string
-     */
-    protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTimeInterface $dateTime, ?string $key = null): string {
         return $dateTime->format('Y-m-d');
     }
 

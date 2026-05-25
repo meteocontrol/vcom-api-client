@@ -8,6 +8,7 @@ class MeasurementValue extends BaseModel {
 
     /** @var DateTime */
     public $timestamp;
+
     /** @var string */
     public $value;
 }

@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\Stringbox;
 
 class Stringboxes extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/stringboxes';
         $this->api = $parent->getApiClient();
@@ -25,9 +22,6 @@ class Stringboxes extends SubEndpoint {
         return Stringbox::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }

@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\CmmsSystem;
 
 class Systems extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/systems';
         $this->api = $parent->getApiClient();

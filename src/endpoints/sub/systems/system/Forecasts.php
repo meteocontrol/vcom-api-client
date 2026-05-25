@@ -10,32 +10,20 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\system\forecasts\Forecasts
 
 class Forecasts extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/forecasts';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return ForecastsYield
-     */
     public function forecastsYield(): ForecastsYield {
         return new ForecastsYield($this);
     }
 
-    /**
-     * @return ForecastsAlternativeYield
-     */
     public function forecastsAlternativeYield(): ForecastsAlternativeYield {
         return new ForecastsAlternativeYield($this);
     }
 
-    /**
-     * @return Forecast
-     */
     public function forecast(): Forecast {
         return new Forecast($this);
     }

@@ -7,18 +7,16 @@ class SystemCriteria {
     /** @var string[] */
     private $filters = [];
 
-    /**
-     * @param string $systemKey
-     * @return $this
-     */
     public function withSystemKey(string $systemKey): self {
         $this->filters['systemKey'] = $systemKey;
         return $this;
     }
 
-    /**
-     * @return string
-     */
+    public function withTags($tag): self {
+        $this->filters['tags'] = is_array($tag) ? implode(',', $tag) : $tag;
+        return $this;
+    }
+
     public function generateQueryString(): string {
         return http_build_query($this->filters);
     }

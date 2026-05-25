@@ -4,16 +4,18 @@ namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
 use GuzzleHttp\RequestOptions;
+use meteocontrol\client\vcomapi\endpoints\main\Systems;
+use meteocontrol\client\vcomapi\endpoints\sub\systems\System;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\client\vcomapi\model\Measurement;
 
 class AbbreviationsTest extends TestCase {
 
-    /** @var \meteocontrol\client\vcomapi\endpoints\main\Systems */
+    /** @var Systems */
     private $systemsEndpoint;
 
-    /** @var \meteocontrol\client\vcomapi\endpoints\sub\systems\System */
+    /** @var System */
     private $systemEndpoint;
 
     public function setup(): void {

@@ -12,14 +12,19 @@ class SiteAccess extends BaseModel {
 
     /** @var System */
     public $system;
+
     /** @var string */
     public $status;
+
     /** @var string */
     public $name;
+
     /** @var string|null */
     public $comment;
+
     /** @var DateTime */
     public $checkIn;
+
     /** @var DateTime|null */
     public $checkOut;
 

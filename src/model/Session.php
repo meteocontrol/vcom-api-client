@@ -7,10 +7,6 @@ class Session extends BaseModel {
     /** @var UserDetail */
     public $user;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 

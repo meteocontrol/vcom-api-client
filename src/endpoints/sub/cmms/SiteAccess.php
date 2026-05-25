@@ -10,9 +10,6 @@ use meteocontrol\client\vcomapi\model\SiteAccess as SiteAccessModel;
 
 class SiteAccess extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/site-access';
         $this->api = $parent->getApiClient();

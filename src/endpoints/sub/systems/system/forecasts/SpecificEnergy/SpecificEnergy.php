@@ -10,19 +10,12 @@ use meteocontrol\client\vcomapi\model\MeasurementValue;
 
 class SpecificEnergy extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/specific-energy';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @param MeasurementsCriteria $measurementCriteria
-     * @return array
-     */
     public function get(MeasurementsCriteria $measurementCriteria): array {
         $valueJson = $this->api->get(
             $this->getUri(),

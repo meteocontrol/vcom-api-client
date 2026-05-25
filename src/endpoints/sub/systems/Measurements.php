@@ -10,9 +10,6 @@ use meteocontrol\client\vcomapi\model\Measurement;
 
 class Measurements extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/measurements';
         $this->api = $parent->getApiClient();

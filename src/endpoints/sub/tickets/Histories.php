@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\TicketHistory;
 
 class Histories extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/histories';
         $this->api = $parent->getApiClient();

@@ -6,6 +6,7 @@ use DateTime;
 use DateTimeZone;
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\MeasurementsCriteria;
+use meteocontrol\client\vcomapi\filters\SystemCriteria;
 use meteocontrol\client\vcomapi\readers\CsvFormat;
 use meteocontrol\client\vcomapi\readers\MeasurementsBulkReader;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
@@ -21,14 +22,41 @@ class SystemsTest extends TestCase {
             ->with($this->identicalTo('systems'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\System[] $systems */
         $systems = $this->api->systems()->get();
 
         $this->assertCount(2, $systems);
         $this->assertEquals('ABCDE', $systems[0]->key);
         $this->assertEquals('Meteocontrol PV system', $systems[0]->name);
+        $this->assertEmpty($systems[0]->tags);
         $this->assertEquals('VWXYZ', $systems[1]->key);
         $this->assertEquals('Meteocontrol PV system #2', $systems[1]->name);
+        $this->assertEmpty($systems[1]->tags);
+    }
+
+    public function testGetSystemsWithTags() {
+        $json = file_get_contents(__DIR__ . '/responses/getSystemsWithTags.json');
+
+        $this->api->expects($this->once())
+            ->method('get')
+            ->with(
+                $this->identicalTo('systems'),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'tags=tag 1,tag 2'
+                ])
+            )
+            ->willReturn($json);
+
+        $criteria = new SystemCriteria();
+        $criteria->withTags(['tag 1', 'tag 2']);
+        $systems = $this->api->systems()->get($criteria);
+
+        $this->assertCount(2, $systems);
+        $this->assertEquals('ABCDE', $systems[0]->key);
+        $this->assertEquals('Meteocontrol PV system', $systems[0]->name);
+        $this->assertEquals(['tag 1'], $systems[0]->tags);
+        $this->assertEquals('VWXYZ', $systems[1]->key);
+        $this->assertEquals('Meteocontrol PV system #2', $systems[1]->name);
+        $this->assertEquals(['tag 2'], $systems[1]->tags);
     }
 
     public function testGetSystem() {
@@ -38,7 +66,6 @@ class SystemsTest extends TestCase {
             ->with($this->identicalTo('systems/ABCDE'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\SystemDetail $system */
         $system = $this->api->system('ABCDE')->get();
 
         $this->assertEquals('Augsburg', $system->address->city);

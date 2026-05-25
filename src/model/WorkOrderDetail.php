@@ -28,7 +28,7 @@ class WorkOrderDetail extends BaseModel {
 
     /**
      * @var DateTime
-     * @deprecated deprecated
+     * @deprecated
      */
     public $dueAt;
 
@@ -47,10 +47,6 @@ class WorkOrderDetail extends BaseModel {
     /** @var CmmsAssignee */
     public $assignee;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 
@@ -68,12 +64,7 @@ class WorkOrderDetail extends BaseModel {
         return $object;
     }
 
-    /**
-     * @param DateTimeInterface $dateTime
-     * @param null|string $key
-     * @return string
-     */
-    protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTimeInterface $dateTime, ?string $key = null): string {
         if (in_array($key, ['dueAt', 'createdAt', 'completedAt', 'lastChangedAt'])) {
             return $dateTime->format(DATE_ATOM);
         } elseif ($key === 'dueDate') {
@@ -82,18 +73,10 @@ class WorkOrderDetail extends BaseModel {
         return parent::serializeDateTime($dateTime);
     }
 
-    /**
-     * @param string|null $value
-     * @return DateTime|null
-     */
     private static function parseTimestamp(?string $value): ?DateTime {
         return $value ? DateTime::createFromFormat(DATE_ATOM, $value) : null;
     }
 
-    /**
-     * @param string|null $value
-     * @return DateTime|null
-     */
     private static function parseDate(?string $value): ?DateTime {
         return $value ? DateTime::createFromFormat('Y-m-d', $value, new DateTimeZone('UTC')) : null;
     }

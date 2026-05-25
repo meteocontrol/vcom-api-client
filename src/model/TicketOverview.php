@@ -57,9 +57,6 @@ class TicketOverview extends BaseModel {
     /** @var string */
     public $description;
 
-    /**
-     * @return bool
-     */
     public function isValid(): bool {
         return !empty($this->systemKey)
             && !empty($this->designation)

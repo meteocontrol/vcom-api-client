@@ -19,8 +19,8 @@ class TestCase extends \PHPUnit\Framework\TestCase {
     }
 
     protected function identicalToUrl($url): IsIdentical {
-        $decode = ["+", ",", "/", ":", "[", "]"];
-        $encode = ["%2B", "%2C", "%2F", "%3A", "%5B", "%5D"];
+        $decode = ["+", ",", "/", ":", "[", "]", " "];
+        $encode = ["%2B", "%2C", "%2F", "%3A", "%5B", "%5D", "+"];
 
         return $this->identicalTo(str_replace($decode, $encode, $url));
     }

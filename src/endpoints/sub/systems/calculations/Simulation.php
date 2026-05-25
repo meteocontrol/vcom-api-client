@@ -10,9 +10,6 @@ use meteocontrol\client\vcomapi\model\SimulationValue;
 
 class Simulation extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/simulation';
         $this->api = $parent->getApiClient();

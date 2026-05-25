@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\Status;
 
 class Statuses extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/statuses';
         $this->api = $parent->getApiClient();
@@ -25,9 +22,6 @@ class Statuses extends SubEndpoint {
         return Status::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }

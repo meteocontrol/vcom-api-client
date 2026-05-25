@@ -6,19 +6,19 @@ class Responsibilities extends BaseModel {
 
     /** @var UserDetail */
     public $owner;
+
     /** @var UserDetail */
     public $operator;
+
     /** @var UserDetail */
     public $electrician;
+
     /** @var UserDetail */
     public $invoiceRecipient;
+
     /** @var UserDetail */
     public $alarmContact;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 

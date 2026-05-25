@@ -11,9 +11,6 @@ use meteocontrol\client\vcomapi\model\UserDetail;
 
 class Users extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/users';
         $this->api = $parent->getApiClient();
@@ -28,12 +25,12 @@ class Users extends SubEndpoint {
         if (is_null($criteria)) {
             $userListJson = $this->api->get($this->getUri());
             return User::deserializeArray($this->jsonDecode($userListJson, true)['data']);
-        } else {
-            $userDetailJson = $this->api->get(
-                $this->getUri(),
-                [RequestOptions::QUERY => $criteria->generateQueryString()]
-            );
-            return UserDetail::deserialize($this->jsonDecode($userDetailJson, true)['data']);
         }
+
+        $userDetailJson = $this->api->get(
+            $this->getUri(),
+            [RequestOptions::QUERY => $criteria->generateQueryString()]
+        );
+        return UserDetail::deserialize($this->jsonDecode($userDetailJson, true)['data']);
     }
 }

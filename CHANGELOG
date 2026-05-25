@@ -62,3 +62,4 @@
 2025-12-08: Add from/to date range parameters to forecast endpoint
 2025-12-18: Add alternative forecast yield endpoint
 2026-02-25: Add flat-rate-billing-last-measurement for yield-losses endpoint
+2026-05-25: Support tags parameter for systems endpoint

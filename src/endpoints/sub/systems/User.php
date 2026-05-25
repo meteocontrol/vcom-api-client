@@ -8,18 +8,12 @@ use meteocontrol\client\vcomapi\model\UserDetail;
 
 class User extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return UserDetail
-     */
     public function get(): UserDetail {
         $userDetailJson = $this->api->get($this->getUri());
         return UserDetail::deserialize($this->jsonDecode($userDetailJson, true)['data']);

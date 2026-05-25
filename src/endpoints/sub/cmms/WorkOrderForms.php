@@ -10,9 +10,6 @@ use meteocontrol\client\vcomapi\model\WorkOrderForm as WorkOrderFormModel;
 
 class WorkOrderForms extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/forms';
         $this->api = $parent->getApiClient();

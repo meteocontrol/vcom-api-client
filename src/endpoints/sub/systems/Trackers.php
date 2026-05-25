@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\Tracker;
 
 class Trackers extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/trackers';
         $this->api = $parent->getApiClient();
@@ -25,9 +22,6 @@ class Trackers extends SubEndpoint {
         return Tracker::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }

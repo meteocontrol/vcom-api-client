@@ -18,14 +18,8 @@ abstract class Endpoint implements EndpointInterface {
     /** @var Endpoint */
     protected $parent;
 
-    /**
-     * @return string
-     */
     abstract public function getUri(): string;
 
-    /**
-     * @return ApiClient
-     */
     final public function getApiClient(): ApiClient {
         return $this->api;
     }

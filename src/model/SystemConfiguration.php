@@ -6,17 +6,16 @@ class SystemConfiguration extends BaseModel {
 
     /** @var InverterType */
     public $inverter;
+
     /** @var int */
     public $mpptCount;
+
     /** @var int */
     public $numberOfModules;
+
     /** @var MpptInput[] */
     public $mpptInputs;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 

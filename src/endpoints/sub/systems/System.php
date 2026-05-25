@@ -12,33 +12,21 @@ use meteocontrol\client\vcomapi\model\SystemDetail;
 
 class System extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return SystemDetail
-     */
     public function get(): SystemDetail {
         $systemJson = $this->api->get($this->getUri());
         return SystemDetail::deserialize($this->jsonDecode($systemJson, true)['data']);
     }
 
-    /**
-     * @return Basics
-     */
     public function basics(): Basics {
         return new Basics($this);
     }
 
-    /**
-     * @return Calculations
-     */
     public function calculations(): Calculations {
         return new Calculations($this);
     }
@@ -47,16 +35,10 @@ class System extends SubEndpoint {
         return new EnvironmentalSavings($this);
     }
 
-    /**
-     * @return Forecasts
-     */
     public function forecasts(): Forecasts {
         return new Forecasts($this);
     }
 
-    /**
-     * @return Inverters
-     */
     public function inverters(): Inverters {
         return new Inverters($this);
     }
@@ -72,9 +54,6 @@ class System extends SubEndpoint {
         return new Inverter($inverterIdEndpoint);
     }
 
-    /**
-     * @return Meters
-     */
     public function meters(): Meters {
         return new Meters($this);
     }
@@ -90,9 +69,6 @@ class System extends SubEndpoint {
         return new Meter($meterIdEndpoint);
     }
 
-    /**
-     * @return Sensors
-     */
     public function sensors(): Sensors {
         return new Sensors($this);
     }
@@ -108,9 +84,6 @@ class System extends SubEndpoint {
         return new Sensor($sensorIdEndpoint);
     }
 
-    /**
-     * @return Batteries
-     */
     public function batteries(): Batteries {
         return new Batteries($this);
     }
@@ -126,9 +99,6 @@ class System extends SubEndpoint {
         return new Battery($batteryIdEndpoint);
     }
 
-    /**
-     * @return PowerPlantControllers
-     */
     public function powerPlantControllers(): PowerPlantControllers {
         return new PowerPlantControllers($this);
     }
@@ -144,9 +114,6 @@ class System extends SubEndpoint {
         return new PowerPlantController($powerPlantControllerIdEndpoint);
     }
 
-    /**
-     * @return Stringboxes
-     */
     public function stringboxes(): Stringboxes {
         return new Stringboxes($this);
     }
@@ -162,9 +129,6 @@ class System extends SubEndpoint {
         return new Stringbox($stringboxIdEndpoint);
     }
 
-    /**
-     * @return Trackers
-     */
     public function trackers(): Trackers {
         return new Trackers($this);
     }
@@ -180,9 +144,6 @@ class System extends SubEndpoint {
         return new Tracker($trackerIdEndpoint);
     }
 
-    /**
-     * @return Statuses
-     */
     public function statuses(): Statuses {
         return new Statuses($this);
     }
@@ -198,77 +159,46 @@ class System extends SubEndpoint {
         return new Status($statusIdEndpoint);
     }
 
-    /**
-     * @return TechnicalData
-     */
     public function technicalData(): TechnicalData {
         return new TechnicalData($this);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }
 
-    /**
-     * @return Users
-     */
     public function users(): Users {
         return new Users($this);
     }
 
-    /**
-     * @return Responsibilities
-     */
     public function responsibilities(): Responsibilities {
         return new Responsibilities($this);
     }
 
-    /**
-     * @param string $userId
-     * @return User
-     */
     public function user(string $userId): User {
         $users = new Users($this);
         $userIdEndpoint = new UserId($users, $userId);
         return new User($userIdEndpoint);
     }
-    /**
-     * @return Picture
-     */
+
     public function picture(): Picture {
         return new Picture($this);
     }
 
-    /**
-     * @return VirtualMeters
-     */
     public function virtualMeters(): VirtualMeters {
         return new VirtualMeters($this);
     }
 
-    /**
-     * @param string $virtualMeterId
-     * @return VirtualMeter
-     */
     public function virtualMeter(string $virtualMeterId): VirtualMeter {
         $virtualMeters = new VirtualMeters($this);
         $virtualMeterIdEndpoint = new DeviceId($virtualMeters, $virtualMeterId);
         return new VirtualMeter($virtualMeterIdEndpoint);
     }
 
-    /**
-     * @return Satellite
-     */
     public function satellite(): Satellite {
         return new Satellite($this);
     }
 
-    /**
-     * @return KpiTargets
-     */
     public function kpiTargets(): KpiTargets {
         return new KpiTargets($this);
     }

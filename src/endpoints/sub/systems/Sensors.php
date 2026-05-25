@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\Sensor;
 
 class Sensors extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/sensors';
         $this->api = $parent->getApiClient();
@@ -25,9 +22,6 @@ class Sensors extends SubEndpoint {
         return Sensor::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }

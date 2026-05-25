@@ -11,9 +11,6 @@ use meteocontrol\client\vcomapi\model\Alarm as AlarmModel;
 
 class Alarms extends MainEndpoint {
 
-    /**
-     * @param ApiClient $apiClient
-     */
     public function __construct(ApiClient $apiClient) {
         $this->uri = 'alarms';
         $this->api = $apiClient;

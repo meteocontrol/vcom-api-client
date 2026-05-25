@@ -2,6 +2,8 @@
 
 namespace meteocontrol\client\vcomapi;
 
-class ApiClientException extends \Exception {
+use Exception;
+
+class ApiClientException extends Exception {
 
 }

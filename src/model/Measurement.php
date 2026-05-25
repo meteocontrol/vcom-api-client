@@ -7,10 +7,6 @@ class Measurement extends BaseModel {
     /** @var string */
     public $systemKey;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 
@@ -24,10 +20,6 @@ class Measurement extends BaseModel {
         return $object;
     }
 
-    /**
-     * @param array $decodedJsonArray
-     * @return array
-     */
     public static function deserializeArray(array $decodedJsonArray): array {
         $objects = [];
         foreach ($decodedJsonArray as $item) {

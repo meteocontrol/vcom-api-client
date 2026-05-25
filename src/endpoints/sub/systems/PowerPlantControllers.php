@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\PowerPlantController;
 
 class PowerPlantControllers extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/power-plant-controllers';
         $this->api = $parent->getApiClient();
@@ -25,10 +22,7 @@ class PowerPlantControllers extends SubEndpoint {
         return PowerPlantController::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Bulk
-     */
-    public function bulk() {
+    public function bulk(): Bulk {
         return new Bulk($this);
     }
 }

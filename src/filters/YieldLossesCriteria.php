@@ -7,38 +7,23 @@ use DateTime;
 class YieldLossesCriteria {
 
     /** @var string[] */
-    protected $filters;
+    protected $filters = [];
 
-    /**
-     * @param DateTime $from
-     * @return YieldLossesCriteria
-     */
     public function withDateFrom(DateTime $from): self {
         $this->filters['from'] = $from->format(DATE_ATOM);
         return $this;
     }
 
-    /**
-     * @param DateTime $to
-     * @return YieldLossesCriteria
-     */
     public function withDateTo(DateTime $to): self {
         $this->filters['to'] = $to->format(DATE_ATOM);
         return $this;
     }
 
-    /**
-     * @param int $resolution
-     * @return YieldLossesCriteria
-     */
     public function withResolution(int $resolution): self {
         $this->filters['resolution'] = $resolution;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function generateQueryString(): string {
         return http_build_query($this->filters);
     }

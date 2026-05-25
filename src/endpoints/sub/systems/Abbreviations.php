@@ -7,9 +7,6 @@ use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
 
 class Abbreviations extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/abbreviations';
         $this->api = $parent->getApiClient();

@@ -6,19 +6,19 @@ class TechnicalData extends BaseModel {
 
     /** @var float */
     public $nominalPower;
+
     /** @var float */
     public $siteArea;
+
     /** @var Panel[] */
     public $panels;
+
     /** @var InverterType[] */
     public $inverters;
+
     /** @var SystemConfiguration[] */
     public $systemConfigurations;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 

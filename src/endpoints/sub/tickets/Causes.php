@@ -9,9 +9,6 @@ use meteocontrol\client\vcomapi\filters\CausesCriteria;
 
 class Causes extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/causes';
         $this->api = $parent->getApiClient();

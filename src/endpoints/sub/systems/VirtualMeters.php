@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\VirtualMeter as VirtualMeterData;
 
 class VirtualMeters extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/virtual-meters';
         $this->api = $parent->getApiClient();

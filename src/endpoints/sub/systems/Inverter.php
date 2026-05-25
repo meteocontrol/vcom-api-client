@@ -10,27 +10,18 @@ use meteocontrol\client\vcomapi\model\InverterDetail;
 
 class Inverter extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return InverterDetail
-     */
     public function get(): InverterDetail {
         $json = $this->api->get($this->getUri());
         return InverterDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Abbreviations
-     */
-    public function abbreviations() {
+    public function abbreviations(): Abbreviations {
         return new Abbreviations($this);
     }
 

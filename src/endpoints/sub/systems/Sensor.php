@@ -10,26 +10,17 @@ use meteocontrol\client\vcomapi\model\SensorDetail;
 
 class Sensor extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return SensorDetail
-     */
     public function get(): SensorDetail {
         $json = $this->api->get($this->getUri());
         return SensorDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Abbreviations
-     */
     public function abbreviations(): Abbreviations {
         return new Abbreviations($this);
     }

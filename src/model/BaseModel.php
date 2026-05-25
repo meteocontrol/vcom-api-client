@@ -9,11 +9,7 @@ use stdClass;
 
 abstract class BaseModel extends stdClass implements JsonSerializable {
 
-    /**
-     * @param array $data
-     * @return $this
-     */
-    public static function deserialize(array $data) {
+    public static function deserialize(array $data): self {
         $object = new static();
         foreach ($data as $key => $value) {
             if (property_exists($object, $key)) {
@@ -23,10 +19,6 @@ abstract class BaseModel extends stdClass implements JsonSerializable {
         return $object;
     }
 
-    /**
-     * @param array $decodedJsonArray
-     * @return array
-     */
     public static function deserializeArray(array $decodedJsonArray): array {
         $objects = [];
         foreach ($decodedJsonArray as $item) {
@@ -35,9 +27,6 @@ abstract class BaseModel extends stdClass implements JsonSerializable {
         return $objects;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array {
         $values = get_object_vars($this);
 
@@ -50,12 +39,7 @@ abstract class BaseModel extends stdClass implements JsonSerializable {
         return $values;
     }
 
-    /**
-     * @param DateTimeInterface $dateTime
-     * @param null|string $key
-     * @return string
-     */
-    protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTimeInterface $dateTime, ?string $key = null): string {
         return $dateTime->format(DATE_ATOM);
     }
 
@@ -66,9 +50,9 @@ abstract class BaseModel extends stdClass implements JsonSerializable {
     protected static function getPhpValue($value) {
         if (self::isRFC3339DateString($value)) {
             return DateTime::createFromFormat(DATE_ATOM, $value);
-        } else {
-            return $value;
         }
+
+        return $value;
     }
 
     /**

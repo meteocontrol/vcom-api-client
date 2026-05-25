@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\Battery;
 
 class Batteries extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/batteries';
         $this->api = $parent->getApiClient();
@@ -25,9 +22,6 @@ class Batteries extends SubEndpoint {
         return Battery::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }

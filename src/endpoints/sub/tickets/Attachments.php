@@ -10,9 +10,6 @@ use meteocontrol\client\vcomapi\model\AttachmentFile;
 
 class Attachments extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/attachments';
         $this->api = $parent->getApiClient();

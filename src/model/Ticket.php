@@ -76,19 +76,12 @@ class Ticket extends BaseModel {
     /** @var Outage|null */
     public $outage;
 
-    /**
-     * @return bool
-     */
     public function isValid(): bool {
         return !empty($this->systemKey)
             && !empty($this->designation)
             && !empty($this->createdAt);
     }
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 

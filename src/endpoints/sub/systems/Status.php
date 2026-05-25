@@ -10,26 +10,17 @@ use meteocontrol\client\vcomapi\model\StatusDetail;
 
 class Status extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return StatusDetail
-     */
     public function get(): StatusDetail {
         $json = $this->api->get($this->getUri());
         return StatusDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Abbreviations
-     */
     public function abbreviations(): Abbreviations {
         return new Abbreviations($this);
     }

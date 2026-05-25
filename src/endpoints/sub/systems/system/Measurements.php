@@ -12,9 +12,6 @@ use meteocontrol\client\vcomapi\model\MeasurementValueWithInterval;
 
 class Measurements extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/measurements';
         $this->api = $parent->getApiClient();
@@ -41,10 +38,6 @@ class Measurements extends SubEndpoint {
         return $this->deserializeData($measurementsJson);
     }
 
-    /**
-     * @param string $measurementsJson
-     * @return array
-     */
     private function deserializeIntervalData(string $measurementsJson): array {
         $data = $this->jsonDecode($measurementsJson, true)['data'];
         $deviceMeasurements = [];
@@ -54,10 +47,6 @@ class Measurements extends SubEndpoint {
         return $deviceMeasurements;
     }
 
-    /**
-     * @param string $measurementsJson
-     * @return array
-     */
     private function deserializeData(string $measurementsJson): array {
         $data = $this->jsonDecode($measurementsJson, true)['data'];
         $deviceMeasurements = [];

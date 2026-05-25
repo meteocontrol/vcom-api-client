@@ -3,12 +3,12 @@
     {
       "name": "Meteocontrol PV system",
       "key": "ABCDE",
-      "tags": []
+      "tags": ["tag 1"]
     },
     {
       "name": "Meteocontrol PV system #2",
       "key": "VWXYZ",
-      "tags": []
+      "tags": ["tag 2"]
     }
   ]
 }

@@ -10,29 +10,34 @@ class SystemDetail extends BaseModel {
 
     /** @var Address */
     public $address;
+
     /** @var int */
     public $elevation;
+
     /** @var DateTime */
     public $commissionDate;
+
     /** @var Coordinates */
     public $coordinates;
+
     /** @var string */
     public $name;
+
     /** @var Timezone */
     public $timezone;
+
     /** @var string */
     public $currency;
+
     /** @var bool */
     public $hasSolarForecast;
+
     /** @var string */
     public $simulationMethod;
+
     /** @var string|null */
     public $additionalInformation;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 
@@ -52,12 +57,7 @@ class SystemDetail extends BaseModel {
         return $object;
     }
 
-    /**
-     * @param DateTimeInterface $dateTime
-     * @param null|string $key
-     * @return string
-     */
-    protected function serializeDateTime(DateTimeInterface $dateTime, $key = null): string {
+    protected function serializeDateTime(DateTimeInterface $dateTime, ?string $key = null): string {
         if ($key === 'commissionDate') {
             return $dateTime->format('Y-m-d');
         }

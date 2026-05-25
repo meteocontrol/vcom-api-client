@@ -8,9 +8,6 @@ use meteocontrol\client\vcomapi\model\Meter;
 
 class Meters extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/meters';
         $this->api = $parent->getApiClient();
@@ -25,9 +22,6 @@ class Meters extends SubEndpoint {
         return Meter::deserializeArray($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }

@@ -6,17 +6,16 @@ class MpptInput extends BaseModel {
 
     /** @var PanelModule */
     public $module;
+
     /** @var string */
     public $type;
+
     /** @var int */
     public $modulesPerString;
+
     /** @var int */
     public $stringCount;
 
-    /**
-     * @param array $data
-     * @return $this
-     */
     public static function deserialize(array $data): self {
         $object = new static();
 
@@ -30,10 +29,6 @@ class MpptInput extends BaseModel {
         return $object;
     }
 
-    /**
-     * @param array $decodedJsonArray
-     * @return array
-     */
     public static function deserializeArray(array $decodedJsonArray): array {
         return array_map(static function ($item) {
             return static::deserialize($item);

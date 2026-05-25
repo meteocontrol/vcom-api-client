@@ -9,18 +9,12 @@ use meteocontrol\client\vcomapi\endpoints\sub\systems\system\Abbreviation as Dev
 
 class Basics extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/basics';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return Abbreviations
-     */
     public function abbreviations(): Abbreviations {
         return new Abbreviations($this);
     }
@@ -36,9 +30,6 @@ class Basics extends SubEndpoint {
         return new DeviceAbbreviation($abbreviationIdEndpoint);
     }
 
-    /**
-     * @return Bulk
-     */
     public function bulk(): Bulk {
         return new Bulk($this);
     }

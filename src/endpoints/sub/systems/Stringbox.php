@@ -10,26 +10,17 @@ use meteocontrol\client\vcomapi\model\StringboxDetail;
 
 class Stringbox extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return StringboxDetail
-     */
     public function get(): StringboxDetail {
         $json = $this->api->get($this->getUri());
         return StringboxDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Abbreviations
-     */
     public function abbreviations(): Abbreviations {
         return new Abbreviations($this);
     }

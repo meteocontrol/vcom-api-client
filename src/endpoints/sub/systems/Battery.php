@@ -10,26 +10,17 @@ use meteocontrol\client\vcomapi\model\BatteryDetail;
 
 class Battery extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return BatteryDetail
-     */
     public function get(): BatteryDetail {
         $json = $this->api->get($this->getUri());
         return BatteryDetail::deserialize($this->jsonDecode($json, true)['data']);
     }
 
-    /**
-     * @return Abbreviations
-     */
     public function abbreviations(): Abbreviations {
         return new Abbreviations($this);
     }

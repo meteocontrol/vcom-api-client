@@ -22,24 +22,15 @@ class ApiClient {
 
     /** @var Client */
     private $client;
+
     /** @var AuthorizationHandlerInterface */
     private $authorizationHandler;
 
-    /**
-     * @param Client $client
-     * @param AuthorizationHandlerInterface $authorizationHandler
-     */
     public function __construct(Client $client, AuthorizationHandlerInterface $authorizationHandler) {
         $this->client = $client;
         $this->authorizationHandler = $authorizationHandler;
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     * @param string $apiKey
-     * @return ApiClient
-     */
     public static function make(string $username, string $password, string $apiKey): self {
         $config = new Config();
         $config->setApiUsername($username);
@@ -54,67 +45,38 @@ class ApiClient {
         );
     }
 
-    /**
-     * @return Systems
-     */
     public function systems(): Systems {
         return new Systems($this);
     }
 
-    /**
-     * @param string $systemKey
-     * @return System
-     */
     public function system(string $systemKey): System {
         $systems = new Systems($this);
         $systemIdEndpoint = new SystemId($systems, $systemKey);
-        $systemEndpoint = new System($systemIdEndpoint);
-        return $systemEndpoint;
+        return new System($systemIdEndpoint);
     }
 
-
-    /**
-     * @return Tickets
-     */
     public function tickets(): Tickets {
         return new Tickets($this);
     }
 
-    /**
-     * @param string $ticketId
-     * @return Ticket
-     */
     public function ticket(string $ticketId): Ticket {
         $tickets = new Tickets($this);
         $ticketIdEndpoint = new TicketId($tickets, $ticketId);
         return new Ticket($ticketIdEndpoint);
     }
 
-    /**
-     * @return Alarms
-     */
     public function alarms(): Alarms {
         return new Alarms($this);
     }
 
-    /**
-     * @param int $alarmId
-     * @return Alarm
-     */
     public function alarm(int $alarmId): Alarm {
         return new Alarm($this->alarms(), $alarmId);
     }
 
-    /**
-     * @return Session
-     */
     public function session(): Session {
         return new Session($this);
     }
 
-    /**
-     * @return Cmms
-     */
     public function cmms(): Cmms {
         return new Cmms($this);
     }
@@ -139,14 +101,6 @@ class ApiClient {
         return $this->run($uri, 'DELETE', $options);
     }
 
-    /**
-     * @param string $uri
-     * @param string $method
-     * @param array $options
-     * @return string|null
-     * @throws ApiClientException
-     * @throws UnauthorizedException
-     */
     private function run(string $uri, string $method, array $options): ?string {
         /** @var $response ResponseInterface */
         $response = null;
@@ -175,10 +129,6 @@ class ApiClient {
         return $response->getBody()->getContents();
     }
 
-    /**
-     * @param array $options
-     * @return array
-     */
     private function getRequestOptions(array $options): array {
         $headers = ['accept-encoding' => 'gzip, deflate'];
 
@@ -196,13 +146,18 @@ class ApiClient {
      * @return ResponseInterface
      */
     private function sendRequest(string $uri, string $method, array $options): ResponseInterface {
-        return match ($method) {
-            'GET' => $this->client->get($uri, $options),
-            'PUT' => $this->client->put($uri, $options),
-            'POST' => $this->client->post($uri, $options),
-            'PATCH' => $this->client->patch($uri, $options),
-            'DELETE' => $this->client->delete($uri, $options),
-        };
+        switch ($method) {
+            case 'GET':
+                return $this->client->get($uri, $options);
+            case 'PUT':
+                return $this->client->put($uri, $options);
+            case 'POST':
+                return $this->client->post($uri, $options);
+            case 'PATCH':
+                return $this->client->patch($uri, $options);
+            case 'DELETE':
+                return $this->client->delete($uri, $options);
+        }
     }
 
     /**

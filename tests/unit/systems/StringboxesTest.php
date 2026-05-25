@@ -69,7 +69,6 @@ class StringboxesTest extends TestCase {
             ->with($this->identicalTo('systems/ABCDE/stringboxes/816639/abbreviations/I1'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\StringboxAbbreviation $abbreviation */
         $abbreviation = $this->api->system('ABCDE')->stringbox('816639')->abbreviation('I1')->get();
 
         $this->assertEquals('AVG', $abbreviation->aggregation);
