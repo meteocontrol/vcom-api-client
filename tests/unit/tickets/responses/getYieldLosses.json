@@ -4,6 +4,8 @@
     "result": 69.32,
     "realLostYield": 41.29,
     "totalCompensation": 7.34962,
-    "comment": ""
+    "comment": "",
+    "from": "2022-05-25T00:00:00+00:00",
+    "until": "2022-05-31T23:59:59+00:00"
   }
 }

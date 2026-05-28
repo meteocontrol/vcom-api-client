@@ -28,6 +28,14 @@ class YieldLossesTest extends TestCase {
         $this->assertEquals(41.29, $yieldLosses->realLostYield);
         $this->assertEquals(7.34962, $yieldLosses->totalCompensation);
         $this->assertEquals('', $yieldLosses->comment);
+        $this->assertEquals(
+            DateTime::createFromFormat(DATE_ATOM, '2022-05-25T00:00:00+00:00'),
+            $yieldLosses->from,
+        );
+        $this->assertEquals(
+            DateTime::createFromFormat(DATE_ATOM, '2022-05-31T23:59:59+00:00'),
+            $yieldLosses->until,
+        );
     }
 
     /**
