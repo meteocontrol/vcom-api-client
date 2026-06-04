@@ -28,6 +28,12 @@ class SiteAccess extends BaseModel {
     /** @var DateTime|null */
     public $checkOut;
 
+    /** @var int[] */
+    public $workOrderIds;
+
+    /** @var string[] */
+    public $ticketIds;
+
     public static function deserialize(array $data): self {
         $object = new static();
 

@@ -9,7 +9,9 @@
       "status": "unregistered",
       "comment": null,
       "checkIn": "2025-04-12T11:14:30+02:00",
-      "checkOut": "2025-04-16T11:14:30+02:00"
+      "checkOut": "2025-04-16T11:14:30+02:00",
+      "workOrderIds": [1],
+      "ticketIds": ["2"]
     },
     {
       "system": {
@@ -20,7 +22,9 @@
       "status": "registered",
       "comment": "comment",
       "checkIn": "2025-04-12T11:14:30+02:00",
-      "checkOut": "2025-04-16T11:14:30+02:00"
+      "checkOut": "2025-04-16T11:14:30+02:00",
+      "workOrderIds": [3],
+      "ticketIds": ["4"]
     }
   ]
 }

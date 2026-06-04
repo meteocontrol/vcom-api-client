@@ -77,6 +77,8 @@ class SiteAccessTest extends TestCase {
         $siteAccessModel->comment = "comment";
         $siteAccessModel->checkIn = new DateTime("2025-04-10T11:06:09+02:00");
         $siteAccessModel->checkOut = new DateTime("2025-04-16T11:06:09+02:00");
+        $siteAccessModel->workOrderIds = [1];
+        $siteAccessModel->ticketIds = ["2"];
 
         return [$siteAccessModel];
     }
@@ -93,6 +95,8 @@ class SiteAccessTest extends TestCase {
         $siteAccessModel1->comment = null;
         $siteAccessModel1->checkIn =  new DateTime("2025-04-12T11:14:30+02:00");
         $siteAccessModel1->checkOut = new DateTime("2025-04-16T11:14:30+02:00");
+        $siteAccessModel1->workOrderIds = [1];
+        $siteAccessModel1->ticketIds = ["2"];
         $system2 = new System();
         $system2->key = "FGHIJ";
         $system2->name = "System Name2";
@@ -102,6 +106,8 @@ class SiteAccessTest extends TestCase {
         $siteAccessModel2->comment = "comment";
         $siteAccessModel2->checkIn =  new DateTime("2025-04-12T11:14:30+02:00");
         $siteAccessModel2->checkOut = new DateTime("2025-04-16T11:14:30+02:00");
+        $siteAccessModel2->workOrderIds = [3];
+        $siteAccessModel2->ticketIds = ["4"];
 
         return [$siteAccessModel1, $siteAccessModel2];
     }

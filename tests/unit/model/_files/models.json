@@ -48,7 +48,7 @@
   },
   "ticket":
   {
-    "id": 1,
+    "id": "1",
     "systemKey": "string",
     "designation": "string",
     "summary": "string",

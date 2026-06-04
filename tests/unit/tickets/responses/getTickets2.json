@@ -1,7 +1,7 @@
 {
   "data": [
     {
-      "id": 123,
+      "id": "123",
       "systemKey": "ABCDE",
       "designation": "Ticket #123",
       "summary": "This is a summary.",
@@ -12,7 +12,7 @@
       "severity": "normal"
     },
     {
-      "id": 456,
+      "id": "456",
       "systemKey": "FGHIJ",
       "designation": "Ticket #456",
       "summary": "This is a summary.",

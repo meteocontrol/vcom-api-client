@@ -1,6 +1,6 @@
 {
   "data": {
-    "id": 123,
+    "id": "123",
     "systemKey": "ABCDE",
     "designation": "Ticket #123",
     "summary": "This is a summary.",
@@ -9,7 +9,7 @@
     "rectifiedAt": "2016-01-01T14:00:00+02:00",
     "assignee": null,
     "status": "inProgress",
-    "cause": 10,
+    "cause": "Grid voltage",
     "causeId": 10,
     "priority": "normal",
     "includeInReports": "no",
