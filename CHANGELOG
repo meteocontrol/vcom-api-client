@@ -65,3 +65,4 @@
 2026-05-25: Support tags parameter for systems endpoint
 2026-05-26: Add from/until property to yield-losses models
 2026-06-04: Add workOrderIds and ticketIds properties to SiteAccess model
+2026-06-22: Add additionalAssignees property to WorkOrderDetail model

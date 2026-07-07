@@ -47,6 +47,9 @@ class WorkOrderDetail extends BaseModel {
     /** @var CmmsAssignee */
     public $assignee;
 
+    /** @var CmmsAdditionalAssignee[] */
+    public $additionalAssignees;
+
     public static function deserialize(array $data): self {
         $object = new static();
 
@@ -55,12 +58,15 @@ class WorkOrderDetail extends BaseModel {
                 $object->{$key} = self::parseTimestamp($value);
             } elseif ($key === "dueDate") {
                 $object->{$key} = self::parseDate($value);
-            } elseif (is_array($value) && $key === "assignee") {
+            } elseif ($key === "assignee" && is_array($value)) {
                 $object->assignee = CmmsAssignee::deserialize($value);
+            } elseif ($key === "additionalAssignees" && is_array($value)) {
+                $object->additionalAssignees = CmmsAdditionalAssignee::deserializeArray($value);
             } elseif (property_exists($object, $key)) {
                 $object->{$key} = self::getPhpValue($value);
             }
         }
+
         return $object;
     }
 
