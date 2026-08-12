@@ -6,24 +6,23 @@ use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\model\Ticket as TicketModel;
 
 class Ticket extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return TicketModel
-     */
-    public function get(): TicketModel {
-        $ticketJson = $this->api->get($this->getUri());
+    public function get(?TicketsCriteria $criteria = null): TicketModel {
+        $options = [];
+        if ($criteria) {
+            $options = [RequestOptions::QUERY => $criteria->generateQueryString()];
+        }
+        $ticketJson = $this->api->get($this->getUri(), $options);
         return TicketModel::deserialize($this->jsonDecode($ticketJson, true)['data']);
     }
 
@@ -63,24 +62,14 @@ class Ticket extends SubEndpoint {
         $this->api->patch($this->getUri(), [RequestOptions::JSON => $fields]);
     }
 
-    /**
-     * @return void
-     */
     public function delete(): void {
         $this->api->delete($this->getUri());
     }
 
-    /**
-     * @return Comments
-     */
     public function comments(): Comments {
         return new Comments($this);
     }
 
-    /**
-     * @param int $commentId
-     * @return Comment
-     */
     public function comment(int $commentId): Comment {
         $comments = new Comments($this);
         $commentIdEndpoint = new CommentId($comments, $commentId);
@@ -91,33 +80,20 @@ class Ticket extends SubEndpoint {
         return new Outage($this);
     }
 
-    /**
-     * @return Attachments
-     */
     public function attachments(): Attachments {
         return new Attachments($this);
     }
 
-    /**
-     * @param int $attachmentId
-     * @return Attachment
-     */
     public function attachment(int $attachmentId): Attachment {
         $attachments = new Attachments($this);
         $attachmentIdEndpoint = new AttachmentId($attachments, (string)$attachmentId);
         return new Attachment($attachmentIdEndpoint);
     }
 
-    /**
-     * @return Histories
-     */
     public function histories(): Histories {
         return new Histories($this);
     }
 
-    /**
-     * @return YieldLosses
-     */
     public function yieldLosses(): YieldLosses {
         return new YieldLosses($this);
     }

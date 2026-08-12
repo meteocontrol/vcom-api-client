@@ -7,6 +7,7 @@ namespace meteocontrol\client\vcomapi\endpoints\sub\tickets;
 use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\model\Outage as OutageModel;
 
 class Outage extends SubEndpoint {
@@ -17,8 +18,12 @@ class Outage extends SubEndpoint {
         $this->parent = $parent;
     }
 
-    public function get(): OutageModel {
-        $outageJson = $this->api->get($this->getUri());
+    public function get(?TicketsCriteria $criteria = null): OutageModel {
+        $options = [];
+        if ($criteria) {
+            $options = [RequestOptions::QUERY => $criteria->generateQueryString()];
+        }
+        $outageJson = $this->api->get($this->getUri(), $options);
         return OutageModel::deserialize(json_decode($outageJson, true)['data']);
     }
 

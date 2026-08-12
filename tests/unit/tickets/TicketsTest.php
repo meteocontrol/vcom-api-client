@@ -19,7 +19,8 @@ class TicketsTest extends TestCase {
             ->withLastChangedAtFrom(DateTime::createFromFormat(DATE_ATOM, '2016-01-01T12:00:00+00:00'))
             ->withLastChangedAtTo(DateTime::createFromFormat(DATE_ATOM, '2016-02-21T12:00:00+00:00'))
             ->withRectifiedAtFrom(DateTime::createFromFormat(DATE_ATOM, '2016-01-01T14:00:00+00:00'))
-            ->withRectifiedAtTo(DateTime::createFromFormat(DATE_ATOM, '2016-02-20T14:00:00+00:00'));
+            ->withRectifiedAtTo(DateTime::createFromFormat(DATE_ATOM, '2016-02-20T14:00:00+00:00'))
+            ->withTimezone('local');
 
         $this->api->expects($this->once())
             ->method('get')
@@ -31,12 +32,12 @@ class TicketsTest extends TestCase {
                         '&lastChangedAt[from]=2016-01-01T12:00:00+00:00' .
                         '&lastChangedAt[to]=2016-02-21T12:00:00+00:00' .
                         '&rectifiedAt[from]=2016-01-01T14:00:00+00:00' .
-                        '&rectifiedAt[to]=2016-02-20T14:00:00+00:00',
+                        '&rectifiedAt[to]=2016-02-20T14:00:00+00:00' .
+                        '&timezone=local',
                 ]),
             )
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\TicketOverview[] $tickets */
         $tickets = $this->api->tickets()->find($criteria);
 
         $this->assertCount(2, $tickets);
@@ -76,7 +77,8 @@ class TicketsTest extends TestCase {
             ->withStatus([Ticket::STATUS_CLOSED, Ticket::STATUS_INPROGRESS])
             ->withPriority([Ticket::PRIORITY_NORMAL, Ticket::PRIORITY_HIGH])
             ->withSeverity([Ticket::PRIORITY_NORMAL, Ticket::PRIORITY_HIGH])
-            ->withSystemKey(['ABCDE', 'FGHIJ']);
+            ->withSystemKey(['ABCDE', 'FGHIJ'])
+            ->withTimezone('local');
 
         $this->api->expects($this->once())
             ->method('get')
@@ -90,12 +92,12 @@ class TicketsTest extends TestCase {
                         '&rectifiedAt[from]=2016-01-01T14:00:00+00:00' .
                         '&rectifiedAt[to]=2016-02-20T14:00:00+00:00' .
                         '&status=closed,inProgress&priority=normal,high' .
-                        '&severity=normal,high&systemKey=ABCDE,FGHIJ',
+                        '&severity=normal,high&systemKey=ABCDE,FGHIJ' .
+                        '&timezone=local',
                 ]),
             )
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Ticket[] $tickets */
         $tickets = $this->api->tickets()->find($criteria);
 
         $this->assertCount(2, $tickets);
@@ -124,16 +126,21 @@ class TicketsTest extends TestCase {
 
     public function testGetSingleTicket() {
         $json = file_get_contents(__DIR__ . '/responses/getTicket.json');
+        $criteria = (new TicketsCriteria())->withTimezone('local');
 
         $this->api->expects($this->once())
             ->method('get')
-            ->with($this->identicalTo('tickets/123'))
+            ->with(
+                $this->identicalTo('tickets/123'),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'timezone=local',
+                ]),
+            )
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Ticket $ticket */
-        $ticket = $this->api->ticket('123')->get();
+        $ticket = $this->api->ticket('123')->get($criteria);
 
-        $this->assertEquals('123', $ticket->id);
+        $this->assertSame('123', $ticket->id);
         $this->assertEquals('ABCDE', $ticket->systemKey);
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
@@ -158,10 +165,9 @@ class TicketsTest extends TestCase {
             ->with($this->identicalTo('tickets/123'))
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\Ticket $ticket */
         $ticket = $this->api->ticket('123')->get();
 
-        $this->assertEquals('123', $ticket->id);
+        $this->assertSame('123', $ticket->id);
         $this->assertEquals('ABCDE', $ticket->systemKey);
         $this->assertEquals('Ticket #123', $ticket->designation);
         $this->assertEquals('This is a summary.', $ticket->summary);
@@ -175,8 +181,8 @@ class TicketsTest extends TestCase {
         $this->assertEquals(Ticket::SEVERITY_NORMAL, $ticket->severity);
         $this->assertEquals('no', $ticket->includeInReports);
         $this->assertEquals(true, $ticket->fieldService);
-        $this->assertEquals("2018-01-01T12:20:00+00:00", $ticket->outage->startedAt->format(DATE_ATOM));
-        $this->assertEquals("2018-01-02T16:00:00+00:00", $ticket->outage->endedAt->format(DATE_ATOM));
+        $this->assertEquals('2018-01-01T12:20:00+00:00', $ticket->outage->startedAt->format(DATE_ATOM));
+        $this->assertEquals('2018-01-02T16:00:00+00:00', $ticket->outage->endedAt->format(DATE_ATOM));
         $this->assertEquals(5, $ticket->outage->affectedPower);
         $this->assertTrue($ticket->outage->shouldInfluenceAvailability);
         $this->assertTrue($ticket->outage->shouldInfluencePr);

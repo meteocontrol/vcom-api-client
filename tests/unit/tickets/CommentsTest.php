@@ -5,6 +5,7 @@ namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 use DateTime;
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
+use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\model\Comment;
 use meteocontrol\client\vcomapi\model\CommentDetail;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
@@ -16,11 +17,18 @@ class CommentsTest extends TestCase {
 
         $this->api->expects($this->once())
             ->method('get')
-            ->with($this->identicalTo('tickets/123/comments'))
+            ->with(
+                $this->identicalTo('tickets/123/comments'),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'timezone=local',
+                ]),
+            )
             ->willReturn($json);
 
+        $criteria = (new TicketsCriteria())->withTimezone('local');
+
         /** @var Comment[] */
-        $comments = $this->api->ticket('123')->comments()->get();
+        $comments = $this->api->ticket('123')->comments()->get($criteria);
 
         $this->assertCount(2, $comments);
         $this->assertEquals(661288, $comments[0]->commentId);
@@ -42,11 +50,17 @@ class CommentsTest extends TestCase {
 
         $this->api->expects($this->once())
             ->method('get')
-            ->with($this->identicalTo('tickets/123/comments/661288'))
+            ->with(
+                $this->identicalTo('tickets/123/comments/661288'),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'timezone=local',
+                ]),
+            )
             ->willReturn($json);
 
-        /** @var \meteocontrol\client\vcomapi\model\CommentDetail $commentDetail */
-        $commentDetail = $this->api->ticket('123')->comment(661288)->get();
+        $criteria = (new TicketsCriteria())->withTimezone('local');
+
+        $commentDetail = $this->api->ticket('123')->comment(661288)->get($criteria);
 
         $this->assertEquals(661288, $commentDetail->commentId);
         $this->assertEquals('2016-02-19T16:49:20+05:00', $commentDetail->createdAt->format(DATE_ATOM));

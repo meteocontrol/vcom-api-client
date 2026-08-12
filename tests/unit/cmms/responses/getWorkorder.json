@@ -1,7 +1,7 @@
 {
     "data": {
         "workOrderId": 12326,
-        "ticketId": "158359",
+        "ticketId": 158359,
         "systemKey": "4DC11",
         "title": "Der Auftrag",
         "description": "Mach des jetz",
@@ -12,6 +12,7 @@
             "username": "vcom-api-e2e-test-user",
             "status": "accepted",
             "statusDateAt": "2020-07-08T06:49:07Z"
-        }
+        },
+        "additionalAssignees": []
     }
 }

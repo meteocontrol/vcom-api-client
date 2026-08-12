@@ -6,6 +6,7 @@ namespace meteocontrol\client\vcomapi\tests\unit\tickets;
 
 use DateTime;
 use GuzzleHttp\RequestOptions;
+use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\client\vcomapi\model\Outage as OutageModel;
 
@@ -14,9 +15,17 @@ class OutageTest extends TestCase {
     public function testGetOutage(): void {
         $this->api->expects($this->once())
             ->method('get')
-            ->with($this->identicalTo('tickets/123/outage'))
+            ->with(
+                $this->identicalTo('tickets/123/outage'),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'timezone=local',
+                ]),
+            )
             ->willReturn(file_get_contents(__DIR__ . '/responses/getOutage.json'));
-        $outage = $this->api->ticket('123')->outage()->get();
+
+        $criteria = (new TicketsCriteria())->withTimezone('local');
+
+        $outage = $this->api->ticket('123')->outage()->get($criteria);
 
         $this->assertEquals(new DateTime('2024-06-01T12:00:00+02:00'), $outage->startedAt);
         $this->assertEquals(null, $outage->endedAt);

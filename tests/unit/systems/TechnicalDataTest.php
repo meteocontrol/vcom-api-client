@@ -3,6 +3,8 @@
 namespace meteocontrol\client\vcomapi\tests\unit\systems;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
+use meteocontrol\client\vcomapi\filters\SystemCriteria;
 use meteocontrol\client\vcomapi\model\TechnicalData;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 
@@ -77,10 +79,17 @@ class TechnicalDataTest extends TestCase {
         $json = file_get_contents(__DIR__ . '/responses/getLastDataInput.json');
         $this->api->expects($this->once())
             ->method('get')
-            ->with($this->identicalTo('systems/ABCDE/technical-data/last-data-input'))
+            ->with(
+                $this->identicalTo('systems/ABCDE/technical-data/last-data-input'),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => 'timezone=UTC',
+                ]),
+            )
             ->willReturn($json);
+        $systemCriteria = (new SystemCriteria())
+            ->withTimezone('UTC');
 
-        $lastDataInput = $this->api->system('ABCDE')->technicalData()->lastDataInput()->get();
+        $lastDataInput = $this->api->system('ABCDE')->technicalData()->lastDataInput()->get($systemCriteria);
 
         $this->assertEquals(new DateTime('2024-08-06T12:59:59+00:00'), $lastDataInput->timestamp);
     }

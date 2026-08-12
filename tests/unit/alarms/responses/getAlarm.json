@@ -1,0 +1,25 @@
+{
+  "data": {
+    "id": 12345,
+    "systemKey": "ABCDE",
+    "ticketId": null,
+    "alarmType": "communication-outage",
+    "component": {
+      "type": "datalogger",
+      "id": "194839",
+      "name": "Ford - Zone 5 T5"
+    },
+    "severity": "critical",
+    "createdAt": "2026-04-17T07:19:06+00:00",
+    "lastChangedAt": "2026-04-20T04:25:03+00:00",
+    "startedAt": "2026-04-17T07:15:03+00:00",
+    "status": "closed",
+    "duration": "PT69H10M",
+    "affectedPower": 0,
+    "losses": null,
+    "closedAt": "2026-04-21T04:25:24+00:00",
+    "closedBy": {
+      "comment": null
+    }
+  }
+}

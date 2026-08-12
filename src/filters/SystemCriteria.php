@@ -12,6 +12,11 @@ class SystemCriteria {
         return $this;
     }
 
+    public function withTimezone(string $timezone): self {
+        $this->filters['timezone'] = $timezone;
+        return $this;
+    }
+
     public function withTags($tag): self {
         $this->filters['tags'] = is_array($tag) ? implode(',', $tag) : $tag;
         return $this;

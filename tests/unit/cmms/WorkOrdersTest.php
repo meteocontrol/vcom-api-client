@@ -3,31 +3,39 @@
 namespace meteocontrol\client\vcomapi\tests\unit\cmms;
 
 use DateTime;
+use GuzzleHttp\RequestOptions;
 use meteocontrol\client\vcomapi\filters\SystemCriteria;
 use meteocontrol\client\vcomapi\tests\unit\TestCase;
 use meteocontrol\client\vcomapi\model\WorkOrder;
 
 class WorkOrdersTest extends TestCase {
 
-    public function testGetWorkorders() {
-        $json = file_get_contents(__DIR__ . "/responses/getWorkorders.json");
+    public function testGetWorkOrders() {
+        $json = file_get_contents(__DIR__ . "/responses/getWorkOrders.json");
         $systemCriteria = (new SystemCriteria())
-            ->withSystemKey('ABCDE');
+            ->withSystemKey("ABCDE")
+            ->withTimezone("UTC");
 
         $this->api->expects($this->once())
             ->method("get")
-            ->with($this->identicalTo("cmms/workorders"))
+            ->with(
+                $this->identicalTo("cmms/workorders"),
+                $this->identicalToUrl([
+                    RequestOptions::QUERY => "systemKey=ABCDE" .
+                    "&timezone=UTC",
+                ]),
+            )
             ->willReturn($json);
 
         $actualResults = $this->api->cmms()->workOrders()->get($systemCriteria);
 
-        $this->assertEquals($this->getExpectedWorkorders(), $actualResults);
+        $this->assertEquals($this->getExpectedWorkOrders(), $actualResults);
     }
 
     /**
      * @return WorkOrder[]
      */
-    private function getExpectedWorkorders(): array {
+    private function getExpectedWorkOrders(): array {
         $workOrder1 = new WorkOrder();
         $workOrder1->workOrderId = 12145;
         $workOrder1->title = "WR tausch";

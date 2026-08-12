@@ -6,25 +6,24 @@ use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use meteocontrol\client\vcomapi\endpoints\EndpointInterface;
 use meteocontrol\client\vcomapi\endpoints\sub\SubEndpoint;
+use meteocontrol\client\vcomapi\filters\TicketsCriteria;
 use meteocontrol\client\vcomapi\model\Comment;
 use meteocontrol\client\vcomapi\model\CommentDetail;
 
 class Comments extends SubEndpoint {
 
-    /**
-     * @param EndpointInterface $parent
-     */
     public function __construct(EndpointInterface $parent) {
         $this->uri = '/comments';
         $this->api = $parent->getApiClient();
         $this->parent = $parent;
     }
 
-    /**
-     * @return Comment[]
-     */
-    public function get(): array {
-        $commentsJson = $this->api->get($this->getUri());
+    public function get(?TicketsCriteria $criteria = null): array {
+        $options = [];
+        if ($criteria) {
+            $options = [RequestOptions::QUERY => $criteria->generateQueryString()];
+        }
+        $commentsJson = $this->api->get($this->getUri(), $options);
         return Comment::deserializeArray($this->jsonDecode($commentsJson, true)['data']);
     }
 

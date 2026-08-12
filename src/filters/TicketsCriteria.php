@@ -91,6 +91,11 @@ class TicketsCriteria {
         return $this;
     }
 
+    public function withTimezone(string $timezone): self {
+        $this->filters['timezone'] = $timezone;
+        return $this;
+    }
+
     public function generateQueryString(): string {
         return http_build_query($this->filters);
     }
