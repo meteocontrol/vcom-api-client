@@ -8,6 +8,9 @@ class TechnicalData extends BaseModel {
     public $nominalPower;
 
     /** @var float */
+    public $nominalAcPower;
+
+    /** @var float */
     public $siteArea;
 
     /** @var Panel[] */

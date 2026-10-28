@@ -21,6 +21,7 @@ class TechnicalDataTest extends TestCase {
         $technicalData = $this->api->system('ABCDE')->technicalData()->get();
 
         $this->assertEquals(79.24, $technicalData->nominalPower);
+        $this->assertEquals(550.8, $technicalData->nominalAcPower);
         $this->assertEquals(549.11, $technicalData->siteArea);
 
         $this->assertCount(1, $technicalData->panels);

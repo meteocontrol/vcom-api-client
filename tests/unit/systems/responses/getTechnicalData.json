@@ -1,6 +1,7 @@
 {
   "data": {
     "nominalPower": 79.24,
+    "nominalAcPower": 550.8,
     "siteArea": 549.11,
     "panels": [
       {
